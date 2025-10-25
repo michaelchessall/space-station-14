@@ -60,7 +60,8 @@ public abstract class SharedStationRecordsSystem : EntitySystem
         if (!Resolve(key.OriginStation, ref records))
             return false;
 
-        return records.Records.TryGetRecordEntry(key.Id, out entry);
+        // return records.Records.TryGetRecordEntry(key.Id, out entry);
+        return false; // disabled for serialisation
     }
 
     /// <summary>
@@ -75,7 +76,8 @@ public abstract class SharedStationRecordsSystem : EntitySystem
         if (!Resolve(station, ref records))
             return Array.Empty<(uint, T)>();
 
-        return records.Records.GetRecordsOfType<T>();
+        // return records.Records.GetRecordsOfType<T>();
+        return Array.Empty<(uint, T)>(); // Records field disabled for serialization
     }
 
     /// <summary>

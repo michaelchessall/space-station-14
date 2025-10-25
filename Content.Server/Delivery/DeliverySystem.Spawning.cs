@@ -61,36 +61,14 @@ public sealed partial class DeliverySystem
             return;
 
         // Skip if there's nobody in crew manifest
-        if (records.Records.Keys.Count == 0)
-            return;
+        // if (records.Records.Keys.Count == 0)
+        //     return;
 
         // We take the amount of mail calculated based on player amount or the minimum, whichever is higher.
         // We don't want stations with less than the player ratio to not get mail at all
-        var initialDeliveryCount = (int)Math.Ceiling(records.Records.Keys.Count / ent.Comp.PlayerToDeliveryRatio);
-        var deliveryCount = Math.Max(initialDeliveryCount, ent.Comp.MinimumDeliverySpawn);
-
-        if (!ent.Comp.DistributeRandomly)
-        {
-            foreach (var spawner in spawners)
-            {
-                AddDeliveriesToSpawner(spawner, deliveryCount);
-            }
-        }
-        else
-        {
-            int[] amounts = new int[spawners.Count];
-
-            // Distribute items randomly
-            for (int i = 0; i < deliveryCount; i++)
-            {
-                var randomListIndex = _random.Next(spawners.Count);
-                amounts[randomListIndex]++;
-            }
-            for (int j = 0; j < spawners.Count; j++)
-            {
-                AddDeliveriesToSpawner(spawners[j], amounts[j]);
-            }
-        }
+        // var initialDeliveryCount = (int)Math.Ceiling(records.Records.Keys.Count / ent.Comp.PlayerToDeliveryRatio);
+        // disabled for serialisation
+        return;
 
     }
 

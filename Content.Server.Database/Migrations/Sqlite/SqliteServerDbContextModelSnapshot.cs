@@ -1276,6 +1276,48 @@ namespace Content.Server.Database.Migrations.Sqlite
                     b.ToTable("server_unban", (string)null);
                 });
 
+            modelBuilder.Entity("Content.Server.Database.StationRecord", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("station_records_id");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("RecordDataJson")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("record_data");
+
+                    b.Property<string>("RecordType")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("TEXT")
+                        .HasColumnName("record_type");
+
+                    b.Property<int>("StationId")
+                        .HasColumnType("INTEGER")
+                        .HasColumnName("station_id");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("TEXT")
+                        .HasColumnName("updated_at");
+
+                    b.HasKey("Id")
+                        .HasName("PK_station_records");
+
+                    b.HasIndex("CreatedAt")
+                        .HasDatabaseName("IX_station_records_created_at");
+
+                    b.HasIndex("StationId", "RecordType")
+                        .HasDatabaseName("IX_station_records_station_type");
+
+                    b.ToTable("station_records", (string)null);
+                });
+
             modelBuilder.Entity("Content.Server.Database.Trait", b =>
                 {
                     b.Property<int>("Id")
