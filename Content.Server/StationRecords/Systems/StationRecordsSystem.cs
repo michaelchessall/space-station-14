@@ -206,12 +206,12 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
         if (!Resolve(key.OriginStation, ref records))
             return false;
 
-        if (records.Records.RemoveAllRecords(key.Id))
-        {
-            RaiseLocalEvent(new RecordRemovedEvent(key));
-            return true;
-        }
-
+        // if (records.Records.RemoveAllRecords(key.Id))
+        // {
+        //     RaiseLocalEvent(new RecordRemovedEvent(key));
+        //     return true;
+        // }
+        // disabled for serialisation
         return false;
     }
 
@@ -229,12 +229,14 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
         if (!Resolve(ent.Owner, ref ent.Comp))
             return false;
 
-        if (ent.Comp.Records.Keys.Count == 0)
-            return false;
+        // if (ent.Comp.Records.Keys.Count == 0)
+        //     return false;
 
-        var key = _random.Pick(ent.Comp.Records.Keys);
+        // var key = _random.Pick(ent.Comp.Records.Keys);
 
-        return ent.Comp.Records.TryGetRecordEntry(key, out entry);
+        // return ent.Comp.Records.TryGetRecordEntry(key, out entry);
+        // disabled for serialization
+        return false;
     }
 
     /// <summary>
@@ -260,11 +262,11 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
         if (!Resolve(station, ref records))
             return StationRecordKey.Invalid;
 
-        var id = records.Records.AddRecordEntry(record);
-        if (id == null)
-            return StationRecordKey.Invalid;
-
-        return new StationRecordKey(id.Value, station);
+        // var id = records.Records.AddRecordEntry(record);
+        // if (id == null)
+        //     return StationRecordKey.Invalid;
+        // disabled for serialization
+        return StationRecordKey.Invalid;
     }
 
     /// <summary>
@@ -280,7 +282,8 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
         if (!Resolve(key.OriginStation, ref records))
             return;
 
-        records.Records.AddRecordEntry(key.Id, record);
+        // records.Records.AddRecordEntry(key.Id, record);
+        // disabled for serialization
     }
 
     /// <summary>
@@ -293,12 +296,13 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
         if (!Resolve(station, ref records))
             return;
 
-        foreach (var key in records.Records.GetRecentlyAccessed())
-        {
-            RaiseLocalEvent(new RecordModifiedEvent(new StationRecordKey(key, station)));
-        }
+        // foreach (var key in records.Records.GetRecentlyAccessed())
+        // {
+        //     RaiseLocalEvent(new RecordModifiedEvent(new StationRecordKey(key, station)));
+        // }
 
-        records.Records.ClearRecentlyAccessed();
+        // records.Records.ClearRecentlyAccessed();
+        // disabled for serialization
     }
 
     /// <summary>
@@ -313,7 +317,8 @@ public sealed class StationRecordsSystem : SharedStationRecordsSystem
 
         RaiseLocalEvent(new RecordModifiedEvent(key));
 
-        records.Records.RemoveFromRecentlyAccessed(key.Id);
+        // records.Records.RemoveFromRecentlyAccessed(key.Id);
+        // disabled for serialization
     }
 
     #region Console system helpers

@@ -46,6 +46,7 @@ namespace Content.Server.Database
         public DbSet<RoleWhitelist> RoleWhitelists { get; set; } = null!;
         public DbSet<BanTemplate> BanTemplate { get; set; } = null!;
         public DbSet<IPIntelCache> IPIntelCache { get; set; } = null!;
+        public DbSet<StationRecord> StationRecords { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -371,6 +372,15 @@ namespace Content.Server.Database
                 .OwnsOne(p => p.HWId)
                 .Property(p => p.Type)
                 .HasDefaultValue(HwidType.Legacy);
+
+            // station records configuration
+            modelBuilder.Entity<StationRecord>()
+                .HasIndex(r => new { r.StationId, r.RecordType })
+                .HasDatabaseName("IX_station_records_station_type");
+
+            modelBuilder.Entity<StationRecord>()
+                .HasIndex(r => r.CreatedAt)
+                .HasDatabaseName("IX_station_records_created_at");
         }
 
         public virtual IQueryable<AdminLog> SearchLogs(IQueryable<AdminLog> query, string searchText)
@@ -1329,5 +1339,45 @@ namespace Content.Server.Database
         /// The score IPIntel returned
         /// </summary>
         public float Score { get; set; }
+    }
+
+    /// <summary>
+    /// store station records without yaml serialisation issues
+    /// </summary>
+    [Table("station_records")]
+    public class StationRecord
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Required]
+        [Column("station_id")]
+        public int StationId { get; set; }
+
+        [Required]
+        [Column("record_type")]
+        [MaxLength(50)]
+        public string RecordType { get; set; } = string.Empty;
+
+        [Required]
+        [Column("record_data")]
+        public string RecordDataJson { get; set; } = string.Empty;
+
+        [Column("created_at")]
+        public DateTime CreatedAt { get; set; }
+
+        [Column("updated_at")]
+        public DateTime UpdatedAt { get; set; }
+
+        /// <summary>
+        /// helper property to get/set RecordData as JsonDocument
+        /// </summary>
+        [NotMapped]
+        public JsonDocument RecordData
+        {
+            get => JsonDocument.Parse(RecordDataJson);
+            set => RecordDataJson = value.RootElement.GetRawText();
+        }
     }
 }
