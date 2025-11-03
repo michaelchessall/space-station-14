@@ -87,7 +87,7 @@ namespace Content.Client.Lobby.UI
             //        ("maxCharacters", _preferencesManager.Settings!.MaxCharacterSlots));
 
             var selectedSlot = _preferencesManager.Preferences?.SelectedCharacterIndex;
-            for (int i = 0; i <= _preferencesManager.Settings!.MaxCharacterSlots; i++)
+            for (int i = 0; i < _preferencesManager.Settings!.MaxCharacterSlots; i++)
             {
                 _preferencesManager.Preferences!.Characters.TryGetValue(i, out ICharacterProfile? characterProfile);
                 var characterPickerButton = new CharacterPickerButton(_entManager,

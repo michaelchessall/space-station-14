@@ -1,8 +1,10 @@
+using Content.Server._NF.Bank;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.Systems;
 using Content.Server.GameTicking.Events;
 using Content.Server.Ghost;
 using Content.Server.Spawners.Components;
+using Content.Server.Spawners.EntitySystems;
 using Content.Server.Speech.Components;
 using Content.Server.Station.Components;
 using Content.Shared.CCVar;
@@ -18,6 +20,7 @@ using Content.Shared.Random;
 using Content.Shared.Random.Helpers;
 using Content.Shared.Roles;
 using Content.Shared.Roles.Jobs;
+using Robust.Shared.Containers;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -36,10 +39,12 @@ namespace Content.Server.GameTicking
 {
     public sealed partial class GameTicker
     {
+        [Dependency] private readonly SharedContainerSystem _container = default!;
         [Dependency] private readonly IAdminManager _adminManager = default!;
         [Dependency] private readonly SharedJobSystem _jobs = default!;
         [Dependency] private readonly AdminSystem _admin = default!;
         [Dependency] private readonly IEntityManager _ent = default!;
+        [Dependency] private readonly BankSystem _bankSystem = default!;
         public static readonly EntProtoId ObserverPrototypeName = "MobObserver";
         public static readonly EntProtoId AdminObserverPrototypeName = "AdminObserver";
 
@@ -157,7 +162,7 @@ namespace Content.Server.GameTicking
                     return;
             }
 
-            SpawnPlayer(player, character, station, jobId, lateJoin, silent);
+            SpawnPlayer(player, character!, station, jobId, lateJoin, silent);
         }
 
 
@@ -168,7 +173,7 @@ namespace Content.Server.GameTicking
                 return;
             var silent = false;
             var lateJoin = true;
-            HumanoidCharacterProfile character = GetPlayerProfile(player);
+            HumanoidCharacterProfile? character = GetPlayerProfile(player);
             EntityUid station;
             var stations = GetSpawnableStations();
             _robustRandom.Shuffle(stations);
@@ -184,13 +189,14 @@ namespace Content.Server.GameTicking
 
             DebugTools.AssertNotNull(data);
             var jobId = "Passenger";
-            var newMind = _mind.CreateMind(data!.UserId, character.Name);
+            var newMind = _mind.CreateMind(data!.UserId, character!.Name);
             _mind.SetUserId(newMind, data.UserId);
 
             var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
 
             _playTimeTrackings.PlayerRolesChanged(player);
 
+            _bankSystem.EnsureAccount(character.Name, 50);
             var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station, jobId, character);
             DebugTools.AssertNotNull(mobMaybe);
             var mob = mobMaybe!.Value;
@@ -252,7 +258,7 @@ namespace Content.Server.GameTicking
                 return;
             var silent = false;
             var lateJoin = true;
-            HumanoidCharacterProfile character = GetPlayerProfile(player);
+            HumanoidCharacterProfile? character = GetPlayerProfile(player);
             EntityUid station;
             var stations = GetSpawnableStations();
             _robustRandom.Shuffle(stations);
@@ -273,7 +279,9 @@ namespace Content.Server.GameTicking
             var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
 
             _playTimeTrackings.PlayerRolesChanged(player);
-            var saveFilePath = new ResPath($"{data!.UserId}]{character.Name}");
+            _bankSystem.EnsureAccount(character!.Name, 50);
+
+            var saveFilePath = new ResPath($"{data!.UserId}]{character!.Name}");
             _loader.TryLoadEntity(saveFilePath, out var mobMaybe);
             DebugTools.AssertNotNull(mobMaybe);
             Entity<TransformComponent> EC = (Entity<TransformComponent>)mobMaybe!;
@@ -287,7 +295,6 @@ namespace Content.Server.GameTicking
                     _mind.WipeMind(mob);
                 }
             }
-            _sawmill.Info("MAKING NEW MIND");
             var newMind = _mind.CreateMind(data!.UserId, character.Name);
             _mind.SetUserId(newMind, data.UserId);
             _mind.TransferTo(newMind, mob);
@@ -296,22 +303,50 @@ namespace Content.Server.GameTicking
                 LogImpact.Medium,
                 $"Player {player.Name} late joined as {character.Name:characterName}. Loaded char");
 
-            var points = EntityQueryEnumerator<SpawnPointComponent, TransformComponent>();
-            var possiblePositions = new List<EntityCoordinates>();
-            while (points.MoveNext(out var uid, out var spawnPoint, out var xform))
-            {
-                if (spawnPoint.SpawnType != SpawnPointType.LateJoin)
-                    continue;
 
-                possiblePositions.Add(xform.Coordinates);
+
+            var possibleContainers = FindContSpawn();
+            if (possibleContainers.Count > 0)
+            {
+                _robustRandom.Shuffle(possibleContainers);
+                foreach (var (uid, spawnPoint, manager, xform) in possibleContainers)
+                {
+                    if (!_container.TryGetContainer(uid, spawnPoint.ContainerId, out var container2, manager))
+                        continue;
+
+                    if (!_container.Insert(mob, container2, containerXform: xform))
+                        continue;
+
+                    var ev = new ContainerSpawnEvent(mob);
+                    RaiseLocalEvent(uid, ref ev);
+
+                }
             }
 
-            if (possiblePositions.Count <= 0)
-                return;
+            else
+            {
+                var points = EntityQueryEnumerator<SpawnPointComponent, TransformComponent>();
+                var possiblePositions = new List<EntityCoordinates>();
+                while (points.MoveNext(out var uid, out var spawnPoint, out var xform))
+                {
+                    if (spawnPoint.SpawnType != SpawnPointType.LateJoin)
+                        continue;
 
-            var spawnLoc = _robustRandom.Pick(possiblePositions);
+                    possiblePositions.Add(xform.Coordinates);
+                }
 
-            _transform.SetCoordinates(mob, spawnLoc);
+                if (possiblePositions.Count <= 0)
+                    return;
+
+                var spawnLoc = _robustRandom.Pick(possiblePositions);
+
+                _transform.SetCoordinates(mob, spawnLoc);
+            }
+
+
+
+
+            
 
 
             if (!silent && TryComp(station, out MetaDataComponent? metaData))
@@ -340,7 +375,19 @@ namespace Content.Server.GameTicking
 
 
 
+        private List<Entity<ContainerSpawnPointComponent, ContainerManagerComponent, TransformComponent>> FindContSpawn()
+        {
+            var query = EntityQueryEnumerator<ContainerSpawnPointComponent, ContainerManagerComponent, TransformComponent>();
+            var possibleContainers = new List<Entity<ContainerSpawnPointComponent, ContainerManagerComponent, TransformComponent>>();
 
+            while (query.MoveNext(out var uid, out var spawnPoint, out var container, out var xform))
+            {
+                if (spawnPoint.SpawnType != SpawnPointType.LateJoin) continue;
+                possibleContainers.Add((uid, spawnPoint, container, xform));
+               
+            }
+            return possibleContainers;
+        }
 
 
 
@@ -615,7 +662,7 @@ namespace Content.Server.GameTicking
             Entity<MindComponent?>? mind = player.GetMind();
             if (mind == null)
             {
-                var name = GetPlayerProfile(player).Name;
+                var name = GetPlayerProfile(player)!.Name;
                 var (mindId, mindComp) = _mind.CreateMind(player.UserId, name);
                 mind = (mindId, mindComp);
                 _mind.SetUserId(mind.Value, player.UserId);

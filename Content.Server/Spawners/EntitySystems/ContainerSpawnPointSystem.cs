@@ -33,7 +33,7 @@ public sealed class ContainerSpawnPointSystem : EntitySystem
         if (args.HumanoidCharacterProfile?.SpawnPriority != SpawnPriorityPreference.Cryosleep &&
             (!_proto.Resolve(args.Job, out var jobProto) || jobProto.JobEntity == null))
         {
-            return;
+        //    return;
         }
 
         var query = EntityQueryEnumerator<ContainerSpawnPointComponent, ContainerManagerComponent, TransformComponent>();

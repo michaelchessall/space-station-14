@@ -18,6 +18,7 @@ using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.Random.Helpers;
 using Robust.Shared.Collections;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
@@ -50,7 +51,6 @@ public sealed class MetabolizerSystem : SharedMetabolizerSystem
         SubscribeLocalEvent<MetabolizerComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<MetabolizerComponent, ApplyMetabolicMultiplierEvent>(OnApplyMetabolicMultiplier);
     }
-
     private void OnMapInit(Entity<MetabolizerComponent> ent, ref MapInitEvent args)
     {
         ent.Comp.NextUpdate = _gameTiming.CurTime + ent.Comp.AdjustedUpdateInterval;
@@ -58,6 +58,7 @@ public sealed class MetabolizerSystem : SharedMetabolizerSystem
 
     private void OnMetabolizerInit(Entity<MetabolizerComponent> entity, ref ComponentInit args)
     {
+        entity.Comp.NextUpdate = _gameTiming.CurTime + entity.Comp.AdjustedUpdateInterval;
         if (!entity.Comp.SolutionOnBody)
         {
             _solutionContainerSystem.EnsureSolution(entity.Owner, entity.Comp.SolutionName, out _);

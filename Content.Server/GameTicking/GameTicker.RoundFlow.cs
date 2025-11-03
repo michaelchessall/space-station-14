@@ -1,10 +1,9 @@
-using System.Linq;
-using System.Numerics;
 using Content.Server.Announcements;
 using Content.Server.Discord;
 using Content.Server.GameTicking.Events;
 using Content.Server.Maps;
 using Content.Server.Roles;
+using Content.Shared._NF.Bank.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
@@ -19,10 +18,14 @@ using Robust.Shared.Audio;
 using Robust.Shared.EntitySerialization;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map;
+using Robust.Shared.Map.Components;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using System.IO;
+using System.Linq;
+using System.Numerics;
 
 namespace Content.Server.GameTicking
 {
@@ -91,6 +94,41 @@ namespace Content.Server.GameTicking
         {
             if (_map.MapExists(DefaultMap))
                 return;
+            bool finalSaveFound = false;
+            var initial = new ResPath("current");
+            ResPath path = initial;
+            int indof = 0;
+            if (_resourceManager.UserData.Exists(initial.ToRootedPath()))
+            { 
+                while(!finalSaveFound)
+                {
+                    indof++;
+                    if (path == null) break;
+                    var next = new ResPath($"current{indof}");
+                    if (_resourceManager.UserData.Exists(next.ToRootedPath()))
+                    {
+                        path = next;
+                    }
+                    else
+                    {
+                        finalSaveFound = true;
+                    }
+                }
+                var start = _gameTiming.CurTime;
+                bool save_stat = _loader.TryLoadMap(path!, out var entity, out var grids);
+                if (entity.HasValue)
+                {
+                    DefaultMap = entity.Value.Comp.MapId;
+
+                }
+                
+                var end = _gameTiming.CurTime;
+                var finaltime = start - end;
+                _adminLogger.Add(LogType.EventRan, LogImpact.Extreme, $"MAP LOAD STATUS: {save_stat} TIME TAKEN: {finaltime.TotalSeconds}");
+                if (save_stat) return;
+                
+            }
+
 
             AddGamePresetRules();
 
@@ -135,6 +173,8 @@ namespace Content.Server.GameTicking
             {
                 _map.CreateMap(out var mapId, runMapInit: false);
                 DefaultMap = mapId;
+                var ent = _map.GetMap(mapId);
+                EnsureComp<MoneyAccountsComponent>(ent);
                 return;
             }
 
@@ -145,6 +185,8 @@ namespace Content.Server.GameTicking
 
                 if (i == 0)
                     DefaultMap = mapId;
+                    var ent = _map.GetMap(mapId);
+                    EnsureComp<MoneyAccountsComponent>(ent);
             }
         }
 
@@ -386,16 +428,16 @@ namespace Content.Server.GameTicking
 #endif
 
                 readyPlayers.Add(session);
-                HumanoidCharacterProfile profile;
+                HumanoidCharacterProfile? profile;
                 if (_prefsManager.TryGetCachedPreferences(userId, out var preferences))
                 {
-                    profile = (HumanoidCharacterProfile)preferences.SelectedCharacter;
+                    profile = preferences.SelectedCharacter as HumanoidCharacterProfile;
                 }
                 else
                 {
                     profile = HumanoidCharacterProfile.Random();
                 }
-                readyPlayerProfiles.Add(userId, profile);
+                readyPlayerProfiles.Add(userId, profile!);
             }
 
             DebugTools.AssertEqual(readyPlayers.Count, ReadyPlayerCount());
@@ -421,9 +463,17 @@ namespace Content.Server.GameTicking
                 _startingRound = false;
                 return;
             }
-
-            // MapInitialize *before* spawning players, our codebase is too shit to do it afterwards...
-            _map.InitializeMap(DefaultMap);
+            var skipinit = false;
+            if (_ent.TryGetComponent(_map.GetMap(DefaultMap), out MapComponent? mc))
+            {
+                if (mc.MapInitialized) skipinit = true;
+            }
+            if (!skipinit)
+            {
+                // MapInitialize *before* spawning players, our codebase is too shit to do it afterwards...
+                _map.InitializeMap(DefaultMap);
+            }
+            
 
             SpawnPlayers(readyPlayers, readyPlayerProfiles, force);
 
