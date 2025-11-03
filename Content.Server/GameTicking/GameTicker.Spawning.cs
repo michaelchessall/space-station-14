@@ -1,3 +1,4 @@
+using Content.Server._NF.Bank;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.Systems;
 using Content.Server.GameTicking.Events;
@@ -43,6 +44,7 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly SharedJobSystem _jobs = default!;
         [Dependency] private readonly AdminSystem _admin = default!;
         [Dependency] private readonly IEntityManager _ent = default!;
+        [Dependency] private readonly BankSystem _bankSystem = default!;
         public static readonly EntProtoId ObserverPrototypeName = "MobObserver";
         public static readonly EntProtoId AdminObserverPrototypeName = "AdminObserver";
 
@@ -194,6 +196,7 @@ namespace Content.Server.GameTicking
 
             _playTimeTrackings.PlayerRolesChanged(player);
 
+            _bankSystem.EnsureAccount(character.Name, 50);
             var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station, jobId, character);
             DebugTools.AssertNotNull(mobMaybe);
             var mob = mobMaybe!.Value;
@@ -276,7 +279,7 @@ namespace Content.Server.GameTicking
             var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
 
             _playTimeTrackings.PlayerRolesChanged(player);
-
+            _bankSystem.EnsureAccount(character!.Name, 50);
 
             var saveFilePath = new ResPath($"{data!.UserId}]{character!.Name}");
             _loader.TryLoadEntity(saveFilePath, out var mobMaybe);
