@@ -478,4 +478,10 @@ public enum LogType
     /// Events relating to midi playback.
     /// </summary>
     Instrument = 103,
+
+    /// <summary>
+    /// Events relating to ATM usage.
+    /// </summary>
+    ATMUsage = 104,
+
 }

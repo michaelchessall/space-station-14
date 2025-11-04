@@ -1,10 +1,9 @@
-using System.Linq;
-using System.Numerics;
 using Content.Server.Announcements;
 using Content.Server.Discord;
 using Content.Server.GameTicking.Events;
 using Content.Server.Maps;
 using Content.Server.Roles;
+using Content.Shared._NF.Bank.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
@@ -23,6 +22,8 @@ using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using System.Linq;
+using System.Numerics;
 
 namespace Content.Server.GameTicking
 {
@@ -90,7 +91,12 @@ namespace Content.Server.GameTicking
         private void LoadMaps()
         {
             if (_map.MapExists(DefaultMap))
+            {
+                var ent = _map.GetMap(DefaultMap);
+                EnsureComp<MoneyAccountsComponent>(ent);
                 return;
+            }
+                
 
             AddGamePresetRules();
 
@@ -135,6 +141,8 @@ namespace Content.Server.GameTicking
             {
                 _map.CreateMap(out var mapId, runMapInit: false);
                 DefaultMap = mapId;
+                var ent = _map.GetMap(mapId);
+                EnsureComp<MoneyAccountsComponent>(ent);
                 return;
             }
 
@@ -145,6 +153,8 @@ namespace Content.Server.GameTicking
 
                 if (i == 0)
                     DefaultMap = mapId;
+                    var ent = _map.GetMap(mapId);
+                    EnsureComp<MoneyAccountsComponent>(ent);
             }
         }
 

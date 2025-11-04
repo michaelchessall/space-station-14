@@ -1,0 +1,92 @@
+- type: entity
+  id: ComputerBankATMBase
+  parent: BaseComputer
+  abstract: true
+  components:
+  - type: ActivatableUIRequiresPower
+  - type: ActivatableUI
+    singleUser: true
+  - type: Computer
+    board: Null
+  - type: ItemSlots # TODO: move ItemSlot to be nullable, withdraw shouldn't have one at all
+  - type: ContainerContainer
+    containers:
+      board: !type:Container
+      bank-ATM-cashSlot: !type:ContainerSlot
+
+- type: entity
+  name: bank ATM
+  id: ComputerBankATMDeposit
+  parent: ComputerBankATMBase
+  description: Used to deposit and withdraw funds from a personal bank account.
+  abstract: true
+  components:
+  - type: BankATM
+    cashSlot:
+      name: bank-ATM-cashSlot
+      insertSound: /Audio/Machines/scanning.ogg
+      ejectSound: /Audio/Machines/tray_eject.ogg
+      ejectOnBreak: true
+      swap: false
+      whitelist:
+        components:
+          - Cash
+  - type: ActivatableUI
+    key: enum.BankATMMenuUiKey.ATM
+  - type: UserInterface
+    interfaces:
+      enum.BankATMMenuUiKey.ATM:
+        type: BankATMMenuBoundUserInterface
+
+- type: entity
+  name: withdraw-only bank ATM
+  id: ComputerBankATMWithdraw
+  parent: ComputerBankATMBase
+  description: Used to withdraw funds from a personal bank account, unable to deposit.
+  abstract: true
+  components:
+  - type: BankATM
+    cashSlot:
+      name: bank-ATM-cashSlot
+      insertSound: /Audio/Machines/scanning.ogg
+      ejectSound: /Audio/Machines/tray_eject.ogg
+      ejectOnBreak: true
+      swap: false
+      locked: true
+  - type: ActivatableUI
+    key: enum.BankATMMenuUiKey.ATM
+  - type: UserInterface
+    interfaces:
+      enum.BankATMMenuUiKey.ATM:
+        type: BankATMWithdrawOnlyMenuBoundUserInterface
+
+- type: entity
+  parent: [ComputerBankATMDeposit]
+  id: ComputerBankATM
+  components:
+  - type: Sprite
+    netsync: false
+    noRot: true
+    sprite: _NF/Structures/Machines/atm/atm.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: icon
+    - map: ["computerLayerScreen"]
+      state: unshaded
+
+- type: entity
+  parent: ComputerBankATMWithdraw
+  id: ComputerWithdrawBankATM
+  components:
+  - type: Sprite
+    netsync: false
+    noRot: true
+    sprite: _NF/Structures/Machines/atm/atm.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: icon
+    - map: ["computerLayerScreen"]
+      state: unshaded
+  - type: Computer
+    board: ComputerWithdrawBankATMComputerCircuitboard
+
