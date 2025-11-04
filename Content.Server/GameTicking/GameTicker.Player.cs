@@ -3,6 +3,7 @@ using Content.Shared.Administration;
 using Content.Shared.CCVar;
 using Content.Shared.GameTicking;
 using Content.Shared.GameWindow;
+using Content.Shared.Mind;
 using Content.Shared.Players;
 using Content.Shared.Preferences;
 using JetBrains.Annotations;
@@ -27,8 +28,10 @@ namespace Content.Server.GameTicking
 
         private async void PlayerStatusChanged(object? sender, SessionStatusEventArgs args)
         {
+            EntityUid? mindId = null;
+            MindComponent? mind = null;
             var session = args.Session;
-            if (_mind.TryGetMind(session.UserId, out var mindId, out var mind))
+            if (args.NewStatus != SessionStatus.Disconnected && _mind.TryGetMind(session.UserId, out  mindId, out mind))
             {
                 if (args.NewStatus != SessionStatus.Disconnected)
                 {
