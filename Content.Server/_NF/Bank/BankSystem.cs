@@ -28,7 +28,6 @@ public sealed partial class BankSystem : SharedBankSystem
         base.Initialize();
         _log = Logger.GetSawmill("bank");
         InitializeATM();
-    //    InitializeStationATM();
         SubscribeLocalEvent<RoundRestartCleanupEvent>(OnCleanup);
     }
 
