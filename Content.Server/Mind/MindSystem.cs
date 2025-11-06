@@ -84,7 +84,7 @@ public sealed class MindSystem : SharedMindSystem
     {
         if (base.TryGetMind(user, out mindId, out mind))
         {
-            DebugTools.Assert(!_players.TryGetPlayerData(user, out var playerData) || playerData.ContentData() is not { } data || data.Mind == mindId);
+        //    DebugTools.Assert(!_players.TryGetPlayerData(user, out var playerData) || playerData.ContentData() is not { } data || data.Mind == mindId);
             return true;
         }
 

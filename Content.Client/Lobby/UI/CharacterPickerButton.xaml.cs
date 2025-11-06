@@ -1,5 +1,6 @@
 using System.Linq;
 using Content.Client.Humanoid;
+using Content.Shared._NF.Bank.Components;
 using Content.Shared.Clothing;
 using Content.Shared.Humanoid;
 using Content.Shared.Humanoid.Prototypes;
@@ -37,6 +38,8 @@ public sealed partial class CharacterPickerButton : ContainerButton
         bool isSelected)
     {
         RobustXamlLoader.Load(this);
+        
+
         _entManager = entityManager;
         AddStyleClass(StyleClassButton);
         ToggleMode = true;
@@ -45,7 +48,12 @@ public sealed partial class CharacterPickerButton : ContainerButton
         if (profile != null)
         {
             description = profile.Name;
-
+            var query = IoCManager.Resolve<IEntityManager>().AllEntityQueryEnumerator<MoneyAccountsComponent>();
+            var mone = 0;
+            while (query.MoveNext(out var uid, out var grid))
+            {
+                grid.TryGetBalance(profile.Name, out mone);
+            }
             if (profile is not HumanoidCharacterProfile humanoid)
             {
                 _previewDummy = entityManager.SpawnEntity(prototypeManager.Index<SpeciesPrototype>(SharedHumanoidAppearanceSystem.DefaultSpecies).DollPrototype, MapCoordinates.Nullspace);
@@ -60,7 +68,9 @@ public sealed partial class CharacterPickerButton : ContainerButton
                 {
                     var jobName = prototypeManager.Index(highPriorityJob).LocalizedName;
                     description = $"{description}\n{jobName}";
+                    
                 }
+                description += $"\n${mone}";
             }
         }
         else

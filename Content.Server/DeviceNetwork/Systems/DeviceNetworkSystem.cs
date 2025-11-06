@@ -1,13 +1,15 @@
+using Content.Shared.Containers.ItemSlots;
 using Content.Shared.DeviceNetwork;
+using Content.Shared.DeviceNetwork.Components;
+using Content.Shared.DeviceNetwork.Events;
+using Content.Shared.DeviceNetwork.Systems;
+using Content.Shared.Examine;
+using Content.Shared.Fax.Components;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Buffers;
 using System.Diagnostics.CodeAnalysis;
-using Content.Shared.DeviceNetwork.Components;
-using Content.Shared.DeviceNetwork.Events;
-using Content.Shared.DeviceNetwork.Systems;
-using Content.Shared.Examine;
 
 namespace Content.Server.DeviceNetwork.Systems
 {
@@ -42,6 +44,7 @@ namespace Content.Server.DeviceNetwork.Systems
         public override void Initialize()
         {
             SubscribeLocalEvent<DeviceNetworkComponent, MapInitEvent>(OnMapInit);
+            SubscribeLocalEvent<DeviceNetworkComponent, ComponentInit>(OnCompInit);
             SubscribeLocalEvent<DeviceNetworkComponent, ComponentShutdown>(OnNetworkShutdown);
             SubscribeLocalEvent<DeviceNetworkComponent, ExaminedEvent>(OnExamine);
 
@@ -104,6 +107,26 @@ namespace Content.Server.DeviceNetwork.Systems
         /// Automatically attempt to connect some devices when a map starts.
         /// </summary>
         private void OnMapInit(EntityUid uid, DeviceNetworkComponent device, MapInitEvent args)
+        {
+            if (device.ReceiveFrequency == null
+                && device.ReceiveFrequencyId != null
+                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
+            {
+                device.ReceiveFrequency = receive.Frequency;
+            }
+
+            if (device.TransmitFrequency == null
+                && device.TransmitFrequencyId != null
+                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
+            {
+                device.TransmitFrequency = xmit.Frequency;
+            }
+
+            if (device.AutoConnect)
+                ConnectDevice(uid, device);
+        }
+
+        private void OnCompInit(EntityUid uid, DeviceNetworkComponent device, ComponentInit args)
         {
             if (device.ReceiveFrequency == null
                 && device.ReceiveFrequencyId != null

@@ -14,6 +14,19 @@ public sealed partial class MoneyAccountsComponent : Component
     [AutoNetworkedField]
     public Dictionary<string, MoneyAccount> MoneyAccounts { get; set; } = new();
 
+    public bool TryGetBalance (string accountname, out int balance)
+    {
+        if (TryGetAccount(accountname, out var account))
+        {
+            balance = account!.Balance;
+            return true;
+        }
+        else
+        {
+            balance = 0;
+            return false;
+        }
+    }    
     public bool TryGetAccount(string accountname, out MoneyAccount? account)
     {
         if (MoneyAccounts.TryGetValue(accountname, out var Account))

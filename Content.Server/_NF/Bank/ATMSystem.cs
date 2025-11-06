@@ -14,8 +14,6 @@ using Content.Shared.Coordinates;
 using Content.Shared.Database;
 using Content.Shared.Stacks;
 using Content.Shared.UserInterface;
-using JetBrains.FormatRipper.Elf;
-using NetCord;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
