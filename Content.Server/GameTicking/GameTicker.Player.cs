@@ -40,7 +40,7 @@ namespace Content.Server.GameTicking
             }
             if (mind != null)
             {
-                if (mind.CurrentEntity == null) mindId = null;
+                if (mind.CurrentEntity == null || mind.CurrentEntity == EntityUid.Invalid) mindId = null;
             }
             if (session.GetMind() != mindId)
             {
