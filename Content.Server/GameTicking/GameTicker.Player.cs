@@ -31,6 +31,7 @@ namespace Content.Server.GameTicking
             EntityUid? mindId = null;
             MindComponent? mind = null;
             var session = args.Session;
+            EntityUid? body = null;
             if (args.NewStatus != SessionStatus.Disconnected && _mind.TryGetMind(session.UserId, out  mindId, out mind))
             {
                 if (args.NewStatus != SessionStatus.Disconnected)
@@ -40,9 +41,14 @@ namespace Content.Server.GameTicking
             }
             if (mind != null)
             {
-                if (mind.CurrentEntity == null || mind.CurrentEntity == EntityUid.Invalid) mindId = null;
+                if (mind.OwnedEntity != null && mind.OwnedEntity != EntityUid.Invalid) body = mind.OwnedEntity;
+
+
+                else if (mind.CurrentEntity != null && mind.CurrentEntity != EntityUid.Invalid) body = mind.CurrentEntity;
+
+                else mindId = null;
             }
-            if (session.GetMind() != mindId)
+            if (session.GetMind() != mindId && body != null && body != EntityUid.Invalid)
             {
                 if (session.Data.ContentDataUncast == null)
                 {
@@ -53,8 +59,8 @@ namespace Content.Server.GameTicking
                 //   _mind.SetUserId((EntityUid)mindId!, session.UserId, mind);
                 var newMind = _mind.CreateMind(session.UserId, mind!.CharacterName);
                 _mind.SetUserId(newMind, session.UserId);
-                _mind.TransferTo(newMind, mind.CurrentEntity);
-                _playerManager.SetAttachedEntity(session, mind.CurrentEntity, true);
+                _mind.TransferTo(newMind, body);
+                _playerManager.SetAttachedEntity(session, body, true);
             }
 
             //  DebugTools.Assert(session.GetMind() == mindId);
