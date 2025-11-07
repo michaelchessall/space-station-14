@@ -108,7 +108,7 @@ namespace Content.Server.Popups
             if (message == null)
                 return;
 
-            if (TryComp(recipient, out ActorComponent? actor))
+            if (TryComp(recipient, out ActorComponent? actor) && actor.PlayerSession != null)
                 RaiseNetworkEvent(new PopupEntityEvent(message, type, GetNetEntity(uid)), actor.PlayerSession);
         }
 
