@@ -1,0 +1,21 @@
+- type: gameMap
+  id: Persi-Station
+  mapName: 'Persi-Station'
+  mapPath: /Maps/persi-station.yml
+  minPlayers: 0
+  maxPlayers: 7
+  stations:
+    Persi-Station:
+      stationProto: StandardNanotrasenStation
+      components:
+        - type: StationNameSetup
+          mapNameTemplate: '{0} Persi-Station {1}'
+          nameGenerator:
+            !type:NanotrasenNameGenerator
+            prefixCreator: 'SC'
+        - type: StationEmergencyShuttle
+          emergencyShuttlePath: /Maps/Shuttles/emergency.yml
+        - type: StationJobs
+          availableJobs: # 15 jobs total w/o latejoins, 19 jobs total w/ latejoins
+            #civilian (1+)
+            Passenger: [ -1, -1 ] #infinite, not counted
