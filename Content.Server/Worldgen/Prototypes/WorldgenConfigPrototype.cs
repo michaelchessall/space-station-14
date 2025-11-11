@@ -1,4 +1,4 @@
-﻿using Robust.Shared.Prototypes;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
 
 namespace Content.Server.Worldgen.Prototypes;
@@ -30,7 +30,7 @@ public sealed partial class WorldgenConfigPrototype : IPrototype
         foreach (var data in Components.Values)
         {
             var comp = (Component) serialization.CreateCopy(data.Component, notNullableOverride: true);
-            entityManager.AddComponent(target, comp);
+            entityManager.EnsureComponent(target, comp);
         }
     }
 }
