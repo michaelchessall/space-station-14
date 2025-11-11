@@ -453,8 +453,16 @@ namespace Content.Server.GameTicking
 
             RoundLengthMetric.Set(0);
 
-            
+            var startingEvent = new RoundStartingEvent(RoundId);
+            RaiseLocalEvent(startingEvent);
+
             var origReadyPlayers = readyPlayers.ToArray();
+
+            if (!StartPreset(origReadyPlayers, force))
+            {
+                _startingRound = false;
+                return;
+            }
             var skipinit = false;
             if (_ent.TryGetComponent(_map.GetMap(DefaultMap), out MapComponent? mc))
             {
@@ -462,16 +470,6 @@ namespace Content.Server.GameTicking
             }
             if (!skipinit)
             {
-
-                if (!StartPreset(origReadyPlayers, force))
-                {
-                    _startingRound = false;
-                    return;
-                }
-
-                var startingEvent = new RoundStartingEvent(RoundId);
-                RaiseLocalEvent(startingEvent);
-
                 // MapInitialize *before* spawning players, our codebase is too shit to do it afterwards...
                 _map.InitializeMap(DefaultMap);
             }
