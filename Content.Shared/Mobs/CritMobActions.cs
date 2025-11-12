@@ -1,4 +1,4 @@
-﻿using Content.Shared.Actions;
+using Content.Shared.Actions;
 
 namespace Content.Shared.Mobs;
 
@@ -20,5 +20,12 @@ public sealed partial class CritFakeDeathEvent : InstantActionEvent
 ///     Only applies to mobs capable of speaking, as a last resort in crit
 /// </summary>
 public sealed partial class CritLastWordsEvent : InstantActionEvent
+{
+}
+
+/// <summary>
+///     Allows a dead character to accept death, delete their char and return to the lobby.
+/// </summary>
+public sealed partial class AcceptDeathEvent : InstantActionEvent
 {
 }

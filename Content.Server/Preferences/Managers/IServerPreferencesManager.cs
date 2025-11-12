@@ -25,5 +25,7 @@ namespace Content.Server.Preferences.Managers
 
         Task SetProfile(NetUserId userId, int slot, ICharacterProfile profile);
         Task SetConstructionFavorites(NetUserId userId, List<ProtoId<ConstructionPrototype>> favorites);
+
+        void DeleteCharacter(int slot, NetUserId userId, ICommonSession session);
     }
 }

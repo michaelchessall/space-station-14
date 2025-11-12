@@ -17,7 +17,7 @@ public sealed partial class ParrotMemoryComponent : Component
     /// List of SpeechMemory records this entity has learned.
     /// </summary>
     [DataField]
-    public List<SpeechMemory> SpeechMemories = new();
+    public List<string> SpeechMemories = new();
 
     /// <summary>
     /// The % chance an entity with this component learns a phrase when learning is off cooldown.
@@ -56,6 +56,5 @@ public sealed partial class ParrotMemoryComponent : Component
     [DataField]
     public int MaxEntryLength = 50;
 }
-
 [Serializable, NetSerializable]
-public record struct SpeechMemory(NetUserId? NetUserId, string Message);
+public partial record struct SpeechMemory(NetUserId? NetUserId, string Message);

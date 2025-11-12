@@ -1,13 +1,19 @@
-﻿using Content.Server.Administration;
+using Content.Server.Administration;
 using Content.Server.Chat.Systems;
+using Content.Server.Database;
+using Content.Server.GameTicking;
 using Content.Server.Popups;
+using Content.Server.Preferences.Managers;
 using Content.Shared.Chat;
+using Content.Shared.Mind;
 using Content.Shared.Mobs;
 using Content.Shared.Mobs.Components;
 using Content.Shared.Mobs.Systems;
+using Content.Shared.Players;
+using Content.Shared.Preferences;
+using Content.Shared.Speech.Muting;
 using Robust.Server.Console;
 using Robust.Shared.Player;
-using Content.Shared.Speech.Muting;
 
 namespace Content.Server.Mobs;
 
@@ -22,6 +28,8 @@ public sealed class CritMobActionsSystem : EntitySystem
     [Dependency] private readonly MobStateSystem _mobState = default!;
     [Dependency] private readonly PopupSystem _popupSystem = default!;
     [Dependency] private readonly QuickDialogSystem _quickDialog = default!;
+    [Dependency] private readonly GameTicker _ticker = default!;
+    [Dependency] private readonly IServerPreferencesManager _prefsManager = default!;
 
     private const int MaxLastWordsLength = 30;
 
@@ -32,6 +40,7 @@ public sealed class CritMobActionsSystem : EntitySystem
         SubscribeLocalEvent<MobStateActionsComponent, CritSuccumbEvent>(OnSuccumb);
         SubscribeLocalEvent<MobStateActionsComponent, CritFakeDeathEvent>(OnFakeDeath);
         SubscribeLocalEvent<MobStateActionsComponent, CritLastWordsEvent>(OnLastWords);
+        SubscribeLocalEvent<MobStateActionsComponent, AcceptDeathEvent>(OnAcceptDeath);
     }
 
     private void OnSuccumb(EntityUid uid, MobStateActionsComponent component, CritSuccumbEvent args)
@@ -82,6 +91,57 @@ public sealed class CritMobActionsSystem : EntitySystem
 
                 _chat.TrySendInGameICMessage(uid, lastWords, InGameICChatType.Whisper, ChatTransmitRange.Normal, checkRadioPrefix: false, ignoreActionBlocker: true);
                 _host.ExecuteCommand(actor.PlayerSession, "ghost");
+            });
+
+        args.Handled = true;
+    }
+
+    private void OnAcceptDeath(EntityUid uid, MobStateActionsComponent component, AcceptDeathEvent args)
+    {
+        if (!TryComp<ActorComponent>(uid, out var actor))
+            return;
+
+        _quickDialog.OpenDialog(actor.PlayerSession,
+            "Accept Death",
+            "Give up on your character being revived and return to the Lobby to make a new character. Your character will be permanently deleted. Type 'Accept Death to confirm",
+            (string lastWords) =>
+            {
+                if (!_mobState.IsDead(uid))
+                    return;
+
+                if (actor.PlayerSession.AttachedEntity != uid)
+                    return;
+
+                if (lastWords == "Accept Death")
+                {
+                    var foundSlot = 0;
+                    PlayerPreferences playerPrefs = _prefsManager.GetPreferences(actor.PlayerSession.UserId);
+                    var mind =  actor.PlayerSession.GetMind();
+                    string charName = "";
+                    if (TryComp<MindComponent>(mind, out var mindComp))
+                    {
+                        var name = mindComp.CharacterName;
+                        if (name != null)
+                        {
+                            charName = name;
+                        }
+                    }
+
+                    foreach (var pair in playerPrefs.Characters)
+                    {
+                        var profile = pair.Value;
+                        if (profile.Name == charName)
+                        {
+                            foundSlot = pair.Key;
+                        }
+                    }
+                    if (foundSlot != 0)
+                        _prefsManager.DeleteCharacter(foundSlot, actor.PlayerSession.UserId, actor.PlayerSession);
+                    _ticker.Respawn(actor.PlayerSession);
+                    // TODO PERSISTENCE
+                }
+
+                
             });
 
         args.Handled = true;

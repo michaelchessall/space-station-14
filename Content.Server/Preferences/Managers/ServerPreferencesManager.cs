@@ -134,6 +134,33 @@ namespace Content.Server.Preferences.Managers
                 await _db.SaveConstructionFavoritesAsync(userId, favorites);
         }
 
+        public async void DeleteCharacter(int slot, NetUserId userId, ICommonSession session)
+        {
+
+            if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) || !prefsData.PrefsLoaded)
+            {
+                _sawmill.Warning($"User {userId} tried to modify preferences before they loaded.");
+                return;
+            }
+
+            if (slot < 0 || slot >= MaxCharacterSlots)
+            {
+                return;
+            }
+
+            var curPrefs = prefsData.Prefs!;
+
+
+            var arr = new Dictionary<int, ICharacterProfile>(curPrefs.Characters);
+            arr.Remove(slot);
+
+            prefsData.Prefs = new PlayerPreferences(arr, curPrefs.SelectedCharacterIndex, curPrefs.AdminOOCColor, curPrefs.ConstructionFavorites);
+            FinishLoad(session);
+            await _db.SaveCharacterSlotAsync(userId, null, slot);
+            
+                
+            
+        }
         private async void HandleDeleteCharacterMessage(MsgDeleteCharacter message)
         {
             var slot = message.Slot;
@@ -159,11 +186,7 @@ namespace Content.Server.Preferences.Managers
             {
                 // That ! on the end is because Rider doesn't like .NET 5.
                 var (ns, profile) = curPrefs.Characters.FirstOrDefault(p => p.Key != message.Slot)!;
-                if (profile == null)
-                {
-                    // Only slot left, can't delete.
-                    return;
-                }
+
 
                 nextSlot = ns;
             }

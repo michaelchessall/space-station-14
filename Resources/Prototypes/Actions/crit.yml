@@ -9,6 +9,21 @@
 
 - type: entity
   parent: BaseCritAction
+  id: ActionAcceptDeath
+  name: Accept Death
+  description: Accept your fate. Delete your character and return to the lobby.
+  components:
+  - type: Action
+    startDelay: true
+    useDelay: 10
+    icon:
+      sprite: Mobs/Ghosts/ghost_human.rsi
+      state: icon
+  - type: InstantAction
+    event: !type:AcceptDeathEvent
+
+- type: entity
+  parent: BaseCritAction
   id: ActionCritSuccumb
   name: Succumb
   description: Accept your fate.

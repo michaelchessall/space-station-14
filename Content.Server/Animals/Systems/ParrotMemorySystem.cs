@@ -98,7 +98,7 @@ public sealed partial class ParrotMemorySystem : SharedParrotMemorySystem
         // get a random memory from the memory list
         var memory = _random.Pick(entity.Comp.SpeechMemories);
 
-        args.Message = memory.Message;
+        args.Message = memory;
         args.Handled = true;
     }
 
@@ -170,7 +170,7 @@ public sealed partial class ParrotMemorySystem : SharedParrotMemorySystem
             sourceNetUserId = mind.UserId;
         }
 
-        var newMemory = new SpeechMemory(sourceNetUserId, message);
+        var newMemory = message;
 
         // add a new message if there is space in the memory
         if (entity.Comp.SpeechMemories.Count < entity.Comp.MaxSpeechMemory)
@@ -210,14 +210,6 @@ public sealed partial class ParrotMemorySystem : SharedParrotMemorySystem
         for (var i = 0; i < memoryComponent.SpeechMemories.Count; i++)
         {
             var memory = memoryComponent.SpeechMemories[i];
-
-            // netuserid may be null if the message was learnt from a non-player entity
-            if (memory.NetUserId is null)
-                continue;
-
-            // skip if this memory was not learnt from the target user
-            if (!memory.NetUserId.Equals(playerNetUserId))
-                continue;
 
             // order isn't important in this list so we can use the faster means of removing
             memoryComponent.SpeechMemories.RemoveSwap(i);

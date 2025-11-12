@@ -123,6 +123,8 @@
       - ActionCritSuccumb
       - ActionCritFakeDeath
       - ActionCritLastWords
+      Dead:
+      - ActionAcceptDeath
   - type: Deathgasp
   - type: HealthExaminable
     examinableTypes:

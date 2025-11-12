@@ -108,6 +108,10 @@ namespace Content.Client.Lobby
             _netManager.ClientSendMessage(msg);
         }
 
+        public void DeleteCharacter(string name)
+        {
+
+        }
         public void UpdateConstructionFavorites(List<ProtoId<ConstructionPrototype>> favorites)
         {
             Preferences = new PlayerPreferences(Preferences.Characters, Preferences.SelectedCharacterIndex, Preferences.AdminOOCColor, favorites);

@@ -19,6 +19,7 @@ namespace Content.Client.Lobby
         void CreateCharacter(ICharacterProfile profile);
         void DeleteCharacter(ICharacterProfile profile);
         void DeleteCharacter(int slot);
+        void DeleteCharacter(string name);
         void UpdateConstructionFavorites(List<ProtoId<ConstructionPrototype>> favorites);
     }
 }
