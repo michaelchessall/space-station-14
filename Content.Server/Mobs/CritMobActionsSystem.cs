@@ -103,7 +103,7 @@ public sealed class CritMobActionsSystem : EntitySystem
 
         _quickDialog.OpenDialog(actor.PlayerSession,
             "Accept Death",
-            "Give up on your character being revived and return to the Lobby to make a new character. Your character will be permanently deleted. Type 'Accept Death to confirm",
+            "Give up on your character being revived and return to the Lobby to make a new character. Your character will be permanently deleted.",
             (string lastWords) =>
             {
                 if (!_mobState.IsDead(uid))
@@ -112,34 +112,32 @@ public sealed class CritMobActionsSystem : EntitySystem
                 if (actor.PlayerSession.AttachedEntity != uid)
                     return;
 
-                if (lastWords == "Accept Death")
+                var foundSlot = 0;
+                PlayerPreferences playerPrefs = _prefsManager.GetPreferences(actor.PlayerSession.UserId);
+                var mind =  actor.PlayerSession.GetMind();
+                string charName = "";
+                if (TryComp<MindComponent>(mind, out var mindComp))
                 {
-                    var foundSlot = 0;
-                    PlayerPreferences playerPrefs = _prefsManager.GetPreferences(actor.PlayerSession.UserId);
-                    var mind =  actor.PlayerSession.GetMind();
-                    string charName = "";
-                    if (TryComp<MindComponent>(mind, out var mindComp))
+                    var name = mindComp.CharacterName;
+                    if (name != null)
                     {
-                        var name = mindComp.CharacterName;
-                        if (name != null)
-                        {
-                            charName = name;
-                        }
+                        charName = name;
                     }
-
-                    foreach (var pair in playerPrefs.Characters)
-                    {
-                        var profile = pair.Value;
-                        if (profile.Name == charName)
-                        {
-                            foundSlot = pair.Key;
-                        }
-                    }
-                    if (foundSlot != 0)
-                        _prefsManager.DeleteCharacter(foundSlot, actor.PlayerSession.UserId, actor.PlayerSession);
-                    _ticker.Respawn(actor.PlayerSession);
-                    // TODO PERSISTENCE
                 }
+
+                foreach (var pair in playerPrefs.Characters)
+                {
+                    var profile = pair.Value;
+                    if (profile.Name == charName)
+                    {
+                        foundSlot = pair.Key;
+                    }
+                }
+                if (foundSlot != 0)
+                    _prefsManager.DeleteCharacter(foundSlot, actor.PlayerSession.UserId, actor.PlayerSession);
+                _ticker.Respawn(actor.PlayerSession);
+                // TODO PERSISTENCE
+                
 
                 
             });
