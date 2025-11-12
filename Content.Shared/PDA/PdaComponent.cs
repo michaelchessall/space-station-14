@@ -27,10 +27,10 @@ namespace Content.Shared.PDA
         [DataField("id", customTypeSerializer: typeof(PrototypeIdSerializer<EntityPrototype>))]
         public string? IdCard;
 
-        [ViewVariables] public EntityUid? ContainedId;
+        [DataField] public EntityUid? ContainedId;
         [ViewVariables] public bool FlashlightOn;
 
-        [ViewVariables(VVAccess.ReadWrite)] public string? OwnerName;
+        [DataField] public string? OwnerName;
         // The Entity that "owns" the PDA, usually a player's character.
         // This is useful when we are doing stuff like renaming a player and want to find their PDA to change the name
         // as well.

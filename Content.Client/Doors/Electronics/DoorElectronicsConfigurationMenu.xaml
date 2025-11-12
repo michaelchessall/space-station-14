@@ -2,6 +2,22 @@
                 xmlns:ui="clr-namespace:Content.Client.UserInterface"
                 xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
                 Title="{Loc door-electronics-configuration-title}">
-    <Control Name="AccessLevelControlContainer" />
+    <BoxContainer Orientation="Vertical" MinHeight="200" MinWidth="400">
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Current Station:" />
+            <Control MinWidth="5"/>
+            <Label Name="StationNameLabel" />
+            <Control HorizontalExpand="True"/>
+            <Label Text="Change Access Mode:" />
+            <Button Name="ChangeMode" Text="Personal" Access="Public" />
+        </BoxContainer>
+        <WrapContainer Name="AccessLevelControlContainer" />
+        <BoxContainer Orientation="Horizontal" Name="PersonalAccessAddContainer">
+            <Label Text="Add Personal Access:" />
+            <LineEdit Name="PersonalLineEdit" HorizontalExpand="True" Access="Public"/>
+            <Button Name="PersonalSaveButton" Text="Save" Access="Public" />
+        </BoxContainer>
+        <BoxContainer Orientation="Vertical" Name="PersonalAccessContainer" />
+    </BoxContainer>
 
 </controls:FancyWindow>

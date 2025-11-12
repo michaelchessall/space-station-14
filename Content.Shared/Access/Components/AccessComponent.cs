@@ -33,6 +33,21 @@ public sealed partial class AccessComponent : Component
     public HashSet<ProtoId<AccessGroupPrototype>> Groups = new();
 }
 
+
+/// <summary>
+/// Event raised on an entity to find additional entities which provide access.
+/// </summary>
+public struct SetupAccessList
+{
+    public List<string> AccessList = new();
+
+    public SetupAccessList(List<string> accessList)
+    {
+        AccessList = accessList;
+    }
+}
+
+
 /// <summary>
 /// Event raised on an entity to find additional entities which provide access.
 /// </summary>

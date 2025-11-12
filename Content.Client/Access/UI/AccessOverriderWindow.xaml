@@ -9,12 +9,27 @@
             </GridContainer>
         </GridContainer>
         <Label Name="TargetNameLabel" />
+        <BoxContainer Orientation="Horizontal">
+            <Label Text="Station:" />
+            <Control MinWidth="5"/>
+            <Label Name="StationNameLabel"/>
+            <Control HorizontalExpand="True"/>
+            <Label Text="Change Access Mode:" />
+            <Button Name="ChangeMode" Text="Personal" Access="Public" />
+        </BoxContainer>
+
         <Control MinSize="0 8"/>
-        <GridContainer Name="AccessLevelGrid" Columns="5" HorizontalAlignment="Center">
+        <GridContainer Name="AccessLevelGrid" Columns="5">
 
             <!-- Access level buttons are added here by the C# code -->
 
         </GridContainer>
+        <BoxContainer Orientation="Horizontal" Name="PersonalAccessAddContainer">
+            <Label Text="Add Personal Access:" />
+            <LineEdit Name="PersonalLineEdit" HorizontalExpand="True" Access="Public"/>
+            <Button Name="PersonalSaveButton" Text="Save" Access="Public" />
+        </BoxContainer>
+        <BoxContainer Orientation="Vertical" Name="PersonalAccessContainer" />
         <Control MinSize="0 8"/>
         <Label Name="MissingPrivilegesLabel" />
         <Control MinSize="0 4"/>

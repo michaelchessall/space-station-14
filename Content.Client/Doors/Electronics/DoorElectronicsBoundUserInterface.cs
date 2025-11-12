@@ -2,7 +2,9 @@ using Content.Shared.Access;
 using Content.Shared.Doors.Electronics;
 using Robust.Client.GameObjects;
 using Robust.Client.UserInterface;
+using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Prototypes;
+using static Robust.Client.UserInterface.Controls.BaseButton;
 
 namespace Content.Client.Doors.Electronics;
 
@@ -21,6 +23,10 @@ public sealed class DoorElectronicsBoundUserInterface : BoundUserInterface
         base.Open();
         _window = this.CreateWindow<DoorElectronicsConfigurationMenu>();
         _window.OnAccessChanged += UpdateConfiguration;
+        _window.OnAccessToggle += AccessToggle;
+        _window.PersonalAccessToggle += PersonalAccessToggle;
+        _window.PersonalSaveButton.OnPressed += PersonalAccessAdd;
+        _window.ChangeMode.OnPressed += ChangeMode;
         Reset();
     }
 
@@ -62,5 +68,30 @@ public sealed class DoorElectronicsBoundUserInterface : BoundUserInterface
     public void UpdateConfiguration(List<ProtoId<AccessLevelPrototype>> newAccessList)
     {
         SendMessage(new DoorElectronicsUpdateConfigurationMessage(newAccessList));
+    }
+    public void AccessToggle(string access)
+    {
+        SendMessage(new DoorElectronicsAccessToggleMessage(access));
+    }
+    public void PersonalAccessToggle(string access)
+    {
+        SendMessage(new DoorElectronicsPersonalRemoveMessage(access));
+    }
+
+    public void PersonalAccessAdd(ButtonEventArgs args)
+    {
+        if (_window == null) return;
+        Button button = (Button)args.Button;
+        var name = _window.PersonalLineEdit.Text;
+        if(name != null && name != "")
+        {
+            SendMessage(new DoorElectronicsPersonalAddMessage(name));
+            _window.PersonalLineEdit.Text = "";
+        }
+        
+    }
+    public void ChangeMode(ButtonEventArgs args)
+    {
+        SendMessage(new DoorElectronicsChangeModeMessage());
     }
 }

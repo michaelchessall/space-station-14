@@ -1,20 +1,21 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Content.Server.Chat.Systems;
 using Content.Server.Containers;
+using Content.Server.Station.Systems;
 using Content.Server.StationRecords.Systems;
-using Content.Shared.Access.Components;
-using static Content.Shared.Access.Components.IdCardConsoleComponent;
-using Content.Shared.Access.Systems;
 using Content.Shared.Access;
+using Content.Shared.Access.Components;
+using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
 using Content.Shared.Chat;
 using Content.Shared.Construction;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.CrewAssignments.Components;
+using Content.Shared.CrewRecords.Components;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Database;
 using Content.Shared.Roles;
+using Content.Shared.Station.Components;
 using Content.Shared.StationRecords;
 using Content.Shared.Throwing;
 using JetBrains.Annotations;
@@ -22,6 +23,9 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using static Content.Shared.Access.Components.IdCardConsoleComponent;
 
 namespace Content.Server.Access.Systems;
 
@@ -39,16 +43,18 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
     [Dependency] private readonly ThrowingSystem _throwing = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
     [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly StationSystem _station = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
         SubscribeLocalEvent<IdCardConsoleComponent, WriteToTargetIdMessage>(OnWriteToTargetIdMessage);
-
+        SubscribeLocalEvent<IdCardConsoleComponent, SearchRecord>(OnSearchRecord);
+        SubscribeLocalEvent<IdCardConsoleComponent, ChangeAssignment>(OnChangeAssignment);
         // one day, maybe bound user interfaces can be shared too.
         SubscribeLocalEvent<IdCardConsoleComponent, ComponentStartup>(UpdateUserInterface);
-        SubscribeLocalEvent<IdCardConsoleComponent, EntInsertedIntoContainerMessage>(UpdateUserInterface);
+        SubscribeLocalEvent<IdCardConsoleComponent, EntInsertedIntoContainerMessage>(OnEntInserted);
         SubscribeLocalEvent<IdCardConsoleComponent, EntRemovedFromContainerMessage>(UpdateUserInterface);
         SubscribeLocalEvent<IdCardConsoleComponent, DamageChangedEvent>(OnDamageChanged);
 
@@ -57,6 +63,100 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
             before: [typeof(EmptyOnMachineDeconstructSystem), typeof(ItemSlotsSystem)]);
     }
 
+    private CrewRecord? TryEnsureRecord(EntityUid uid, string recordName)
+    {
+        var station = _station.GetOwningStation(uid);
+        if (station == null) return null;
+        if (!TryComp(station, out CrewRecordsComponent? stationData))
+        {
+            stationData = null;
+            return null;
+        }
+        if (stationData == null) return null;
+        stationData.TryEnsureRecord(recordName, out var record, EntityManager);
+        return record;
+    }
+
+    private void OnEntInserted(EntityUid uid, IdCardConsoleComponent component, EntInsertedIntoContainerMessage args)
+    {
+        if(component.TargetIdSlot.Item == args.Entity)
+        {
+            if (component.TargetIdSlot.Item is { Valid: true } targetId) // targetID lsot occupied
+            {
+                var idComponent = Comp<IdCardComponent>(targetId);
+                if(idComponent!= null && idComponent.FullName != null)
+                    component.SelectedRecord = TryEnsureRecord(uid, idComponent.FullName);
+            }
+        }
+
+        UpdateUserInterface(uid, component, args);
+    }
+    private void OnSearchRecord(EntityUid uid, IdCardConsoleComponent component, SearchRecord args)
+    {
+        if (args.Actor is not { Valid: true } player)
+            return;
+        if (component.SelectedRecord == null || component.SelectedRecord.Name != args.FullName)
+        {
+            component.SelectedRecord = TryEnsureRecord(uid, args.FullName);
+        }
+
+        UpdateUserInterface(uid, component, args);
+    }
+    private void OnChangeAssignment(EntityUid uid, IdCardConsoleComponent component, ChangeAssignment args)
+    {
+        if (args.Actor is not { Valid: true } player)
+            return;
+        if (component.SelectedRecord == null || component.PrivRecord == null)
+        {
+            return;
+        }
+        var station = _station.GetOwningStation(uid);
+        if (station == null) return;
+        if (!TryComp(station, out CrewAssignmentsComponent? cW))
+        {
+            return;
+        }
+
+        var possibleAssignments = cW.CrewAssignments;
+        CrewAssignment? currentTargetAssignment;
+        possibleAssignments.TryGetValue(component.SelectedRecord.AssignmentID, out currentTargetAssignment);
+        CrewAssignment? currentPrivAssignment;
+        possibleAssignments.TryGetValue(component.PrivRecord.AssignmentID, out currentPrivAssignment);
+        CrewAssignment? newTargetAssignment;
+        possibleAssignments.TryGetValue(args.ID, out newTargetAssignment);
+        if (newTargetAssignment == null) return;
+        var owner = false;
+        if (TryComp(station, out StationDataComponent? sD))
+        {
+            if (component.PrivRecord.Name != null && sD.Owners.Contains(component.PrivRecord.Name)) owner = true;
+        }
+        else
+        {
+            return;
+        }
+        if (!owner && (currentTargetAssignment != null && (currentPrivAssignment == null || currentTargetAssignment.Clevel >= currentPrivAssignment.Clevel)))
+        {
+            return;
+        }
+        if (!owner && (currentPrivAssignment == null || newTargetAssignment.Clevel >= currentPrivAssignment.Clevel))
+        {
+            return;
+        }
+        component.SelectedRecord.AssignmentID = args.ID;
+        if (TryComp(station, out CrewRecordsComponent? stationData))
+        {
+            Dirty((EntityUid)station, stationData);
+        }
+        var query = EntityQueryEnumerator<IdCardComponent>();
+        while (query.MoveNext(out var carde, out var card))
+        {
+            if (card.FullName == component.SelectedRecord.Name && card.stationID == sD.UID)
+            {
+                _idCard.TryChangeJobTitle(carde, newTargetAssignment.Name, card, player);
+            }
+        }
+        UpdateUserInterface(uid, component, args);
+    }
     private void OnWriteToTargetIdMessage(EntityUid uid, IdCardConsoleComponent component, WriteToTargetIdMessage args)
     {
         if (args.Actor is not { Valid: true } player)
@@ -71,55 +171,86 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
     {
         if (!component.Initialized)
             return;
+        IdCardConsoleBoundUserInterfaceState newState;
+        var station = _station.GetOwningStation(uid);
+        if (station == null) return;
+        if (!TryComp(station, out CrewAssignmentsComponent? stationData))
+        {
+            stationData = null;
+            return;
+        }
+        var possibleAssignments = stationData.CrewAssignments;
 
         var privilegedIdName = string.Empty;
-        List<ProtoId<AccessLevelPrototype>>? possibleAccess = null;
-        if (component.PrivilegedIdSlot.Item is { Valid: true } item)
-        {
-            privilegedIdName = Comp<MetaDataComponent>(item).EntityName;
-            possibleAccess = _accessReader.FindAccessTags(item).ToList();
-        }
+        var privFullName = string.Empty;
+        var targetIdName = string.Empty;
+        CrewAssignment? assignment = null;
+        CrewAssignment? privassignment = null;
+        var owner = false;
 
-        IdCardConsoleBoundUserInterfaceState newState;
-        // this could be prettier
-        if (component.TargetIdSlot.Item is not { Valid: true } targetId)
-        {
-            newState = new IdCardConsoleBoundUserInterfaceState(
-                component.PrivilegedIdSlot.HasItem,
-                PrivilegedIdIsAuthorized(uid, component, out _),
-                false,
-                null,
-                null,
-                null,
-                possibleAccess,
-                string.Empty,
-                privilegedIdName,
-                string.Empty);
-        }
-        else
+        if (component.TargetIdSlot.Item is { Valid: true } targetId) // targetID lsot occupied
         {
             var targetIdComponent = Comp<IdCardComponent>(targetId);
             var targetAccessComponent = Comp<AccessComponent>(targetId);
-
-            var jobProto = targetIdComponent.JobPrototype ?? new ProtoId<JobPrototype>(string.Empty);
-            if (TryComp<StationRecordKeyStorageComponent>(targetId, out var keyStorage)
-                && keyStorage.Key is { } key
-                && _record.TryGetRecord<GeneralStationRecord>(key, out var record))
+            targetIdName = Comp<MetaDataComponent>(targetId).EntityName;
+        }
+        if (component.PrivilegedIdSlot.Item is { Valid: true } privId) // targetID lsot occupied
+        {
+            privilegedIdName = Comp<MetaDataComponent>(privId).EntityName;
+            var privIdComponent = Comp<IdCardComponent>(privId);
+            if (component.PrivRecord == null || component.PrivRecord.Name != privIdComponent.FullName)
             {
-                jobProto = record.JobPrototype;
+                if (privIdComponent != null && privIdComponent.FullName != null)
+                {
+                    component.PrivRecord = TryEnsureRecord(uid, privIdComponent.FullName);
+                }
+                if (component.PrivRecord != null)
+                {
+                    possibleAssignments.TryGetValue(component.PrivRecord.AssignmentID, out privassignment);
+                }
             }
+            if (TryComp(station, out StationDataComponent? sD))
+            {
+                if (privIdComponent != null && privIdComponent.FullName != null && sD.Owners.Contains(privIdComponent.FullName)) owner = true;
+            }
+        }
+        if (component.SelectedRecord == null)
+        {
+
 
             newState = new IdCardConsoleBoundUserInterfaceState(
                 component.PrivilegedIdSlot.HasItem,
-                PrivilegedIdIsAuthorized(uid, component, out _),
-                true,
-                targetIdComponent.FullName,
-                targetIdComponent.LocalizedJobTitle,
-                targetAccessComponent.Tags.ToList(),
-                possibleAccess,
-                jobProto,
+                owner || PrivilegedIdIsAuthorized(uid, component, out _),
+                component.TargetIdSlot.HasItem,
+                "",
+                targetIdName,
                 privilegedIdName,
-                Name(targetId));
+                privFullName,
+                assignment,
+                privassignment,
+                possibleAssignments,
+                owner);
+                
+                
+        }
+        else
+        {
+            
+            possibleAssignments.TryGetValue(component.SelectedRecord.AssignmentID, out assignment);
+
+            newState = new IdCardConsoleBoundUserInterfaceState(
+                component.PrivilegedIdSlot.HasItem,
+                owner || PrivilegedIdIsAuthorized(uid, component, out _),
+                component.TargetIdSlot.HasItem,
+                component.SelectedRecord.Name,
+                targetIdName,
+                privilegedIdName,
+                privFullName,
+                assignment,
+                privassignment,
+                possibleAssignments,
+                owner);
+
         }
 
         _userInterface.SetUiState(uid, IdCardConsoleUiKey.Key, newState);

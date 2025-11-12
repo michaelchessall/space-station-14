@@ -1,4 +1,4 @@
-using System.Linq;
+using Content.Client.CrewAssignments.UI;
 using Content.Shared.Access;
 using Content.Shared.Access.Systems;
 using Content.Shared.CCVar;
@@ -9,6 +9,7 @@ using Robust.Client.UserInterface.CustomControls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
+using System.Linq;
 using static Content.Shared.Access.Components.IdCardConsoleComponent;
 
 namespace Content.Client.Access.UI
@@ -27,7 +28,6 @@ namespace Content.Client.Access.UI
         private int _maxNameLength;
         private int _maxIdJobLength;
 
-        private AccessLevelControl _accessButtons = new();
         private readonly List<string> _jobPrototypeIds = new();
 
         private string? _lastFullName;
@@ -57,98 +57,8 @@ namespace Content.Client.Access.UI
             };
             FullNameSaveButton.OnPressed += _ => SubmitData();
 
-            JobTitleLineEdit.OnTextEntered += _ => SubmitData();
             JobTitleLineEdit.IsValid = s => s.Length <= _maxIdJobLength;
-            JobTitleLineEdit.OnTextChanged += _ =>
-            {
-                JobTitleSaveButton.Disabled = JobTitleLineEdit.Text == _lastJobTitle;
-            };
-            JobTitleSaveButton.OnPressed += _ => SubmitData();
 
-            var jobs = _prototypeManager.EnumeratePrototypes<JobPrototype>().ToList();
-            jobs.Sort((x, y) => string.Compare(x.LocalizedName, y.LocalizedName, StringComparison.CurrentCulture));
-
-            foreach (var job in jobs)
-            {
-                if (!job.OverrideConsoleVisibility.GetValueOrDefault(job.SetPreference))
-                {
-                    continue;
-                }
-
-                _jobPrototypeIds.Add(job.ID);
-                JobPresetOptionButton.AddItem(Loc.GetString(job.Name), _jobPrototypeIds.Count - 1);
-            }
-
-            SelectAllButton.OnPressed += _ =>
-            {
-                SetAllAccess(true);
-                SubmitData();
-            };
-
-            DeselectAllButton.OnPressed += _ =>
-            {
-                SetAllAccess(false);
-                SubmitData();
-            };
-
-            JobPresetOptionButton.OnItemSelected += SelectJobPreset;
-            _accessButtons.Populate(accessLevels, prototypeManager);
-            AccessLevelControlContainer.AddChild(_accessButtons);
-
-            foreach (var (id, button) in _accessButtons.ButtonsList)
-            {
-                button.OnPressed += _ => SubmitData();
-            }
-        }
-
-        /// <param name="enabled">If true, every individual access button will be pressed. If false, each will be depressed.</param>
-        private void SetAllAccess(bool enabled)
-        {
-            foreach (var button in _accessButtons.ButtonsList.Values)
-            {
-                if (!button.Disabled && button.Pressed != enabled)
-                    button.Pressed = enabled;
-            }
-        }
-
-        private void SelectJobPreset(OptionButton.ItemSelectedEventArgs args)
-        {
-            if (!_prototypeManager.TryIndex(_jobPrototypeIds[args.Id], out JobPrototype? job))
-            {
-                return;
-            }
-
-            JobTitleLineEdit.Text = Loc.GetString(job.Name);
-            args.Button.SelectId(args.Id);
-
-            SetAllAccess(false);
-
-            // this is a sussy way to do this
-            foreach (var access in job.Access)
-            {
-                if (_accessButtons.ButtonsList.TryGetValue(access, out var button) && !button.Disabled)
-                {
-                    button.Pressed = true;
-                }
-            }
-
-            foreach (var group in job.AccessGroups)
-            {
-                if (!_prototypeManager.Resolve(group, out AccessGroupPrototype? groupPrototype))
-                {
-                    continue;
-                }
-
-                foreach (var access in groupPrototype.Tags)
-                {
-                    if (_accessButtons.ButtonsList.TryGetValue(access, out var button) && !button.Disabled)
-                    {
-                        button.Pressed = true;
-                    }
-                }
-            }
-
-            SubmitData();
         }
 
         public void UpdateState(IdCardConsoleBoundUserInterfaceState state)
@@ -166,64 +76,68 @@ namespace Content.Client.Access.UI
             TargetIdLabel.Text = state.TargetIdName;
 
             var interfaceEnabled =
-                state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized && state.IsTargetIdPresent;
+                state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized && state.TargetIdFullName != null && state.TargetIdFullName != "";
+            if (state.TargetIdFullName != null)
+            {
+                FullNameLineEdit.Text = state.TargetIdFullName;
+                SelectedAccountLabel.Text = state.TargetIdFullName;
+            }
+            else
+            {
+                SelectedAccountLabel.Text = "*None*";
+            }
 
-            var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != state.TargetIdFullName;
-            var jobTitleDirty = _lastJobTitle != null && JobTitleLineEdit.Text != state.TargetIdJobTitle;
+                var fullNameDirty = _lastFullName != null && FullNameLineEdit.Text != state.TargetIdFullName;
 
             FullNameLabel.Modulate = interfaceEnabled ? Color.White : Color.Gray;
-            FullNameLineEdit.Editable = interfaceEnabled;
             if (!fullNameDirty)
             {
                 FullNameLineEdit.Text = state.TargetIdFullName ?? string.Empty;
             }
 
-            FullNameSaveButton.Disabled = !interfaceEnabled || !fullNameDirty;
+            FullNameSaveButton.Disabled = !fullNameDirty;
 
-            JobTitleLabel.Modulate = interfaceEnabled ? Color.White : Color.Gray;
-            JobTitleLineEdit.Editable = interfaceEnabled;
-            if (!jobTitleDirty)
-            {
-                JobTitleLineEdit.Text = state.TargetIdJobTitle ?? string.Empty;
-            }
+            JobTitleLabel.Modulate = Color.Gray;
+            JobTitleLineEdit.Editable = false;
+            JobTitleLineEdit.Text = "*Unassigned*";
+            if (state.Assignment != null) JobTitleLineEdit.Text = state.Assignment.Name;
 
-            JobTitleSaveButton.Disabled = !interfaceEnabled || !jobTitleDirty;
-
-            JobPresetOptionButton.Disabled = !interfaceEnabled;
-
-            _accessButtons.UpdateState(state.TargetIdAccessList?.ToList() ??
-                                       new List<ProtoId<AccessLevelPrototype>>(),
-                                       state.AllowedModifyAccessList?.ToList() ??
-                                       new List<ProtoId<AccessLevelPrototype>>());
-
-            var jobIndex = _jobPrototypeIds.IndexOf(state.TargetIdJobPrototype);
-            // If the job index is < 0 that means they don't have a job registered in the station records
-            // or the IdCardComponent's JobPrototype field.
-            // For example, a new ID from a box would have no job index.
-            if (jobIndex < 0)
-            {
-                jobIndex = _jobPrototypeIds.IndexOf(_defaultJob);
-            }
-
-            JobPresetOptionButton.SelectId(jobIndex);
 
             _lastFullName = state.TargetIdFullName;
-            _lastJobTitle = state.TargetIdJobTitle;
-            _lastJobProto = state.TargetIdJobPrototype;
+            AccessLevelControlContainer.RemoveAllChildren();
+            if (state.AllAssignments != null)
+            {
+                foreach (var item in state.AllAssignments)
+                {
+                    var id = item.Key;
+                    var assignment = item.Value;
+                    var button = new AssignmentButton(id, assignment.Name);
+                    button.OnPressed += (args) => { _owner.OnAssignmentPressed(args); };
+                    AccessLevelControlContainer.AddChild(button);
+                    if(state.TargetIdFullName == null || state.TargetIdFullName.Length == 0 || (!state.IsOwner && state.PrivAssignment == null))
+                    {
+                        button.Disabled = true;
+                    }
+                    else
+                    {
+
+                        if(state.Assignment != null && state.Assignment.ID == id)
+                        {
+                            button.Pressed = true;
+                        }
+                        else if (!state.IsOwner && ((state.PrivAssignment == null) || assignment.Clevel >= state.PrivAssignment.Clevel || (state.Assignment != null && state.Assignment.Clevel >= state.PrivAssignment.Clevel)))
+                        {
+                            button.Disabled = true;
+                        }
+                    }
+                }
+
+            }
         }
 
         private void SubmitData()
         {
-            // Don't send this if it isn't dirty.
-            var jobProtoDirty = _lastJobProto != null &&
-                                _jobPrototypeIds[JobPresetOptionButton.SelectedId] != _lastJobProto;
-
-            _owner.SubmitData(
-                FullNameLineEdit.Text,
-                JobTitleLineEdit.Text,
-                // Iterate over the buttons dictionary, filter by `Pressed`, only get key from the key/value pair
-                _accessButtons.ButtonsList.Where(x => x.Value.Pressed).Select(x => x.Key).ToList(),
-                jobProtoDirty ? _jobPrototypeIds[JobPresetOptionButton.SelectedId] : string.Empty);
+            _owner.SearchRecord(FullNameLineEdit.Text);
         }
     }
 }

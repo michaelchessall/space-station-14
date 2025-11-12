@@ -1,5 +1,6 @@
-﻿using Content.Server.Station.Components;
+using Content.Server.Station.Components;
 using Content.Shared.Station.Components;
+using System.Xml.Linq;
 
 namespace Content.Server.Station.Systems;
 
@@ -20,7 +21,9 @@ public sealed class StationNameSystem : EntitySystem
     {
         if (!HasComp<StationDataComponent>(uid))
             return;
-
+        var data = Comp<StationDataComponent>(uid);
+        if (data.StationName is not null)
+            return;
         _station.RenameStation(uid, GenerateStationName(component), false);
     }
 

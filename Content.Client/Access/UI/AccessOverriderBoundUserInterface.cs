@@ -2,9 +2,12 @@ using Content.Shared.Access;
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.Doors.Electronics;
 using Robust.Client.UserInterface;
+using Robust.Client.UserInterface.Controls;
 using Robust.Shared.Prototypes;
 using static Content.Shared.Access.Components.AccessOverriderComponent;
+using static Robust.Client.UserInterface.Controls.BaseButton;
 
 namespace Content.Client.Access.UI
 {
@@ -30,6 +33,10 @@ namespace Content.Client.Access.UI
             _window.OnSubmit += SubmitData;
 
             _window.PrivilegedIdButton.OnPressed += _ => SendMessage(new ItemSlotButtonPressedEvent(PrivilegedIdCardSlotId));
+            _window.OnAccessToggle += AccessToggle;
+            _window.OnPersonalAccessToggle += PersonalAccessToggle;
+            _window.PersonalSaveButton.OnPressed += PersonalAccessAdd;
+            _window.ChangeMode.OnPressed += ChangeMode;
         }
 
         public override void OnProtoReload(PrototypesReloadedEventArgs args)
@@ -72,6 +79,31 @@ namespace Content.Client.Access.UI
         public void SubmitData(List<ProtoId<AccessLevelPrototype>> newAccessList)
         {
             SendMessage(new WriteToTargetAccessReaderIdMessage(newAccessList));
+        }
+        public void AccessToggle(string access)
+        {
+            SendMessage(new AccessReaderAccessToggledMessage(access));
+        }
+        public void PersonalAccessToggle(string access)
+        {
+            SendMessage(new AccessReaderPersonalAccessToggledMessage(access));
+        }
+
+        public void PersonalAccessAdd(ButtonEventArgs args)
+        {
+            if (_window == null) return;
+            Button button = (Button)args.Button;
+            var name = _window.PersonalLineEdit.Text;
+            if (name != null && name != "")
+            {
+                SendMessage(new AccessReaderPersonalAddMessage(name));
+                _window.PersonalLineEdit.Text = "";
+            }
+
+        }
+        public void ChangeMode(ButtonEventArgs args)
+        {
+            SendMessage(new AccessReaderChangeModeMessage());
         }
     }
 }

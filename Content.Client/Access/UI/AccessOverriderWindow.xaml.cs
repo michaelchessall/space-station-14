@@ -13,9 +13,9 @@ namespace Content.Client.Access.UI
     [GenerateTypedNameReferences]
     public sealed partial class AccessOverriderWindow : DefaultWindow
     {
-        private readonly Dictionary<string, Button> _accessButtons = new();
-
         public event Action<List<ProtoId<AccessLevelPrototype>>>? OnSubmit;
+        public event Action<string>? OnAccessToggle;
+        public event Action<string>? OnPersonalAccessToggle;
 
         public AccessOverriderWindow()
         {
@@ -24,31 +24,8 @@ namespace Content.Client.Access.UI
 
         public void SetAccessLevels(IPrototypeManager protoManager, List<ProtoId<AccessLevelPrototype>> accessLevels)
         {
-            _accessButtons.Clear();
             AccessLevelGrid.RemoveAllChildren();
 
-            foreach (var access in accessLevels)
-            {
-                if (!protoManager.Resolve(access, out var accessLevel))
-                {
-                    continue;
-                }
-
-                var newButton = new Button
-                {
-                    Text = accessLevel.GetAccessLevelName(),
-                    ToggleMode = true,
-                };
-
-                AccessLevelGrid.AddChild(newButton);
-                _accessButtons.Add(accessLevel.ID, newButton);
-                newButton.OnPressed += _ =>
-                {
-                    OnSubmit?.Invoke(
-                        // Iterate over the buttons dictionary, filter by `Pressed`, only get key from the key/value pair
-                        _accessButtons.Where(x => x.Value.Pressed).Select(x => new ProtoId<AccessLevelPrototype>(x.Key)).ToList());
-                };
-            }
         }
 
         public void UpdateState(IPrototypeManager protoManager, AccessOverriderBoundUserInterfaceState state)
@@ -67,14 +44,13 @@ namespace Content.Client.Access.UI
             MissingPrivilegesText.Text = "";
             MissingPrivilegesText.FontColorOverride = Color.Yellow;
 
-            if (state.MissingPrivilegesList != null && state.MissingPrivilegesList.Any())
+            if (state.MissingAccessList != null && state.MissingAccessList.Any())
             {
                 var missingPrivileges = new List<string>();
 
-                foreach (string tag in state.MissingPrivilegesList)
+                foreach (string tag in state.MissingAccessList)
                 {
-                    var privilege = Loc.GetString(protoManager.Index<AccessLevelPrototype>(tag)?.Name ?? "generic-unknown");
-                    missingPrivileges.Add(privilege);
+                    missingPrivileges.Add(tag);
                 }
 
                 MissingPrivilegesLabel.Text = Loc.GetString("access-overrider-window-missing-privileges");
@@ -82,17 +58,66 @@ namespace Content.Client.Access.UI
             }
 
             var interfaceEnabled = state.IsPrivilegedIdPresent && state.IsPrivilegedIdAuthorized;
-
-            foreach (var (accessName, button) in _accessButtons)
+            StationNameLabel.Text = state.StationName;
+            AccessLevelGrid.RemoveAllChildren();
+            PersonalAccessContainer.RemoveAllChildren();
+            if(state.PersonalAccess)
             {
-                button.Disabled = !interfaceEnabled;
-                if (interfaceEnabled)
+                AccessLevelGrid.Visible = false;
+                ChangeMode.Text = "Station";
+                PersonalAccessAddContainer.Visible = true;
+                PersonalAccessContainer.Visible = true;
+                if(state.PersonalAccessList != null)
                 {
-                    // Explicit cast because Rider gives a false error otherwise.
-                    button.Pressed = state.TargetAccessReaderIdAccessList?.Contains((ProtoId<AccessLevelPrototype>) accessName) ?? false;
-                    button.Disabled = (!state.AllowedModifyAccessList?.Contains((ProtoId<AccessLevelPrototype>) accessName)) ?? true;
+                    foreach (var access in state.PersonalAccessList)
+                    {
+                        Button button = new();
+                        button.Text = access;
+                        PersonalAccessContainer.AddChild(button);
+                        if (interfaceEnabled)
+                            button.OnPressed += _ => { OnPersonalAccessToggle?.Invoke(access); };
+                        else
+                            button.Disabled = true;
+
+                    }
                 }
             }
+            else
+            {
+                AccessLevelGrid.Visible = true;
+                PersonalAccessAddContainer.Visible = false;
+                PersonalAccessContainer.Visible = false;
+                ChangeMode.Text = "Personal";
+                if (state.AllAccesses != null)
+                {
+                    foreach (var access in state.AllAccesses)
+                    {
+                        var newButton = new Button
+                        {
+                            Text = access,
+                            ToggleMode = true,
+                        };
+
+                        AccessLevelGrid.AddChild(newButton);
+                        if (!interfaceEnabled || (state.MissingAccessList != null && state.MissingAccessList.Contains(access)))
+                        {
+                            newButton.Disabled = true;
+                        }
+                        if (state.AccessList != null && state.AccessList.Contains(access))
+                        {
+                            newButton.Pressed = true;
+                        }
+
+                        newButton.OnPressed += _ =>
+                        {
+                            OnAccessToggle?.Invoke(access);
+                        };
+
+                    }
+                }
+            }
+            
+            
         }
     }
 }

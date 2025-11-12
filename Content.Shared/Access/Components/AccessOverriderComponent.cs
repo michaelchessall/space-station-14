@@ -22,6 +22,47 @@ public sealed partial class AccessOverriderComponent : Component
 
     public EntityUid TargetAccessReaderId = new();
 
+
+    [Serializable, NetSerializable]
+    public sealed class AccessReaderChangeModeMessage : BoundUserInterfaceMessage
+    {
+        public AccessReaderChangeModeMessage()
+        {
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AccessReaderPersonalAddMessage : BoundUserInterfaceMessage
+    {
+        public readonly string Access;
+
+        public AccessReaderPersonalAddMessage(string access)
+        {
+            Access = access;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AccessReaderPersonalAccessToggledMessage : BoundUserInterfaceMessage
+    {
+        public readonly string Access;
+
+        public AccessReaderPersonalAccessToggledMessage(string access)
+        {
+            Access = access;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class AccessReaderAccessToggledMessage : BoundUserInterfaceMessage
+    {
+        public readonly string Access;
+
+        public AccessReaderAccessToggledMessage(string access)
+        {
+            Access = access;
+        }
+    }
     [Serializable, NetSerializable]
     public sealed class WriteToTargetAccessReaderIdMessage : BoundUserInterfaceMessage
     {
@@ -48,27 +89,40 @@ public sealed partial class AccessOverriderComponent : Component
         public readonly string PrivilegedIdName;
         public readonly bool IsPrivilegedIdPresent;
         public readonly bool IsPrivilegedIdAuthorized;
-        public readonly ProtoId<AccessLevelPrototype>[]? TargetAccessReaderIdAccessList;
-        public readonly ProtoId<AccessLevelPrototype>[]? AllowedModifyAccessList;
-        public readonly ProtoId<AccessLevelPrototype>[]? MissingPrivilegesList;
+
+        public List<string>? AccessList;
+        public List<string>? PossibleAccess;
+        public string StationName;
+        public bool PersonalAccess;
+        public List<string>? PersonalAccessList;
+        public List<string>? MissingAccessList;
+        public List<string>? AllAccesses;
 
         public AccessOverriderBoundUserInterfaceState(bool isPrivilegedIdPresent,
             bool isPrivilegedIdAuthorized,
-            ProtoId<AccessLevelPrototype>[]? targetAccessReaderIdAccessList,
-            ProtoId<AccessLevelPrototype>[]? allowedModifyAccessList,
-            ProtoId<AccessLevelPrototype>[]? missingPrivilegesList,
             string privilegedIdName,
             string targetLabel,
-            Color targetLabelColor)
+            Color targetLabelColor,
+            List<string>? accessList,
+            List<string>? possibleAccess,
+            string stationName,
+            bool personalAccess,
+            List<string>? personalAccessList,
+            List<string>? missingAccessList,
+            List<string>? allAccesses)
         {
             IsPrivilegedIdPresent = isPrivilegedIdPresent;
             IsPrivilegedIdAuthorized = isPrivilegedIdAuthorized;
-            TargetAccessReaderIdAccessList = targetAccessReaderIdAccessList;
-            AllowedModifyAccessList = allowedModifyAccessList;
-            MissingPrivilegesList = missingPrivilegesList;
             PrivilegedIdName = privilegedIdName;
             TargetLabel = targetLabel;
             TargetLabelColor = targetLabelColor;
+            AccessList = accessList;
+            PossibleAccess = possibleAccess;
+            PersonalAccess = personalAccess;
+            PersonalAccessList = personalAccessList;
+            StationName = stationName;
+            MissingAccessList = missingAccessList;
+            AllAccesses = allAccesses;
         }
     }
 

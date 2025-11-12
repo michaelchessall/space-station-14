@@ -854,6 +854,60 @@
     energy: 1.6
     color: "#e6e227"
 
+  
+- type: entity
+  id: ComputerStationModification
+  parent: BaseComputerAiAccess
+  name: station modification computer
+  description: Used to structure assignments and access.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: request
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: StationModificationConsole
+    removeLimitAccess: [ "Quartermaster" ]
+  - type: ActiveRadio
+    channels:
+    - Supply
+  - type: ActivatableUI
+    key: enum.StationModUiKey.StationMod
+  - type: UserInterface
+    interfaces:
+      enum.StationModUiKey.StationMod:
+        type: StationModificationConsoleBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: Computer
+    board: CargoRequestComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#b89f25"
+  - type: AccessReader
+    access: [["Cargo"]]
+  - type: DeviceNetwork
+    deviceNetId: Wireless
+    receiveFrequencyId: BasicDevice
+  - type: WirelessNetworkConnection
+    range: 200
+  - type: DeviceLinkSource
+    range: 200
+    ports:
+      - OrderSender
+  - type: GuideHelp
+    guides:
+    - Cargo
+
+
 - type: entity
   id: ComputerCargoOrders
   parent: BaseComputerAiAccess

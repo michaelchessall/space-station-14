@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <!-- Work around https://github.com/dotnet/project-system/issues/4314 -->
     <TargetFramework>$(TargetFramework)</TargetFramework>
@@ -25,6 +25,9 @@
   </ItemGroup>
   <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />
   <Import Project="..\RobustToolbox\MSBuild\XamlIL.targets" />
+  <ItemGroup>
+    <EmbeddedResource Update="CrewAssignments\UI\StationModificationMenu.xaml" />
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Update="_NF\Bank\UI\BankATMMenu.xaml">
       <Generator>MSBuild:Compile</Generator>

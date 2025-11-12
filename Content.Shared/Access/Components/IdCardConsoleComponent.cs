@@ -1,5 +1,7 @@
 using Content.Shared.Access.Systems;
 using Content.Shared.Containers.ItemSlots;
+using Content.Shared.CrewAssignments.Components;
+using Content.Shared.CrewRecords.Components;
 using Content.Shared.Roles;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -12,7 +14,11 @@ namespace Content.Shared.Access.Components;
 public sealed partial class IdCardConsoleComponent : Component
 {
     public static string PrivilegedIdCardSlotId = "IdCardConsole-privilegedId";
+
     public static string TargetIdCardSlotId = "IdCardConsole-targetId";
+
+    public CrewRecord? SelectedRecord;
+    public CrewRecord? PrivRecord;
 
     [DataField]
     public ItemSlot PrivilegedIdSlot = new();
@@ -34,6 +40,27 @@ public sealed partial class IdCardConsoleComponent : Component
             JobTitle = jobTitle;
             AccessList = accessList;
             JobPrototype = jobPrototype;
+        }
+    }
+
+    [Serializable, NetSerializable]
+    public sealed class SearchRecord : BoundUserInterfaceMessage
+    {
+        public readonly string FullName;
+
+        public SearchRecord(string fullName)
+        {
+            FullName = fullName;
+        }
+    }
+    [Serializable, NetSerializable]
+    public sealed class ChangeAssignment : BoundUserInterfaceMessage
+    {
+        public readonly int ID;
+
+        public ChangeAssignment(int id)
+        {
+            ID = id;
         }
     }
 
@@ -77,38 +104,41 @@ public sealed partial class IdCardConsoleComponent : Component
     [Serializable, NetSerializable]
     public sealed class IdCardConsoleBoundUserInterfaceState : BoundUserInterfaceState
     {
-        public readonly string PrivilegedIdName;
         public readonly bool IsPrivilegedIdPresent;
         public readonly bool IsPrivilegedIdAuthorized;
+
         public readonly bool IsTargetIdPresent;
-        public readonly string TargetIdName;
         public readonly string? TargetIdFullName;
-        public readonly string? TargetIdJobTitle;
-        public readonly List<ProtoId<AccessLevelPrototype>>? TargetIdAccessList;
-        public readonly List<ProtoId<AccessLevelPrototype>>? AllowedModifyAccessList;
-        public readonly ProtoId<JobPrototype> TargetIdJobPrototype;
+        public readonly string? PrivilegedIdName;
+        public readonly string? PrivFullName;
+        public readonly string? TargetIdName;
+        public readonly CrewAssignment? Assignment;
+        public readonly CrewAssignment? PrivAssignment;
+        public readonly Dictionary<int, CrewAssignment>? AllAssignments;
+        public readonly bool IsOwner = false;
 
         public IdCardConsoleBoundUserInterfaceState(bool isPrivilegedIdPresent,
             bool isPrivilegedIdAuthorized,
             bool isTargetIdPresent,
             string? targetIdFullName,
-            string? targetIdJobTitle,
-            List<ProtoId<AccessLevelPrototype>>? targetIdAccessList,
-            List<ProtoId<AccessLevelPrototype>>? allowedModifyAccessList,
-            ProtoId<JobPrototype> targetIdJobPrototype,
-            string privilegedIdName,
-            string targetIdName)
+            string? targetIdName,
+            string? privilegedIdName,
+            string? privIdFullName,
+            CrewAssignment? crewAssignment,
+            CrewAssignment? privCrewAssignment,
+            Dictionary<int, CrewAssignment>? allAssignments,
+            bool isOwner)
         {
             IsPrivilegedIdPresent = isPrivilegedIdPresent;
             IsPrivilegedIdAuthorized = isPrivilegedIdAuthorized;
             IsTargetIdPresent = isTargetIdPresent;
             TargetIdFullName = targetIdFullName;
-            TargetIdJobTitle = targetIdJobTitle;
-            TargetIdAccessList = targetIdAccessList;
-            AllowedModifyAccessList = allowedModifyAccessList;
-            TargetIdJobPrototype = targetIdJobPrototype;
-            PrivilegedIdName = privilegedIdName;
             TargetIdName = targetIdName;
+            PrivilegedIdName = privilegedIdName;
+            PrivFullName = privIdFullName;
+            Assignment = crewAssignment;
+            AllAssignments = allAssignments;
+            this.IsOwner = isOwner;
         }
     }
 

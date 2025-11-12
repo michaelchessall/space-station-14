@@ -18,25 +18,58 @@ public sealed partial class DoorElectronicsConfigurationMenu : FancyWindow
     private readonly AccessLevelControl _buttonsList = new();
 
     public event Action<List<ProtoId<AccessLevelPrototype>>>? OnAccessChanged;
+    public event Action<string>? OnAccessToggle;
+    public event Action<string>? PersonalAccessToggle;
 
     public DoorElectronicsConfigurationMenu()
     {
         RobustXamlLoader.Load(this);
-        AccessLevelControlContainer.AddChild(_buttonsList);
     }
 
     public void Reset(IPrototypeManager protoManager, List<ProtoId<AccessLevelPrototype>> accessLevels)
     {
-        _buttonsList.Populate(accessLevels, protoManager);
-
-        foreach (var button in _buttonsList.ButtonsList.Values)
-        {
-            button.OnPressed += _ => OnAccessChanged?.Invoke(_buttonsList.ButtonsList.Where(x => x.Value.Pressed).Select(x => x.Key).ToList());
-        }
     }
 
     public void UpdateState(DoorElectronicsConfigurationState state)
     {
-        _buttonsList.UpdateState(state.AccessList);
+        AccessLevelControlContainer.RemoveAllChildren();
+        PersonalAccessContainer.RemoveAllChildren();
+        StationNameLabel.Text = state.StationName;
+        if(state.PersonalAccess && state.PersonalAccessList != null)
+        {
+            ChangeMode.Text = "Station";
+            PersonalAccessAddContainer.Visible = true;
+            PersonalAccessContainer.Visible = true;
+            AccessLevelControlContainer.Visible = false;
+            foreach(var access in state.PersonalAccessList)
+            {
+                Button button = new();
+                button.Text = access;
+                PersonalAccessContainer.AddChild(button);
+                button.OnPressed += _ => { PersonalAccessToggle?.Invoke(access); };
+            }
+            
+        }
+        else
+        {
+            ChangeMode.Text = "Personal";
+            PersonalAccessAddContainer.Visible = false;
+            PersonalAccessContainer.Visible = false;
+            AccessLevelControlContainer.Visible = true;
+            if (state.PossibleAccess != null)
+            {
+                foreach (var access in state.PossibleAccess)
+                {
+                    Button button = new();
+                    button.Text = access;
+                    AccessLevelControlContainer.AddChild(button);
+                    button.OnPressed += _ => { OnAccessToggle?.Invoke(access); };
+                    if (state.AccessList.Contains(access))
+                    {
+                        button.Pressed = true;
+                    }
+                }
+            }
+        }
     }
 }
