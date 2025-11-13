@@ -137,6 +137,7 @@ public sealed partial class IdCardConsoleComponent : Component
             PrivilegedIdName = privilegedIdName;
             PrivFullName = privIdFullName;
             Assignment = crewAssignment;
+            PrivAssignment = privCrewAssignment;
             AllAssignments = allAssignments;
             this.IsOwner = isOwner;
         }

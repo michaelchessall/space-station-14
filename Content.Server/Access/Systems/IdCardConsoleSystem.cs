@@ -204,10 +204,11 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
                 {
                     component.PrivRecord = TryEnsureRecord(uid, privIdComponent.FullName);
                 }
-                if (component.PrivRecord != null)
-                {
-                    possibleAssignments.TryGetValue(component.PrivRecord.AssignmentID, out privassignment);
-                }
+                
+            }
+            if (component.PrivRecord != null)
+            {
+                possibleAssignments.TryGetValue(component.PrivRecord.AssignmentID, out privassignment);
             }
             if (TryComp(station, out StationDataComponent? sD))
             {
