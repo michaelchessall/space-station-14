@@ -340,7 +340,7 @@ public sealed class AccessReaderSystem : EntitySystem
                         }
                     }
                 }
-                return true;
+                return false;
 
             }
         }
