@@ -27,8 +27,8 @@ public sealed class MobStateActionsSystem : EntitySystem
     {
         if (!TryComp<MobStateActionsComponent>(uid, out var mobStateActionsComp))
             return;
-
-        ComposeActions(uid, mobStateActionsComp, component.CurrentState);
+        if (mobStateActionsComp.GrantedActions.Count > 0) return;
+         ComposeActions(uid, mobStateActionsComp, component.CurrentState);
     }
 
     /// <summary>
