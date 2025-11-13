@@ -334,9 +334,9 @@ public sealed class AccessReaderSystem : EntitySystem
                     }
                     foreach (var access1 in reader.AccessNames)
                     {
-                        if (crewAccesses.CrewAccesses.ContainsKey(access1) && !assignment.AccessIDs.Contains(access1))
+                        if (crewAccesses.CrewAccesses.ContainsKey(access1) && assignment.AccessIDs.Contains(access1))
                         {
-                            return false;
+                            return true;
                         }
                     }
                 }
