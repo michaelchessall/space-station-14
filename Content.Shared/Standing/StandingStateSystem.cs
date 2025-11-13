@@ -28,6 +28,16 @@ public sealed class StandingStateSystem : EntitySystem
         SubscribeLocalEvent<StandingStateComponent, RefreshFrictionModifiersEvent>(OnRefreshFrictionModifiers);
         SubscribeLocalEvent<StandingStateComponent, TileFrictionEvent>(OnTileFriction);
         SubscribeLocalEvent<StandingStateComponent, EndClimbEvent>(OnEndClimb);
+        SubscribeLocalEvent<StandingStateComponent, ComponentStartup>(OnCompStart);
+    }
+
+
+    private void OnCompStart(Entity<StandingStateComponent> ent, ref ComponentStartup args)
+    {
+        if (!ent.Comp.Standing)
+        {
+            Down(ent, false, false, true);
+        }
     }
 
     private void OnMobTargetCollide(Entity<StandingStateComponent> ent, ref AttemptMobTargetCollideEvent args)
