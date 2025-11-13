@@ -28,6 +28,7 @@ namespace Content.Server.GameTicking.Commands
         }
         public void Execute(IConsoleShell shell, string argStr, string[] args)
         {
+            return;
             if (args.Length != 2)
             {
                 shell.WriteError(Loc.GetString("shell-wrong-arguments-number"));
