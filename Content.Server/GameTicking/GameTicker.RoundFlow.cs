@@ -713,7 +713,7 @@ namespace Content.Server.GameTicking
             IncrementRoundNumber();
             SendRoundStartingDiscordMessage();
 
-            if (!LobbyEnabled)
+            if (true)//!LobbyEnabled)
             {
                 StartRound();
             }

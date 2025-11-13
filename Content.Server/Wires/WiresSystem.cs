@@ -487,11 +487,12 @@ public sealed class WiresSystem : SharedWiresSystem
 
     private void OnMapInit(EntityUid uid, WiresComponent component, MapInitEvent args)
     {
-        if (!string.IsNullOrEmpty(component.LayoutId))
-            SetOrCreateWireLayout(uid, component);
-
         if (component.SerialNumber == null)
             GenerateSerialNumber(uid, component);
+        else
+            return;
+        if (!string.IsNullOrEmpty(component.LayoutId))
+            SetOrCreateWireLayout(uid, component);
 
         if (component.WireSeed == 0)
             component.WireSeed = _random.Next(1, int.MaxValue);
