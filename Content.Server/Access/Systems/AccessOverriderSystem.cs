@@ -162,15 +162,15 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         var station = _station.GetOwningStation(uid);
 
         string stationName = "*None*";
-        
 
+        Entity<AccessReaderComponent>? accessReaderEnt = null;
         if (component.TargetAccessReaderId is { Valid: true } accessReader)
         {
 
             targetLabel = Loc.GetString("access-overrider-window-target-label") + " " + Comp<MetaDataComponent>(component.TargetAccessReaderId).EntityName;
             targetLabelColor = Color.White;
 
-            if (!_accessReader.GetMainAccessReader(accessReader, out var accessReaderEnt))
+            if (!_accessReader.GetMainAccessReader(accessReader, out accessReaderEnt))
                 return;
             currentAccesses = accessReaderEnt.Value.Comp.AccessNames;
             personalAccesses = accessReaderEnt.Value.Comp.PersonalAccessNames;
@@ -237,10 +237,14 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
 
         
         AccessOverriderBoundUserInterfaceState newState;
-
+        bool allowed = true;
+        if (accessReaderEnt != null)
+        {
+            allowed = PrivilegedIdIsAuthorized(uid, accessReaderEnt, component);
+        }
         newState = new AccessOverriderBoundUserInterfaceState(
             component.PrivilegedIdSlot.HasItem,
-            PrivilegedIdIsAuthorized(uid, component),
+            allowed,
             privilegedIdName,
             targetLabel,
             targetLabelColor,
@@ -281,8 +285,8 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         if (!Resolve(uid, ref component) || component.TargetAccessReaderId is not { Valid: true })
             return;
 
-        if (!PrivilegedIdIsAuthorized(uid, component))
-            return;
+//        if (!PrivilegedIdIsAuthorized(uid, component))
+//            return;
 
         if (!_interactionSystem.InRangeUnobstructed(player, component.TargetAccessReaderId))
         {
@@ -345,8 +349,7 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         if (!Resolve(uid, ref component) || component.TargetAccessReaderId is not { Valid: true })
             return;
 
-        if (!PrivilegedIdIsAuthorized(uid, component))
-            return;
+        
 
         if (!_interactionSystem.InRangeUnobstructed(player, component.TargetAccessReaderId))
         {
@@ -359,7 +362,8 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
             return;
 
 
-
+        if (!PrivilegedIdIsAuthorized(uid, accessReaderEnt.Value, component))
+            return;
 
         _adminLogger.Add(LogType.Action, LogImpact.High,
             $"{ToPrettyString(player):player} has modified {ToPrettyString(accessReaderEnt.Value):entity} with the following allowed access level holders: {newAccess}");
@@ -378,8 +382,7 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         if (!Resolve(uid, ref component) || component.TargetAccessReaderId is not { Valid: true })
             return;
 
-        if (!PrivilegedIdIsAuthorized(uid, component))
-            return;
+        
 
         if (!_interactionSystem.InRangeUnobstructed(player, component.TargetAccessReaderId))
         {
@@ -391,7 +394,8 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         if (!_accessReader.GetMainAccessReader(component.TargetAccessReaderId, out var accessReaderEnt))
             return;
 
-
+        if (!PrivilegedIdIsAuthorized(uid, accessReaderEnt.Value, component))
+            return;
 
 
         _adminLogger.Add(LogType.Action, LogImpact.High,
@@ -410,8 +414,7 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         if (!Resolve(uid, ref component) || component.TargetAccessReaderId is not { Valid: true })
             return;
 
-        if (!PrivilegedIdIsAuthorized(uid, component))
-            return;
+
 
         if (!_interactionSystem.InRangeUnobstructed(player, component.TargetAccessReaderId))
         {
@@ -421,6 +424,9 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         }
 
         if (!_accessReader.GetMainAccessReader(component.TargetAccessReaderId, out var accessReaderEnt))
+            return;
+
+        if (!PrivilegedIdIsAuthorized(uid, accessReaderEnt.Value, component))
             return;
 
         _accessReader.TryChangeMode(accessReaderEnt.Value);
@@ -437,8 +443,6 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         if (!Resolve(uid, ref component) || component.TargetAccessReaderId is not { Valid: true })
             return;
 
-        if (!PrivilegedIdIsAuthorized(uid, component))
-            return;
 
         if (!_interactionSystem.InRangeUnobstructed(player, component.TargetAccessReaderId))
         {
@@ -448,6 +452,9 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
         }
 
         if (!_accessReader.GetMainAccessReader(component.TargetAccessReaderId, out var accessReaderEnt))
+            return;
+
+        if (!PrivilegedIdIsAuthorized(uid, accessReaderEnt.Value, component))
             return;
 
         _adminLogger.Add(LogType.Action, LogImpact.High,
@@ -466,15 +473,12 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
     /// <remarks>
     /// Other code relies on the fact this returns false if privileged Id is null. Don't break that invariant.
     /// </remarks>
-    private bool PrivilegedIdIsAuthorized(EntityUid uid, AccessOverriderComponent? component = null)
+    private bool PrivilegedIdIsAuthorized(EntityUid uid, EntityUid? readerComponent, AccessOverriderComponent? component = null)
     {
-        if (!Resolve(uid, ref component))
+        if (!Resolve(uid, ref component) || readerComponent == null)
             return true;
-
-        if (_accessReader.GetMainAccessReader(uid, out var accessReader))
-            return true;
-
+        
         var privilegedId = component.PrivilegedIdSlot.Item;
-        return privilegedId != null && _accessReader.IsAllowed(privilegedId.Value, uid, accessReader);
+        return privilegedId != null && _accessReader.IsAllowed(privilegedId.Value, readerComponent.Value);
     }
 }

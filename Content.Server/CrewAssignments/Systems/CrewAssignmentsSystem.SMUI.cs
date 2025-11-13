@@ -218,7 +218,7 @@ public sealed partial class CrewAssignmentSystem
         }
         foreach (var accessLevel in _protoMan.EnumeratePrototypes<AccessLevelPrototype>())
         {
-            if(crewAccesses.CrewAccesses.ContainsKey(accessLevel.ID))
+            if(!accessLevel.CanAddToIdCard || crewAccesses.CrewAccesses.ContainsKey(accessLevel.ID))
             {
                 continue;
             }
