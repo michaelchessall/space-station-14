@@ -24,6 +24,7 @@ public sealed class VocalSystem : EntitySystem
         base.Initialize();
 
         SubscribeLocalEvent<VocalComponent, MapInitEvent>(OnMapInit);
+        SubscribeLocalEvent<VocalComponent, ComponentInit>(OnCompInit);
         SubscribeLocalEvent<VocalComponent, ComponentShutdown>(OnShutdown);
         SubscribeLocalEvent<VocalComponent, SexChangedEvent>(OnSexChanged);
         SubscribeLocalEvent<VocalComponent, EmoteEvent>(OnEmote);
@@ -49,6 +50,10 @@ public sealed class VocalSystem : EntitySystem
         Dirty(target, targetComp);
     }
 
+    private void OnCompInit(EntityUid uid, VocalComponent component, ComponentInit args)
+    {
+        LoadSounds(uid, component);
+    }
     private void OnMapInit(EntityUid uid, VocalComponent component, MapInitEvent args)
     {
         // try to add scream action when vocal comp added
