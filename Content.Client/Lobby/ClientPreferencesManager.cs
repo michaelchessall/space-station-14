@@ -130,12 +130,20 @@ namespace Content.Client.Lobby
 
             OnServerDataLoaded?.Invoke();
         }
-        public void FinalizeCharacter(HumanoidCharacterProfile profile, int slot, NetUserId userId, ICommonSession session)
+        public void FinalizeCharacter(HumanoidCharacterProfile profile, int slot)
         {
             var msg = new MsgFinalizeCharacter
             {
                 Slot = slot,
                 Profile = profile
+            };
+            _netManager.ClientSendMessage(msg);
+        }
+        public void JoinAsCharacter(int slot)
+        {
+            var msg = new MsgJoinAsCharacter
+            {
+                Slot = slot,
             };
             _netManager.ClientSendMessage(msg);
         }

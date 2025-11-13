@@ -23,6 +23,7 @@ namespace Content.Client.Lobby
         void DeleteCharacter(int slot);
         void DeleteCharacter(string name);
         void UpdateConstructionFavorites(List<ProtoId<ConstructionPrototype>> favorites);
-        void FinalizeCharacter(HumanoidCharacterProfile profile, int slot, NetUserId userId, ICommonSession session);
+        void FinalizeCharacter(HumanoidCharacterProfile profile, int slot);
+        void JoinAsCharacter(int slot);
     }
 }

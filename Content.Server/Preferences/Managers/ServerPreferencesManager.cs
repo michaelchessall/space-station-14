@@ -1,6 +1,7 @@
 using Content.Server.CrewRecords.Systems;
 using Content.Server.Database;
 using Content.Server.GameTicking;
+using Content.Server.GameTicking.Commands;
 using Content.Shared.CCVar;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.CrewMetaRecords;
@@ -49,6 +50,7 @@ namespace Content.Server.Preferences.Managers
             _netManager.RegisterNetMessage<MsgSelectCharacter>(HandleSelectCharacterMessage);
             _netManager.RegisterNetMessage<MsgUpdateCharacter>(HandleUpdateCharacterMessage);
             _netManager.RegisterNetMessage<MsgFinalizeCharacter>(HandleFinalizeCharacterMessage);
+            _netManager.RegisterNetMessage<MsgJoinAsCharacter>(HandleJoinAsCharacterMessage);
             _netManager.RegisterNetMessage<MsgDeleteCharacter>(HandleDeleteCharacterMessage);
             _netManager.RegisterNetMessage<MsgUpdateConstructionFavorites>(HandleUpdateConstructionFavoritesMessage);
             _sawmill = _log.GetSawmill("prefs");
@@ -97,6 +99,18 @@ namespace Content.Server.Preferences.Managers
                 await SetProfile(userId, message.Slot, message.Profile);
         }
 
+        private async void HandleJoinAsCharacterMessage(MsgJoinAsCharacter message)
+        {
+            var userId = message.MsgChannel.UserId;
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            
+            var session = _playerManager.GetSessionById(userId);
+            await JoinAsCharacter(message.Slot, userId, session);
+            
+
+
+        }
         private async void HandleFinalizeCharacterMessage(MsgFinalizeCharacter message)
         {
             var userId = message.MsgChannel.UserId;
@@ -154,6 +168,26 @@ namespace Content.Server.Preferences.Managers
             var session = _playerManager.GetSessionById(userId);
             if (ShouldStorePrefs(session.Channel.AuthType))
                 await _db.SaveConstructionFavoritesAsync(userId, favorites);
+        }
+
+        public async Task JoinAsCharacter(int slot, NetUserId userId, ICommonSession session)
+        {
+
+            GameTicker? gameTicker = _entityManager.System<GameTicker>();
+            if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) || !prefsData.PrefsLoaded)
+            {
+                _sawmill.Warning($"User {userId} tried to modify preferences before they loaded.");
+                return;
+            }
+
+            if (slot < 0 || slot >= MaxCharacterSlots)
+            {
+                return;
+            }
+
+            var curPrefs = prefsData.Prefs!;
+            if (curPrefs.SelectedCharacter == null) return;
+            gameTicker.MakeJoinGamePersistentLoad(session);
         }
 
         public async Task FinalizeCharacter(ICharacterProfile profile, int slot, NetUserId userId, ICommonSession session)

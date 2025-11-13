@@ -251,12 +251,6 @@ namespace Content.Server.GameTicking
             }
         }
 
-
-
-
-
-
-
         private void SpawnPlayerPersistentLoad(ICommonSession player)
         {
             // Can't spawn players with a dummy ticker!
@@ -265,6 +259,7 @@ namespace Content.Server.GameTicking
             var silent = false;
             var lateJoin = true;
             HumanoidCharacterProfile? character = GetPlayerProfile(player);
+            if (character == null) return;
             EntityUid station;
             var stations = GetSpawnableStations();
             _robustRandom.Shuffle(stations);
