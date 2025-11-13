@@ -36,6 +36,7 @@ public sealed class StandingStateSystem : EntitySystem
     {
         if (!ent.Comp.Standing)
         {
+            ent.Comp.Standing = true;
             Down(ent, false, false, true);
         }
     }
