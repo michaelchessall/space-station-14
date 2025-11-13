@@ -1,17 +1,21 @@
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
+using Content.Server.CrewRecords.Systems;
 using Content.Server.Database;
+using Content.Server.GameTicking;
 using Content.Shared.CCVar;
 using Content.Shared.Construction.Prototypes;
+using Content.Shared.CrewMetaRecords;
 using Content.Shared.Preferences;
 using Robust.Server.Player;
 using Robust.Shared.Configuration;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Network;
 using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using System.Diagnostics.CodeAnalysis;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Content.Server.Preferences.Managers
 {
@@ -29,10 +33,10 @@ namespace Content.Server.Preferences.Managers
         [Dependency] private readonly ILogManager _log = default!;
         [Dependency] private readonly UserDbDataManager _userDb = default!;
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly IEntityManager _entityManager = default!;
 
         // Cache player prefs on the server so we don't need as much async hell related to them.
-        private readonly Dictionary<NetUserId, PlayerPrefData> _cachedPlayerPrefs =
-            new();
+        private readonly Dictionary<NetUserId, PlayerPrefData> _cachedPlayerPrefs = new();
 
         private ISawmill _sawmill = default!;
 
@@ -40,9 +44,11 @@ namespace Content.Server.Preferences.Managers
 
         public void Init()
         {
+            
             _netManager.RegisterNetMessage<MsgPreferencesAndSettings>();
             _netManager.RegisterNetMessage<MsgSelectCharacter>(HandleSelectCharacterMessage);
             _netManager.RegisterNetMessage<MsgUpdateCharacter>(HandleUpdateCharacterMessage);
+            _netManager.RegisterNetMessage<MsgFinalizeCharacter>(HandleFinalizeCharacterMessage);
             _netManager.RegisterNetMessage<MsgDeleteCharacter>(HandleDeleteCharacterMessage);
             _netManager.RegisterNetMessage<MsgUpdateConstructionFavorites>(HandleUpdateConstructionFavoritesMessage);
             _sawmill = _log.GetSawmill("prefs");
@@ -91,6 +97,22 @@ namespace Content.Server.Preferences.Managers
                 await SetProfile(userId, message.Slot, message.Profile);
         }
 
+        private async void HandleFinalizeCharacterMessage(MsgFinalizeCharacter message)
+        {
+            var userId = message.MsgChannel.UserId;
+
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalseAccordingToNullableAPIContract
+            if (message.Profile == null)
+                _sawmill.Error($"User {userId} sent a {nameof(MsgUpdateCharacter)} with a null profile in slot {message.Slot}.");
+            else
+            {
+                var session = _playerManager.GetSessionById(userId);
+                await FinalizeCharacter(message.Profile, message.Slot, userId, session);
+            }
+
+                
+        }
+
         public async Task SetProfile(NetUserId userId, int slot, ICharacterProfile profile)
         {
             if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) || !prefsData.PrefsLoaded)
@@ -132,6 +154,39 @@ namespace Content.Server.Preferences.Managers
             var session = _playerManager.GetSessionById(userId);
             if (ShouldStorePrefs(session.Channel.AuthType))
                 await _db.SaveConstructionFavoritesAsync(userId, favorites);
+        }
+
+        public async Task FinalizeCharacter(ICharacterProfile profile, int slot, NetUserId userId, ICommonSession session)
+        {
+
+            CrewMetaRecordsSystem? metaRecords = _entityManager.System<CrewMetaRecordsSystem>();
+            if (metaRecords == null)
+            {
+                return;
+            }
+            if (!_cachedPlayerPrefs.TryGetValue(userId, out var prefsData) || !prefsData.PrefsLoaded)
+            {
+                _sawmill.Warning($"User {userId} tried to modify preferences before they loaded.");
+                return;
+            }
+
+            if (slot < 0 || slot >= MaxCharacterSlots)
+            {
+                return;
+            }
+
+            if(metaRecords.CharacterNameExists(profile.Name))
+            {
+                return;
+            }
+            var curPrefs = prefsData.Prefs!;
+            var arr = new Dictionary<int, ICharacterProfile>(curPrefs.Characters);
+            arr.Remove(slot);
+            arr.Add(slot, profile);
+            prefsData.Prefs = new PlayerPreferences(arr, slot, curPrefs.AdminOOCColor, curPrefs.ConstructionFavorites);
+            FinishLoad(session);
+            metaRecords.JoinFirstTime(session);
+            await _db.SaveCharacterSlotAsync(userId, profile, slot);
         }
 
         public async void DeleteCharacter(int slot, NetUserId userId, ICommonSession session)

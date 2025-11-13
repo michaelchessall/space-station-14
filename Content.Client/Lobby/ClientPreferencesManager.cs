@@ -1,11 +1,12 @@
-using System.Linq;
 using Content.Shared.Construction.Prototypes;
 using Content.Shared.Preferences;
 using Robust.Client;
 using Robust.Client.Player;
 using Robust.Shared.Network;
+using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using System.Linq;
 
 namespace Content.Client.Lobby
 {
@@ -31,7 +32,7 @@ namespace Content.Client.Lobby
             _netManager.RegisterNetMessage<MsgUpdateCharacter>();
             _netManager.RegisterNetMessage<MsgSelectCharacter>();
             _netManager.RegisterNetMessage<MsgDeleteCharacter>();
-
+            _netManager.RegisterNetMessage<MsgFinalizeCharacter>();
             _baseClient.RunLevelChanged += BaseClientOnRunLevelChanged;
         }
 
@@ -128,6 +129,15 @@ namespace Content.Client.Lobby
             Settings = message.Settings;
 
             OnServerDataLoaded?.Invoke();
+        }
+        public void FinalizeCharacter(HumanoidCharacterProfile profile, int slot, NetUserId userId, ICommonSession session)
+        {
+            var msg = new MsgFinalizeCharacter
+            {
+                Slot = slot,
+                Profile = profile
+            };
+            _netManager.ClientSendMessage(msg);
         }
     }
 }
