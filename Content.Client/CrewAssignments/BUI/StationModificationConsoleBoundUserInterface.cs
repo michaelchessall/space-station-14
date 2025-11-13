@@ -68,6 +68,7 @@ public sealed class StationModificationConsoleBoundUserInterface : BoundUserInte
         _menu.AssignmentWageConfirm.OnPressed += ChangeWage;
         _menu.AssignmentNameConfirm.OnPressed += ChangeAssignmentName;
         _menu.DeleteAssignment.OnPressed += DeleteAssignment;
+        _menu.DefaultAccessCreate.OnPressed += DefaultAccessCreate;
         _menu.OpenCentered();
     }
 
@@ -188,5 +189,10 @@ public sealed class StationModificationConsoleBoundUserInterface : BoundUserInte
         if (_menu == null || Accesses == null) return;
         var i = _menu.PossibleAssignments.SelectedId;
         SendMessage(new StationModificationDeleteAssignment(i));
+    }
+
+    private void DefaultAccessCreate(ButtonEventArgs args)
+    {
+        SendMessage(new StationModificationDefaultAccess());
     }
 }

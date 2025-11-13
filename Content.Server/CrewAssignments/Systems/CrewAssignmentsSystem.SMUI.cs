@@ -23,6 +23,7 @@ using Content.Server.Popups;
 using Content.Shared.CrewAssignments.Components;
 using Content.Shared.CrewAssignments.Systems;
 using Content.Shared.CrewAccesses.Components;
+using Content.Shared.Access;
 
 namespace Content.Server.CrewAssignments.Systems;
 
@@ -42,6 +43,7 @@ public sealed partial class CrewAssignmentSystem
         SubscribeLocalEvent<StationModificationConsoleComponent, StationModificationChangeAssignmentWage>(OnChangeWage);
         SubscribeLocalEvent<StationModificationConsoleComponent, StationModificationChangeAssignmentName>(OnChangeAName);
         SubscribeLocalEvent<StationModificationConsoleComponent, StationModificationDeleteAssignment>(OnDeleteAssignment);
+        SubscribeLocalEvent<StationModificationConsoleComponent, StationModificationDefaultAccess>(OnDefaultAccess);
         SubscribeLocalEvent<StationModificationConsoleComponent, BoundUIOpenedEvent>(OnOrderUIOpened);
         SubscribeLocalEvent<StationModificationConsoleComponent, ComponentInit>(OnInit);
     }
@@ -197,6 +199,33 @@ public sealed partial class CrewAssignmentSystem
         Dirty((EntityUid)station, crewAssignments);
         UpdateOrders(station.Value);
 
+    }
+
+    private void OnDefaultAccess(EntityUid uid, StationModificationConsoleComponent component, StationModificationDefaultAccess args)
+    {
+        if (args.Actor is not { Valid: true } player)
+            return;
+
+        var station = _station.GetOwningStation(uid);
+        if (station == null) return;
+
+        if (!Validate(uid, component, player, out var stationData)) return;
+        if (!TryComp(station, out CrewAccessesComponent? crewAccesses))
+        {
+            ConsolePopup(player, "No CrewAccesses Component!");
+            stationData = null;
+            return;
+        }
+        foreach (var accessLevel in _protoMan.EnumeratePrototypes<AccessLevelPrototype>())
+        {
+            if(crewAccesses.CrewAccesses.ContainsKey(accessLevel.ID))
+            {
+                continue;
+            }
+            crewAccesses.CreateAccess(accessLevel.ID);
+        }
+        Dirty((EntityUid)station, crewAccesses);
+        UpdateOrders(station.Value);
     }
 
     private void OnDeleteAssignment(EntityUid uid, StationModificationConsoleComponent component, StationModificationDeleteAssignment args)

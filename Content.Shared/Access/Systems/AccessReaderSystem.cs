@@ -60,6 +60,7 @@ public sealed class AccessReaderSystem : EntitySystem
 
     private void OnExamined(Entity<AccessReaderComponent> ent, ref ExaminedEvent args)
     {
+        return;
         if (!GetMainAccessReader(ent, out var mainAccessReader))
             return;
 
@@ -119,7 +120,6 @@ public sealed class AccessReaderSystem : EntitySystem
                 foreach (var access in thing)
                 {
                     accesses.Add(access.Id);
-                    
                 }
             }
             if (accesses.Count > 0)

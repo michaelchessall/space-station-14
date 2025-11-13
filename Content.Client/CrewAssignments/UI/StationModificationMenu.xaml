@@ -72,6 +72,12 @@
                         Access="Public"
                         Text="Create"/>
                 </BoxContainer>
+                <BoxContainer Orientation="Horizontal">
+                    <Control HorizontalExpand="True"/>
+                    <Button Name="DefaultAccessCreate"
+                        Access="Public"
+                        Text="Create Default Accesses"/>
+                </BoxContainer>
                 <Control MinHeight="15"/>
                 <BoxContainer Orientation="Horizontal">
                     <Label Text="Delete Access:" Margin="0 0 10 0"
