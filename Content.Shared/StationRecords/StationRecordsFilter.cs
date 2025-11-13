@@ -2,8 +2,9 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.StationRecords;
 
+[DataDefinition]
 [Serializable, NetSerializable]
-public sealed class StationRecordsFilter
+public sealed partial class StationRecordsFilter
 {
     public StationRecordFilterType Type = StationRecordFilterType.Name;
     public string Value  = "";
