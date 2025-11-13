@@ -1,6 +1,7 @@
 using Content.Server._NF.Bank;
 using Content.Server.Administration.Managers;
 using Content.Server.Administration.Systems;
+using Content.Server.CrewRecords.Systems;
 using Content.Server.GameTicking.Events;
 using Content.Server.Ghost;
 using Content.Server.Spawners.Components;
@@ -8,6 +9,7 @@ using Content.Server.Spawners.EntitySystems;
 using Content.Server.Speech.Components;
 using Content.Server.Station.Components;
 using Content.Shared.CCVar;
+using Content.Shared.CrewMetaRecords;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
 using Content.Shared.Humanoid;
@@ -45,6 +47,8 @@ namespace Content.Server.GameTicking
         [Dependency] private readonly AdminSystem _admin = default!;
         [Dependency] private readonly IEntityManager _ent = default!;
         [Dependency] private readonly BankSystem _bankSystem = default!;
+        [Dependency] private readonly CrewMetaRecordsSystem _crewMetaRecords = default!;
+
         public static readonly EntProtoId ObserverPrototypeName = "MobObserver";
         public static readonly EntProtoId AdminObserverPrototypeName = "AdminObserver";
 
@@ -197,6 +201,8 @@ namespace Content.Server.GameTicking
             _playTimeTrackings.PlayerRolesChanged(player);
 
             _bankSystem.EnsureAccount(character.Name, 50);
+            if (_crewMetaRecords.MetaRecords != null)
+                _crewMetaRecords.MetaRecords.CreateRecord(character!.Name, out _);
             var mobMaybe = _stationSpawning.SpawnPlayerCharacterOnStation(station, jobId, character);
             DebugTools.AssertNotNull(mobMaybe);
             var mob = mobMaybe!.Value;
@@ -280,6 +286,8 @@ namespace Content.Server.GameTicking
 
             _playTimeTrackings.PlayerRolesChanged(player);
             _bankSystem.EnsureAccount(character!.Name, 50);
+            if (_crewMetaRecords.MetaRecords != null)
+                _crewMetaRecords.MetaRecords.CreateRecord(character!.Name, out _);
 
             var saveFilePath = new ResPath($"{data!.UserId}]{character!.Name}");
             _loader.TryLoadEntity(saveFilePath, out var mobMaybe);
@@ -299,6 +307,7 @@ namespace Content.Server.GameTicking
             _mind.SetUserId(newMind, data.UserId);
             _mind.TransferTo(newMind, mob);
             _playerManager.SetAttachedEntity(player, mob, true);
+            
             _adminLogger.Add(LogType.LateJoin,
                 LogImpact.Medium,
                 $"Player {player.Name} late joined as {character.Name:characterName}. Loaded char");

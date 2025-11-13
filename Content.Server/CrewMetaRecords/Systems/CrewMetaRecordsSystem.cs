@@ -24,7 +24,7 @@ public sealed partial class CrewMetaRecordsSystem : SharedCrewMetaRecordsSystem
 
     public bool CharacterNameExists(string name)
     {
-        if (_gameTicker.RunLevel != GameRunLevel.InRound) return false;
+        if (_gameTicker.RunLevel != GameRunLevel.InRound) return true;
         return MetaRecords != null && MetaRecords.CrewMetaRecords.ContainsKey(name);
     }
 
