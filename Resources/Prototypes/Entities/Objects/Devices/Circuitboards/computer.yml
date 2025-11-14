@@ -1,4 +1,4 @@
-﻿- type: entity
+- type: entity
   parent: BaseItem
   id: BaseComputerCircuitboard
   name: computer board
@@ -95,6 +95,32 @@
       state: cpu_supply
     - type: ComputerBoard
       prototype: ComputerCargoOrders
+    - type: StaticPrice
+      price: 750
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: StationModComputerCircuitboard
+  name: station modification computer board
+  description: A computer printed circuit board for a station modification computer.
+  components:
+    - type: Sprite
+      state: cpu_supply
+    - type: ComputerBoard
+      prototype: ComputerStationModification
+    - type: StaticPrice
+      price: 750
+
+- type: entity
+  parent: BaseComputerCircuitboard
+  id: IdPrinterCircuitboard
+  name: ID printer console board
+  description: A computer printed circuit board for an ID printer console.
+  components:
+    - type: Sprite
+      state: cpu_supply
+    - type: ComputerBoard
+      prototype: ComputerStationModification
     - type: StaticPrice
       price: 750
 

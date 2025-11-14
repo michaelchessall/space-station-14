@@ -131,6 +131,18 @@ public abstract partial class SharedStationSystem : EntitySystem
         return stations;
     }
 
+    public EntityUid? GetStationByID(int uid)
+    {
+        var stations = GetStations();
+        foreach (var station in stations)
+        {
+            if(TryComp<StationDataComponent>(station, out var stationData))
+            {
+                if (stationData.UID == uid) return station;
+            }
+        }
+        return null;
+    }
     public HashSet<EntityUid> GetStationsSet()
     {
         var stations = new HashSet<EntityUid>();

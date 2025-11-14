@@ -55,6 +55,7 @@ public abstract class SharedIdCardSystem : EntitySystem
             TryChangeFullName(idCard, ev.NewName, idCard);
     }
 
+
     private void OnMapInit(EntityUid uid, IdCardComponent id, MapInitEvent args)
     {
         UpdateEntityName(uid, id);
@@ -264,7 +265,7 @@ public abstract class SharedIdCardSystem : EntitySystem
     /// If either <see cref="FullName"/> or <see cref="JobTitle"/> is empty, it's replaced by placeholders.
     /// If both are empty, the original entity's name is restored.
     /// </remarks>
-    private void UpdateEntityName(EntityUid uid, IdCardComponent? id = null)
+    public void UpdateEntityName(EntityUid uid, IdCardComponent? id = null)
     {
         if (!Resolve(uid, ref id))
             return;

@@ -70,4 +70,6 @@ public sealed partial class IdCardComponent : Component
 
     [DataField]
     public bool CanMicrowave = true;
+    [DataField]
+    public DateTime? CreatedTime;
 }

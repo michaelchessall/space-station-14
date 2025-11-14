@@ -1,6 +1,8 @@
+using Content.Server.Access.Systems;
 using Content.Server.GameTicking;
 using Content.Server.Preferences.Managers;
 using Content.Server.Station.Systems;
+using Content.Shared.Access.Components;
 using Content.Shared.CrewMetaRecords;
 using Content.Shared.CrewRecords.Components;
 using Content.Shared.CrewRecords.Systems;
@@ -20,6 +22,7 @@ public sealed partial class CrewMetaRecordsSystem : SharedCrewMetaRecordsSystem
 {
     [Dependency] private readonly GameTicker _gameTicker = default!;
     [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly IdCardSystem _idCard = default!;
     private ISawmill _log = default!;
 
     public bool CharacterNameExists(string name)
@@ -33,5 +36,14 @@ public sealed partial class CrewMetaRecordsSystem : SharedCrewMetaRecordsSystem
         _gameTicker!.MakeJoinGamePersistent(session);
     }
 
+    public void DevalidateID(string name)
+    {
+        if(MetaRecords != null && MetaRecords.CrewMetaRecords.TryGetValue(name, out var record))
+        {
+            record.LatestIDTime = DateTime.Now;
+            _idCard.ExpireAllIds(name);
+        }
+        
+    }
 
 }
