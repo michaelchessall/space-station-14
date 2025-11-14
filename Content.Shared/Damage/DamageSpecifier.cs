@@ -44,14 +44,6 @@ namespace Content.Shared.Damage
         [ViewVariables(VVAccess.ReadWrite)]
         [IncludeDataField(customTypeSerializer: typeof(DamageSpecifierDictionarySerializer), readOnly: true)]
         public Dictionary<string, FixedPoint2> DamageDict { get; set; } = new();
-
-        /// <summary>
-        ///     Returns a sum of the damage values.
-        /// </summary>
-        /// <remarks>
-        ///     Note that this being zero does not mean this damage has no effect. Healing in one type may cancel damage
-        ///     in another. Consider using <see cref="AnyPositive"/> or <see cref="Empty"/> instead.
-        /// </remarks>
         public FixedPoint2 GetTotal()
         {
             var total = FixedPoint2.Zero;

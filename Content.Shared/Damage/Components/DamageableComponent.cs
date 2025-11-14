@@ -21,6 +21,7 @@ namespace Content.Shared.Damage.Components;
 [Access(typeof(DamageableSystem), Other = AccessPermissions.ReadExecute)]
 public sealed partial class DamageableComponent : Component
 {
+
     /// <summary>
     ///     This <see cref="DamageContainerPrototype"/> specifies what damage types are supported by this component.
     ///     If null, all damage types will be supported.
@@ -46,7 +47,7 @@ public sealed partial class DamageableComponent : Component
     /// <remarks>
     ///     If this data-field is specified, this allows damageable components to be initialized with non-zero damage.
     /// </remarks>
-    [DataField(readOnly: true)] //TODO FULL GAME SAVE
+    [DataField] //TODO FULL GAME SAVE
     public DamageSpecifier Damage = new();
 
     /// <summary>
@@ -89,6 +90,9 @@ public sealed partial class DamageableComponent : Component
 
     [DataField]
     public FixedPoint2? HealthBarThreshold;
+
+    [DataField] public Dictionary<string, FixedPoint2>? DamageDictCopy { get; set; } = new();
+
 }
 
 [Serializable, NetSerializable]
