@@ -5,6 +5,7 @@ using Content.Server.Maps;
 using Content.Server.Roles;
 using Content.Shared._NF.Bank.Components;
 using Content.Shared.CCVar;
+using Content.Shared.CrewMetaRecords;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
 using Content.Shared.Mind;
@@ -175,6 +176,7 @@ namespace Content.Server.GameTicking
                 DefaultMap = mapId;
                 var ent = _map.GetMap(mapId);
                 EnsureComp<MoneyAccountsComponent>(ent);
+                EnsureComp<CrewMetaRecordsComponent>(ent);
                 return;
             }
 
@@ -187,6 +189,7 @@ namespace Content.Server.GameTicking
                     DefaultMap = mapId;
                     var ent = _map.GetMap(mapId);
                     EnsureComp<MoneyAccountsComponent>(ent);
+                    EnsureComp<CrewMetaRecordsComponent>(ent);
             }
         }
 

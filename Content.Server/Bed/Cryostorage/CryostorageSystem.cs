@@ -130,8 +130,7 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
 
     private void OnPlayerSpawned(Entity<CryostorageContainedComponent> ent, ref PlayerSpawnCompleteEvent args)
     {
-        // if you spawned into cryostorage, we're not gonna round-remove you.
-        ent.Comp.GracePeriodEndTime = null;
+        ent.Comp.GracePeriodEndTime = Timing.CurTime + TimeSpan.FromSeconds(10);
     }
 
     private void OnMindRemoved(Entity<CryostorageContainedComponent> ent, ref MindRemovedMessage args)
@@ -182,23 +181,16 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
         // if we have a session, we use that to add back in all the job slots the player had.
         if (userId != null)
         {
-            foreach (var uniqueStation in _station.GetStationsSet())
-            {
-                if (!TryComp<StationJobsComponent>(uniqueStation, out var stationJobs))
-                    continue;
-
-                if (!_stationJobs.TryGetPlayerJobs(uniqueStation, userId.Value, out var jobs, stationJobs))
-                    continue;
-
-                foreach (var job in jobs)
-                {
-                    _stationJobs.TryAdjustJobSlot(uniqueStation, job, 1, clamp: true);
-                }
-
-                _stationJobs.TryRemovePlayerJobs(uniqueStation, userId.Value, stationJobs);
-            }
-
             var saveFilePath = new ResPath($"{userId}]{name}");
+            _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use);
+            if (TryComp<ActorComponent>(ent.Owner, out var actor))
+                _ticker.PlayerJoinLobby(actor.PlayerSession);
+            _transform.DetachEntity(ent, Transform(ent));
+            QueueDel(ent.Owner);
+        }
+        else
+        {
+            var saveFilePath = new ResPath($"NPC]{name}");
             _loader.TrySaveGeneric(ent.Owner, saveFilePath, out var use);
             if (TryComp<ActorComponent>(ent.Owner, out var actor))
                 _ticker.PlayerJoinLobby(actor.PlayerSession);
@@ -207,29 +199,7 @@ public sealed class CryostorageSystem : SharedCryostorageSystem
         }
 
         _audio.PlayPvs(cryostorageComponent.RemoveSound, ent);
-        
-
-        //EnsurePausedMap();
-        //if (PausedMap == null)
-        //{
-        //    Log.Error("CryoSleep map was unexpectedly null");
-        //    return;
-        //}
-
-        //if (!CryoSleepRejoiningEnabled || !comp.AllowReEnteringBody)
-        //{
-        //    if (userId != null && Mind.TryGetMind(userId.Value, out var mind) &&
-        //        HasComp<CryostorageContainedComponent>(mind.Value.Comp.CurrentEntity))
-        //    {
-        //        _ghostSystem.OnGhostAttempt(mind.Value, false);
-        //    }
-        //}
-
-        //comp.AllowReEnteringBody = false;
-        //_transform.SetParent(ent, PausedMap.Value);
-        //cryostorageComponent.StoredPlayers.Add(ent);
-        //Dirty(ent, comp);
-
+    
         UpdateCryostorageUIState((cryostorageEnt.Value, cryostorageComponent));
         AdminLog.Add(LogType.Action, LogImpact.High, $"{ToPrettyString(ent):player} was entered into cryostorage inside of {ToPrettyString(cryostorageEnt.Value)}");
 

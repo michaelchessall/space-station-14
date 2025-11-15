@@ -133,8 +133,7 @@ public sealed class CritMobActionsSystem : EntitySystem
                         foundSlot = pair.Key;
                     }
                 }
-                if (foundSlot != 0)
-                    _prefsManager.DeleteCharacter(foundSlot, actor.PlayerSession.UserId, actor.PlayerSession);
+                _prefsManager.DeleteCharacter(foundSlot, actor.PlayerSession.UserId, actor.PlayerSession);
                 _ticker.Respawn(actor.PlayerSession);
                 // TODO PERSISTENCE
                 

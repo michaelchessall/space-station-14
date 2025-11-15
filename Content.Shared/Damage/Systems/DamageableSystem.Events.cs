@@ -1,11 +1,15 @@
+using Content.Shared.Access.Components;
 using Content.Shared.CCVar;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
+using Content.Shared.DeviceNetwork.Components;
+using Content.Shared.DeviceNetwork.Systems;
 using Content.Shared.FixedPoint;
 using Content.Shared.Inventory;
 using Content.Shared.Radiation.Events;
 using Content.Shared.Rejuvenate;
 using Robust.Shared.GameStates;
+using Robust.Shared.Map.Events;
 
 namespace Content.Shared.Damage.Systems;
 
@@ -18,7 +22,7 @@ public sealed partial class DamageableSystem
         SubscribeLocalEvent<DamageableComponent, ComponentGetState>(DamageableGetState);
         SubscribeLocalEvent<DamageableComponent, OnIrradiatedEvent>(OnIrradiated);
         SubscribeLocalEvent<DamageableComponent, RejuvenateEvent>(OnRejuvenate);
-
+        SubscribeLocalEvent<BeforeSerializationEvent>(OnMapSave);
         _appearanceQuery = GetEntityQuery<AppearanceComponent>();
         _damageableQuery = GetEntityQuery<DamageableComponent>();
 
@@ -118,12 +122,26 @@ public sealed partial class DamageableSystem
             true
         );
     }
+    private void OnMapSave(BeforeSerializationEvent ev)
+    {
+        var query = EntityQueryEnumerator<DamageableComponent>();
+        while (query.MoveNext(out var uid, out var comp))
+        {
+            comp.DamageDictCopy = comp.Damage.DamageDict;
+        }
+
+
+    }
 
     /// <summary>
     ///     Initialize a damageable component
     /// </summary>
     private void DamageableInit(Entity<DamageableComponent> ent, ref ComponentInit _)
     {
+        if(ent.Comp.DamageDictCopy != null)
+        {
+            ent.Comp.Damage.DamageDict = ent.Comp.DamageDictCopy;
+        }
         if (
             ent.Comp.DamageContainerID is null ||
             !_prototypeManager.Resolve(ent.Comp.DamageContainerID, out var damageContainerPrototype)

@@ -26,6 +26,9 @@
   <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />
   <Import Project="..\RobustToolbox\MSBuild\XamlIL.targets" />
   <ItemGroup>
+    <EmbeddedResource Update="Access\UI\IdPrinterConsoleWindow.xaml" />
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Update="CrewAssignments\UI\StationModificationMenu.xaml" />
   </ItemGroup>
   <ItemGroup>

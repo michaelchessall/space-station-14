@@ -204,10 +204,11 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
                 {
                     component.PrivRecord = TryEnsureRecord(uid, privIdComponent.FullName);
                 }
-                if (component.PrivRecord != null)
-                {
-                    possibleAssignments.TryGetValue(component.PrivRecord.AssignmentID, out privassignment);
-                }
+                
+            }
+            if (component.PrivRecord != null)
+            {
+                possibleAssignments.TryGetValue(component.PrivRecord.AssignmentID, out privassignment);
             }
             if (TryComp(station, out StationDataComponent? sD))
             {
@@ -293,11 +294,7 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
             Comp<IdCardComponent>(targetId).JobPrototype = newJobProto;
         }
 
-        if (!newAccessList.TrueForAll(x => component.AccessLevels.Contains(x)))
-        {
-            _sawmill.Warning($"User {ToPrettyString(uid)} tried to write unknown access tag.");
-            return;
-        }
+        
 
         var oldTags = _access.TryGetTags(targetId)?.ToList() ?? new List<ProtoId<AccessLevelPrototype>>();
 

@@ -1,4 +1,5 @@
 using Robust.Shared.GameStates;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Shared.CrewMetaRecords;
 
@@ -46,8 +47,8 @@ public partial class CrewMetaRecord
 {
     [DataField("_name")]
     public string Name = "Unnamed Crew Meta Record";
-
-
+    [DataField]
+    public DateTime LatestIDTime;
     public CrewMetaRecord(string name)
     {
         Name = name;
