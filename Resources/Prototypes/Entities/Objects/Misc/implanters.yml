@@ -165,6 +165,14 @@
     implant: SadTromboneImplant
 
 - type: entity
+  id: JobNetworkImplanter
+  name: job network implanter
+  parent: BaseImplantOnlyImplanter
+  components:
+  - type: Implanter
+    implant: JobNetworkImplant
+
+- type: entity
   id: LightImplanter
   name: light implanter
   parent: BaseImplantOnlyImplanter

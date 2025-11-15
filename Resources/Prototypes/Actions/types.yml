@@ -160,6 +160,21 @@
     event: !type:OpenUplinkImplantEvent
 
 - type: entity
+  parent: BaseAction
+  id: ActionOpenJobNetImplant
+  name: Open Job Network
+  description: Opens the job network so you can clock in and out.
+  components:
+  - type: Action
+    itemIconStyle: BigAction
+    priority: -20
+    icon:
+      sprite: Objects/Devices/communication.rsi
+      state: old-radio
+  - type: InstantAction
+    event: !type:OpenJobNetImplantEvent
+
+- type: entity
   parent: BaseImplantAction
   id: ActionActivateEmpImplant
   name: Activate EMP

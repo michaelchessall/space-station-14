@@ -332,12 +332,15 @@ public sealed class AccessReaderSystem : EntitySystem
                     {
                         return false;
                     }
+                    bool foundValid = false;
                     foreach (var access1 in reader.AccessNames)
                     {
+                        if (crewAccesses.CrewAccesses.ContainsKey(access1)) foundValid = true;
                         if (crewAccesses.CrewAccesses.ContainsKey(access1) && assignment.AccessIDs.Contains(access1))
                         {
                             return true;
                         }
+                        if (!foundValid) return true;
                     }
                 }
                 return false;

@@ -26,6 +26,11 @@
   <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />
   <Import Project="..\RobustToolbox\MSBuild\XamlIL.targets" />
   <ItemGroup>
+    <Compile Update="CrewAssignments\UI\JobNetMenu.xaml.cs">
+      <DependentUpon>JobNetMenu.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <EmbeddedResource Update="Access\UI\IdPrinterConsoleWindow.xaml" />
   </ItemGroup>
   <ItemGroup>
