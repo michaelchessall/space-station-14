@@ -22,6 +22,7 @@ using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Serilog.Parsing;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Text;
@@ -318,36 +319,48 @@ public sealed class AccessReaderSystem : EntitySystem
                     crewRecords = null;
                     return false;
                 }
-                if (crewRecords == null) return false;
+                if (crewRecords == null) return true;
                 crewRecords.TryGetRecord(actorName, out var record);
-                if (record == null) return false;
+                
                 if (!TryComp(station, out CrewAssignmentsComponent? stationData))
                 {
-                    return false;
+                    return true;
                 }
-                if (stationData != null)
+                if (!TryComp(station, out CrewAccessesComponent? crewAccesses))
                 {
-                    if (!stationData.TryGetAssignment(record.AssignmentID, out var assignment) || assignment == null) return false;
-                    if (!TryComp(station, out CrewAccessesComponent? crewAccesses))
-                    {
-                        return false;
-                    }
+                    return true;
+                }
+                if (record == null)
+                {
                     bool foundValid = false;
                     foreach (var access1 in reader.AccessNames)
                     {
                         if (crewAccesses.CrewAccesses.ContainsKey(access1)) foundValid = true;
-                        if (crewAccesses.CrewAccesses.ContainsKey(access1) && assignment.AccessIDs.Contains(access1))
+                    }
+                    if (!foundValid) return true;
+                }
+                else
+                {
+                    if (stationData != null)
+                    {
+                        if (!stationData.TryGetAssignment(record.AssignmentID, out var assignment) || assignment == null) return false;
+
+                        bool foundValid = false;
+                        foreach (var access1 in reader.AccessNames)
                         {
-                            return true;
+                            if (crewAccesses.CrewAccesses.ContainsKey(access1)) foundValid = true;
+                            if (crewAccesses.CrewAccesses.ContainsKey(access1) && assignment.AccessIDs.Contains(access1))
+                            {
+                                return true;
+                            }
                         }
                         if (!foundValid) return true;
                     }
                 }
+                
                 return false;
-
             }
         }
-        
         return false;
     }
 
