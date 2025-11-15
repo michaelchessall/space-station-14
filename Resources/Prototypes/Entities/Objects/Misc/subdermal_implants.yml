@@ -168,8 +168,9 @@
     implantAction: ActionOpenJobNetImplant
   - type: UserInterface
     interfaces:
-      enum.StoreUiKey.Key:
-        type: StoreBoundUserInterface
+      enum.JobNetUiKey.Key:
+        type: JobNetBoundUserInterface
+  - type: JobNet
 
 - type: entity
   parent: [ BaseSubdermalImplant, StorePresetUplink ]

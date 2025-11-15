@@ -1,0 +1,26 @@
+<DefaultWindow
+    xmlns="https://spacestation14.io"
+    xmlns:gfx="clr-namespace:Robust.Client.Graphics;assembly=Robust.Client"
+    Title="Job Network"
+    MinSize="300 270"
+    SetSize="300 270">
+    <BoxContainer Orientation="Vertical" Access="Public">
+        
+       <Label Text="Currently Working For:" Margin="0 0 10 0"
+            StyleClasses="LabelKeyText" />
+        <OptionButton Name="PossibleJobs" Access="Public"/>
+        <BoxContainer Name="AssignmentDetails" Orientation="Vertical">
+            <Label Text="Current Assignment:" Margin="0 0 10 0"
+                StyleClasses="LabelKeyText" />
+            <Label Name="CSLabel" Text="Off Duty" Margin="0 0 10 0" />
+            <Label Text="Wage:" Margin="0 0 10 0"
+                StyleClasses="LabelKeyText" />
+            <Label Name="WageLabel" Text="$0" Margin="0 0 5 0" />
+            <Label Text="Every 20 Minutes" Margin="0 0 10 0" />
+            <Label Text="Next Pay In:" Margin="0 0 10 0"
+                StyleClasses="LabelKeyText" />
+            <Label Name="TimeLabel" Text="0" Margin="0 0 5 0" />
+        </BoxContainer>
+        
+    </BoxContainer>
+</DefaultWindow>

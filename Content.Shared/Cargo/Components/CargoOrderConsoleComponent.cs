@@ -45,7 +45,7 @@ public sealed partial class CargoOrderConsoleComponent : Component
     /// The maximum percent of total funds that can be transferred or withdrawn in one action.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public float BaseTransferLimit = 0.20f;
+    public float BaseTransferLimit = 0.05f;
 
     /// <summary>
     /// The time at which account actions can be performed again.
