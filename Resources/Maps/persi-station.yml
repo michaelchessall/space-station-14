@@ -4,8 +4,8 @@ meta:
   engineVersion: 267.3.0
   forkId: ""
   forkVersion: ""
-  time: 11/15/2025 18:14:05
-  entityCount: 6271
+  time: 11/16/2025 04:32:08
+  entityCount: 6284
 maps:
 - 1
 grids:
@@ -875,7 +875,7 @@ entities:
     - type: Wires
       wireSeed: 2032722643
     - type: DeviceNetwork
-      address: AIR-7574-BBD8
+      address: AIR-7C69-628F
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -903,7 +903,7 @@ entities:
     - type: Wires
       wireSeed: 201057202
     - type: DeviceNetwork
-      address: AIR-51FD-3762
+      address: AIR-7EE8-1FF3
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -933,7 +933,7 @@ entities:
     - type: Wires
       wireSeed: 1871794546
     - type: DeviceNetwork
-      address: AIR-7A23-7417
+      address: AIR-58E5-7186
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -964,7 +964,7 @@ entities:
     - type: Wires
       wireSeed: 900580640
     - type: DeviceNetwork
-      address: AIR-23F1-64BE
+      address: AIR-5459-D3CA
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -998,7 +998,7 @@ entities:
     - type: Wires
       wireSeed: 1883285206
     - type: DeviceNetwork
-      address: AIR-1742-41C7
+      address: AIR-04EF-21DB
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1030,7 +1030,7 @@ entities:
     - type: Wires
       wireSeed: 74839860
     - type: DeviceNetwork
-      address: AIR-62B6-DE2D
+      address: AIR-26B4-6691
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1066,7 +1066,7 @@ entities:
     - type: Wires
       wireSeed: 255729639
     - type: DeviceNetwork
-      address: AIR-1D19-AE47
+      address: AIR-03FA-85B0
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1091,7 +1091,7 @@ entities:
     - type: Wires
       wireSeed: 1778140831
     - type: DeviceNetwork
-      address: AIR-52B0-D14C
+      address: AIR-4EA0-02BC
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1123,7 +1123,7 @@ entities:
     - type: Wires
       wireSeed: 1147683894
     - type: DeviceNetwork
-      address: AIR-060A-74F9
+      address: AIR-21DC-F521
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1151,7 +1151,7 @@ entities:
     - type: Wires
       wireSeed: 1788690701
     - type: DeviceNetwork
-      address: AIR-7E10-7D58
+      address: AIR-5587-164E
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1181,7 +1181,7 @@ entities:
     - type: Wires
       wireSeed: 623139720
     - type: DeviceNetwork
-      address: AIR-496B-8D28
+      address: AIR-1C52-A1C7
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1215,7 +1215,7 @@ entities:
     - type: Wires
       wireSeed: 35077100
     - type: DeviceNetwork
-      address: AIR-6A77-5EA9
+      address: AIR-3E2A-66C2
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1243,7 +1243,7 @@ entities:
     - type: Wires
       wireSeed: 849548115
     - type: DeviceNetwork
-      address: AIR-70F1-50B4
+      address: AIR-6E91-8BEC
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1274,7 +1274,7 @@ entities:
     - type: Wires
       wireSeed: 1205581605
     - type: DeviceNetwork
-      address: AIR-4735-AC2E
+      address: AIR-6E82-8795
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1304,7 +1304,7 @@ entities:
     - type: Wires
       wireSeed: 346823998
     - type: DeviceNetwork
-      address: AIR-4A2A-3925
+      address: AIR-1EDA-67D9
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1333,7 +1333,7 @@ entities:
     - type: Wires
       wireSeed: 14875134
     - type: DeviceNetwork
-      address: AIR-3A1C-FFCE
+      address: AIR-6B69-845E
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1361,7 +1361,7 @@ entities:
     - type: Wires
       wireSeed: 1817692067
     - type: DeviceNetwork
-      address: AIR-4FF5-F33C
+      address: AIR-57CB-7A42
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1388,7 +1388,7 @@ entities:
     - type: Wires
       wireSeed: 905232400
     - type: DeviceNetwork
-      address: AIR-3CE9-16E1
+      address: AIR-5C8F-028F
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1417,7 +1417,7 @@ entities:
     - type: Wires
       wireSeed: 1774658565
     - type: DeviceNetwork
-      address: AIR-161B-AFB9
+      address: AIR-29FF-44FE
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1445,7 +1445,7 @@ entities:
     - type: Wires
       wireSeed: 98018329
     - type: DeviceNetwork
-      address: AIR-1077-3529
+      address: AIR-6456-8ECB
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1475,7 +1475,7 @@ entities:
     - type: Wires
       wireSeed: 2130983727
     - type: DeviceNetwork
-      address: AIR-652D-142C
+      address: AIR-18BC-C96D
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1506,7 +1506,7 @@ entities:
     - type: Wires
       wireSeed: 1577881362
     - type: DeviceNetwork
-      address: AIR-7F53-CD2E
+      address: AIR-2D53-7BA8
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1534,7 +1534,7 @@ entities:
     - type: Wires
       wireSeed: 426742953
     - type: DeviceNetwork
-      address: AIR-0718-E1FB
+      address: AIR-5ECE-5D26
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1560,7 +1560,7 @@ entities:
     - type: Wires
       wireSeed: 1311450709
     - type: DeviceNetwork
-      address: AIR-19FD-37C6
+      address: AIR-631F-9346
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1588,7 +1588,7 @@ entities:
     - type: Wires
       wireSeed: 1529899882
     - type: DeviceNetwork
-      address: AIR-65FE-5C86
+      address: AIR-766B-EAA8
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1614,7 +1614,7 @@ entities:
     - type: Wires
       wireSeed: 1067970402
     - type: DeviceNetwork
-      address: AIR-377B-585F
+      address: AIR-16D5-1A58
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1646,7 +1646,7 @@ entities:
     - type: Wires
       wireSeed: 992621136
     - type: DeviceNetwork
-      address: AIR-49AF-5843
+      address: AIR-39F8-FB21
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1672,7 +1672,7 @@ entities:
     - type: Wires
       wireSeed: 436332387
     - type: DeviceNetwork
-      address: AIR-7B39-894F
+      address: AIR-013D-43AD
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1701,7 +1701,7 @@ entities:
     - type: Wires
       wireSeed: 147666290
     - type: DeviceNetwork
-      address: AIR-6045-1FF5
+      address: AIR-1D3C-E833
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1727,7 +1727,7 @@ entities:
     - type: Wires
       wireSeed: 396415010
     - type: DeviceNetwork
-      address: AIR-1F03-853C
+      address: AIR-3AC6-1F46
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1754,7 +1754,7 @@ entities:
     - type: Wires
       wireSeed: 504855672
     - type: DeviceNetwork
-      address: AIR-421D-C727
+      address: AIR-0981-760C
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: DeviceList
@@ -1820,7 +1820,7 @@ entities:
     - type: Wires
       wireSeed: 1618900596
     - type: DeviceNetwork
-      address: 3945-1062
+      address: 1797-221D
       receiveFrequency: 1280
 - proto: AirlockArmoryLocked
   entities:
@@ -1841,7 +1841,7 @@ entities:
     - type: Wires
       wireSeed: 522975529
     - type: DeviceNetwork
-      address: 775D-24DF
+      address: 445A-FE95
       receiveFrequency: 1280
 - proto: AirlockAtmosphericsGlassLocked
   entities:
@@ -1861,7 +1861,7 @@ entities:
     - type: Wires
       wireSeed: 1148964111
     - type: DeviceNetwork
-      address: 6F52-F356
+      address: 0E04-85E2
       receiveFrequency: 1280
   - uid: 4263
     components:
@@ -1879,7 +1879,7 @@ entities:
     - type: Wires
       wireSeed: 295572226
     - type: DeviceNetwork
-      address: 0F04-FA37
+      address: 2906-0DFA
       receiveFrequency: 1280
 - proto: AirlockBarGlassLocked
   entities:
@@ -1899,7 +1899,7 @@ entities:
     - type: Wires
       wireSeed: 568442829
     - type: DeviceNetwork
-      address: 7E83-90C7
+      address: 78E2-2074
       receiveFrequency: 1280
 - proto: AirlockBarLocked
   entities:
@@ -1919,7 +1919,7 @@ entities:
     - type: Wires
       wireSeed: 1796972533
     - type: DeviceNetwork
-      address: 6B66-0D44
+      address: 469F-5B51
       receiveFrequency: 1280
 - proto: AirlockCaptainLocked
   entities:
@@ -1945,7 +1945,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 5515-380F
+      address: 7355-D967
       receiveFrequency: 1280
   - uid: 3095
     components:
@@ -1969,7 +1969,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 07A8-E8F3
+      address: 3D94-6114
       receiveFrequency: 1280
   - uid: 3144
     components:
@@ -1992,7 +1992,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 37F0-7254
+      address: 0835-4ADD
       receiveFrequency: 1280
 - proto: AirlockCargoGlass
   entities:
@@ -2013,7 +2013,7 @@ entities:
     - type: Wires
       wireSeed: 749027380
     - type: DeviceNetwork
-      address: 2D78-C4DB
+      address: 14D6-3725
       receiveFrequency: 1280
   - uid: 418
     components:
@@ -2032,7 +2032,7 @@ entities:
     - type: Wires
       wireSeed: 145212491
     - type: DeviceNetwork
-      address: 62A7-F706
+      address: 54C3-9C18
       receiveFrequency: 1280
 - proto: AirlockCargoLocked
   entities:
@@ -2052,7 +2052,7 @@ entities:
     - type: Wires
       wireSeed: 295368427
     - type: DeviceNetwork
-      address: 5049-01CD
+      address: 46CE-1721
       receiveFrequency: 1280
 - proto: AirlockChemistryGlassLocked
   entities:
@@ -2072,7 +2072,7 @@ entities:
     - type: Wires
       wireSeed: 794292157
     - type: DeviceNetwork
-      address: 7463-3C80
+      address: 31DC-2B46
       receiveFrequency: 1280
 - proto: AirlockChemistryLocked
   entities:
@@ -2093,7 +2093,7 @@ entities:
     - type: Wires
       wireSeed: 1184975165
     - type: DeviceNetwork
-      address: 226A-A0FB
+      address: 2B66-80AC
       receiveFrequency: 1280
 - proto: AirlockChiefEngineerLocked
   entities:
@@ -2118,7 +2118,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 7B22-1E96
+      address: 385A-AD36
       receiveFrequency: 1280
 - proto: AirlockChiefMedicalOfficerGlassLocked
   entities:
@@ -2143,7 +2143,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 5B16-9689
+      address: 2337-9F30
       receiveFrequency: 1280
 - proto: AirlockCommandGlassLocked
   entities:
@@ -2168,7 +2168,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 70FE-F991
+      address: 0B90-ACE8
       receiveFrequency: 1280
   - uid: 3022
     components:
@@ -2191,7 +2191,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 5ECE-D611
+      address: 058E-449A
       receiveFrequency: 1280
   - uid: 3064
     components:
@@ -2214,7 +2214,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 2FBA-6F0F
+      address: 366D-5937
       receiveFrequency: 1280
   - uid: 3068
     components:
@@ -2237,7 +2237,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 5D8B-BE04
+      address: 4819-689E
       receiveFrequency: 1280
 - proto: AirlockCommandLocked
   entities:
@@ -2262,7 +2262,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 645F-D3E2
+      address: 2F76-0B42
       receiveFrequency: 1280
 - proto: AirlockEngineeringGlass
   entities:
@@ -2283,7 +2283,7 @@ entities:
     - type: Wires
       wireSeed: 1999578693
     - type: DeviceNetwork
-      address: 5E05-219E
+      address: 47B5-4CC2
       receiveFrequency: 1280
   - uid: 2428
     components:
@@ -2302,7 +2302,7 @@ entities:
     - type: Wires
       wireSeed: 592150687
     - type: DeviceNetwork
-      address: 4EC4-2EC9
+      address: 221D-F55D
       receiveFrequency: 1280
 - proto: AirlockEngineeringGlassLocked
   entities:
@@ -2322,7 +2322,7 @@ entities:
     - type: Wires
       wireSeed: 1156921504
     - type: DeviceNetwork
-      address: 4B4C-82FF
+      address: 4E52-DF99
       receiveFrequency: 1280
   - uid: 4260
     components:
@@ -2340,7 +2340,7 @@ entities:
     - type: Wires
       wireSeed: 1092311893
     - type: DeviceNetwork
-      address: 01AB-1651
+      address: 6974-59D1
       receiveFrequency: 1280
 - proto: AirlockEngineeringLocked
   entities:
@@ -2360,7 +2360,7 @@ entities:
     - type: Wires
       wireSeed: 474138819
     - type: DeviceNetwork
-      address: 3E21-D224
+      address: 116E-96E5
       receiveFrequency: 1280
   - uid: 137
     components:
@@ -2378,7 +2378,7 @@ entities:
     - type: Wires
       wireSeed: 92217099
     - type: DeviceNetwork
-      address: 6ED7-B6DD
+      address: 7FEE-52F2
       receiveFrequency: 1280
   - uid: 909
     components:
@@ -2396,7 +2396,7 @@ entities:
     - type: Wires
       wireSeed: 402277533
     - type: DeviceNetwork
-      address: 6B21-E96E
+      address: 2CB3-EF22
       receiveFrequency: 1280
   - uid: 1681
     components:
@@ -2414,7 +2414,7 @@ entities:
     - type: Wires
       wireSeed: 967712114
     - type: DeviceNetwork
-      address: 1A6D-1482
+      address: 1803-1CD1
       receiveFrequency: 1280
   - uid: 2407
     components:
@@ -2433,7 +2433,7 @@ entities:
     - type: Wires
       wireSeed: 1183710829
     - type: DeviceNetwork
-      address: 3841-1BB4
+      address: 2C09-8CC9
       receiveFrequency: 1280
   - uid: 3074
     components:
@@ -2451,7 +2451,7 @@ entities:
     - type: Wires
       wireSeed: 944473250
     - type: DeviceNetwork
-      address: 18C2-E9BE
+      address: 4F55-DAEB
       receiveFrequency: 1280
   - uid: 3075
     components:
@@ -2469,7 +2469,7 @@ entities:
     - type: Wires
       wireSeed: 1593243334
     - type: DeviceNetwork
-      address: 564C-956B
+      address: 734F-71AF
       receiveFrequency: 1280
   - uid: 3188
     components:
@@ -2488,7 +2488,7 @@ entities:
     - type: Wires
       wireSeed: 2099755483
     - type: DeviceNetwork
-      address: 23B8-508B
+      address: 202E-D42D
       receiveFrequency: 1280
   - uid: 3478
     components:
@@ -2507,7 +2507,7 @@ entities:
     - type: Wires
       wireSeed: 1357633338
     - type: DeviceNetwork
-      address: 6D54-D5D0
+      address: 7EA3-AA47
       receiveFrequency: 1280
   - uid: 3864
     components:
@@ -2525,7 +2525,7 @@ entities:
     - type: Wires
       wireSeed: 1417224582
     - type: DeviceNetwork
-      address: 1536-0D1A
+      address: 55EB-4120
       receiveFrequency: 1280
   - uid: 3879
     components:
@@ -2543,7 +2543,7 @@ entities:
     - type: Wires
       wireSeed: 1182767838
     - type: DeviceNetwork
-      address: 405A-7BE7
+      address: 4156-A92C
       receiveFrequency: 1280
   - uid: 3932
     components:
@@ -2561,7 +2561,7 @@ entities:
     - type: Wires
       wireSeed: 1032084437
     - type: DeviceNetwork
-      address: 0418-A524
+      address: 56C0-3C31
       receiveFrequency: 1280
   - uid: 4225
     components:
@@ -2579,7 +2579,7 @@ entities:
     - type: Wires
       wireSeed: 1014611242
     - type: DeviceNetwork
-      address: 5695-BBBA
+      address: 21F5-CA70
       receiveFrequency: 1280
   - uid: 4485
     components:
@@ -2597,13 +2597,20 @@ entities:
     - type: Wires
       wireSeed: 118414417
     - type: DeviceNetwork
-      address: 7547-E8AE
+      address: 4E93-C379
       receiveFrequency: 1280
   - uid: 4501
     components:
     - type: Transform
       pos: 11.5,-17.5
       parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        2162:
+        - - DoorStatus
+          - DoorBolt
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -2615,7 +2622,7 @@ entities:
     - type: Wires
       wireSeed: 915873855
     - type: DeviceNetwork
-      address: 664B-6C35
+      address: 42AE-361F
       receiveFrequency: 1280
 - proto: AirlockExternalGlass
   entities:
@@ -2624,6 +2631,13 @@ entities:
     - type: Transform
       pos: 11.5,-2.5
       parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        6285:
+        - - DoorStatus
+          - InputA
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -2635,13 +2649,20 @@ entities:
     - type: Wires
       wireSeed: 978625841
     - type: DeviceNetwork
-      address: 67D3-1B19
+      address: 6780-7CB6
       receiveFrequency: 1280
   - uid: 359
     components:
     - type: Transform
       pos: 9.5,-0.5
       parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        6284:
+        - - DoorStatus
+          - InputA
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -2653,13 +2674,20 @@ entities:
     - type: Wires
       wireSeed: 1021795190
     - type: DeviceNetwork
-      address: 6616-FFD2
+      address: 7C57-A0DD
       receiveFrequency: 1280
   - uid: 360
     components:
     - type: Transform
       pos: 9.5,-1.5
       parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        6284:
+        - - DoorStatus
+          - InputB
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -2671,13 +2699,20 @@ entities:
     - type: Wires
       wireSeed: 1073247901
     - type: DeviceNetwork
-      address: 77CA-E5A7
+      address: 007C-EDD1
       receiveFrequency: 1280
   - uid: 362
     components:
     - type: Transform
       pos: 10.5,-2.5
       parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        6285:
+        - - DoorStatus
+          - InputB
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -2689,7 +2724,7 @@ entities:
     - type: Wires
       wireSeed: 1144320573
     - type: DeviceNetwork
-      address: 39B3-B591
+      address: 67B9-01BD
       receiveFrequency: 1280
   - uid: 2027
     components:
@@ -2715,7 +2750,7 @@ entities:
     - type: DeviceLinkSink
       invokeCounter: 1
     - type: DeviceNetwork
-      address: 0BE4-7EDC
+      address: 58DA-D544
       receiveFrequency: 1280
   - uid: 2028
     components:
@@ -2741,7 +2776,7 @@ entities:
     - type: DeviceLinkSink
       invokeCounter: 1
     - type: DeviceNetwork
-      address: 17AC-4A5F
+      address: 4BC4-1418
       receiveFrequency: 1280
   - uid: 2103
     components:
@@ -2767,7 +2802,7 @@ entities:
         - - DoorStatus
           - InputB
     - type: DeviceNetwork
-      address: 2062-3A0F
+      address: 1D85-EFE0
       receiveFrequency: 1280
   - uid: 2118
     components:
@@ -2786,7 +2821,7 @@ entities:
     - type: Wires
       wireSeed: 1902825872
     - type: DeviceNetwork
-      address: 3782-EC86
+      address: 4800-EAB5
       receiveFrequency: 1280
   - uid: 2129
     components:
@@ -2805,7 +2840,7 @@ entities:
     - type: Wires
       wireSeed: 1248580717
     - type: DeviceNetwork
-      address: 4D5C-73F2
+      address: 13ED-33F2
       receiveFrequency: 1280
   - uid: 2134
     components:
@@ -2824,7 +2859,7 @@ entities:
     - type: Wires
       wireSeed: 370947774
     - type: DeviceNetwork
-      address: 6960-036E
+      address: 7542-AD5A
       receiveFrequency: 1280
   - uid: 2143
     components:
@@ -2843,7 +2878,7 @@ entities:
     - type: Wires
       wireSeed: 1615012811
     - type: DeviceNetwork
-      address: 20A2-87BB
+      address: 339E-7639
       receiveFrequency: 1280
   - uid: 2166
     components:
@@ -2869,7 +2904,7 @@ entities:
         - - DoorStatus
           - InputA
     - type: DeviceNetwork
-      address: 0D14-297B
+      address: 1021-4372
       receiveFrequency: 1280
   - uid: 2173
     components:
@@ -2895,7 +2930,7 @@ entities:
         - - DoorStatus
           - InputA
     - type: DeviceNetwork
-      address: 3091-3998
+      address: 4BBA-1920
       receiveFrequency: 1280
   - uid: 2377
     components:
@@ -2921,7 +2956,7 @@ entities:
         - - DoorStatus
           - InputB
     - type: DeviceNetwork
-      address: 7583-D898
+      address: 2BDC-DEF0
       receiveFrequency: 1280
   - uid: 2378
     components:
@@ -2947,7 +2982,7 @@ entities:
         - - DoorStatus
           - InputB
     - type: DeviceNetwork
-      address: 33AD-701A
+      address: 0F2C-A396
       receiveFrequency: 1280
   - uid: 2379
     components:
@@ -2973,7 +3008,7 @@ entities:
         - - DoorStatus
           - InputA
     - type: DeviceNetwork
-      address: 226A-DCAF
+      address: 02A8-24A9
       receiveFrequency: 1280
 - proto: AirlockExternalGlassCargoLocked
   entities:
@@ -2994,7 +3029,7 @@ entities:
     - type: Wires
       wireSeed: 1086991171
     - type: DeviceNetwork
-      address: 641E-3866
+      address: 4867-22D8
       receiveFrequency: 1280
   - uid: 2921
     components:
@@ -3020,7 +3055,7 @@ entities:
         - - DoorStatus
           - InputB
     - type: DeviceNetwork
-      address: 7D6C-D20C
+      address: 6F04-ECC7
       receiveFrequency: 1280
   - uid: 2922
     components:
@@ -3046,7 +3081,7 @@ entities:
         - - DoorStatus
           - InputA
     - type: DeviceNetwork
-      address: 24BB-1DAD
+      address: 68AF-D53F
       receiveFrequency: 1280
   - uid: 2923
     components:
@@ -3074,7 +3109,7 @@ entities:
     - type: DeviceNetwork
       configurators:
       - invalid
-      address: 0117-466B
+      address: 2B57-3C85
       receiveFrequency: 1280
   - uid: 2924
     components:
@@ -3100,7 +3135,7 @@ entities:
         - - DoorStatus
           - InputB
     - type: DeviceNetwork
-      address: 310E-4023
+      address: 6D40-8A4E
       receiveFrequency: 1280
 - proto: AirlockExternalGlassEngineeringLocked
   entities:
@@ -3109,6 +3144,13 @@ entities:
     - type: Transform
       pos: 11.5,-20.5
       parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        4501:
+        - - DoorStatus
+          - DoorBolt
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -3120,7 +3162,7 @@ entities:
     - type: Wires
       wireSeed: 1940641825
     - type: DeviceNetwork
-      address: 35BC-5B87
+      address: 451C-2C45
       receiveFrequency: 1280
   - uid: 5906
     components:
@@ -3138,7 +3180,7 @@ entities:
     - type: Wires
       wireSeed: 994429702
     - type: DeviceNetwork
-      address: 00FC-31E0
+      address: 6392-7A44
       receiveFrequency: 1280
 - proto: AirlockExternalGlassShuttleLocked
   entities:
@@ -3159,7 +3201,7 @@ entities:
     - type: Wires
       wireSeed: 611293374
     - type: DeviceNetwork
-      address: 05B2-58FB
+      address: 3FBA-A422
       receiveFrequency: 1280
   - uid: 2844
     components:
@@ -3180,7 +3222,7 @@ entities:
     - type: AccessReader
       accessListsOriginal: []
     - type: DeviceNetwork
-      address: 220D-B9EA
+      address: 1F06-1019
       receiveFrequency: 1280
 - proto: AirlockFreezerKitchenHydroLocked
   entities:
@@ -3201,7 +3243,7 @@ entities:
     - type: Wires
       wireSeed: 1683848248
     - type: DeviceNetwork
-      address: 218A-AB92
+      address: 51C0-BE0C
       receiveFrequency: 1280
 - proto: AirlockGlass
   entities:
@@ -3221,7 +3263,7 @@ entities:
     - type: Wires
       wireSeed: 1613983098
     - type: DeviceNetwork
-      address: 1A92-A604
+      address: 2130-0BD2
       receiveFrequency: 1280
   - uid: 2176
     components:
@@ -3240,7 +3282,7 @@ entities:
     - type: Wires
       wireSeed: 242293168
     - type: DeviceNetwork
-      address: 3D34-ACE1
+      address: 6FCC-B6EA
       receiveFrequency: 1280
   - uid: 2177
     components:
@@ -3259,7 +3301,7 @@ entities:
     - type: Wires
       wireSeed: 1312777201
     - type: DeviceNetwork
-      address: 15C9-E9F1
+      address: 230A-D51B
       receiveFrequency: 1280
   - uid: 2576
     components:
@@ -3277,7 +3319,7 @@ entities:
     - type: Wires
       wireSeed: 1061364967
     - type: DeviceNetwork
-      address: 1DA5-F106
+      address: 1CD6-E07A
       receiveFrequency: 1280
   - uid: 2577
     components:
@@ -3295,13 +3337,13 @@ entities:
     - type: Wires
       wireSeed: 263230952
     - type: Door
-      secondsUntilStateChange: -39644.5
+      secondsUntilStateChange: -42457.637
       state: Opening
     - type: DeviceLinkSource
       lastSignals:
         DoorStatus: True
     - type: DeviceNetwork
-      address: 6B70-A56E
+      address: 05DC-3CA6
       receiveFrequency: 1280
   - uid: 2578
     components:
@@ -3319,7 +3361,7 @@ entities:
     - type: Wires
       wireSeed: 1116061878
     - type: DeviceNetwork
-      address: 744D-1F78
+      address: 21FA-5A81
       receiveFrequency: 1280
   - uid: 2579
     components:
@@ -3337,7 +3379,7 @@ entities:
     - type: Wires
       wireSeed: 2066792701
     - type: DeviceNetwork
-      address: 4F9B-9562
+      address: 3B1C-2504
       receiveFrequency: 1280
   - uid: 2580
     components:
@@ -3355,7 +3397,7 @@ entities:
     - type: Wires
       wireSeed: 1078328546
     - type: DeviceNetwork
-      address: 4E30-CFBC
+      address: 084F-E3CD
       receiveFrequency: 1280
   - uid: 2581
     components:
@@ -3373,7 +3415,7 @@ entities:
     - type: Wires
       wireSeed: 1255015377
     - type: DeviceNetwork
-      address: 2F3E-8F6A
+      address: 1455-A243
       receiveFrequency: 1280
   - uid: 2582
     components:
@@ -3391,7 +3433,7 @@ entities:
     - type: Wires
       wireSeed: 527927241
     - type: DeviceNetwork
-      address: 7738-9F62
+      address: 0C83-9DB3
       receiveFrequency: 1280
 - proto: AirlockGlassShuttle
   entities:
@@ -3411,7 +3453,7 @@ entities:
     - type: Wires
       wireSeed: 571493159
     - type: DeviceNetwork
-      address: 20EA-B399
+      address: 6593-5823
       receiveFrequency: 1280
   - uid: 2111
     components:
@@ -3429,7 +3471,7 @@ entities:
     - type: Wires
       wireSeed: 252775742
     - type: DeviceNetwork
-      address: 57E3-91C5
+      address: 222A-B8F9
       receiveFrequency: 1280
   - uid: 2119
     components:
@@ -3447,7 +3489,7 @@ entities:
     - type: Wires
       wireSeed: 694711189
     - type: DeviceNetwork
-      address: 540A-248F
+      address: 022D-9B8A
       receiveFrequency: 1280
   - uid: 2126
     components:
@@ -3466,7 +3508,7 @@ entities:
     - type: Wires
       wireSeed: 1182866320
     - type: DeviceNetwork
-      address: 7FE0-C70A
+      address: 56DA-06CA
       receiveFrequency: 1280
   - uid: 2139
     components:
@@ -3485,7 +3527,7 @@ entities:
     - type: Wires
       wireSeed: 1995234738
     - type: DeviceNetwork
-      address: 2764-1BEE
+      address: 6B5B-4626
       receiveFrequency: 1280
   - uid: 2154
     components:
@@ -3504,7 +3546,7 @@ entities:
     - type: Wires
       wireSeed: 1217918404
     - type: DeviceNetwork
-      address: 3809-5CC3
+      address: 7EAF-59E6
       receiveFrequency: 1280
 - proto: AirlockHeadOfPersonnelLocked
   entities:
@@ -3532,7 +3574,7 @@ entities:
     - type: AccessReader
       accessListsOriginal: []
     - type: DeviceNetwork
-      address: 727B-3821
+      address: 3C22-8D73
       receiveFrequency: 1280
   - uid: 2461
     components:
@@ -3555,7 +3597,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 01D6-03AF
+      address: 79BA-F5F8
       receiveFrequency: 1280
 - proto: AirlockHeadOfSecurityLocked
   entities:
@@ -3580,7 +3622,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 00A9-86E7
+      address: 3ADD-72B4
       receiveFrequency: 1280
 - proto: AirlockHydroGlassLocked
   entities:
@@ -3600,7 +3642,7 @@ entities:
     - type: Wires
       wireSeed: 619946992
     - type: DeviceNetwork
-      address: 2E27-FFBD
+      address: 0772-E64D
       receiveFrequency: 1280
 - proto: AirlockHydroponicsGlass
   entities:
@@ -3620,7 +3662,7 @@ entities:
     - type: Wires
       wireSeed: 1750161270
     - type: DeviceNetwork
-      address: 46D7-DB57
+      address: 648F-AA96
       receiveFrequency: 1280
 - proto: AirlockJanitorLocked
   entities:
@@ -3640,7 +3682,7 @@ entities:
     - type: Wires
       wireSeed: 627218102
     - type: DeviceNetwork
-      address: 387D-0519
+      address: 2D52-6F70
       receiveFrequency: 1280
 - proto: AirlockKitchenGlassLocked
   entities:
@@ -3661,7 +3703,7 @@ entities:
     - type: Wires
       wireSeed: 1185211992
     - type: DeviceNetwork
-      address: 5496-6856
+      address: 3756-3B84
       receiveFrequency: 1280
 - proto: AirlockMaintBarLocked
   entities:
@@ -3682,7 +3724,7 @@ entities:
     - type: Wires
       wireSeed: 1928288130
     - type: DeviceNetwork
-      address: 57FE-DE54
+      address: 3FF4-8A21
       receiveFrequency: 1280
 - proto: AirlockMaintCargoLocked
   entities:
@@ -3702,7 +3744,7 @@ entities:
     - type: Wires
       wireSeed: 1070193272
     - type: DeviceNetwork
-      address: 2ACC-F60A
+      address: 0479-9996
       receiveFrequency: 1280
 - proto: AirlockMaintChemLocked
   entities:
@@ -3723,7 +3765,7 @@ entities:
     - type: Wires
       wireSeed: 1257013509
     - type: DeviceNetwork
-      address: 1823-77EA
+      address: 65DF-46C9
       receiveFrequency: 1280
 - proto: AirlockMaintEngiLocked
   entities:
@@ -3744,7 +3786,7 @@ entities:
     - type: Wires
       wireSeed: 410377421
     - type: DeviceNetwork
-      address: 7893-E8E6
+      address: 7313-7185
       receiveFrequency: 1280
 - proto: AirlockMaintHOPLocked
   entities:
@@ -3769,7 +3811,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 4080-ED87
+      address: 48CB-286C
       receiveFrequency: 1280
 - proto: AirlockMaintHydroLocked
   entities:
@@ -3790,7 +3832,7 @@ entities:
     - type: Wires
       wireSeed: 1564166871
     - type: DeviceNetwork
-      address: 5E6D-7801
+      address: 2B63-FE89
       receiveFrequency: 1280
 - proto: AirlockMaintJanitorLocked
   entities:
@@ -3810,7 +3852,7 @@ entities:
     - type: Wires
       wireSeed: 642358927
     - type: DeviceNetwork
-      address: 40ED-9060
+      address: 2763-BB94
       receiveFrequency: 1280
 - proto: AirlockMaintKitchenHydroLocked
   entities:
@@ -3831,7 +3873,7 @@ entities:
     - type: Wires
       wireSeed: 2059106227
     - type: DeviceNetwork
-      address: 518D-66F7
+      address: 194A-ECF3
       receiveFrequency: 1280
 - proto: AirlockMaintLocked
   entities:
@@ -3853,7 +3895,7 @@ entities:
     - type: AccessReader
       accessListsOriginal: []
     - type: DeviceNetwork
-      address: 2FBE-4698
+      address: 52AC-F0B4
       receiveFrequency: 1280
   - uid: 1448
     components:
@@ -3871,7 +3913,7 @@ entities:
     - type: Wires
       wireSeed: 1179666894
     - type: DeviceNetwork
-      address: 0187-B9F1
+      address: 5360-8295
       receiveFrequency: 1280
   - uid: 1632
     components:
@@ -3889,7 +3931,7 @@ entities:
     - type: Wires
       wireSeed: 832652103
     - type: DeviceNetwork
-      address: 6F42-2D6E
+      address: 7DFE-F3EA
       receiveFrequency: 1280
   - uid: 1755
     components:
@@ -3907,7 +3949,7 @@ entities:
     - type: Wires
       wireSeed: 1067488932
     - type: DeviceNetwork
-      address: 6BF6-C671
+      address: 5ED3-6026
       receiveFrequency: 1280
   - uid: 1756
     components:
@@ -3925,7 +3967,7 @@ entities:
     - type: Wires
       wireSeed: 1263129716
     - type: DeviceNetwork
-      address: 1B17-42D1
+      address: 51BF-AF81
       receiveFrequency: 1280
   - uid: 1981
     components:
@@ -3944,7 +3986,7 @@ entities:
     - type: Wires
       wireSeed: 381436930
     - type: DeviceNetwork
-      address: 53D2-6186
+      address: 6D97-B82F
       receiveFrequency: 1280
   - uid: 2014
     components:
@@ -3962,7 +4004,7 @@ entities:
     - type: Wires
       wireSeed: 1366093938
     - type: DeviceNetwork
-      address: 0F3C-47B5
+      address: 5EAB-EC5F
       receiveFrequency: 1280
   - uid: 2996
     components:
@@ -3980,7 +4022,7 @@ entities:
     - type: Wires
       wireSeed: 1275775646
     - type: DeviceNetwork
-      address: 2C0E-D8DC
+      address: 4227-C42B
       receiveFrequency: 1280
   - uid: 3055
     components:
@@ -3998,7 +4040,7 @@ entities:
     - type: Wires
       wireSeed: 716699077
     - type: DeviceNetwork
-      address: 3AF1-B079
+      address: 5D95-CAE8
       receiveFrequency: 1280
   - uid: 3083
     components:
@@ -4016,7 +4058,7 @@ entities:
     - type: Wires
       wireSeed: 1484452651
     - type: DeviceNetwork
-      address: 4454-26D5
+      address: 72B1-29DE
       receiveFrequency: 1280
   - uid: 5104
     components:
@@ -4034,7 +4076,7 @@ entities:
     - type: Wires
       wireSeed: 718397964
     - type: DeviceNetwork
-      address: 3B8E-E2E3
+      address: 7D2F-3DD7
       receiveFrequency: 1280
 - proto: AirlockMaintMedLocked
   entities:
@@ -4055,7 +4097,7 @@ entities:
     - type: Wires
       wireSeed: 213217516
     - type: DeviceNetwork
-      address: 15F2-738C
+      address: 54B6-E408
       receiveFrequency: 1280
   - uid: 1633
     components:
@@ -4073,7 +4115,7 @@ entities:
     - type: Wires
       wireSeed: 1080732210
     - type: DeviceNetwork
-      address: 0DFE-38CF
+      address: 0526-5D47
       receiveFrequency: 1280
 - proto: AirlockMaintRnDLocked
   entities:
@@ -4093,7 +4135,7 @@ entities:
     - type: Wires
       wireSeed: 940447859
     - type: DeviceNetwork
-      address: 7DDC-A8B7
+      address: 2D14-4208
       receiveFrequency: 1280
   - uid: 425
     components:
@@ -4112,7 +4154,7 @@ entities:
     - type: Wires
       wireSeed: 1684948579
     - type: DeviceNetwork
-      address: 179B-BBBD
+      address: 0BA2-7F3D
       receiveFrequency: 1280
 - proto: AirlockMaintSecLocked
   entities:
@@ -4132,7 +4174,7 @@ entities:
     - type: Wires
       wireSeed: 2117275429
     - type: DeviceNetwork
-      address: 0016-5EF2
+      address: 6B87-7956
       receiveFrequency: 1280
 - proto: AirlockMedical
   entities:
@@ -4152,7 +4194,7 @@ entities:
     - type: Wires
       wireSeed: 183160296
     - type: DeviceNetwork
-      address: 3991-C7F9
+      address: 7615-D47F
       receiveFrequency: 1280
 - proto: AirlockMedicalGlassLocked
   entities:
@@ -4172,7 +4214,7 @@ entities:
     - type: Wires
       wireSeed: 792825552
     - type: DeviceNetwork
-      address: 76BC-DE79
+      address: 2360-6274
       receiveFrequency: 1280
 - proto: AirlockMedicalLocked
   entities:
@@ -4193,7 +4235,7 @@ entities:
     - type: Wires
       wireSeed: 1989943102
     - type: DeviceNetwork
-      address: 70DF-01F2
+      address: 78C8-C9AC
       receiveFrequency: 1280
 - proto: AirlockMedicalMorgueLocked
   entities:
@@ -4214,7 +4256,7 @@ entities:
     - type: Wires
       wireSeed: 664282481
     - type: DeviceNetwork
-      address: 048B-A1A8
+      address: 5C26-96DA
       receiveFrequency: 1280
 - proto: AirlockQuartermasterLocked
   entities:
@@ -4239,7 +4281,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 1EF4-B3EF
+      address: 1B2C-3BC4
       receiveFrequency: 1280
 - proto: AirlockResearchDirectorLocked
   entities:
@@ -4264,7 +4306,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 44D1-244F
+      address: 618D-4D75
       receiveFrequency: 1280
   - uid: 124
     components:
@@ -4287,7 +4329,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 3647-FBFC
+      address: 754A-E8E4
       receiveFrequency: 1280
 - proto: AirlockSalvageGlassLocked
   entities:
@@ -4308,7 +4350,7 @@ entities:
     - type: Wires
       wireSeed: 361311590
     - type: DeviceNetwork
-      address: 38D2-7394
+      address: 206E-88AC
       receiveFrequency: 1280
 - proto: AirlockScienceGlassLocked
   entities:
@@ -4328,7 +4370,7 @@ entities:
     - type: Wires
       wireSeed: 889518637
     - type: DeviceNetwork
-      address: 5702-D612
+      address: 0747-ACAE
       receiveFrequency: 1280
   - uid: 145
     components:
@@ -4348,7 +4390,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5722
-      address: 2155-EF7C
+      address: 0514-85CF
       receiveFrequency: 1280
 - proto: AirlockScienceLocked
   entities:
@@ -4368,7 +4410,7 @@ entities:
     - type: Wires
       wireSeed: 952905167
     - type: DeviceNetwork
-      address: 647E-1115
+      address: 6A86-F82C
       receiveFrequency: 1280
   - uid: 39
     components:
@@ -4386,10 +4428,10 @@ entities:
     - type: Wires
       wireSeed: 1031210875
     - type: Door
-      secondsUntilStateChange: -80402.32
+      secondsUntilStateChange: -83215.46
       state: Opening
     - type: DeviceNetwork
-      address: 3B3C-0C19
+      address: 2415-3BD1
       receiveFrequency: 1280
     - type: DeviceLinkSource
       lastSignals:
@@ -4410,7 +4452,7 @@ entities:
     - type: Wires
       wireSeed: 1107436828
     - type: DeviceNetwork
-      address: 1F28-9E94
+      address: 14F7-22FE
       receiveFrequency: 1280
   - uid: 41
     components:
@@ -4428,7 +4470,7 @@ entities:
     - type: Wires
       wireSeed: 1945364013
     - type: DeviceNetwork
-      address: 3B6D-A6B2
+      address: 00C5-636A
       receiveFrequency: 1280
   - uid: 402
     components:
@@ -4446,7 +4488,7 @@ entities:
     - type: Wires
       wireSeed: 1389936457
     - type: DeviceNetwork
-      address: 0691-B789
+      address: 2130-55A1
       receiveFrequency: 1280
   - uid: 473
     components:
@@ -4465,7 +4507,7 @@ entities:
     - type: Wires
       wireSeed: 1376059733
     - type: DeviceNetwork
-      address: 2AB5-3C17
+      address: 3AC5-B29E
       receiveFrequency: 1280
   - uid: 474
     components:
@@ -4484,7 +4526,7 @@ entities:
     - type: Wires
       wireSeed: 1859704869
     - type: DeviceNetwork
-      address: 2597-65AF
+      address: 67AB-62DD
       receiveFrequency: 1280
   - uid: 1257
     components:
@@ -4503,7 +4545,7 @@ entities:
     - type: Wires
       wireSeed: 1250721671
     - type: DeviceNetwork
-      address: 315F-E18C
+      address: 746D-7EB1
       receiveFrequency: 1280
 - proto: AirlockSecurityGlass
   entities:
@@ -4524,7 +4566,7 @@ entities:
     - type: Wires
       wireSeed: 1969072140
     - type: DeviceNetwork
-      address: 7FB6-1D4A
+      address: 58BB-9BED
       receiveFrequency: 1280
   - uid: 2669
     components:
@@ -4543,7 +4585,7 @@ entities:
     - type: Wires
       wireSeed: 1363206041
     - type: DeviceNetwork
-      address: 0276-2C0D
+      address: 2201-0BAD
       receiveFrequency: 1280
 - proto: AirlockSecurityLawyerGlassLocked
   entities:
@@ -4564,7 +4606,7 @@ entities:
     - type: Wires
       wireSeed: 1534457680
     - type: DeviceNetwork
-      address: 10A0-5D4C
+      address: 2B23-49FB
       receiveFrequency: 1280
   - uid: 2371
     components:
@@ -4583,7 +4625,7 @@ entities:
     - type: Wires
       wireSeed: 1007860217
     - type: DeviceNetwork
-      address: 0D97-BFD4
+      address: 2572-F4B7
       receiveFrequency: 1280
 - proto: AirlockSecurityLocked
   entities:
@@ -4604,7 +4646,7 @@ entities:
     - type: Wires
       wireSeed: 933315749
     - type: DeviceNetwork
-      address: 59DC-1F0A
+      address: 0F04-612C
       receiveFrequency: 1280
   - uid: 2689
     components:
@@ -4622,7 +4664,7 @@ entities:
     - type: Wires
       wireSeed: 1375393140
     - type: DeviceNetwork
-      address: 3EA4-F207
+      address: 6E07-2FE4
       receiveFrequency: 1280
   - uid: 2690
     components:
@@ -4640,7 +4682,7 @@ entities:
     - type: Wires
       wireSeed: 828153119
     - type: DeviceNetwork
-      address: 205D-56BD
+      address: 378D-4529
       receiveFrequency: 1280
 - proto: AirSensor
   entities:
@@ -4661,7 +4703,7 @@ entities:
       - invalid
       deviceLists:
       - 5751
-      address: SNS-539E-D241
+      address: SNS-52C2-2BF9
       transmitFrequency: 1621
       receiveFrequency: 1621
 - proto: AnomalyLocator
@@ -6644,7 +6686,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 73DB-7CA0
+      address: 1F39-9794
       receiveFrequency: 1280
   - uid: 5097
     components:
@@ -6660,7 +6702,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 27FD-FA1C
+      address: 43EB-13B6
       receiveFrequency: 1280
 - proto: BookAILawCompendium
   entities:
@@ -8509,6 +8551,18 @@ entities:
         Blunt: 0
         Slash: 0
         Piercing: 0
+  - uid: 769
+    components:
+    - type: Transform
+      pos: -13.5,20.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
   - uid: 782
     components:
     - type: Transform
@@ -8525,6 +8579,18 @@ entities:
     components:
     - type: Transform
       pos: -16.5,14.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+  - uid: 791
+    components:
+    - type: Transform
+      pos: 11.5,16.5
       parent: 2
     - type: Damageable
       damageDictCopy:
@@ -10729,18 +10795,6 @@ entities:
         Blunt: 0
         Slash: 0
         Piercing: 0
-  - uid: 1773
-    components:
-    - type: Transform
-      pos: -13.5,21.5
-      parent: 2
-    - type: Damageable
-      damageDictCopy:
-        Heat: 0
-        Shock: 0
-        Blunt: 0
-        Slash: 0
-        Piercing: 0
   - uid: 1774
     components:
     - type: Transform
@@ -11452,7 +11506,7 @@ entities:
   - uid: 2556
     components:
     - type: Transform
-      pos: 12.5,17.5
+      pos: 14.5,18.5
       parent: 2
     - type: Damageable
       damageDictCopy:
@@ -11621,6 +11675,18 @@ entities:
     components:
     - type: Transform
       pos: 7.5,11.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+  - uid: 2753
+    components:
+    - type: Transform
+      pos: 16.5,18.5
       parent: 2
     - type: Damageable
       damageDictCopy:
@@ -17033,6 +17099,42 @@ entities:
     components:
     - type: Transform
       pos: 17.5,-10.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+  - uid: 3920
+    components:
+    - type: Transform
+      pos: 13.5,18.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+  - uid: 4003
+    components:
+    - type: Transform
+      pos: 13.5,17.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+  - uid: 4004
+    components:
+    - type: Transform
+      pos: 18.5,21.5
       parent: 2
     - type: Damageable
       damageDictCopy:
@@ -32948,6 +33050,14 @@ entities:
     - type: Transform
       pos: 2.5,-8.5
       parent: 2
+    - type: EntityStorage
+      air:
+        volume: 200
+        immutable: False
+        temperature: 293.14673
+        moles:
+          Oxygen: 1.7459903
+          Nitrogen: 6.568249
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -33645,7 +33755,7 @@ entities:
     - type: Wires
       wireSeed: 1209234583
     - type: DeviceNetwork
-      address: 5D3C-3F03
+      address: 1A8C-3F88
 - proto: ComputerAtmosMonitoring
   entities:
   - uid: 3918
@@ -33775,22 +33885,6 @@ entities:
       wireSeed: 1501371674
 - proto: ComputerCargoBounty
   entities:
-  - uid: 2819
-    components:
-    - type: Transform
-      rot: 1.5707963267948966 rad
-      pos: 26.5,11.5
-      parent: 2
-    - type: Damageable
-      damageDictCopy:
-        Heat: 0
-        Shock: 0
-        Structural: 0
-        Blunt: 0
-        Slash: 0
-        Piercing: 0
-    - type: Wires
-      wireSeed: 136862929
   - uid: 2890
     components:
     - type: Transform
@@ -33826,7 +33920,7 @@ entities:
     - type: Wires
       wireSeed: 502610646
     - type: DeviceNetwork
-      address: 1C1D-402D
+      address: 3BAB-94CF
       receiveFrequency: 1280
 - proto: ComputerComms
   entities:
@@ -33846,7 +33940,7 @@ entities:
     - type: Wires
       wireSeed: 1473592264
     - type: DeviceNetwork
-      address: 4DB9-731B
+      address: 226E-AB2D
       transmitFrequency: 2450
 - proto: ComputerCrewMonitoring
   entities:
@@ -33866,7 +33960,7 @@ entities:
     - type: Wires
       wireSeed: 1145204473
     - type: DeviceNetwork
-      address: 6E6E-F003
+      address: 18E6-AA8B
       receiveFrequency: 1261
   - uid: 1625
     components:
@@ -33885,7 +33979,7 @@ entities:
     - type: Wires
       wireSeed: 1789549035
     - type: DeviceNetwork
-      address: 4078-8312
+      address: 3485-6115
       receiveFrequency: 1261
 - proto: ComputerCriminalRecords
   entities:
@@ -34071,9 +34165,27 @@ entities:
             sprite: Mobs/Silicon/chassis.rsi
             state: janitor
     - type: DeviceNetwork
-      address: 1C6C-5CB6
+      address: 7578-0554
       transmitFrequency: 1292
       receiveFrequency: 1291
+- proto: ComputerSalvageJobBoard
+  entities:
+  - uid: 2458
+    components:
+    - type: Transform
+      rot: 3.141592653589793 rad
+      pos: 50.5,21.5
+      parent: 2
+    - type: Wires
+      wireSeed: 399137204
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Structural: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
 - proto: ComputerShuttleCargo
   entities:
   - uid: 2812
@@ -34161,7 +34273,7 @@ entities:
     - type: Wires
       wireSeed: 749990588
     - type: DeviceNetwork
-      address: 2971-2A54
+      address: 0F29-BEF6
       transmitFrequency: 1926
       receiveFrequency: 1926
   - uid: 3218
@@ -34181,7 +34293,7 @@ entities:
     - type: Wires
       wireSeed: 1612323707
     - type: DeviceNetwork
-      address: 05EC-D233
+      address: 170C-051E
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: ConveyorBelt
@@ -34201,7 +34313,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 228A-E228
+      address: 4BF1-31EB
       receiveFrequency: 1280
   - uid: 2106
     components:
@@ -34218,7 +34330,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2EBD-3501
+      address: 3908-5CE9
       receiveFrequency: 1280
   - uid: 2110
     components:
@@ -34235,7 +34347,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 673E-F89E
+      address: 5742-B0F5
       receiveFrequency: 1280
   - uid: 2112
     components:
@@ -34252,7 +34364,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2526-C227
+      address: 0E35-AEF1
       receiveFrequency: 1280
   - uid: 2121
     components:
@@ -34269,7 +34381,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2E52-C949
+      address: 62AE-C7D4
       receiveFrequency: 1280
   - uid: 2132
     components:
@@ -34286,7 +34398,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2AC9-6F02
+      address: 75F3-5B06
       receiveFrequency: 1280
   - uid: 2135
     components:
@@ -34303,7 +34415,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6589-23BD
+      address: 6F95-E09C
       receiveFrequency: 1280
   - uid: 2136
     components:
@@ -34320,7 +34432,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 173A-B7A5
+      address: 5F38-527E
       receiveFrequency: 1280
   - uid: 2960
     components:
@@ -34336,7 +34448,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 273C-469E
+      address: 0285-F70C
       receiveFrequency: 1280
   - uid: 2961
     components:
@@ -34353,7 +34465,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2E71-B7CC
+      address: 4F5A-A7A7
       receiveFrequency: 1280
   - uid: 2963
     components:
@@ -34370,7 +34482,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 68D6-2916
+      address: 24AF-B68D
       receiveFrequency: 1280
   - uid: 2964
     components:
@@ -34387,7 +34499,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7C44-3EBC
+      address: 70A4-4851
       receiveFrequency: 1280
   - uid: 2988
     components:
@@ -34404,7 +34516,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 47D7-D739
+      address: 2264-0910
       receiveFrequency: 1280
   - uid: 5094
     components:
@@ -34421,7 +34533,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7EC4-EA6A
+      address: 0215-DC18
       receiveFrequency: 1280
   - uid: 5095
     components:
@@ -34438,7 +34550,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7B58-78E1
+      address: 68AF-2EFE
       receiveFrequency: 1280
   - uid: 5096
     components:
@@ -34455,7 +34567,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0BB0-8DAA
+      address: 2322-BA86
       receiveFrequency: 1280
 - proto: CowToolboxFilled
   entities:
@@ -40614,7 +40726,7 @@ entities:
     - type: FaxMachine
       name: Science
     - type: DeviceNetwork
-      address: 08A9-F850
+      address: 1713-3857
       transmitFrequency: 2640
       receiveFrequency: 2640
   - uid: 1800
@@ -40633,7 +40745,7 @@ entities:
     - type: FaxMachine
       name: Paperwork Room.
     - type: DeviceNetwork
-      address: 5558-7383
+      address: 44EB-19E7
       transmitFrequency: 2640
       receiveFrequency: 2640
   - uid: 1890
@@ -40652,7 +40764,7 @@ entities:
     - type: FaxMachine
       name: Bar
     - type: DeviceNetwork
-      address: 09C4-1583
+      address: 17DA-0AF3
       transmitFrequency: 2640
       receiveFrequency: 2640
   - uid: 1892
@@ -40671,7 +40783,7 @@ entities:
     - type: FaxMachine
       name: CMO
     - type: DeviceNetwork
-      address: 7A44-FF9F
+      address: 2E9D-0DAA
       transmitFrequency: 2640
       receiveFrequency: 2640
   - uid: 2249
@@ -40690,7 +40802,7 @@ entities:
     - type: FaxMachine
       name: HOP
     - type: DeviceNetwork
-      address: 48FB-F9A7
+      address: 39A5-ED6A
       transmitFrequency: 2640
       receiveFrequency: 2640
   - uid: 2754
@@ -40709,7 +40821,7 @@ entities:
     - type: FaxMachine
       name: Security
     - type: DeviceNetwork
-      address: 0A07-2701
+      address: 7C91-0A9A
       transmitFrequency: 2640
       receiveFrequency: 2640
   - uid: 2900
@@ -40728,7 +40840,7 @@ entities:
     - type: FaxMachine
       name: Cargo
     - type: DeviceNetwork
-      address: 0647-8030
+      address: 3106-F2BD
       transmitFrequency: 2640
       receiveFrequency: 2640
   - uid: 3240
@@ -40747,7 +40859,7 @@ entities:
     - type: FaxMachine
       name: Bridge
     - type: DeviceNetwork
-      address: 28A3-BDE9
+      address: 03EB-BEDD
       transmitFrequency: 2640
       receiveFrequency: 2640
 - proto: FaxMachineCaptain
@@ -40766,7 +40878,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4E5C-4CAC
+      address: 6C91-97A1
       transmitFrequency: 2640
       receiveFrequency: 2640
 - proto: filingCabinetDrawerRandom
@@ -40858,7 +40970,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5E7E-0D69
+      address: 2D89-69B1
       receiveFrequency: 1621
   - uid: 2593
     components:
@@ -40874,7 +40986,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 58E6-B02D
+      address: 1E42-FD8F
       receiveFrequency: 1621
   - uid: 2594
     components:
@@ -40890,7 +41002,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7B78-9B35
+      address: 0080-3211
       receiveFrequency: 1621
   - uid: 2595
     components:
@@ -40906,7 +41018,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 535E-21C7
+      address: 48E5-4CC8
       receiveFrequency: 1621
   - uid: 2596
     components:
@@ -40922,7 +41034,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5A72-88CF
+      address: 031C-E863
       receiveFrequency: 1621
 - proto: FirelockEdge
   entities:
@@ -40941,7 +41053,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2E3F-334E
+      address: 0546-D1C6
       receiveFrequency: 1621
   - uid: 387
     components:
@@ -40958,7 +41070,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5A87-2B7C
+      address: 3437-FD42
       receiveFrequency: 1621
   - uid: 2966
     components:
@@ -40977,7 +41089,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5714
-      address: 39A8-0C97
+      address: 0E72-99E2
       receiveFrequency: 1621
   - uid: 2967
     components:
@@ -40996,7 +41108,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5715
-      address: 0991-CE6F
+      address: 0E24-6A56
       receiveFrequency: 1621
   - uid: 2968
     components:
@@ -41015,7 +41127,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5714
-      address: 32C9-0E8A
+      address: 7D83-4C28
       receiveFrequency: 1621
   - uid: 2969
     components:
@@ -41034,7 +41146,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5714
-      address: 4030-E1C9
+      address: 4D1D-8AFC
       receiveFrequency: 1621
   - uid: 2970
     components:
@@ -41053,7 +41165,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5714
-      address: 2196-EFCF
+      address: 3CD6-BD44
       receiveFrequency: 1621
   - uid: 2971
     components:
@@ -41072,7 +41184,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5714
-      address: 153F-AD58
+      address: 5E63-7B68
       receiveFrequency: 1621
   - uid: 2972
     components:
@@ -41089,7 +41201,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7D1F-A9F4
+      address: 01B7-AA8A
       receiveFrequency: 1621
   - uid: 2973
     components:
@@ -41106,7 +41218,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3A12-BE72
+      address: 6365-8069
       receiveFrequency: 1621
   - uid: 3248
     components:
@@ -41124,7 +41236,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 7979-A956
+      address: 5D00-CF6A
       receiveFrequency: 1621
   - uid: 3521
     components:
@@ -41143,7 +41255,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 4829-66FB
+      address: 1200-DD7C
       receiveFrequency: 1621
   - uid: 3522
     components:
@@ -41162,7 +41274,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 5259-F4C4
+      address: 6A2F-FDE7
       receiveFrequency: 1621
   - uid: 3524
     components:
@@ -41180,7 +41292,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 0E63-5548
+      address: 41F8-C532
       receiveFrequency: 1621
   - uid: 3525
     components:
@@ -41198,7 +41310,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 0A81-F36C
+      address: 1B19-25DC
       receiveFrequency: 1621
   - uid: 3526
     components:
@@ -41216,7 +41328,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 6E3D-C17F
+      address: 62A2-4D1A
       receiveFrequency: 1621
   - uid: 3527
     components:
@@ -41235,7 +41347,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 7031-F7A0
+      address: 3FE1-DA5A
       receiveFrequency: 1621
   - uid: 3528
     components:
@@ -41254,7 +41366,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: 339E-6315
+      address: 1F8F-6880
       receiveFrequency: 1621
   - uid: 4855
     components:
@@ -41270,7 +41382,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 29C5-14A4
+      address: 5DD0-230C
       receiveFrequency: 1621
   - uid: 4856
     components:
@@ -41286,7 +41398,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 189B-DCD2
+      address: 5184-AA7C
       receiveFrequency: 1621
   - uid: 5608
     components:
@@ -41304,7 +41416,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: 46C3-BF8E
+      address: 7D2B-62CC
       receiveFrequency: 1621
   - uid: 5609
     components:
@@ -41322,7 +41434,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: 4098-4F58
+      address: 7273-505E
       receiveFrequency: 1621
   - uid: 5634
     components:
@@ -41341,7 +41453,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4850
-      address: 285B-6F7D
+      address: 06FC-8C84
       receiveFrequency: 1621
   - uid: 5635
     components:
@@ -41360,7 +41472,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4850
-      address: 7611-EAE3
+      address: 7543-62D3
       receiveFrequency: 1621
   - uid: 5636
     components:
@@ -41379,7 +41491,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4849
-      address: 400F-F34F
+      address: 6BBB-5535
       receiveFrequency: 1621
   - uid: 5637
     components:
@@ -41398,7 +41510,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4849
-      address: 2CAC-6140
+      address: 49B4-515D
       receiveFrequency: 1621
   - uid: 5712
     components:
@@ -41415,7 +41527,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0D85-9B62
+      address: 2883-AD6E
       receiveFrequency: 1621
   - uid: 5713
     components:
@@ -41432,7 +41544,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0B55-2C3D
+      address: 163B-95D2
       receiveFrequency: 1621
   - uid: 5730
     components:
@@ -41451,7 +41563,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: 2176-548C
+      address: 07BA-7DAA
       receiveFrequency: 1621
 - proto: FirelockGlass
   entities:
@@ -41466,7 +41578,7 @@ entities:
       - invalid
       deviceLists:
       - 5607
-      address: 67CD-F775
+      address: 15D0-5D56
       receiveFrequency: 1621
     - type: Damageable
       damageDictCopy:
@@ -41492,7 +41604,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5719
-      address: 3E35-66E9
+      address: 0462-F8E9
       receiveFrequency: 1621
   - uid: 1302
     components:
@@ -41510,7 +41622,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5720
-      address: 5B62-0A69
+      address: 4E7A-6CB8
       receiveFrequency: 1621
   - uid: 1303
     components:
@@ -41528,7 +41640,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5720
-      address: 2CC3-B8AD
+      address: 5E18-A274
       receiveFrequency: 1621
   - uid: 1304
     components:
@@ -41546,7 +41658,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5720
-      address: 345C-B723
+      address: 1CCA-F9E5
       receiveFrequency: 1621
   - uid: 1305
     components:
@@ -41565,7 +41677,7 @@ entities:
       deviceLists:
       - 5717
       - 5718
-      address: 1985-1259
+      address: 46AE-3988
       receiveFrequency: 1621
   - uid: 1306
     components:
@@ -41584,7 +41696,7 @@ entities:
       deviceLists:
       - 5717
       - 5718
-      address: 7E09-0CA8
+      address: 531A-4DDA
       receiveFrequency: 1621
   - uid: 1307
     components:
@@ -41602,7 +41714,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5717
-      address: 4EBB-BE4F
+      address: 31E7-B033
       receiveFrequency: 1621
   - uid: 1308
     components:
@@ -41620,7 +41732,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5722
-      address: 712E-41F6
+      address: 2AB7-CDD6
       receiveFrequency: 1621
   - uid: 1309
     components:
@@ -41638,7 +41750,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5721
-      address: 3A53-FDF1
+      address: 2B54-0BCD
       receiveFrequency: 1621
   - uid: 1310
     components:
@@ -41654,7 +41766,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4221-F08E
+      address: 585E-4385
       receiveFrequency: 1621
   - uid: 1311
     components:
@@ -41670,7 +41782,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7552-E7FC
+      address: 5FA7-E191
       receiveFrequency: 1621
   - uid: 1312
     components:
@@ -41688,7 +41800,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5722
-      address: 76C5-7245
+      address: 0809-4224
       receiveFrequency: 1621
   - uid: 1313
     components:
@@ -41706,7 +41818,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5722
-      address: 37CD-F77F
+      address: 257B-CEF7
       receiveFrequency: 1621
   - uid: 1314
     components:
@@ -41722,7 +41834,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 76D1-BE58
+      address: 73EF-868E
       receiveFrequency: 1621
   - uid: 1315
     components:
@@ -41738,7 +41850,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4D4E-7B4B
+      address: 7741-AC8A
       receiveFrequency: 1621
   - uid: 2208
     components:
@@ -41754,7 +41866,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 50BB-1783
+      address: 363A-10CD
       receiveFrequency: 1621
   - uid: 2209
     components:
@@ -41770,7 +41882,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3F3B-DE6A
+      address: 6377-2B51
       receiveFrequency: 1621
   - uid: 2473
     components:
@@ -41788,7 +41900,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5735
-      address: 3624-8681
+      address: 09AE-A005
       receiveFrequency: 1621
   - uid: 2583
     components:
@@ -41806,7 +41918,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5610
-      address: 2E31-D4BF
+      address: 1684-DE7F
       receiveFrequency: 1621
   - uid: 2584
     components:
@@ -41824,7 +41936,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5610
-      address: 7797-7EFC
+      address: 29D8-BF4C
       receiveFrequency: 1621
   - uid: 2585
     components:
@@ -41842,7 +41954,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5610
-      address: 69BA-41B9
+      address: 20BC-F217
       receiveFrequency: 1621
   - uid: 2586
     components:
@@ -41861,7 +41973,7 @@ entities:
       deviceLists:
       - 5610
       - 5615
-      address: 14AB-DF7F
+      address: 00B6-1DEB
       receiveFrequency: 1621
   - uid: 2587
     components:
@@ -41880,7 +41992,7 @@ entities:
       deviceLists:
       - 5610
       - 5615
-      address: 397F-C284
+      address: 338C-0F15
       receiveFrequency: 1621
   - uid: 2588
     components:
@@ -41899,7 +42011,7 @@ entities:
       deviceLists:
       - 5610
       - 5615
-      address: 5B50-5D88
+      address: 0CD9-B9B8
       receiveFrequency: 1621
   - uid: 2590
     components:
@@ -41915,7 +42027,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 58E2-FDCB
+      address: 62C2-987D
       receiveFrequency: 1621
   - uid: 2591
     components:
@@ -41933,7 +42045,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5733
-      address: 7FF7-C4D4
+      address: 724D-0927
       receiveFrequency: 1621
   - uid: 4475
     components:
@@ -41951,7 +42063,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5723
-      address: 37EE-7CB8
+      address: 5722-C7B5
       receiveFrequency: 1621
   - uid: 4476
     components:
@@ -41969,7 +42081,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5723
-      address: 0638-0BB1
+      address: 030F-D42A
       receiveFrequency: 1621
   - uid: 4477
     components:
@@ -41990,7 +42102,7 @@ entities:
       deviceLists:
       - 5723
       - 5751
-      address: 4128-5AC1
+      address: 31D0-32AE
       receiveFrequency: 1621
   - uid: 4478
     components:
@@ -42011,7 +42123,7 @@ entities:
       deviceLists:
       - 5723
       - 5751
-      address: 32B3-F2C4
+      address: 6C02-483B
       receiveFrequency: 1621
   - uid: 4479
     components:
@@ -42029,7 +42141,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5723
-      address: 08A8-5831
+      address: 1698-D93C
       receiveFrequency: 1621
   - uid: 4480
     components:
@@ -42047,7 +42159,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5723
-      address: 2A48-3E06
+      address: 0D02-5E12
       receiveFrequency: 1621
   - uid: 4481
     components:
@@ -42065,7 +42177,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5724
-      address: 07A9-C425
+      address: 280C-AAB1
       receiveFrequency: 1621
   - uid: 4482
     components:
@@ -42083,7 +42195,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5724
-      address: 6682-83A8
+      address: 2815-8DE0
       receiveFrequency: 1621
   - uid: 5613
     components:
@@ -42100,7 +42212,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0837-159F
+      address: 1EA8-FF21
       receiveFrequency: 1621
   - uid: 5616
     components:
@@ -42119,7 +42231,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: 02E0-9064
+      address: 7324-3C12
       receiveFrequency: 1621
   - uid: 5618
     components:
@@ -42138,7 +42250,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: 4DD5-ED85
+      address: 385B-1A2B
       receiveFrequency: 1621
   - uid: 5619
     components:
@@ -42157,7 +42269,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: 77FB-08D9
+      address: 3443-5B27
       receiveFrequency: 1621
   - uid: 5620
     components:
@@ -42176,7 +42288,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5624
-      address: 407B-8F2C
+      address: 6443-A8E6
       receiveFrequency: 1621
   - uid: 5621
     components:
@@ -42195,7 +42307,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5624
-      address: 57B5-5625
+      address: 3848-C336
       receiveFrequency: 1621
   - uid: 5622
     components:
@@ -42214,7 +42326,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5625
-      address: 0062-83C0
+      address: 59EC-0D92
       receiveFrequency: 1621
   - uid: 5623
     components:
@@ -42233,7 +42345,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5625
-      address: 40AB-0BAB
+      address: 7D8C-77C4
       receiveFrequency: 1621
   - uid: 5626
     components:
@@ -42252,7 +42364,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5615
-      address: 4E0D-98FE
+      address: 497A-7299
       receiveFrequency: 1621
   - uid: 5627
     components:
@@ -42271,7 +42383,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5615
-      address: 2FBE-B4D1
+      address: 4CA8-129D
       receiveFrequency: 1621
   - uid: 5628
     components:
@@ -42290,7 +42402,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5615
-      address: 54E8-284C
+      address: 371B-1DFB
       receiveFrequency: 1621
   - uid: 5629
     components:
@@ -42309,7 +42421,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5476
-      address: 4C36-DC08
+      address: 14B6-21A5
       receiveFrequency: 1621
   - uid: 5630
     components:
@@ -42328,7 +42440,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5476
-      address: 7F84-8B88
+      address: 2FC6-970B
       receiveFrequency: 1621
   - uid: 5631
     components:
@@ -42345,12 +42457,12 @@ entities:
         Slash: 0
         Piercing: 0
     - type: Door
-      secondsUntilStateChange: -321.14774
+      secondsUntilStateChange: -3134.286
       state: Closing
     - type: DeviceNetwork
       deviceLists:
       - 5476
-      address: 77F9-3564
+      address: 1EF7-D663
       receiveFrequency: 1621
   - uid: 5632
     components:
@@ -42368,7 +42480,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5726
-      address: 1264-B6D3
+      address: 1D75-99DC
       receiveFrequency: 1621
   - uid: 5633
     components:
@@ -42386,7 +42498,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5726
-      address: 1AEB-9314
+      address: 2A2F-2EDD
       receiveFrequency: 1621
   - uid: 5702
     components:
@@ -42405,7 +42517,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: 1A33-2BBE
+      address: 5562-9A61
       receiveFrequency: 1621
   - uid: 5703
     components:
@@ -42424,7 +42536,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: 648E-0FEA
+      address: 72F5-7C7D
       receiveFrequency: 1621
   - uid: 5704
     components:
@@ -42443,7 +42555,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: 298E-FE2B
+      address: 305F-88C2
       receiveFrequency: 1621
   - uid: 5705
     components:
@@ -42462,7 +42574,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: 3895-E5DB
+      address: 7C12-A66E
       receiveFrequency: 1621
   - uid: 5706
     components:
@@ -42481,7 +42593,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5708
-      address: 27BE-59B3
+      address: 7FF9-0671
       receiveFrequency: 1621
   - uid: 5707
     components:
@@ -42500,7 +42612,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5708
-      address: 615B-EDBC
+      address: 4B50-C05D
       receiveFrequency: 1621
   - uid: 5709
     components:
@@ -42517,7 +42629,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7ECA-1112
+      address: 4149-D284
       receiveFrequency: 1621
   - uid: 5710
     components:
@@ -42534,7 +42646,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2438-EE95
+      address: 296D-7673
       receiveFrequency: 1621
   - uid: 5711
     components:
@@ -42553,7 +42665,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5715
-      address: 1449-65B0
+      address: 30BF-5F36
       receiveFrequency: 1621
   - uid: 5716
     components:
@@ -42572,7 +42684,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5718
-      address: 08E6-FD00
+      address: 5742-562D
       receiveFrequency: 1621
   - uid: 5729
     components:
@@ -42591,7 +42703,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: 11D9-B848
+      address: 5AD7-CFA7
       receiveFrequency: 1621
   - uid: 5731
     components:
@@ -42610,7 +42722,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: 054E-FA77
+      address: 47A8-0D6F
       receiveFrequency: 1621
   - uid: 5734
     components:
@@ -42629,7 +42741,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5733
-      address: 079D-92C2
+      address: 5A01-B036
       receiveFrequency: 1621
 - proto: Fireplace
   entities:
@@ -44972,7 +45084,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SNS-4879-9449
+      address: SNS-7F45-FC7C
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: Label
@@ -44996,7 +45108,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SNS-7BB9-3836
+      address: SNS-0CC4-C015
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: Label
@@ -45019,7 +45131,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SNS-1C40-92B3
+      address: SNS-69E5-FE7A
       transmitFrequency: 1621
       receiveFrequency: 1621
 - proto: GasPipeSensorMixedAirAlt2
@@ -45039,7 +45151,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SNS-3E42-7702
+      address: SNS-7F3D-F5E2
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeColor
@@ -45060,7 +45172,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SNS-47D5-1F23
+      address: SNS-7841-DD50
       transmitFrequency: 1621
       receiveFrequency: 1621
 - proto: GasPipeStraight
@@ -55799,7 +55911,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: FZR-6ADF-9365
+      address: FZR-602E-4843
       transmitFrequency: 1621
       receiveFrequency: 1621
 - proto: GasValveAlt1
@@ -55838,7 +55950,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5726
-      address: VNT-481D-F0A5
+      address: VNT-605D-FD9A
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -55862,7 +55974,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4849
-      address: VNT-0642-67C6
+      address: VNT-10A7-BA66
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -55885,7 +55997,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5721
-      address: VNT-6BA4-647D
+      address: VNT-56FC-8C1F
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -55909,7 +56021,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5721
-      address: VNT-58B6-F62F
+      address: VNT-70CC-DCCE
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -55933,7 +56045,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5722
-      address: VNT-4709-6886
+      address: VNT-6E7B-1489
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -55957,7 +56069,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5719
-      address: VNT-3774-3B06
+      address: VNT-2C1D-9371
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -55981,7 +56093,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5718
-      address: VNT-659F-8B20
+      address: VNT-314B-F4E5
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56005,7 +56117,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5717
-      address: VNT-3A4B-CD2D
+      address: VNT-55FC-7730
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56029,7 +56141,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4850
-      address: VNT-2530-6DBE
+      address: VNT-3331-B650
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56053,7 +56165,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4850
-      address: VNT-3A7A-C6EE
+      address: VNT-3159-2C34
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56077,7 +56189,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5720
-      address: VNT-0239-E625
+      address: VNT-0445-823E
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56100,7 +56212,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5732
-      address: VNT-5B21-FDBA
+      address: VNT-3EA0-9D09
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56123,7 +56235,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: VNT-70AF-5358
+      address: VNT-113F-FB0A
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56147,7 +56259,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: VNT-729E-7103
+      address: VNT-665E-2D38
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56170,7 +56282,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: VNT-7D3F-4579
+      address: VNT-6C34-E051
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56194,7 +56306,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5727
-      address: VNT-74DA-E010
+      address: VNT-57CD-FFA5
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56220,7 +56332,7 @@ entities:
       - invalid
       deviceLists:
       - 5611
-      address: VNT-7A41-CA09
+      address: VNT-74FB-D859
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56243,7 +56355,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: VNT-629A-3ED1
+      address: VNT-6A3B-76E9
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56266,7 +56378,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5610
-      address: VNT-66E9-5206
+      address: VNT-129D-515D
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56290,7 +56402,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5612
-      address: VNT-204B-939B
+      address: VNT-241F-F9F1
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56314,7 +56426,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5615
-      address: VNT-556F-2334
+      address: VNT-0B24-C020
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56337,7 +56449,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5476
-      address: VNT-7338-8CE8
+      address: VNT-690C-4115
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56361,7 +56473,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5476
-      address: VNT-07B7-4240
+      address: VNT-56A0-2BB1
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56385,7 +56497,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: VNT-1964-DB5F
+      address: VNT-44B9-71DC
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56409,7 +56521,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5735
-      address: VNT-249F-E7C0
+      address: VNT-3067-3BBF
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56433,7 +56545,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: VNT-33C9-127E
+      address: VNT-5CAC-0EDC
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56457,7 +56569,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5733
-      address: VNT-32B1-58EA
+      address: VNT-008A-7494
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56480,7 +56592,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5733
-      address: VNT-1A2C-BD74
+      address: VNT-1856-0B23
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56504,7 +56616,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5764
-      address: VNT-021A-D954
+      address: VNT-32AE-8FAD
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56528,7 +56640,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5724
-      address: VNT-1103-4434
+      address: VNT-610B-0012
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56552,7 +56664,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5725
-      address: VNT-6008-1683
+      address: VNT-3CA4-3B3E
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56576,7 +56688,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5723
-      address: VNT-004C-CBFD
+      address: VNT-4DA2-B686
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56599,7 +56711,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: VNT-4A64-6E20
+      address: VNT-23EE-C3B9
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56622,7 +56734,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: VNT-6044-B13D
+      address: VNT-305A-15D0
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56645,7 +56757,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: VNT-3495-71EE
+      address: VNT-67F7-0CAA
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56669,7 +56781,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5708
-      address: VNT-5324-71B4
+      address: VNT-0AAF-75A7
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56691,7 +56803,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: VNT-3DD8-7D77
+      address: VNT-17E8-FBEC
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56715,7 +56827,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5715
-      address: VNT-543F-7A82
+      address: VNT-3D5B-B4B9
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56739,7 +56851,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5715
-      address: VNT-1146-8924
+      address: VNT-3E80-7D8F
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56763,7 +56875,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5714
-      address: VNT-4173-F560
+      address: VNT-272A-A4B9
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56786,7 +56898,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5625
-      address: VNT-1C56-F2DE
+      address: VNT-5474-574D
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56810,7 +56922,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5625
-      address: VNT-4D39-889D
+      address: VNT-6DA8-7AC6
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56834,7 +56946,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5624
-      address: VNT-57C2-E147
+      address: VNT-36E5-0817
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56855,7 +56967,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: VNT-12D7-F45B
+      address: VNT-264D-8CC7
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56881,7 +56993,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5726
-      address: SCR-52B3-BD2C
+      address: SCR-73B0-E6B1
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56905,7 +57017,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4849
-      address: SCR-0904-EA73
+      address: SCR-4A87-B5D0
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56928,7 +57040,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5721
-      address: SCR-3CBC-60E0
+      address: SCR-6013-8271
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56952,7 +57064,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5721
-      address: SCR-2492-5E60
+      address: SCR-7D5C-59C7
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -56976,7 +57088,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5722
-      address: SCR-042A-D608
+      address: SCR-314A-76EA
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57000,7 +57112,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5719
-      address: SCR-5BEF-5FB5
+      address: SCR-77D5-A03C
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57024,7 +57136,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5718
-      address: SCR-40CD-E5C5
+      address: SCR-7E60-D424
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57048,7 +57160,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5717
-      address: SCR-152E-24C1
+      address: SCR-754F-915B
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57072,7 +57184,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4850
-      address: SCR-71FA-BF97
+      address: SCR-2930-49AB
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57096,7 +57208,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 4850
-      address: SCR-48B3-3559
+      address: SCR-5779-B05D
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57120,7 +57232,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5720
-      address: SCR-7FC9-E214
+      address: SCR-541C-E885
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57143,7 +57255,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: SCR-2203-6205
+      address: SCR-2203-5317
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57167,7 +57279,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: SCR-0B2F-48DB
+      address: SCR-4B0E-9558
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57190,7 +57302,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5728
-      address: SCR-69D8-1529
+      address: SCR-3649-FCED
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57214,7 +57326,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5727
-      address: SCR-7F24-FC62
+      address: SCR-68F5-2498
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57237,7 +57349,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5732
-      address: SCR-6AE5-CF21
+      address: SCR-6228-3B34
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57260,7 +57372,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: SCR-4BA4-61B9
+      address: SCR-723A-C750
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57284,7 +57396,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5611
-      address: SCR-0397-CFAA
+      address: SCR-0758-CBBF
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57308,7 +57420,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5610
-      address: SCR-06E6-C76B
+      address: SCR-1DF1-599E
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57332,7 +57444,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5612
-      address: SCR-2602-41AA
+      address: SCR-45AD-237C
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57355,7 +57467,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5615
-      address: SCR-799E-0530
+      address: SCR-1262-30D7
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57378,7 +57490,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5476
-      address: SCR-3BD9-A8A2
+      address: SCR-5204-403F
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57402,7 +57514,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5476
-      address: SCR-45C1-F2C3
+      address: SCR-2CBB-BF4C
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57426,7 +57538,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5735
-      address: SCR-12E8-FE5D
+      address: SCR-0A83-4FA1
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57450,7 +57562,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: SCR-4E57-0F4D
+      address: SCR-0297-DCF1
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57474,7 +57586,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5607
-      address: SCR-1BAC-E301
+      address: SCR-3733-C609
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57498,7 +57610,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5733
-      address: SCR-4116-9C25
+      address: SCR-3BA6-588B
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57521,7 +57633,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5733
-      address: SCR-10C2-F5E9
+      address: SCR-77AB-59AD
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57543,7 +57655,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SCR-6515-7326
+      address: SCR-3076-023C
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57567,7 +57679,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5764
-      address: SCR-5F02-14EA
+      address: SCR-47E3-86A7
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57590,7 +57702,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5724
-      address: SCR-4518-CE34
+      address: SCR-03D2-DD04
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57614,7 +57726,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5725
-      address: SCR-631F-9CCD
+      address: SCR-3D5B-FBE2
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57637,7 +57749,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5723
-      address: SCR-416C-CF27
+      address: SCR-3F7E-6B25
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57661,7 +57773,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: SCR-3E9D-44D4
+      address: SCR-2D92-111D
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57685,7 +57797,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5708
-      address: SCR-62DB-B13C
+      address: SCR-0CC3-38A3
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57709,7 +57821,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5715
-      address: SCR-51F6-FC08
+      address: SCR-6B94-BC15
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57733,7 +57845,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5715
-      address: SCR-6D64-CCD1
+      address: SCR-35E9-C1A4
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57757,7 +57869,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5714
-      address: SCR-0E23-EE56
+      address: SCR-24AE-4F49
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57780,7 +57892,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: SCR-3957-1A0B
+      address: SCR-3386-6763
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57803,7 +57915,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5701
-      address: SCR-60B8-89BA
+      address: SCR-73D8-958A
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57827,7 +57939,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5625
-      address: SCR-6924-B334
+      address: SCR-6CFA-FB39
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57851,7 +57963,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5625
-      address: SCR-783A-5E28
+      address: SCR-2034-EA45
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57874,7 +57986,7 @@ entities:
     - type: DeviceNetwork
       deviceLists:
       - 5624
-      address: SCR-5206-42E7
+      address: SCR-1511-F6C0
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -57895,7 +58007,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SCR-0C5E-6854
+      address: SCR-39F0-77AB
       transmitFrequency: 1621
       receiveFrequency: 1621
     - type: AtmosPipeLayers
@@ -61141,8 +61253,10 @@ entities:
   - uid: 743
     components:
     - type: Transform
-      pos: -14.5,6.5
+      pos: -12.5,6.5
       parent: 2
+    - type: Wires
+      wireSeed: 1716148454
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -61151,8 +61265,6 @@ entities:
         Blunt: 0
         Slash: 0
         Piercing: 0
-    - type: Wires
-      wireSeed: 137307006
 - proto: KitchenMicrowave
   entities:
   - uid: 147
@@ -61169,7 +61281,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2A19-2C8A
+      address: 2DF5-4A9A
       receiveFrequency: 1280
   - uid: 879
     components:
@@ -61185,7 +61297,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4A16-2217
+      address: 5E9A-8406
       receiveFrequency: 1280
   - uid: 2898
     components:
@@ -61201,7 +61313,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5E09-CE30
+      address: 3847-E114
       receiveFrequency: 1280
 - proto: KitchenReagentGrinder
   entities:
@@ -61297,7 +61409,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1027-9652
+      address: 5671-532F
     - type: DeviceLinkSource
       linkedPorts:
         1236:
@@ -61326,7 +61438,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2F5D-9AC9
+      address: 59C5-27EC
     - type: DeviceLinkSource
       linkedPorts:
         1236:
@@ -61626,6 +61738,19 @@ entities:
         Blunt: 0
         Slash: 0
         Piercing: 0
+  - uid: 6283
+    components:
+    - type: Transform
+      pos: 4.5,-0.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Structural: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
 - proto: LockerSecurityFilled
   entities:
   - uid: 2787
@@ -61691,7 +61816,7 @@ entities:
         - - Output
           - DoorBolt
     - type: DeviceNetwork
-      address: 5FDD-6A97
+      address: 4F39-5DF6
       receiveFrequency: 1280
     - type: Physics
       canCollide: False
@@ -61714,7 +61839,7 @@ entities:
         - - Output
           - DoorBolt
     - type: DeviceNetwork
-      address: 6127-87F4
+      address: 3E2E-0DD7
       receiveFrequency: 1280
     - type: Physics
       canCollide: False
@@ -61736,7 +61861,7 @@ entities:
         - - Output
           - DoorBolt
     - type: DeviceNetwork
-      address: 7945-CC76
+      address: 4F74-EEA5
       receiveFrequency: 1280
     - type: Physics
       canCollide: False
@@ -61759,7 +61884,7 @@ entities:
         - - Output
           - DoorBolt
     - type: DeviceNetwork
-      address: 1824-20F6
+      address: 01EF-15E8
       receiveFrequency: 1280
     - type: Physics
       canCollide: False
@@ -61782,7 +61907,7 @@ entities:
         - - Output
           - DoorBolt
     - type: DeviceNetwork
-      address: 2F13-72A6
+      address: 0506-EB88
       receiveFrequency: 1280
     - type: Physics
       canCollide: False
@@ -61805,7 +61930,52 @@ entities:
         - - Output
           - DoorBolt
     - type: DeviceNetwork
-      address: 7EAF-F704
+      address: 4F36-C26B
+      receiveFrequency: 1280
+    - type: Physics
+      canCollide: False
+      bodyType: Static
+  - uid: 6284
+    components:
+    - type: Transform
+      anchored: True
+      pos: 10.5,-0.5
+      parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        362:
+        - - Output
+          - DoorBolt
+        356:
+        - - Output
+          - DoorBolt
+    - type: DeviceNetwork
+      address: 654C-F9F6
+      receiveFrequency: 1280
+    - type: Physics
+      canCollide: False
+      bodyType: Static
+  - uid: 6285
+    components:
+    - type: Transform
+      anchored: True
+      rot: 1.5707963267948966 rad
+      pos: 11.5,-1.5
+      parent: 2
+    - type: DeviceLinkSink
+      invokeCounter: 1
+    - type: DeviceLinkSource
+      linkedPorts:
+        360:
+        - - Output
+          - DoorBolt
+        359:
+        - - Output
+          - DoorBolt
+    - type: DeviceNetwork
+      address: 1BBB-0D1C
       receiveFrequency: 1280
     - type: Physics
       canCollide: False
@@ -61841,7 +62011,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 385B-7678
+      address: 0F8F-F294
       receiveFrequency: 1280
 - proto: MachineArtifactAnalyzer
   entities:
@@ -61859,7 +62029,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 33DB-C5D2
+      address: 5999-90F0
       receiveFrequency: 1280
 - proto: MachineCentrifuge
   entities:
@@ -62350,6 +62520,20 @@ entities:
       - Arsenal
       - Experimental
       - CivilianServices
+- proto: MedkitBruteFilled
+  entities:
+  - uid: 5617
+    components:
+    - type: Transform
+      pos: -6.4772816,13.1329975
+      parent: 2
+- proto: MedkitBurnFilled
+  entities:
+  - uid: 6282
+    components:
+    - type: Transform
+      pos: -6.4772816,12.789008
+      parent: 2
 - proto: MedkitFilled
   entities:
   - uid: 1630
@@ -62963,7 +63147,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0109-D504
+      address: 02AA-58AE
       receiveFrequency: 1280
   - uid: 1968
     components:
@@ -62979,7 +63163,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 402A-F446
+      address: 3114-6740
       receiveFrequency: 1280
   - uid: 5473
     components:
@@ -62995,7 +63179,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6B5B-DC16
+      address: 1B1E-A68A
       receiveFrequency: 1280
 - proto: PortableGeneratorSuperPacman
   entities:
@@ -63016,7 +63200,7 @@ entities:
     - type: Physics
       bodyType: Static
     - type: DeviceNetwork
-      address: 25A7-B5EA
+      address: 35A8-F78E
       receiveFrequency: 1280
   - uid: 4407
     components:
@@ -63035,7 +63219,7 @@ entities:
     - type: Physics
       bodyType: Static
     - type: DeviceNetwork
-      address: 251A-235F
+      address: 1182-9511
       receiveFrequency: 1280
 - proto: PortableGeneratorSuperPacmanMachineCircuitboard
   entities:
@@ -63194,7 +63378,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2D03-1512
+      address: 173A-2BBD
       receiveFrequency: 1173
   - uid: 503
     components:
@@ -63210,7 +63394,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5836-B1EA
+      address: 6C71-593D
       receiveFrequency: 1173
   - uid: 505
     components:
@@ -63226,7 +63410,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4BFF-D78E
+      address: 106C-25EE
       receiveFrequency: 1173
   - uid: 787
     components:
@@ -63242,7 +63426,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2A0C-41F0
+      address: 394A-9F86
       receiveFrequency: 1173
   - uid: 792
     components:
@@ -63258,7 +63442,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 235D-C2DB
+      address: 60E5-0EAD
       receiveFrequency: 1173
   - uid: 873
     components:
@@ -63274,7 +63458,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1F67-58CA
+      address: 3295-78A8
       receiveFrequency: 1173
   - uid: 936
     components:
@@ -63290,7 +63474,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 45E7-333E
+      address: 5018-CD53
       receiveFrequency: 1173
   - uid: 1032
     components:
@@ -63306,7 +63490,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7686-9903
+      address: 4BCA-A179
       receiveFrequency: 1173
   - uid: 1621
     components:
@@ -63322,7 +63506,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 50F2-C4E1
+      address: 0E11-9356
       receiveFrequency: 1173
   - uid: 5100
     components:
@@ -63338,7 +63522,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 75F2-30F4
+      address: 1375-D3D2
       receiveFrequency: 1173
   - uid: 5101
     components:
@@ -63353,7 +63537,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 691A-3496
+      address: 620D-FB30
       receiveFrequency: 1173
   - uid: 5523
     components:
@@ -63369,7 +63553,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4631-30B9
+      address: 759D-F8E5
       receiveFrequency: 1173
   - uid: 5524
     components:
@@ -63385,7 +63569,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 439B-F43E
+      address: 46BA-21A1
       receiveFrequency: 1173
   - uid: 5525
     components:
@@ -63400,7 +63584,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6DA2-7589
+      address: 04D4-B818
       receiveFrequency: 1173
   - uid: 5526
     components:
@@ -63416,7 +63600,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 06C9-4BC7
+      address: 765A-D5B1
       receiveFrequency: 1173
   - uid: 5527
     components:
@@ -63432,7 +63616,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 58AF-F51D
+      address: 0DCE-11E5
       receiveFrequency: 1173
   - uid: 5528
     components:
@@ -63448,7 +63632,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4CBC-362D
+      address: 0AA0-D94F
       receiveFrequency: 1173
   - uid: 5529
     components:
@@ -63464,7 +63648,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6B53-D266
+      address: 2C29-5C60
       receiveFrequency: 1173
   - uid: 5530
     components:
@@ -63480,7 +63664,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6C03-2ED6
+      address: 6809-9A3A
       receiveFrequency: 1173
   - uid: 5531
     components:
@@ -63496,7 +63680,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 09F2-A721
+      address: 5EEC-A154
       receiveFrequency: 1173
   - uid: 5532
     components:
@@ -63512,7 +63696,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7AFE-E80B
+      address: 1761-8131
       receiveFrequency: 1173
   - uid: 5533
     components:
@@ -63528,7 +63712,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 09E8-56E8
+      address: 191F-A605
       receiveFrequency: 1173
 - proto: Poweredlight
   entities:
@@ -63546,7 +63730,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3996-CB8F
+      address: 2686-5D43
       receiveFrequency: 1173
   - uid: 63
     components:
@@ -63562,7 +63746,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7CBB-0F0E
+      address: 2C59-E223
       receiveFrequency: 1173
   - uid: 449
     components:
@@ -63577,7 +63761,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0412-90AB
+      address: 6BCB-4A70
       receiveFrequency: 1173
   - uid: 450
     components:
@@ -63593,7 +63777,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 18BF-44BD
+      address: 4A0C-38B8
       receiveFrequency: 1173
   - uid: 497
     components:
@@ -63609,7 +63793,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 05ED-A95B
+      address: 1573-1949
       receiveFrequency: 1173
   - uid: 498
     components:
@@ -63625,7 +63809,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0141-EBB2
+      address: 01D7-041E
       receiveFrequency: 1173
   - uid: 500
     components:
@@ -63641,7 +63825,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0465-572C
+      address: 7BF1-C8B2
       receiveFrequency: 1173
   - uid: 501
     components:
@@ -63657,7 +63841,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6E53-D222
+      address: 61CF-49FB
       receiveFrequency: 1173
   - uid: 508
     components:
@@ -63672,7 +63856,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6741-D3AD
+      address: 0E4D-88D6
       receiveFrequency: 1173
   - uid: 509
     components:
@@ -63688,7 +63872,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 28E7-1B8F
+      address: 0B71-4F85
       receiveFrequency: 1173
   - uid: 1071
     components:
@@ -63704,7 +63888,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 39B0-E873
+      address: 2D01-387F
       receiveFrequency: 1173
   - uid: 1172
     components:
@@ -63719,7 +63903,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6C19-2AF2
+      address: 580A-928C
       receiveFrequency: 1173
   - uid: 1174
     components:
@@ -63735,7 +63919,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 496F-0F43
+      address: 7A2F-00B0
       receiveFrequency: 1173
   - uid: 1228
     components:
@@ -63751,7 +63935,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6167-E296
+      address: 29F5-399D
       receiveFrequency: 1173
   - uid: 1229
     components:
@@ -63767,7 +63951,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 31C4-5E93
+      address: 1CDC-5377
       receiveFrequency: 1173
   - uid: 1230
     components:
@@ -63782,7 +63966,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 07B9-3D66
+      address: 4EC9-5334
       receiveFrequency: 1173
   - uid: 1232
     components:
@@ -63798,7 +63982,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 592D-83DF
+      address: 1685-D1B2
       receiveFrequency: 1173
   - uid: 1273
     components:
@@ -63814,7 +63998,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0F0E-50A1
+      address: 6F62-0195
       receiveFrequency: 1173
   - uid: 1452
     components:
@@ -63830,7 +64014,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7CE0-E95F
+      address: 4B1B-0681
       receiveFrequency: 1173
   - uid: 1896
     components:
@@ -63846,7 +64030,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1573-9D5C
+      address: 7FFE-8CDA
       receiveFrequency: 1173
   - uid: 2029
     components:
@@ -63862,7 +64046,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 42E8-0FC7
+      address: 01AB-F5B5
       receiveFrequency: 1173
   - uid: 2030
     components:
@@ -63878,7 +64062,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 10F1-F0A7
+      address: 3BC1-50A0
       receiveFrequency: 1173
   - uid: 2031
     components:
@@ -63893,7 +64077,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5F0F-B387
+      address: 5D36-E30F
       receiveFrequency: 1173
   - uid: 2108
     components:
@@ -63909,7 +64093,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 32F3-8158
+      address: 4F9B-75B9
       receiveFrequency: 1173
   - uid: 2125
     components:
@@ -63925,7 +64109,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 19C7-21C7
+      address: 3BEF-5E43
       receiveFrequency: 1173
   - uid: 2127
     components:
@@ -63941,7 +64125,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5667-0707
+      address: 7FDF-292E
       receiveFrequency: 1173
   - uid: 2137
     components:
@@ -63956,7 +64140,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5E37-5A19
+      address: 3323-E50B
       receiveFrequency: 1173
   - uid: 2141
     components:
@@ -63972,7 +64156,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 346D-02DA
+      address: 5634-0D17
       receiveFrequency: 1173
   - uid: 2161
     components:
@@ -63987,7 +64171,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4F39-D96A
+      address: 1539-08E5
       receiveFrequency: 1173
   - uid: 2170
     components:
@@ -64003,7 +64187,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 50C2-21F9
+      address: 3CB9-9AA4
       receiveFrequency: 1173
   - uid: 2174
     components:
@@ -64018,7 +64202,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1EC7-F425
+      address: 5E9E-3FB5
       receiveFrequency: 1173
   - uid: 2381
     components:
@@ -64034,7 +64218,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6334-13A5
+      address: 5E3D-C6CF
       receiveFrequency: 1173
   - uid: 2382
     components:
@@ -64050,7 +64234,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0311-8E68
+      address: 7890-3044
       receiveFrequency: 1173
   - uid: 2941
     components:
@@ -64065,7 +64249,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 507D-7F62
+      address: 0574-A8A8
       receiveFrequency: 1173
   - uid: 2942
     components:
@@ -64080,7 +64264,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 37EF-4341
+      address: 19BC-705A
       receiveFrequency: 1173
   - uid: 2943
     components:
@@ -64096,7 +64280,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 45D5-4DBE
+      address: 027C-84E6
       receiveFrequency: 1173
   - uid: 2944
     components:
@@ -64112,7 +64296,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2C00-4AD3
+      address: 0352-4EFD
       receiveFrequency: 1173
   - uid: 2945
     components:
@@ -64127,7 +64311,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5B0D-0F0D
+      address: 6633-521C
       receiveFrequency: 1173
   - uid: 2946
     components:
@@ -64143,7 +64327,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 696B-1F0A
+      address: 4261-6CF3
       receiveFrequency: 1173
   - uid: 2947
     components:
@@ -64159,7 +64343,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5243-D216
+      address: 5F6E-81F4
       receiveFrequency: 1173
   - uid: 2948
     components:
@@ -64175,7 +64359,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7C7C-208C
+      address: 5085-F77E
       receiveFrequency: 1173
   - uid: 3082
     components:
@@ -64190,7 +64374,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 096F-DB41
+      address: 7949-6658
       receiveFrequency: 1173
   - uid: 3088
     components:
@@ -64206,7 +64390,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6D7C-0498
+      address: 06F9-023B
       receiveFrequency: 1173
   - uid: 3148
     components:
@@ -64222,7 +64406,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 652E-C73E
+      address: 393D-E144
       receiveFrequency: 1173
   - uid: 3225
     components:
@@ -64238,7 +64422,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7D2A-4F10
+      address: 54DE-7125
       receiveFrequency: 1173
   - uid: 3226
     components:
@@ -64254,7 +64438,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2684-49FF
+      address: 64D3-80AB
       receiveFrequency: 1173
   - uid: 3227
     components:
@@ -64270,7 +64454,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 406C-0F8D
+      address: 6A67-3512
       receiveFrequency: 1173
   - uid: 3228
     components:
@@ -64286,7 +64470,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5706-CE01
+      address: 572E-B80B
       receiveFrequency: 1173
   - uid: 3229
     components:
@@ -64302,7 +64486,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6BCE-6FCD
+      address: 3F54-625C
       receiveFrequency: 1173
   - uid: 3230
     components:
@@ -64318,7 +64502,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 48D8-DACF
+      address: 28F2-5D7E
       receiveFrequency: 1173
   - uid: 3231
     components:
@@ -64334,7 +64518,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 07C7-423C
+      address: 519E-4CC7
       receiveFrequency: 1173
   - uid: 5506
     components:
@@ -64350,7 +64534,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5EF1-3B5F
+      address: 3D80-9708
       receiveFrequency: 1173
   - uid: 5507
     components:
@@ -64365,7 +64549,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 611F-7F2E
+      address: 3C3D-7315
       receiveFrequency: 1173
   - uid: 5508
     components:
@@ -64381,7 +64565,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1BC0-1E52
+      address: 629A-67D7
       receiveFrequency: 1173
   - uid: 5509
     components:
@@ -64396,7 +64580,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 353F-7691
+      address: 2868-5E87
       receiveFrequency: 1173
   - uid: 5510
     components:
@@ -64411,7 +64595,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 23EB-068E
+      address: 0115-675D
       receiveFrequency: 1173
   - uid: 5511
     components:
@@ -64427,7 +64611,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7FEE-0599
+      address: 7705-12B9
       receiveFrequency: 1173
   - uid: 5512
     components:
@@ -64442,7 +64626,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4881-577A
+      address: 1112-B036
       receiveFrequency: 1173
   - uid: 5513
     components:
@@ -64458,7 +64642,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2A53-2E86
+      address: 2F46-950A
       receiveFrequency: 1173
   - uid: 5514
     components:
@@ -64474,7 +64658,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 55C0-033D
+      address: 314B-BF31
       receiveFrequency: 1173
   - uid: 5515
     components:
@@ -64490,7 +64674,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0FD3-799D
+      address: 1038-6A8A
       receiveFrequency: 1173
   - uid: 5516
     components:
@@ -64506,7 +64690,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 077D-0382
+      address: 4C92-F3DD
       receiveFrequency: 1173
   - uid: 5517
     components:
@@ -64522,7 +64706,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1C9A-59CC
+      address: 3B7A-A1F2
       receiveFrequency: 1173
   - uid: 5519
     components:
@@ -64538,7 +64722,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4D43-3FA5
+      address: 0A98-6684
       receiveFrequency: 1173
   - uid: 5534
     components:
@@ -64554,7 +64738,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4082-0490
+      address: 4FD1-4118
       receiveFrequency: 1173
   - uid: 5535
     components:
@@ -64570,7 +64754,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5192-22F8
+      address: 6F5F-2F24
       receiveFrequency: 1173
 - proto: PoweredlightExterior
   entities:
@@ -64588,7 +64772,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3957-2A3A
+      address: 254C-03E2
       receiveFrequency: 1173
   - uid: 2380
     components:
@@ -64604,7 +64788,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3F27-AEE0
+      address: 7CE3-7E13
       receiveFrequency: 1173
   - uid: 2383
     components:
@@ -64620,7 +64804,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4FE4-7E05
+      address: 5D16-A399
       receiveFrequency: 1173
   - uid: 2664
     components:
@@ -64636,7 +64820,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0394-F29A
+      address: 6242-DD8C
       receiveFrequency: 1173
   - uid: 2931
     components:
@@ -64652,7 +64836,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 586D-DDF4
+      address: 7F41-26AE
       receiveFrequency: 1173
   - uid: 4575
     components:
@@ -64667,7 +64851,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0828-A935
+      address: 04AE-0DDF
       receiveFrequency: 1173
   - uid: 4631
     components:
@@ -64682,7 +64866,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2F87-8CAD
+      address: 4B95-17E7
       receiveFrequency: 1173
   - uid: 4632
     components:
@@ -64697,7 +64881,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5233-8B10
+      address: 7797-B8D6
       receiveFrequency: 1173
   - uid: 6274
     components:
@@ -64713,7 +64897,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2860-654F
+      address: 44C5-000F
       receiveFrequency: 1173
   - uid: 6275
     components:
@@ -64729,7 +64913,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 15C1-1470
+      address: 3EAB-D23C
       receiveFrequency: 1173
   - uid: 6276
     components:
@@ -64744,7 +64928,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6282-FC19
+      address: 0704-F0B5
       receiveFrequency: 1173
   - uid: 6277
     components:
@@ -64760,7 +64944,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 702E-DF80
+      address: 45E1-B144
       receiveFrequency: 1173
 - proto: PoweredSmallLight
   entities:
@@ -64778,7 +64962,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7D03-4F7F
+      address: 3B17-2ACF
       receiveFrequency: 1173
   - uid: 141
     components:
@@ -64794,7 +64978,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7037-7F2C
+      address: 5336-54D5
       receiveFrequency: 1173
   - uid: 460
     components:
@@ -64810,7 +64994,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 557B-FF57
+      address: 5BD7-EAB5
       receiveFrequency: 1173
   - uid: 495
     components:
@@ -64826,7 +65010,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2807-F128
+      address: 05E2-7626
       receiveFrequency: 1173
   - uid: 496
     components:
@@ -64841,7 +65025,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6A6A-796F
+      address: 496B-F523
       receiveFrequency: 1173
   - uid: 499
     components:
@@ -64856,7 +65040,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2CF1-3DBD
+      address: 6B41-FD60
       receiveFrequency: 1173
   - uid: 504
     components:
@@ -64872,7 +65056,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0083-FA3F
+      address: 0860-DB32
       receiveFrequency: 1173
   - uid: 506
     components:
@@ -64887,7 +65071,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2EF6-58E6
+      address: 4FE0-4F34
       receiveFrequency: 1173
   - uid: 1031
     components:
@@ -64902,7 +65086,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 231E-82A2
+      address: 4348-E14F
       receiveFrequency: 1173
   - uid: 1080
     components:
@@ -64918,7 +65102,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7D49-1F34
+      address: 448A-2A8E
       receiveFrequency: 1173
   - uid: 1223
     components:
@@ -64934,7 +65118,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6B39-7094
+      address: 54C5-6A04
       receiveFrequency: 1173
   - uid: 1224
     components:
@@ -64950,7 +65134,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 380F-F0AD
+      address: 7A0E-C65B
       receiveFrequency: 1173
   - uid: 1226
     components:
@@ -64966,7 +65150,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0EAC-6B56
+      address: 72CF-F9D5
       receiveFrequency: 1173
   - uid: 1231
     components:
@@ -64981,7 +65165,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7C81-50EF
+      address: 7C9B-C25B
       receiveFrequency: 1173
   - uid: 1274
     components:
@@ -64997,7 +65181,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4AEB-4862
+      address: 1A5E-0FD5
       receiveFrequency: 1173
   - uid: 1417
     components:
@@ -65013,7 +65197,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 725D-4B41
+      address: 0DC6-AB34
       receiveFrequency: 1173
   - uid: 1443
     components:
@@ -65028,7 +65212,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 676D-2774
+      address: 39F0-0FBB
       receiveFrequency: 1173
   - uid: 1603
     components:
@@ -65044,7 +65228,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1E19-6062
+      address: 794A-CE76
       receiveFrequency: 1173
   - uid: 2074
     components:
@@ -65060,7 +65244,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4C1B-B110
+      address: 35F2-9A62
       receiveFrequency: 1173
   - uid: 2079
     components:
@@ -65076,7 +65260,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 55C4-EE03
+      address: 4FF5-1C9C
       receiveFrequency: 1173
   - uid: 2117
     components:
@@ -65092,7 +65276,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4ACD-6284
+      address: 66DF-2D12
       receiveFrequency: 1173
   - uid: 2123
     components:
@@ -65108,7 +65292,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4521-3578
+      address: 4D7A-8205
       receiveFrequency: 1173
   - uid: 2130
     components:
@@ -65124,7 +65308,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 30D8-D38C
+      address: 135F-E6B1
       receiveFrequency: 1173
   - uid: 2140
     components:
@@ -65140,7 +65324,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 603F-0EA0
+      address: 3E0A-6EA9
       receiveFrequency: 1173
   - uid: 2179
     components:
@@ -65155,7 +65339,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3AF2-4CEA
+      address: 27F3-6BDE
       receiveFrequency: 1173
   - uid: 2376
     components:
@@ -65171,7 +65355,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5C63-57ED
+      address: 732B-2A86
       receiveFrequency: 1173
   - uid: 2940
     components:
@@ -65186,7 +65370,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0E77-D4CA
+      address: 48A0-8EE4
       receiveFrequency: 1173
   - uid: 2949
     components:
@@ -65201,7 +65385,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6B6A-5B8A
+      address: 08AF-3CE8
       receiveFrequency: 1173
   - uid: 3146
     components:
@@ -65216,7 +65400,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 25C5-DCF4
+      address: 5209-12B7
       receiveFrequency: 1173
   - uid: 3147
     components:
@@ -65232,7 +65416,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2974-EED8
+      address: 685C-7AA6
       receiveFrequency: 1173
   - uid: 3223
     components:
@@ -65248,7 +65432,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0A11-5DF1
+      address: 768F-9CC1
       receiveFrequency: 1173
   - uid: 3224
     components:
@@ -65264,7 +65448,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2B47-C356
+      address: 2DF2-E8DB
       receiveFrequency: 1173
   - uid: 4506
     components:
@@ -65279,7 +65463,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5234-45B8
+      address: 10B9-4CA4
       receiveFrequency: 1173
   - uid: 4514
     components:
@@ -65295,7 +65479,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 63EA-5EEA
+      address: 456F-80AC
       receiveFrequency: 1173
   - uid: 4525
     components:
@@ -65311,7 +65495,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1EBF-8CC7
+      address: 2B42-5D36
       receiveFrequency: 1173
   - uid: 5505
     components:
@@ -65327,7 +65511,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1058-A722
+      address: 3CDC-3CAA
       receiveFrequency: 1173
   - uid: 5518
     components:
@@ -65342,7 +65526,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4691-5EC9
+      address: 30E2-AFB5
       receiveFrequency: 1173
   - uid: 5520
     components:
@@ -65358,7 +65542,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0C8E-36EB
+      address: 0FDF-96FB
       receiveFrequency: 1173
   - uid: 5521
     components:
@@ -65374,7 +65558,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6276-D96B
+      address: 4018-801E
       receiveFrequency: 1173
   - uid: 5522
     components:
@@ -65390,7 +65574,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0834-6EAE
+      address: 2373-D425
       receiveFrequency: 1173
   - uid: 5536
     components:
@@ -65406,7 +65590,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3966-A194
+      address: 0686-54D1
       receiveFrequency: 1173
   - uid: 6273
     components:
@@ -65422,7 +65606,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 5F15-C684
+      address: 1A07-A404
       receiveFrequency: 1173
 - proto: Protolathe
   entities:
@@ -65884,6 +66068,11 @@ entities:
     - type: Transform
       pos: 13.5,20.5
       parent: 2
+  - uid: 4006
+    components:
+    - type: Transform
+      pos: -14.5,6.5
+      parent: 2
   - uid: 5483
     components:
     - type: Transform
@@ -65962,6 +66151,19 @@ entities:
     components:
     - type: Transform
       pos: 9.5,-4.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Structural: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
+  - uid: 1773
+    components:
+    - type: Transform
+      pos: 18.5,21.5
       parent: 2
     - type: Damageable
       damageDictCopy:
@@ -66546,19 +66748,6 @@ entities:
     components:
     - type: Transform
       pos: 10.5,11.5
-      parent: 2
-    - type: Damageable
-      damageDictCopy:
-        Heat: 0
-        Shock: 0
-        Structural: 0
-        Blunt: 0
-        Slash: 0
-        Piercing: 0
-  - uid: 2753
-    components:
-    - type: Transform
-      pos: 18.5,21.5
       parent: 2
     - type: Damageable
       damageDictCopy:
@@ -67408,7 +67597,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 7A1D-6B6F
+      address: 2114-5C05
       receiveFrequency: 1280
   - uid: 444
     components:
@@ -67425,7 +67614,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 00C4-8627
+      address: 7136-7A40
       receiveFrequency: 1280
   - uid: 445
     components:
@@ -67442,7 +67631,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0503-4B7A
+      address: 7BE1-8737
       receiveFrequency: 1280
   - uid: 1235
     components:
@@ -67458,7 +67647,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6853-4410
+      address: 3D60-3537
       receiveFrequency: 1280
   - uid: 1236
     components:
@@ -67474,7 +67663,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 6ADD-187A
+      address: 3771-086B
       receiveFrequency: 1280
   - uid: 1237
     components:
@@ -67490,7 +67679,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4F3D-CEB0
+      address: 7D8F-1BC4
       receiveFrequency: 1280
 - proto: SignalButton
   entities:
@@ -67509,7 +67698,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 2A9C-5EFC
+      address: 52F6-5AC2
     - type: DeviceLinkSource
       linkedPorts:
         374:
@@ -67532,7 +67721,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 20D5-21DD
+      address: 2353-D82E
     - type: DeviceLinkSource
       linkedPorts:
         443:
@@ -67561,7 +67750,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3329-980E
+      address: 6B1A-3224
     - type: DeviceLinkSource
       linkedPorts:
         5097:
@@ -67977,7 +68166,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SMS-774E-5A5D
+      address: SMS-29A7-7662
       transmitFrequency: 1621
       receiveFrequency: 1621
   - uid: 3989
@@ -67994,7 +68183,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SMS-4B0D-4519
+      address: SMS-2583-8109
       transmitFrequency: 1621
       receiveFrequency: 1621
   - uid: 3990
@@ -68011,7 +68200,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SMS-6134-E3EE
+      address: SMS-7146-7C1D
       transmitFrequency: 1621
       receiveFrequency: 1621
 - proto: SMESBasicEmpty
@@ -68032,7 +68221,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SMS-7345-7E5F
+      address: SMS-3868-B3D1
       transmitFrequency: 1621
       receiveFrequency: 1621
   - uid: 4549
@@ -68051,7 +68240,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: SMS-3BB0-03E3
+      address: SMS-1CBC-56F0
       transmitFrequency: 1621
       receiveFrequency: 1621
 - proto: SoapNT
@@ -69979,6 +70168,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 27.5,-20.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: CE's Room
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -69990,7 +70184,7 @@ entities:
     - type: Wires
       wireSeed: 869100304
     - type: DeviceNetwork
-      address: 6D27-9D11
+      address: 04DE-71DF
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5570
@@ -69999,6 +70193,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -3.5,3.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: RD's Office
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70010,7 +70209,7 @@ entities:
     - type: Wires
       wireSeed: 656919831
     - type: DeviceNetwork
-      address: 295F-92EF
+      address: 1439-E161
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5571
@@ -70019,6 +70218,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: -6.5,1.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: RD Bedroom
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70030,7 +70234,7 @@ entities:
     - type: Wires
       wireSeed: 2143058005
     - type: DeviceNetwork
-      address: 3A9F-73F5
+      address: 6E84-3BDB
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5572
@@ -70039,6 +70243,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -14.5,18.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: CMO's Room
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70050,7 +70259,7 @@ entities:
     - type: Wires
       wireSeed: 442754890
     - type: DeviceNetwork
-      address: 672F-91F9
+      address: 0978-4C9E
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5573
@@ -70059,6 +70268,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 11.5,27.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: Bridge Hallway
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70070,7 +70284,7 @@ entities:
     - type: Wires
       wireSeed: 787438329
     - type: DeviceNetwork
-      address: 1B84-51A6
+      address: 478E-6207
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5574
@@ -70079,6 +70293,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 11.5,34.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: Bridge Cam 1
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70090,7 +70309,7 @@ entities:
     - type: Wires
       wireSeed: 1535618131
     - type: DeviceNetwork
-      address: 5E9C-1696
+      address: 62E1-CD52
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5575
@@ -70099,6 +70318,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 0.5,28.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: Captain's Room
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70110,7 +70334,7 @@ entities:
     - type: Wires
       wireSeed: 647239453
     - type: DeviceNetwork
-      address: 571A-5CBD
+      address: 31D5-1E43
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5577
@@ -70119,6 +70343,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 25.5,27.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: QM's Room
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70130,7 +70359,7 @@ entities:
     - type: Wires
       wireSeed: 498462727
     - type: DeviceNetwork
-      address: 727D-6BB7
+      address: 7F6A-FE87
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5578
@@ -70139,6 +70368,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 15.5,21.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: HOS's Room
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70150,7 +70384,7 @@ entities:
     - type: Wires
       wireSeed: 1863716450
     - type: DeviceNetwork
-      address: 5B2A-FE3D
+      address: 0068-2A22
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5587
@@ -70159,6 +70393,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 6.5,12.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: HOP Office
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70170,7 +70409,7 @@ entities:
     - type: Wires
       wireSeed: 194413264
     - type: DeviceNetwork
-      address: 7B4D-B67A
+      address: 7EF0-395B
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 5588
@@ -70178,6 +70417,11 @@ entities:
     - type: Transform
       pos: 3.5,13.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: HOP Bedroom
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70189,7 +70433,7 @@ entities:
     - type: Wires
       wireSeed: 1925250750
     - type: DeviceNetwork
-      address: 4AF1-5FEE
+      address: 2733-4F7A
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 6062
@@ -70198,6 +70442,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 7.5,32.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: Bridge Cam 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70209,7 +70458,7 @@ entities:
     - type: Wires
       wireSeed: 2101574922
     - type: DeviceNetwork
-      address: 45ED-88BE
+      address: 7BD0-BE5C
       transmitFrequency: 1926
       receiveFrequency: 1935
   - uid: 6063
@@ -70218,6 +70467,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 5.5,32.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraCommand
+      nameSet: True
+      id: Paperroom
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70229,7 +70483,7 @@ entities:
     - type: Wires
       wireSeed: 2040223442
     - type: DeviceNetwork
-      address: 112C-359E
+      address: 50B3-FD21
       transmitFrequency: 1926
       receiveFrequency: 1935
 - proto: SurveillanceCameraEngineering
@@ -70239,6 +70493,11 @@ entities:
     - type: Transform
       pos: 21.5,-17.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: SMES Bank
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70250,7 +70509,7 @@ entities:
     - type: Wires
       wireSeed: 1198824922
     - type: DeviceNetwork
-      address: 1A43-EC3E
+      address: 7DE6-E945
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5548
@@ -70258,6 +70517,11 @@ entities:
     - type: Transform
       pos: 18.5,-30.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: Telecomms 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70269,7 +70533,7 @@ entities:
     - type: Wires
       wireSeed: 2016287594
     - type: DeviceNetwork
-      address: 74AD-D833
+      address: 7026-8324
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5549
@@ -70278,6 +70542,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: 17.5,-19.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: telecomms 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70289,7 +70558,7 @@ entities:
     - type: Wires
       wireSeed: 1556128490
     - type: DeviceNetwork
-      address: 6756-C9E6
+      address: 194E-9005
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5550
@@ -70298,6 +70567,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 23.5,-33.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: Atmos
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70309,7 +70583,7 @@ entities:
     - type: Wires
       wireSeed: 1702322946
     - type: DeviceNetwork
-      address: 1A33-4115
+      address: 7734-B830
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5551
@@ -70318,6 +70592,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 23.5,-39.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: Atmos 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70329,7 +70608,7 @@ entities:
     - type: Wires
       wireSeed: 562634062
     - type: DeviceNetwork
-      address: 22A0-1E62
+      address: 3234-8D08
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5552
@@ -70338,6 +70617,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 22.5,-24.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: CE hallway
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70349,7 +70633,7 @@ entities:
     - type: Wires
       wireSeed: 1190221206
     - type: DeviceNetwork
-      address: 2B70-CE00
+      address: 659F-C951
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5553
@@ -70357,6 +70641,11 @@ entities:
     - type: Transform
       pos: 24.5,-29.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: Power Bay
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70368,7 +70657,7 @@ entities:
     - type: Wires
       wireSeed: 267392437
     - type: DeviceNetwork
-      address: 1F64-7308
+      address: 59A0-26D4
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5554
@@ -70376,6 +70665,11 @@ entities:
     - type: Transform
       pos: 25.5,-12.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: Engi Frontdesk
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70387,7 +70681,7 @@ entities:
     - type: Wires
       wireSeed: 160624928
     - type: DeviceNetwork
-      address: 42DA-71D8
+      address: 7BB2-B091
       transmitFrequency: 1926
       receiveFrequency: 1931
   - uid: 5555
@@ -70396,6 +70690,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 19.5,-10.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraEngineering
+      nameSet: True
+      id: Gravity/Anchor
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70407,7 +70706,7 @@ entities:
     - type: Wires
       wireSeed: 419487186
     - type: DeviceNetwork
-      address: 1560-815C
+      address: 276A-96FB
       transmitFrequency: 1926
       receiveFrequency: 1931
 - proto: SurveillanceCameraGeneral
@@ -70418,6 +70717,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 28.5,-5.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Hallway Cam 1
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70429,7 +70733,7 @@ entities:
     - type: Wires
       wireSeed: 1573680279
     - type: DeviceNetwork
-      address: 74A0-4A3D
+      address: 1EE7-302F
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5557
@@ -70437,6 +70741,11 @@ entities:
     - type: Transform
       pos: 21.5,-8.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Toolroom
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70448,7 +70757,7 @@ entities:
     - type: Wires
       wireSeed: 798290074
     - type: DeviceNetwork
-      address: 05F9-A225
+      address: 36A7-0883
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5558
@@ -70457,6 +70766,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 26.5,1.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Hallway Cam 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70468,7 +70782,7 @@ entities:
     - type: Wires
       wireSeed: 1564804612
     - type: DeviceNetwork
-      address: 7C53-DEE3
+      address: 2214-9F99
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5559
@@ -70477,6 +70791,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 28.5,8.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Hallway Cam 3
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70488,7 +70807,7 @@ entities:
     - type: Wires
       wireSeed: 1429075033
     - type: DeviceNetwork
-      address: 25A5-FCA3
+      address: 17AD-5678
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5560
@@ -70497,6 +70816,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 28.5,14.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Cargo Lobby
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70508,7 +70832,7 @@ entities:
     - type: Wires
       wireSeed: 1733329513
     - type: DeviceNetwork
-      address: 69F6-4121
+      address: 162A-0EDC
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5561
@@ -70516,6 +70840,11 @@ entities:
     - type: Transform
       pos: 19.5,7.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Hallway Cam 4
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70527,7 +70856,7 @@ entities:
     - type: Wires
       wireSeed: 530431521
     - type: DeviceNetwork
-      address: 5E6D-C62B
+      address: 2FE1-CE22
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5562
@@ -70536,6 +70865,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 12.5,11.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Hallway Cam 5
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70547,7 +70881,7 @@ entities:
     - type: Wires
       wireSeed: 950481846
     - type: DeviceNetwork
-      address: 0716-F19D
+      address: 54F8-A2CC
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5563
@@ -70556,6 +70890,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 9.5,17.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Cryo
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70567,7 +70906,7 @@ entities:
     - type: Wires
       wireSeed: 1079299603
     - type: DeviceNetwork
-      address: 73BC-3B56
+      address: 33EB-5538
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5564
@@ -70576,6 +70915,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 5.5,6.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Sci Lobby
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70587,7 +70931,7 @@ entities:
     - type: Wires
       wireSeed: 744841805
     - type: DeviceNetwork
-      address: 372A-410E
+      address: 6DA3-29B0
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5565
@@ -70596,6 +70940,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: -1.5,9.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Hallway Cam 6
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70607,7 +70956,7 @@ entities:
     - type: Wires
       wireSeed: 914808211
     - type: DeviceNetwork
-      address: 2F92-9223
+      address: 4FC4-910D
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5566
@@ -70615,6 +70964,11 @@ entities:
     - type: Transform
       pos: -12.5,8.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Hallway Cam 7
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70626,7 +70980,7 @@ entities:
     - type: Wires
       wireSeed: 1654145330
     - type: DeviceNetwork
-      address: 5538-CFDE
+      address: 71B8-E478
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5567
@@ -70634,6 +70988,11 @@ entities:
     - type: Transform
       pos: -10.5,3.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Bar Main
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70645,7 +71004,7 @@ entities:
     - type: Wires
       wireSeed: 875183037
     - type: DeviceNetwork
-      address: 532E-84A2
+      address: 5D2F-90C6
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5568
@@ -70653,6 +71012,11 @@ entities:
     - type: Transform
       pos: 10.5,20.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Bridge Hall
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70664,7 +71028,7 @@ entities:
     - type: Wires
       wireSeed: 1068726319
     - type: DeviceNetwork
-      address: 19E5-F359
+      address: 7382-B754
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5599
@@ -70673,6 +71037,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: 34.5,1.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Docking Arm Hall Cam 1
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70684,7 +71053,7 @@ entities:
     - type: Wires
       wireSeed: 405535305
     - type: DeviceNetwork
-      address: 0F63-DE2D
+      address: 5D4D-B126
       transmitFrequency: 1926
       receiveFrequency: 1938
   - uid: 5600
@@ -70693,6 +71062,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: 40.5,1.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraGeneral
+      nameSet: True
+      id: Docking Arm Hall Cam 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70704,7 +71078,7 @@ entities:
     - type: Wires
       wireSeed: 321496843
     - type: DeviceNetwork
-      address: 24BE-401F
+      address: 275C-9CEE
       transmitFrequency: 1926
       receiveFrequency: 1938
 - proto: SurveillanceCameraMedical
@@ -70715,6 +71089,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -19.5,14.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraMedical
+      nameSet: True
+      id: Chemistry
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70726,7 +71105,7 @@ entities:
     - type: Wires
       wireSeed: 230439888
     - type: DeviceNetwork
-      address: 3480-7271
+      address: 5D8C-5F83
       transmitFrequency: 1926
       receiveFrequency: 1937
   - uid: 5584
@@ -70735,6 +71114,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: -8.5,14.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraMedical
+      nameSet: True
+      id: Medbay
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70746,7 +71130,7 @@ entities:
     - type: Wires
       wireSeed: 1938232
     - type: DeviceNetwork
-      address: 7543-8B76
+      address: 087D-1B37
       transmitFrequency: 1926
       receiveFrequency: 1937
   - uid: 5585
@@ -70755,6 +71139,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -6.5,14.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraMedical
+      nameSet: True
+      id: Medical Breakroom
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70766,7 +71155,7 @@ entities:
     - type: Wires
       wireSeed: 285003504
     - type: DeviceNetwork
-      address: 675B-05A1
+      address: 540A-C4ED
       transmitFrequency: 1926
       receiveFrequency: 1937
   - uid: 5586
@@ -70775,6 +71164,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -6.5,18.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraMedical
+      nameSet: True
+      id: Morgue
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70786,7 +71180,7 @@ entities:
     - type: Wires
       wireSeed: 811337896
     - type: DeviceNetwork
-      address: 0289-D097
+      address: 1E29-762B
       transmitFrequency: 1926
       receiveFrequency: 1937
 - proto: SurveillanceCameraRouterCommand
@@ -70805,7 +71199,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 31DE-D2E0
+      address: 6630-3EB7
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraRouterEngineering
@@ -70824,7 +71218,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 421C-1ED7
+      address: 542A-D4DB
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraRouterGeneral
@@ -70843,7 +71237,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1539-65D6
+      address: 1D36-D2C8
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraRouterMedical
@@ -70862,7 +71256,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 4ADD-119E
+      address: 5C53-9BD9
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraRouterScience
@@ -70881,7 +71275,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 59ED-7CFC
+      address: 32F7-BB7E
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraRouterSecurity
@@ -70900,7 +71294,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0110-92DC
+      address: 0928-E256
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraRouterService
@@ -70919,7 +71313,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3AF7-917D
+      address: 6FBD-830E
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraRouterSupply
@@ -70938,17 +71332,47 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0F9C-8510
+      address: 5B98-04FC
       transmitFrequency: 1926
       receiveFrequency: 1926
 - proto: SurveillanceCameraScience
   entities:
+  - uid: 1780
+    components:
+    - type: Transform
+      rot: -1.5707963267948966 rad
+      pos: 6.5,-2.5
+      parent: 2
+    - type: DeviceNetwork
+      address: 150A-D434
+      transmitFrequency: 1926
+      receiveFrequency: 1933
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraScience
+      nameSet: True
+      id: Artifact Lab
+    - type: Wires
+      wireSeed: 1149731972
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Structural: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
   - uid: 5601
     components:
     - type: Transform
       rot: -1.5707963267948966 rad
       pos: 5.5,-7.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraScience
+      nameSet: True
+      id: Anomaly
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70960,7 +71384,7 @@ entities:
     - type: Wires
       wireSeed: 2021042684
     - type: DeviceNetwork
-      address: 47B9-5501
+      address: 4F67-C87B
       transmitFrequency: 1926
       receiveFrequency: 1933
   - uid: 5602
@@ -70969,6 +71393,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 12.5,-12.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraScience
+      nameSet: True
+      id: Anomaly 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -70980,7 +71409,7 @@ entities:
     - type: Wires
       wireSeed: 625897409
     - type: DeviceNetwork
-      address: 3DD7-E82D
+      address: 5A27-4B4A
       transmitFrequency: 1926
       receiveFrequency: 1933
   - uid: 5603
@@ -70989,6 +71418,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 10.5,2.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraScience
+      nameSet: True
+      id: RND
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71000,27 +71434,7 @@ entities:
     - type: Wires
       wireSeed: 276460615
     - type: DeviceNetwork
-      address: 1F31-A540
-      transmitFrequency: 1926
-      receiveFrequency: 1933
-  - uid: 5604
-    components:
-    - type: Transform
-      rot: -1.5707963267948966 rad
-      pos: 6.5,-2.5
-      parent: 2
-    - type: Damageable
-      damageDictCopy:
-        Heat: 0
-        Shock: 0
-        Structural: 0
-        Blunt: 0
-        Slash: 0
-        Piercing: 0
-    - type: Wires
-      wireSeed: 1075024251
-    - type: DeviceNetwork
-      address: 6A94-EB1A
+      address: 6DAB-9C71
       transmitFrequency: 1926
       receiveFrequency: 1933
   - uid: 5605
@@ -71029,6 +71443,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 0.5,4.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraScience
+      nameSet: True
+      id: Sci Entrance
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71040,7 +71459,7 @@ entities:
     - type: Wires
       wireSeed: 1986792602
     - type: DeviceNetwork
-      address: 5445-DE71
+      address: 6DF7-4238
       transmitFrequency: 1926
       receiveFrequency: 1933
   - uid: 5606
@@ -71049,6 +71468,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 3.5,-2.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraScience
+      nameSet: True
+      id: Sci Breakroom
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71060,7 +71484,7 @@ entities:
     - type: Wires
       wireSeed: 534540628
     - type: DeviceNetwork
-      address: 559B-D0A1
+      address: 121A-C5CA
       transmitFrequency: 1926
       receiveFrequency: 1933
 - proto: SurveillanceCameraSecurity
@@ -71070,6 +71494,11 @@ entities:
     - type: Transform
       pos: 16.5,14.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSecurity
+      nameSet: True
+      id: Brig
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71081,7 +71510,7 @@ entities:
     - type: Wires
       wireSeed: 173397368
     - type: DeviceNetwork
-      address: 4A69-F008
+      address: 108C-6079
       transmitFrequency: 1926
       receiveFrequency: 1932
   - uid: 5590
@@ -71089,6 +71518,11 @@ entities:
     - type: Transform
       pos: 18.5,11.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSecurity
+      nameSet: True
+      id: Security Office
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71100,7 +71534,7 @@ entities:
     - type: Wires
       wireSeed: 722806404
     - type: DeviceNetwork
-      address: 396B-C6ED
+      address: 1BBA-BE13
       transmitFrequency: 1926
       receiveFrequency: 1932
   - uid: 5591
@@ -71109,6 +71543,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 21.5,25.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSecurity
+      nameSet: True
+      id: Security Hall
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71120,7 +71559,7 @@ entities:
     - type: Wires
       wireSeed: 254334983
     - type: DeviceNetwork
-      address: 7E3F-2357
+      address: 5D16-506C
       transmitFrequency: 1926
       receiveFrequency: 1932
   - uid: 5592
@@ -71129,6 +71568,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 17.5,25.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSecurity
+      nameSet: True
+      id: Armory
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71140,7 +71584,7 @@ entities:
     - type: Wires
       wireSeed: 1962079510
     - type: DeviceNetwork
-      address: 65B7-3E5B
+      address: 4EA3-60EF
       transmitFrequency: 1926
       receiveFrequency: 1932
   - uid: 5593
@@ -71149,6 +71593,11 @@ entities:
       rot: 1.5707963267948966 rad
       pos: 17.5,28.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSecurity
+      nameSet: True
+      id: Warden Storage
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71160,7 +71609,7 @@ entities:
     - type: Wires
       wireSeed: 436114043
     - type: DeviceNetwork
-      address: 0C6B-D00B
+      address: 2681-681B
       transmitFrequency: 1926
       receiveFrequency: 1932
 - proto: SurveillanceCameraService
@@ -71171,6 +71620,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: 21.5,-2.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraService
+      nameSet: True
+      id: Janitor Closet
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71182,7 +71636,7 @@ entities:
     - type: Wires
       wireSeed: 736852441
     - type: DeviceNetwork
-      address: 356D-4138
+      address: 75FE-D60F
       transmitFrequency: 1926
       receiveFrequency: 1936
   - uid: 5580
@@ -71190,6 +71644,11 @@ entities:
     - type: Transform
       pos: -12.5,-0.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraService
+      nameSet: True
+      id: Behind Bar
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71201,7 +71660,7 @@ entities:
     - type: Wires
       wireSeed: 731772956
     - type: DeviceNetwork
-      address: 5523-1614
+      address: 293B-FD50
       transmitFrequency: 1926
       receiveFrequency: 1936
   - uid: 5581
@@ -71210,6 +71669,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: -18.5,3.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraService
+      nameSet: True
+      id: Kitchen
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71221,7 +71685,7 @@ entities:
     - type: Wires
       wireSeed: 819848217
     - type: DeviceNetwork
-      address: 4801-9E9C
+      address: 2F50-B45F
       transmitFrequency: 1926
       receiveFrequency: 1936
   - uid: 5582
@@ -71230,6 +71694,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: -18.5,10.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraService
+      nameSet: True
+      id: Botany
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71241,7 +71710,7 @@ entities:
     - type: Wires
       wireSeed: 1779154110
     - type: DeviceNetwork
-      address: 76E4-21ED
+      address: 2BB9-CA9E
       transmitFrequency: 1926
       receiveFrequency: 1936
 - proto: SurveillanceCameraSupply
@@ -71252,6 +71721,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 23.5,13.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSupply
+      nameSet: True
+      id: Cargo Front
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71263,7 +71737,7 @@ entities:
     - type: Wires
       wireSeed: 1867675353
     - type: DeviceNetwork
-      address: 11E2-2B47
+      address: 0894-4290
       transmitFrequency: 1926
       receiveFrequency: 1934
   - uid: 5595
@@ -71271,6 +71745,11 @@ entities:
     - type: Transform
       pos: 27.5,17.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSupply
+      nameSet: True
+      id: Cargo Bay
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71282,7 +71761,7 @@ entities:
     - type: Wires
       wireSeed: 187175170
     - type: DeviceNetwork
-      address: 23AF-12BD
+      address: 37B1-7985
       transmitFrequency: 1926
       receiveFrequency: 1934
   - uid: 5596
@@ -71291,6 +71770,11 @@ entities:
       rot: -1.5707963267948966 rad
       pos: 32.5,23.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSupply
+      nameSet: True
+      id: Cargo Dock Cam 1
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71302,7 +71786,7 @@ entities:
     - type: Wires
       wireSeed: 1783785268
     - type: DeviceNetwork
-      address: 4EF6-BF59
+      address: 4E95-71F7
       transmitFrequency: 1926
       receiveFrequency: 1934
   - uid: 5597
@@ -71311,6 +71795,11 @@ entities:
       rot: 3.141592653589793 rad
       pos: 39.5,24.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSupply
+      nameSet: True
+      id: Cargo Dock Cam 2
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71322,7 +71811,7 @@ entities:
     - type: Wires
       wireSeed: 2059579537
     - type: DeviceNetwork
-      address: 57A4-317B
+      address: 0321-40E8
       transmitFrequency: 1926
       receiveFrequency: 1934
   - uid: 5598
@@ -71330,6 +71819,11 @@ entities:
     - type: Transform
       pos: 46.5,22.5
       parent: 2
+    - type: SurveillanceCamera
+      setupAvailableNetworks:
+      - SurveillanceCameraSupply
+      nameSet: True
+      id: Salvage Airlock
     - type: Damageable
       damageDictCopy:
         Heat: 0
@@ -71341,7 +71835,7 @@ entities:
     - type: Wires
       wireSeed: 1783068782
     - type: DeviceNetwork
-      address: 7176-FC71
+      address: 7CE0-9042
       transmitFrequency: 1926
       receiveFrequency: 1934
 - proto: Table
@@ -72413,6 +72907,19 @@ entities:
         Blunt: 0
         Slash: 0
         Piercing: 0
+  - uid: 5604
+    components:
+    - type: Transform
+      pos: -6.5,12.5
+      parent: 2
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Structural: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
 - proto: TableWood
   entities:
   - uid: 875
@@ -72710,7 +73217,7 @@ entities:
         - - Middle
           - Off
     - type: DeviceNetwork
-      address: 1F9F-2ED9
+      address: 56DA-D17A
   - uid: 2956
     components:
     - type: Transform
@@ -72724,7 +73231,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 1542-6516
+      address: 6072-205B
     - type: DeviceLinkSource
       linkedPorts:
         2132:
@@ -72768,7 +73275,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 75A8-FEF3
+      address: 01F7-17CB
     - type: DeviceLinkSource
       linkedPorts:
         2112:
@@ -72812,7 +73319,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0998-7839
+      address: 1296-EBFB
     - type: DeviceLinkSource
       linkedPorts:
         2106:
@@ -72856,7 +73363,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 49FD-2F01
+      address: 4F28-B96C
     - type: DeviceLinkSource
       linkedPorts:
         2110:
@@ -72900,7 +73407,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 3D24-AF1B
+      address: 07A6-B1EA
     - type: DeviceLinkSource
       linkedPorts:
         2960:
@@ -72930,7 +73437,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 0511-F3D6
+      address: 0C8A-26A8
     - type: DeviceLinkSource
       linkedPorts:
         2964:
@@ -72967,7 +73474,7 @@ entities:
         Slash: 0
         Piercing: 0
     - type: DeviceNetwork
-      address: 65D9-64EA
+      address: 6ACE-95AB
     - type: DeviceLinkSource
       linkedPorts:
         5094:
@@ -73214,6 +73721,23 @@ entities:
         Piercing: 0
     - type: Wires
       wireSeed: 1368303311
+- proto: VendingMachineDonut
+  entities:
+  - uid: 4005
+    components:
+    - type: Transform
+      pos: 19.5,22.5
+      parent: 2
+    - type: Wires
+      wireSeed: 1273004190
+    - type: Damageable
+      damageDictCopy:
+        Heat: 0
+        Shock: 0
+        Structural: 0
+        Blunt: 0
+        Slash: 0
+        Piercing: 0
 - proto: VendingMachineEngiDrobe
   entities:
   - uid: 4888
@@ -86464,7 +86988,7 @@ entities:
     - type: Wires
       wireSeed: 1655265897
     - type: DeviceNetwork
-      address: 6EC5-3509
+      address: 056F-964E
       receiveFrequency: 1280
   - uid: 2821
     components:
@@ -86483,7 +87007,7 @@ entities:
     - type: Wires
       wireSeed: 729300722
     - type: DeviceNetwork
-      address: 2B35-009E
+      address: 6A00-7873
       receiveFrequency: 1280
 - proto: WindoorHydroponicsLocked
   entities:
@@ -86504,7 +87028,7 @@ entities:
     - type: Wires
       wireSeed: 1717017632
     - type: DeviceNetwork
-      address: 6F50-65CC
+      address: 6C0A-E2E9
       receiveFrequency: 1280
   - uid: 1066
     components:
@@ -86523,7 +87047,7 @@ entities:
     - type: Wires
       wireSeed: 1937601931
     - type: DeviceNetwork
-      address: 1DB0-DD1A
+      address: 1E1D-D2BB
       receiveFrequency: 1280
 - proto: WindoorSecureBrigLocked
   entities:
@@ -86543,7 +87067,7 @@ entities:
     - type: Wires
       wireSeed: 33007615
     - type: DeviceNetwork
-      address: 0230-5759
+      address: 2C77-AD5B
       receiveFrequency: 1280
   - uid: 2707
     components:
@@ -86561,7 +87085,7 @@ entities:
     - type: Wires
       wireSeed: 416319302
     - type: DeviceNetwork
-      address: 1715-5157
+      address: 7254-B22D
       receiveFrequency: 1280
 - proto: WindoorSecureChemistryLocked
   entities:
@@ -86582,7 +87106,7 @@ entities:
     - type: Wires
       wireSeed: 882042562
     - type: DeviceNetwork
-      address: 423B-6650
+      address: 1C34-CA07
       receiveFrequency: 1280
   - uid: 1186
     components:
@@ -86601,7 +87125,7 @@ entities:
     - type: Wires
       wireSeed: 2094535088
     - type: DeviceNetwork
-      address: 0107-2F37
+      address: 4DAC-B807
       receiveFrequency: 1280
 - proto: WindoorSecureCommandLocked
   entities:
@@ -86627,7 +87151,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 4D5D-61DE
+      address: 77FA-978C
       receiveFrequency: 1280
   - uid: 3958
     components:
@@ -86651,7 +87175,7 @@ entities:
     - type: Construction
       node: medSecurity
     - type: DeviceNetwork
-      address: 3201-661C
+      address: 2099-87D6
       receiveFrequency: 1280
 - proto: WindoorSecureEngineeringLocked
   entities:
@@ -86672,7 +87196,7 @@ entities:
     - type: Wires
       wireSeed: 1556831453
     - type: DeviceNetwork
-      address: 3A4A-135E
+      address: 5BB2-62E7
       receiveFrequency: 1280
   - uid: 3927
     components:
@@ -86691,7 +87215,7 @@ entities:
     - type: Wires
       wireSeed: 284326843
     - type: DeviceNetwork
-      address: 2E41-8AE6
+      address: 4301-4EB3
       receiveFrequency: 1280
 - proto: WindoorSecureHeadOfPersonnelLocked
   entities:
@@ -86719,7 +87243,7 @@ entities:
     - type: AccessReader
       accessListsOriginal: []
     - type: DeviceNetwork
-      address: 33AC-2630
+      address: 1379-BF33
       receiveFrequency: 1280
 - proto: WindoorSecureSalvageLocked
   entities:
@@ -86740,7 +87264,7 @@ entities:
     - type: Wires
       wireSeed: 613148517
     - type: DeviceNetwork
-      address: 4283-7EDB
+      address: 5C2F-F1A0
       receiveFrequency: 1280
 - proto: WindoorSecureScienceLocked
   entities:
@@ -86761,7 +87285,7 @@ entities:
     - type: Wires
       wireSeed: 513066570
     - type: DeviceNetwork
-      address: 4051-7CC3
+      address: 21D6-AEB5
       receiveFrequency: 1280
   - uid: 49
     components:
@@ -86780,7 +87304,7 @@ entities:
     - type: Wires
       wireSeed: 1157969231
     - type: DeviceNetwork
-      address: 2354-57A6
+      address: 47C9-B168
       receiveFrequency: 1280
 - proto: WindoorSecureSecurityLocked
   entities:
@@ -86801,7 +87325,7 @@ entities:
     - type: Wires
       wireSeed: 1707584811
     - type: DeviceNetwork
-      address: 7E7E-34C8
+      address: 5E82-4F5C
       receiveFrequency: 1280
   - uid: 2670
     components:
@@ -86820,7 +87344,7 @@ entities:
     - type: Wires
       wireSeed: 2094938749
     - type: DeviceNetwork
-      address: 35DA-5AB3
+      address: 17EC-A480
       receiveFrequency: 1280
 - proto: WindowDirectional
   entities:
