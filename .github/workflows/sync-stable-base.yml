@@ -1,0 +1,105 @@
+name: Sync Stable Base
+
+on:
+  workflow_call:
+    inputs:
+      target_branch:
+        description: The target branch to be syncronized with staging-stable.
+        required: true
+        type: string
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sync-stable-to-${{ inputs.target_branch }}
+  cancel-in-progress: false
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout ${{ inputs.target_branch }}
+      uses: actions/checkout@v4
+      with:
+        ref: ${{ inputs.target_branch }}
+        fetch-depth: 0
+    
+    - name: Configure Git
+      run: |
+        git config user.name "github-actions[bot]"
+        git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+    
+    - name: Fetch Branches
+      run: git fetch origin staging-stable ${{ inputs.target_branch }}
+
+    - name: Merge Stable Into ${{ inputs.target_branch }}
+      id: merge
+      continue-on-error: true
+      run: git merge origin/staging-stable --no-edit
+    
+    - name: Push ${{ inputs.target_branch }}
+      if: steps.merge.outcome == 'success'
+      run: git push origin HEAD:${{ inputs.target_branch }}
+
+    - name: Create Conflict Resolution Branch
+      id: conflict
+      if: steps.merge.outcome == 'failure'
+      run: |
+        if [ ! -f .git/MERGE_HEAD ]; then
+          echo "::error::Merge command failed, but no merge is in progress."
+          exit 1
+        fi
+
+        CONFLICT_BRANCH="sync-conflict/${{ inputs.target_branch }}-${{ github.run_id }}"
+        CONFLICT_FILES="$(git diff --name-only --diff-filter=U)"
+        echo "Merge Conflicts Detected:"
+        echo "$CONFLICT_FILES"
+
+        git switch -c "$CONFLICT_BRANCH"
+
+        # Stage the files exactly as they currently exist, including conflict markers.
+        git add -A
+        git commit -m "CONFLICT: Resolve staging-stable merge conflicts into ${{ inputs.target_branch }}"
+
+        git push origin "$CONFLICT_BRANCH"
+
+        echo "branch=$CONFLICT_BRANCH" >> "$GITHUB_OUTPUT"
+        {
+          echo "files<<EOF"
+          echo "$CONFLICT_FILES"
+          echo "EOF"
+        } >> "$GITHUB_OUTPUT"
+
+    - name: Create Conflict Issue
+      if: steps.merge.outcome == 'failure' && steps.conflict.outcome == 'success'
+      env:
+        GH_TOKEN: ${{ github.token }}
+        TARGET_BRANCH: ${{ inputs.target_branch }}
+        CONFLICT_BRANCH: ${{ steps.conflict.outputs.branch }}
+        CONFLICT_FILES: ${{ steps.conflict.outputs.files }}
+      
+      run: |
+        {
+          echo "Automatic synchronization of \`staging-stable\` into \`$TARGET_BRANCH\` failed due to merge conflicts."
+          echo
+          echo "### Conflict resolution branch"
+          echo "\`$CONFLICT_BRANCH\`"
+          echo
+          echo "### Conflicting files"
+          echo '```'
+          echo "$CONFLICT_FILES"
+          echo '```'
+          echo
+          echo "Check out the conflict branch, resolve the conflicts, then merge the resolved branch into \`$TARGET_BRANCH\`."
+          echo
+          echo "Workflow run: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+        } > issue-body.md
+
+        gh issue create \
+          --title "Stable Sync Conflict: $TARGET_BRANCH" \
+          --body-file issue-body.md \
+          --assignee Zetaplx
+

@@ -1,0 +1,45 @@
+name: Sync Stable
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Target branch to receive the merge from staging-stable
+        required: true
+        type: choice
+        options:
+        - staging-unstable
+        - server-us
+        - server-eu
+        - Servers
+        - All
+        - Manual
+      
+      manual_target:
+        description: If target is 'Manual', allows for manual input of a branch name for the target.
+        type: string
+
+jobs:
+  sync-unstable:
+    if: inputs.target == 'staging-unstable' || inputs.target == 'All'
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: staging-unstable
+  
+  sync-us:
+    if: inputs.target == 'server-us' || inputs.target == 'Servers' || inputs.target == 'All'
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: server-us
+
+  sync-eu:
+    if: inputs.target == 'server-eu' || inputs.target == 'Servers' || inputs.target == 'All'
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: server-eu
+  
+  sync-manual:
+    if: inputs.target == 'Manual' && inputs.manual_target != ''
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: ${{ inputs.manual_target }}
