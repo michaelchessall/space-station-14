@@ -21,7 +21,7 @@ on:
 jobs:
   publish-us:
     if: inputs.server == 'US' || inputs.server == 'Live' || inputs.server == 'All'
-    uses: ./.github/workflows/pubish/publish-base.yml
+    uses: ./.github/workflows/publish-base.yml
     with:
       source_ref: ${{ github.ref_name }}
       fork_id: pss14-us
@@ -29,7 +29,7 @@ jobs:
   
   publish-eu:
     if: inputs.server == 'EU' || inputs.server == 'Live' || inputs.server == 'All'
-    uses: ./.github/workflows/publish/publish-base.yml
+    uses: ./.github/workflows/publish-base.yml
     with:
       source_ref: ${{ github.ref_name }}
       fork_id: pss14-eu
@@ -38,7 +38,7 @@ jobs:
   # TODO: Set up experimental branch publishing
   # publish-experimental:
   #   if: inputs.server == 'Experimental' || inputs.server == 'All'
-  #   uses: ./.github/workflows/publish/publish-base
+  #   uses: ./.github/workflows/publish-base
   #   with:
   #     source_ref: ${{ github.ref_name }}
   #     fork_id: pss14-experimental

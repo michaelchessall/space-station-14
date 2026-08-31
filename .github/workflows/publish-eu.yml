@@ -7,7 +7,7 @@ on:
 
 jobs:
   publish:
-    uses: ./.github/workflows/publish/publish-base.yml
+    uses: ./.github/workflows/publish-base.yml
     with:
       source_ref: server-eu
       fork_id: pss14-eu
