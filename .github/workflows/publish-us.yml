@@ -1,0 +1,14 @@
+name: Publish US
+
+on:
+  schedule:
+    # To run before US shifts. Scheduled at 20:00 UTC
+    - cron: '0 20 * * 0,3'
+
+jobs:
+  publish:
+    uses: ./.github/workflows/publish/publish-base.yml
+    with:
+      source_ref: server-us
+      fork_id: pss14-us
+    secrets: inherit

@@ -1,0 +1,14 @@
+name: Publish EU
+
+on:
+  schedule:
+    # To run before EU shifts. Scheduled at 15:00 UTC
+    - cron: '0 15 * * 1,6'
+
+jobs:
+  publish:
+    uses: ./.github/workflows/publish/publish-base.yml
+    with:
+      source_ref: server-eu
+      fork_id: pss14-eu
+    secrets: inherit

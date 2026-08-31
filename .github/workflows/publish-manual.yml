@@ -1,0 +1,46 @@
+name: Publish
+
+concurrency:
+  group: publish
+  cancel-in-progress: true
+
+on:
+  workflow_dispatch:
+    inputs:
+      server:
+        description: Server to publish to
+        required: true
+        type: choice
+        options:
+        - US
+        - EU
+        #- Experimental
+        #- Live
+        - All
+
+jobs:
+  publish-us:
+    if: inputs.server == 'US' || inputs.server == 'Live' || inputs.server == 'All'
+    uses: ./.github/workflows/pubish/publish-base.yml
+    with:
+      source_ref: ${{ github.ref_name }}
+      fork_id: pss14-us
+    secrets: inherit
+  
+  publish-eu:
+    if: inputs.server == 'EU' || inputs.server == 'Live' || inputs.server == 'All'
+    uses: ./.github/workflows/publish/publish-base.yml
+    with:
+      source_ref: ${{ github.ref_name }}
+      fork_id: pss14-eu
+    secrets: inherit
+  
+  # TODO: Set up experimental branch publishing
+  # publish-experimental:
+  #   if: inputs.server == 'Experimental' || inputs.server == 'All'
+  #   uses: ./.github/workflows/publish/publish-base
+  #   with:
+  #     source_ref: ${{ github.ref_name }}
+  #     fork_id: pss14-experimental
+  #   secrets: inherit
+  
