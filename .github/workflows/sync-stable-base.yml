@@ -58,13 +58,11 @@ jobs:
         echo "Merge Conflicts Detected:"
         echo "$CONFLICT_FILES"
 
-        git switch -c "$CONFLICT_BRANCH"
-
         # Stage the files exactly as they currently exist, including conflict markers.
         git add -A
         git commit -m "CONFLICT: Resolve staging-stable merge conflicts into ${{ inputs.target_branch }}"
 
-        git push origin "$CONFLICT_BRANCH"
+        git push origin HEAD:"$CONFLICT_BRANCH"
 
         echo "branch=$CONFLICT_BRANCH" >> "$GITHUB_OUTPUT"
         {
