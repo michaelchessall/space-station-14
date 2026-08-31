@@ -1,0 +1,12 @@
+name: Sync Stable To Unstable [Automatic]
+
+on:
+  schedule:
+    # To run weekly
+    - cron: '0 0 * * 0'
+
+jobs:
+  sync-unstable:
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: staging-unstable

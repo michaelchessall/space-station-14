@@ -1,0 +1,12 @@
+name: Sync Stable To US [Automatic]
+
+on:
+  schedule:
+    # To run 24 hours before US shifts. Scheduled at 20:00 UTC
+    - cron: '0 20 * * 6,2'
+
+jobs:
+  sync-us:
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: server-us

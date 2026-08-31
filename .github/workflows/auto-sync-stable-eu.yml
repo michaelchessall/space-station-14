@@ -1,0 +1,12 @@
+name: Sync Stable To EU [Automatic]
+
+on:
+  schedule:
+    # To run 24 hours before EU shifts. Scheduled at 15:00 UTC
+    - cron: '0 15 * * 0,5'
+
+jobs:
+  sync-eu:
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: server-eu
