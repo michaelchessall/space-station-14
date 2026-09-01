@@ -996,6 +996,9 @@
   id: MonkeyCube # Storage whitelist: ClothingBeltChef. CargoBounty: BountyMonkeyCube
 
 - type: Tag
+  id: UristekCube # Persistence 14 Dummy for Medical
+
+- type: Tag
   id: MonkeyWearable # Used by inventoryTemplate:monkey to whitelist clothing slot outerClothing for slightly less intelligent primates.
 
 - type: Tag

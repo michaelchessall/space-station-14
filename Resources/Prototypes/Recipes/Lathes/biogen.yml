@@ -17,6 +17,15 @@
     Biomass: 70
 
 - type: latheRecipe
+  id: BioGenUristekCube
+  result: UristekCube
+  categories:
+  - Food
+  completetime: 3
+  materials:
+    Biomass: 35
+
+- type: latheRecipe
   id: BioGenMaterialCloth1
   result: MaterialCloth1
   categories:
