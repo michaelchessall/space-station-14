@@ -1666,8 +1666,14 @@
   name: CB-1 'Michael'
   description: Meet the CB-1 'Michael', first in the Uristek PseudoSynth™ line of medical practice dummies. Don't ask why the blood is so realistic, that's proprietary.
   id: MobHuman1
-  parent: [AppearanceHuman, BaseSpeciesDummyMobOrganic]
+  parent: BaseSpeciesDummyMobOrganic
   components:
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: TestDummy
+      sprite: _Persistence14/Mobs/uristekdummy.rsi
   - type: MovementSpeedModifier
     baseWalkSpeed : 0
     baseSprintSpeed : 0
