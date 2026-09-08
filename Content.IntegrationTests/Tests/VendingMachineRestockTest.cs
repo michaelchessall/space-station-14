@@ -141,7 +141,7 @@ namespace Content.IntegrationTests.Tests
                     List<EntProtoId<VendingMachineRestockComponent>>> entitiesWhichSpawnRestocks = new();
                 foreach (var proto in prototypeManager.EnumeratePrototypes<EntityPrototype>())
                 {
-                    if (!proto.TryGetComponent<EntityTableContainerFillComponent>(out var fill, compFact))
+                    if (!proto.TryComp<EntityTableContainerFillComponent>(out var fill, compFact))
                         continue;
 
                     var containers = fill.Containers;

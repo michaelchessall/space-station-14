@@ -19,7 +19,6 @@ namespace Content.Server.DeviceNetwork.Systems
     public sealed partial class DeviceNetworkSystem : SharedDeviceNetworkSystem
     {
         [Dependency] private IRobustRandom _random = default!;
-        [Dependency] private IPrototypeManager _protoMan = default!;
         [Dependency] private SharedTransformSystem _transformSystem = default!;
         [Dependency] private DeviceListSystem _deviceLists = default!;
         [Dependency] private NetworkConfiguratorSystem _configurator = default!;
@@ -108,14 +107,14 @@ namespace Content.Server.DeviceNetwork.Systems
         {
             if (device.ReceiveFrequency == null
                 && device.ReceiveFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
             {
                 device.ReceiveFrequency = receive.Frequency;
             }
 
             if (device.TransmitFrequency == null
                 && device.TransmitFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
             {
                 device.TransmitFrequency = xmit.Frequency;
             }
@@ -128,14 +127,14 @@ namespace Content.Server.DeviceNetwork.Systems
         {
             if (device.ReceiveFrequency == null
                 && device.ReceiveFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
             {
                 device.ReceiveFrequency = receive.Frequency;
             }
 
             if (device.TransmitFrequency == null
                 && device.TransmitFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
             {
                 device.TransmitFrequency = xmit.Frequency;
             }

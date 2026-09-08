@@ -92,7 +92,7 @@ public sealed partial class AntagSelectionSystem
         // This is how the system worked when I got here, and I decided not to change it to avoid fucking with team antag balance
         foreach (var antag in gameRule.Comp.Antags)
         {
-            if (!Proto.Resolve(antag.Proto, out _))
+            if (!ProtoMan.Resolve(antag.Proto, out _))
                 continue;
 
             count += GetTargetAntagCount(antag, playerCount, ref runningCount);
@@ -111,7 +111,7 @@ public sealed partial class AntagSelectionSystem
     [PublicAPI]
     public int GetTargetAntagCount(Entity<AntagSelectionComponent> gameRule, int playerCount, ProtoId<AntagSpecifierPrototype> proto)
     {
-        if (!Proto.Resolve(proto, out var antag))
+        if (!ProtoMan.Resolve(proto, out var antag))
             return 0;
 
         return GetTargetAntagCount(gameRule, playerCount, antag);
@@ -128,7 +128,7 @@ public sealed partial class AntagSelectionSystem
         // This is how the system worked when I got here, and I decided not to change it to avoid fucking with team antag balance
         foreach (var antag in gameRule.Comp.Antags)
         {
-            if (!Proto.Resolve(antag.Proto, out _))
+            if (!ProtoMan.Resolve(antag.Proto, out _))
                 continue;
 
             // We need to update our running count which is why we get the count for definitions we may not be assigning.
@@ -405,7 +405,7 @@ public sealed partial class AntagSelectionSystem
                 if (except.Contains(antag))
                     continue;
 
-                if (!comp.PreSelectedSessions.TryGetValue(antag, out var set) || !Proto.Resolve(antag.Proto, out var proto))
+                if (!comp.PreSelectedSessions.TryGetValue(antag, out var set) || !ProtoMan.Resolve(antag.Proto, out var proto))
                     continue;
 
                 // Check this here so we don't make a dictionary entry for a bunch of players, with empty blacklists and whitelists.
@@ -469,7 +469,7 @@ public sealed partial class AntagSelectionSystem
                 if (!comp.PreSelectedSessions.TryGetValue(antag, out var set) || !set.Contains(player))
                     continue;
 
-                if (!Proto.Resolve(antag.Proto, out var proto))
+                if (!ProtoMan.Resolve(antag.Proto, out var proto))
                     continue;
 
                 if (proto.JobWhitelist != null)
@@ -655,7 +655,7 @@ public sealed partial class AntagSelectionSystem
 
             foreach (var (proto, sessions) in comp.PreSelectedSessions)
             {
-                if (!Proto.Resolve(proto, out var def))
+                if (!ProtoMan.Resolve(proto, out var def))
                     continue; // How did you even get here?
 
                 if (!sessions.Contains(player))

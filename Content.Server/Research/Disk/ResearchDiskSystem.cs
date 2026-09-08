@@ -3,14 +3,12 @@ using Content.Server.Research.Systems;
 using Content.Shared.Interaction;
 using Content.Shared.Research.Components;
 using Content.Shared.Research.Prototypes;
-using Robust.Shared.Prototypes;
 using System.Linq;
 
 namespace Content.Server.Research.Disk
 {
     public sealed partial class ResearchDiskSystem : EntitySystem
     {
-        [Dependency] private IPrototypeManager _prototype = default!;
         [Dependency] private PopupSystem _popupSystem = default!;
         [Dependency] private ResearchSystem _research = default!;
         public override void Initialize()
@@ -39,7 +37,7 @@ namespace Content.Server.Research.Disk
             if (!component.UnlockAllTech)
                 return;
 
-            component.Points = _prototype.EnumeratePrototypes<TechnologyPrototype>()
+            component.Points = ProtoMan.EnumeratePrototypes<TechnologyPrototype>()
                 .Sum(tech => tech.Cost);
         }
     }
