@@ -49,9 +49,10 @@ public sealed partial class AtmosPipeLayersSystem : SharedAtmosPipeLayersSystem
             if (node is not PipeNode { } pipeNode)
                 continue;
 
-            if (pipeNode.CurrentPipeLayer == ent.Comp.CurrentPipeLayer)
+            if (pipeNode.OriginalPipeLayer == ent.Comp.CurrentPipeLayer)
                 continue;
 
+            pipeNode.OriginalPipeLayer = ent.Comp.CurrentPipeLayer;
             pipeNode.CurrentPipeLayer = ent.Comp.CurrentPipeLayer;
 
             if (pipeNode.NodeGroup != null)
