@@ -231,7 +231,7 @@
   recipeUnlocks:
     Engineeringsuit: 2
     Atmossuit: 2
-    AtmosFireSui: 2
+    AtmosFireSuit: 2
     AtmosFireHelmet: 2
     Miningsuit: 2
     Paramedsuit: 2 # Should probably be on the civilian tech tree
