@@ -558,12 +558,12 @@ public sealed partial class MappingState : GameplayStateBase
                 {
                     var placementId = Screen.EntityPlacementMode.SelectedId;
 
-                    var placement = new PlacementInformation
-                    {
-                        PlacementOption = placementId > 0 ? EntitySpawnWindow.InitOpts[placementId] : entity.PlacementMode,
-                        EntityType = entity.ID,
-                        IsTile = false
-                    };
+                var placement = new PlacementInformation
+                {
+                    PlacementOption = placementId > 0 ? _placement.AllModeNames[placementId] : entity.PlacementMode,
+                    EntityType = entity.ID,
+                    IsTile = false
+                };
 
                     Screen.EntityContainer.Visible = true;
                     _decal.SetActive(false);
@@ -659,7 +659,7 @@ public sealed partial class MappingState : GameplayStateBase
         {
             var placement = new PlacementInformation
             {
-                PlacementOption = EntitySpawnWindow.InitOpts[args.Id],
+                PlacementOption = _placement.AllModeNames[args.Id],
                 EntityType = _placement.CurrentPermission!.EntityType,
                 TileType = _placement.CurrentPermission.TileType,
                 Range = 2,
