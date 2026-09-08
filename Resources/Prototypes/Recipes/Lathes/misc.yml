@@ -134,6 +134,75 @@
   materials:
     Steel: 400
 
+# Start Persistence: make o2/n2/etc tanks craftable
+
+- type: latheRecipe
+  id: OxygenTank
+  result: OxygenTank
+  completetime: 4
+  materials:
+    Steel: 400
+
+- type: latheRecipe
+  id: NitrogenTank
+  result: NitrogenTank
+  completetime: 4
+  materials:
+    Steel: 400
+
+- type: latheRecipe
+  id: NitrousOxideTank
+  result: NitrousOxideTank
+  completetime: 4
+  materials:
+    Steel: 400
+
+- type: latheRecipe
+  id: PlasmaTank
+  result: PlasmaTank
+  completetime: 4
+  materials:
+    Steel: 400
+
+- type: latheRecipe
+  id: EmergencyOxygenTank
+  result: EmergencyOxygenTank
+  completetime: 2
+  materials:
+    Steel: 200
+
+- type: latheRecipe
+  id: EmergencyNitrogenTank
+  result: EmergencyNitrogenTank
+  completetime: 2
+  materials:
+    Steel: 200
+
+- type: latheRecipe
+  id: EmergencyFunnyOxygenTank
+  result: EmergencyFunnyOxygenTank
+  completetime: 2
+  materials:
+    Steel: 200
+
+- type: latheRecipe
+  id: ExtendedEmergencyOxygenTank
+  result: ExtendedEmergencyOxygenTank
+  completetime: 3
+  materials:
+    Steel: 250
+  unlockUses: 4
+
+- type: latheRecipe
+  id: ExtendedEmergencyNitrogenTank
+  result: ExtendedEmergencyNitrogenTank
+  completetime: 3
+  materials:
+    Steel: 250
+  unlockUses: 4
+
+# End Persistence
+
 - type: latheRecipe
   id: DoubleEmergencyOxygenTank
   result: DoubleEmergencyOxygenTank

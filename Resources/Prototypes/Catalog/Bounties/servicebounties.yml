@@ -267,7 +267,7 @@
 
 - type: cargoBounty
   id: BountyWehPlushie
-  reward: 13500
+  reward: 12000
   description: bounty-description-banana
   group: ServiceBounty
   condition:

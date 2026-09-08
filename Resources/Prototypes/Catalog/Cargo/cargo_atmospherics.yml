@@ -130,21 +130,21 @@
   group: market
 
 - type: cargoProduct
-  id: TinyFanCargo
+  id: TinyFanBoardCargo
   icon:
-    sprite: Objects/Devices/flatpack.rsi
-    state: fan
-  product: TinyFanFlatpack
+    sprite: Objects/Misc/module.rsi
+    state: engineering
+  product: AtmosDeviceFanTinyMachineCircuitBoard
   cost: 4000
   category: cargoproduct-category-name-engineering
   group: market
 
 - type: cargoProduct
-  id: DirectionalFanCargo
+  id: DirectionalFanBoardCargo
   icon:
-    sprite: Objects/Devices/flatpack.rsi
-    state: fan
-  product: DirectionalFanFlatpack
+    sprite: Objects/Misc/module.rsi
+    state: engineering
+  product: AtmosDeviceFanDirectionalMachineCircuitBoard
   cost: 4000
   category: cargoproduct-category-name-engineering
   group: market

@@ -2,6 +2,7 @@ using Content.Server.Animals.Systems;
 using Content.Shared.Storage;
 using Robust.Shared.Audio;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; // Persistence: TimeOffsetSerializer
 
 namespace Content.Server.Animals.Components;
 
@@ -51,6 +52,6 @@ public sealed partial class EggLayerComponent : Component
     /// <summary>
     ///     When to next try to produce.
     /// </summary>
-    [DataField, AutoPausedField]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField] // Persistence: TimeOffsetSerializer
     public TimeSpan NextGrowth = TimeSpan.Zero;
 }

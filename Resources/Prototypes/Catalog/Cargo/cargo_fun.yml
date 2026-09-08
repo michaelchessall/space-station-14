@@ -127,7 +127,7 @@
     sprite: Objects/Fun/Plushies/lizard.rsi
     state: icon
   product: CrateFunLizardPlushieBulk
-  cost: 500
+  cost: 4000
   category: cargoproduct-category-name-fun
   group: market
 

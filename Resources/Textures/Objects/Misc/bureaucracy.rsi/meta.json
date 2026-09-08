@@ -18,6 +18,12 @@
       "name": "acquisition_form_header"
     },
     {
+      "name": "card_blank"
+    },
+    {
+      "name": "card_written"
+    },
+    {
       "name": "envelope_closed"
     },
     {
