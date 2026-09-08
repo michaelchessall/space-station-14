@@ -10,7 +10,6 @@ namespace Content.Shared.Construction
     {
         [Dependency] private IMapManager _mapManager = default!;
         [Dependency] private SharedMapSystem _map = default!;
-        [Dependency] protected IPrototypeManager PrototypeManager = default!;
         [Dependency] protected SharedTransformSystem TransformSystem = default!;
 
         /// <summary>
@@ -33,7 +32,7 @@ namespace Content.Shared.Construction
             if (info.ExamineName is not null)
                 return Loc.GetString(info.ExamineName.Value);
 
-            return PrototypeManager.Index(info.DefaultPrototype).Name;
+            return ProtoMan.Index(info.DefaultPrototype).Name;
         }
     }
 }
