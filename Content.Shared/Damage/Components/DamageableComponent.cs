@@ -1,5 +1,6 @@
 using Content.Shared.Damage.Prototypes;
 using Content.Shared.Damage.Systems;
+using Content.Shared.DisplacementMap;
 using Content.Shared.FixedPoint;
 using Content.Shared.Mobs;
 using Content.Shared.StatusIcon;

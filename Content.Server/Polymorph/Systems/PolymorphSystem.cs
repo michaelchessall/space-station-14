@@ -72,7 +72,7 @@ public sealed partial class PolymorphSystem : EntitySystem
     [Dependency] private StatusEffectsSystem _statusEffect = default!;
 
     private static readonly ProtoId<TagPrototype> PolymorphTransferReagentTag = "PolymorphTransferReagent";
-    private const string RevertPolymorphId = "ActionRevertPolymorph";
+    private static readonly EntProtoId RevertPolymorphId = "ActionRevertPolymorph";
 
     /// <summary>
     /// Tracks every currently-polymorphed entity ourselves, since EntityQueryEnumerator silently
@@ -96,6 +96,7 @@ public sealed partial class PolymorphSystem : EntitySystem
     /// isn't safe - we copy it first each tick.
     /// </summary>
     private readonly List<EntityUid> _updateBuffer = new();
+    private static readonly EntProtoId RevertPolymorphConfirmId = "ActionRevertPolymorphConfirm";
 
     public override void Initialize()
     {
@@ -192,13 +193,15 @@ public sealed partial class PolymorphSystem : EntitySystem
         if (component.Configuration.Forced)
             return;
 
-        /*
-        if (_actions.AddAction(uid, ref component.Action, out var action, RevertPolymorphId) &&
-            _pid.TryResolveId(component.Parent, out var parentEnt))
-        {
-            _actions.SetEntityIcon((component.Action.Value, action), parentEnt);
-            _actions.SetUseDelay(component.Action.Value, TimeSpan.FromSeconds(component.Configuration.Delay));
-        }*/
+        if (!_actions.AddAction(
+            uid,
+            ref component.Action,
+            out var action,
+            component.Configuration.RevertConfirmationPopup ? RevertPolymorphConfirmId : RevertPolymorphId))
+            return;
+
+        _actions.SetEntityIcon((component.Action.Value, action), component.Parent);
+        _actions.SetUseDelay(component.Action.Value, TimeSpan.FromSeconds(component.Configuration.Delay));
     }
 
     private void OnPolymorphActionEvent(Entity<PolymorphableComponent> ent, ref PolymorphActionEvent args)
@@ -613,8 +616,14 @@ public sealed partial class PolymorphSystem : EntitySystem
         var entProto = ProtoMan.Index(polyProto.Configuration.Entity);
 
         EntityUid? actionId = default!;
-        if (!_actions.AddAction(target, ref actionId, RevertPolymorphId, target))
+        if (!_actions.AddAction(
+            target,
+            ref actionId,
+            polyProto.Configuration.RevertConfirmationPopup ? RevertPolymorphConfirmId : RevertPolymorphId,
+            target))
+        {
             return;
+        }
 
         target.Comp.PolymorphActions.Add(id, actionId.Value);
 
