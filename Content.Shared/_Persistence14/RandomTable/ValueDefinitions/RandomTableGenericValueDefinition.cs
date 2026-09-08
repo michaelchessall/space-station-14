@@ -1,6 +1,6 @@
 namespace Content.Shared._Persistence14.RandomTable.ValueDefinition;
 
-public abstract partial class RandomTableGenericValueDefinition<T> : RandomTableValueDefinition
+public abstract partial class RandomTableGenericValueDefinition<T> : RandomTableValueDefinition where T : class
 {
     [DataField("value", required: true)]
     private T? _t = default!;

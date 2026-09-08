@@ -433,7 +433,6 @@ namespace Content.Client.Lobby.UI
             if (Profile == null)
             {
                 Profile = new HumanoidCharacterProfile();
-                RandomizeEverything();
             }
             SetDirty();
         }
@@ -520,7 +519,6 @@ namespace Content.Client.Lobby.UI
             if (Profile == null)
             {
                 Profile = new HumanoidCharacterProfile();
-                RandomizeEverything();
             }
 
             // Creating new character
@@ -538,8 +536,6 @@ namespace Content.Client.Lobby.UI
                 OpenImagesButton.Visible = false;
                 ExportImageButton.Visible = false;
 
-                NameRandomize.Visible = true;
-                RandomizeEverythingButton.Visible = true;
                 ResetButton.Visible = false;
                 NameEdit.Editable = true;
             }
@@ -558,8 +554,6 @@ namespace Content.Client.Lobby.UI
                 OpenImagesButton.Visible = true;
                 ExportImageButton.Visible = true;
 
-                RandomizeEverythingButton.Visible = false;
-                NameRandomize.Visible = false;
                 ResetButton.Visible = false;
                 NameEdit.Editable = false;
             }

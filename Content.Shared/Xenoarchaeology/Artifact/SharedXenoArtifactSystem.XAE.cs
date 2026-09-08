@@ -4,6 +4,7 @@ using Content.Shared.Interaction;
 using Content.Shared.Interaction.Events;
 using Content.Shared.Timing;
 using Content.Shared.Xenoarchaeology.Artifact.Components;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Random;
@@ -12,10 +13,11 @@ namespace Content.Shared.Xenoarchaeology.Artifact;
 
 public abstract partial class SharedXenoArtifactSystem
 {
-    [Dependency] private readonly UseDelaySystem _useDelay = default!;
-    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private UseDelaySystem _useDelay = default!;
+    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
 
     private void InitializeXAE()
     {
@@ -81,7 +83,7 @@ public abstract partial class SharedXenoArtifactSystem
 
         if (!success)
         {
-            _popup.PopupClient(Loc.GetString("artifact-activation-fail"), artifact, user);
+            _popup.PopupEntity(Loc.GetString("artifact-activation-fail"), artifact, user);
             return false;
         }
 

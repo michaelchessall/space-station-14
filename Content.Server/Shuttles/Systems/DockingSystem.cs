@@ -36,24 +36,6 @@ public sealed partial class DockingSystem : SharedDockingSystem
     private readonly HashSet<Entity<DockingComponent>> _dockingSet = new();
     private readonly HashSet<Entity<DockingComponent, DoorBoltComponent>> _dockingBoltSet = new();
 
-    public override void Initialize()
-    {
-        base.Initialize();
-
-        SubscribeLocalEvent<DockingComponent, ComponentStartup>(OnStartup);
-        SubscribeLocalEvent<DockingComponent, ComponentShutdown>(OnShutdown);
-        SubscribeLocalEvent<DockingComponent, AnchorStateChangedEvent>(OnAnchorChange);
-        SubscribeLocalEvent<DockingComponent, ReAnchorEvent>(OnDockingReAnchor);
-
-        SubscribeLocalEvent<DockingComponent, BeforeDoorAutoCloseEvent>(OnAutoClose);
-
-        // Yes this isn't in shuttle console; it may be used by other systems technically.
-        // in which case I would also add their subs here.
-        SubscribeLocalEvent<ShuttleConsoleComponent, DockRequestMessage>(OnRequestDock);
-        SubscribeLocalEvent<ShuttleConsoleComponent, UndockRequestMessage>(OnRequestUndock);
-        SubscribeLocalEvent<ShuttleConsoleComponent, UndockAllRequestMessage>(OnRequestUndockAll);
-    }
-
     public void UndockDocks(EntityUid gridUid)
     {
         _dockingSet.Clear();
@@ -77,12 +59,6 @@ public sealed partial class DockingSystem : SharedDockingSystem
         }
     }
 
-    private void OnAutoClose(EntityUid uid, DockingComponent component, BeforeDoorAutoCloseEvent args)
-    {
-        // We'll just pin the door open when docked.
-        if (component.Docked)
-            args.Cancel();
-    }
     [SubscribeLocalEvent]
     private void OnAutoClose(EntityUid uid, DockingComponent component, BeforeDoorAutoCloseEvent args)
     {
@@ -273,54 +249,6 @@ public sealed partial class DockingSystem : SharedDockingSystem
         RaiseLocalEvent(msg);
     }
 
-    private void OnStartup(Entity<DockingComponent> entity, ref ComponentStartup args)
-    {
-        var uid = entity.Owner;
-        var component = entity.Comp;
-
-        // Use startup so transform already initialized
-        if (!Transform(uid).Anchored)
-            return;
-
-        // This little gem is for docking deserialization
-        if (component.DockedWith != null && component.DockedWith != EntityUid.Invalid)
-        {
-            // They're still initialising so we'll just wait for both to be ready.
-            if (MetaData(component.DockedWith.Value).EntityLifeStage < EntityLifeStage.Initialized)
-                return;
-
-            var otherDock = _dockingQuery.Comp(component.DockedWith.Value);
-            DebugTools.Assert(otherDock.DockedWith != null);
-
-            Dock((uid, component), (component.DockedWith.Value, otherDock));
-            DebugTools.Assert(component.Docked && otherDock.Docked);
-        }
-    }
-
-    private void OnAnchorChange(Entity<DockingComponent> entity, ref AnchorStateChangedEvent args)
-    {
-        if (!args.Anchored)
-        {
-            Undock(entity);
-        }
-    }
-
-    private void OnDockingReAnchor(Entity<DockingComponent> entity, ref ReAnchorEvent args)
-    {
-        var uid = entity.Owner;
-        var component = entity.Comp;
-
-        if (!component.Docked)
-            return;
-
-        var otherDock = component.DockedWith;
-        var other = Comp<DockingComponent>(otherDock!.Value);
-
-        Undock(entity);
-        Dock((uid, component), (otherDock.Value, other));
-        _console.RefreshShuttleConsoles();
-    }
-
     /// <summary>
     /// Docks 2 ports together and assumes it is valid.
     /// </summary>
@@ -465,17 +393,6 @@ public sealed partial class DockingSystem : SharedDockingSystem
             door.ChangeAirtight = true;
     }
 
-    public void UndockDocks(EntityUid gridUid)
-    {
-        _dockingSet.Clear();
-        _lookup.GetChildEntities(gridUid, _dockingSet);
-
-        foreach (var dock in _dockingSet)
-        {
-            Undock(dock);
-        }
-    }
-
     private void OnRequestUndockAll(EntityUid uid, ShuttleConsoleComponent component, UndockAllRequestMessage args)
     {
         var gridUid = Transform(uid).GridUid;
@@ -483,52 +400,6 @@ public sealed partial class DockingSystem : SharedDockingSystem
             return;
 
         UndockDocks(gridUid.Value);
-    }
-
-    private void OnRequestDock(EntityUid uid, ShuttleConsoleComponent component, DockRequestMessage args)
-    {
-        var console = _console.GetDroneConsole(uid);
-
-        if (console == null)
-        {
-            _popup.PopupCursor(Loc.GetString("shuttle-console-dock-fail"), args.Actor);
-            return;
-        }
-
-        var shuttleUid = Transform(console.Value).GridUid;
-
-        if (!CanShuttleDock(shuttleUid))
-        {
-            _popup.PopupCursor(Loc.GetString("shuttle-console-dock-fail"), args.Actor);
-            return;
-        }
-
-        if (!TryGetEntity(args.DockEntity, out var ourDock) ||
-            !TryGetEntity(args.TargetDockEntity, out var targetDock) ||
-            !_dockingQuery.TryComp(ourDock, out var ourDockComp) ||
-            !_dockingQuery.TryComp(targetDock, out var targetDockComp))
-        {
-            _popup.PopupCursor(Loc.GetString("shuttle-console-dock-fail"), args.Actor);
-            return;
-        }
-
-        // Cheating?
-        if (!TryComp(ourDock, out TransformComponent? xformA) ||
-            xformA.GridUid != shuttleUid)
-        {
-            _popup.PopupCursor(Loc.GetString("shuttle-console-dock-fail"), args.Actor);
-            return;
-        }
-
-        // TODO: Move the CanDock stuff to the port state and also validate that stuff
-        // Also need to check preventpilot + enabled / dockedwith
-        if (!CanDock((ourDock.Value, ourDockComp), (targetDock.Value, targetDockComp)))
-        {
-            _popup.PopupCursor(Loc.GetString("shuttle-console-dock-fail"), args.Actor);
-            return;
-        }
-
-        Dock((ourDock.Value, ourDockComp), (targetDock.Value, targetDockComp));
     }
 
     public bool CanUndock(Entity<DockingComponent?> dock)

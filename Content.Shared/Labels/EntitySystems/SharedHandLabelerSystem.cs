@@ -9,6 +9,7 @@ using Content.Shared.Popups;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
 using Robust.Shared.GameStates;
+using Robust.Shared.Network;
 
 namespace Content.Shared.Labels.EntitySystems;
 
@@ -76,7 +77,7 @@ public abstract partial class SharedHandLabelerSystem : EntitySystem
 
         // Log labeling
         _adminLogger.Add(LogType.Action, LogImpact.Low,
-            $"{ToPrettyString(user):user} labeled {ToPrettyString(target):target} with {ToPrettyString(uid):labeler}");
+            $"{ToPrettyString(user):user} labeled {ToPrettyString(target):target} with {ToPrettyString(ent.Owner):labeler}");
     }
 
     private void RemoveLabelFrom(EntityUid uid, EntityUid user, EntityUid target)

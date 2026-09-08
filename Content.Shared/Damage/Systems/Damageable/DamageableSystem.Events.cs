@@ -204,7 +204,8 @@ public sealed partial class DamageableSystem
     {
         args.State = new DamageableComponentState(
             _netMan.IsServer ? ent.Comp.Damage : ent.Comp.Damage.Clone(),
-            ent.Comp.DamageModifierSetId
+            ent.Comp.DamageModifierSetId,
+            ent.Comp.Displacement
         );
     }
 

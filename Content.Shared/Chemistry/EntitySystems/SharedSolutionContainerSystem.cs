@@ -484,7 +484,7 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
     // Start Funky: Footprints & Stains
     public void BurnFlammableReagents(Entity<SolutionComponent> soln, float fraction)
     {
-        soln.Comp.Solution.BurnFlammableReagents(fraction, PrototypeManager);
+        soln.Comp.Solution.BurnFlammableReagents(fraction, ProtoMan);
         UpdateChemicals(soln);
     }
     // End Funky

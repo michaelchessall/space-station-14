@@ -72,7 +72,7 @@ public abstract partial class SharedLatheSystem : EntitySystem
     {
         foreach (var id in packs)
         {
-            var pack = _proto.Index(id);
+            var pack = ProtoMan.Index(id);
             foreach (var recipe in pack.Recipes)
             {
                 recipes.Add(recipe, -404);

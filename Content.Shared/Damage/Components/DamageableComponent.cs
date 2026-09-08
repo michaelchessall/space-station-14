@@ -88,15 +88,19 @@ public sealed partial class DamageableComponent : Component
     [DataField]
     public FixedPoint2? HealthBarThreshold;
 
-
+    [DataField]
+    public ProtoId<DisplacementDataPrototype>? Displacement;
 }
 
 [Serializable, NetSerializable]
 public sealed class DamageableComponentState(
     DamageSpecifier damage,
-    ProtoId<DamageModifierSetPrototype>? modifierSetId)
+    ProtoId<DamageModifierSetPrototype>? modifierSetId,
+    ProtoId<DisplacementDataPrototype>? displacement)
     : ComponentState
 {
     public readonly DamageSpecifier Damage = damage;
     public readonly ProtoId<DamageModifierSetPrototype>? ModifierSetId = modifierSetId;
+    public readonly ProtoId<DisplacementDataPrototype>? Displacement = displacement;
+
 }

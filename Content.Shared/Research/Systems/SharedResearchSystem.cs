@@ -293,7 +293,7 @@ public abstract partial class SharedResearchSystem : EntitySystem
             return;
 
         var uses = 1;
-        PrototypeManager.Resolve<LatheRecipePrototype>(recipe, out var recipeProto);
+        ProtoMan.Resolve<LatheRecipePrototype>(recipe, out var recipeProto);
 
         if (recipeProto != null)
         {

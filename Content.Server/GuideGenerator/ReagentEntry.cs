@@ -1,6 +1,7 @@
 using Content.Shared.Chemistry.Reaction;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.EntityEffects;
+using Robust.Shared.Prototypes;
 using System.Linq;
 using System.Text.Json.Serialization;
 
