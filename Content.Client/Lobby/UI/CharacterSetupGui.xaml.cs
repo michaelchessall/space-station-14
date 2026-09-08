@@ -53,7 +53,7 @@ namespace Content.Client.Lobby.UI
 
             //_createNewCharacterButton.OnPressed += args =>
             //{
-            //    _preferencesManager.CreateCharacter(HumanoidCharacterProfile.Random());
+            //    _preferencesManager.CreateCharacter(HumanoidCharacterProfile.Random().WithJobFromCvar(_cfg));
             //    ReloadCharacterPickers();
             //    args.Event.Handle();
             //};
