@@ -47,7 +47,7 @@ public sealed partial class UdderComponent : Component
     /// <summary>
     ///     How long to wait before producing.
     /// </summary>
-    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoNetworkedField]
+    [DataField, AutoNetworkedField] // Persistence: Remove TimeOffsetSerializer
     public TimeSpan GrowthDelay = TimeSpan.FromMinutes(1);
 
     /// <summary>

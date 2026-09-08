@@ -193,6 +193,8 @@
           amount: 2
         - id: BoxFolderClipboardEmpty
           amount: 2
+        - id: BusinessCard # Persistence: Blank business card
+          amount: 3
         - id: HandLabeler
         - id: BoxFolderBlueEmpty
         - id: BoxFolderRedEmpty
@@ -218,7 +220,7 @@
   parent: CrateCommandSecure
   id: CrateServicePersonnel
   name: personnel crate
-  description: Contains a box of blank ID cards and PDAs. 
+  description: Contains a box of blank ID cards and PDAs.
   components:
   - type: EntityTableContainerFill
     containers:

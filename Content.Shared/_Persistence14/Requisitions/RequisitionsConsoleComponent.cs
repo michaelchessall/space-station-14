@@ -4,6 +4,7 @@ using Content.Shared.Materials;
 using Content.Shared.Research.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; // Persistence: TimeOffsetSerializer
 
 namespace Content.Shared._Persistence14.Requisitions;
 
@@ -108,7 +109,7 @@ public sealed partial class RequisitionsConsoleComponent : Component
     public string FlatpackStorageId = "requisitions-flatpack-storage";
 
     // Earliest time to retry feeding a flatpacker, so a stalled pack doesn't churn every tick.
-    [DataField]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer))] // Persistence: TimeOffsetSerializer
     public TimeSpan NextFlatpackTry;
 
     #endregion
