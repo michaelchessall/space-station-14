@@ -64,6 +64,7 @@ namespace Content.Client.Lobby.UI
             StatsButton.OnPressed += _ => new PlaytimeStatsWindow().OpenCentered();
 
             _cfg.OnValueChanged(CCVars.SeeOwnNotes, p => AdminRemarksButton.Visible = p, true);
+            _cfg.OnValueChanged(CCVars.GameMaxCharacterSlots, _ => ReloadCharacterPickers());
         }
 
         /// <summary>
@@ -80,6 +81,8 @@ namespace Content.Client.Lobby.UI
             {
                 return;
             }
+
+            var maxCharactersSlots = _cfg.GetCVar(CCVars.GameMaxCharacterSlots);
 
             //_createNewCharacterButton.ToolTip =
             //    Loc.GetString("character-setup-gui-create-new-character-button-tooltip",
