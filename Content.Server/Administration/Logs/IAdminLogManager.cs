@@ -1,8 +1,8 @@
 using Content.Server.Database;
 using Content.Server.GameTicking;
 using Content.Shared.Administration.Logs;
-using System.Text.Json;
-using System.Threading.Tasks;
+using Robust.Shared.Network;
+using Robust.Shared.Player;
 
 namespace Content.Server.Administration.Logs;
 
@@ -24,4 +24,5 @@ public interface IAdminLogManager : ISharedAdminLogManager
     IAsyncEnumerable<JsonDocument> CurrentRoundJson(LogFilter? filter = null);
     Task<Round> CurrentRound();
     Task<int> CountLogs(int round);
+    void OpenEui(ICommonSession admin, string? search = null, Guid? targetPlayer = null);
 }
