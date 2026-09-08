@@ -143,8 +143,8 @@ namespace Content.Server.Speech.EntitySystems
             return replacements.Select(kv =>
                 {
                     var (first, replace) = kv;
-                    var firstLoc = _loc.GetString(first);
-                    var replaceLoc = _loc.GetString(replace);
+                    var firstLoc = Loc.GetString(first);
+                    var replaceLoc = Loc.GetString(replace);
 
                     var regex = new Regex($@"(?<![\w']){firstLoc}(?![\w'])", RegexOptions.IgnoreCase);
 

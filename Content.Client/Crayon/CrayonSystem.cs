@@ -13,13 +13,12 @@ namespace Content.Client.Crayon;
 public sealed partial class CrayonSystem : SharedCrayonSystem
 {
     [Dependency] private SharedChargesSystem _charges = default!;
-    [Dependency] private EntityManager _entityManager = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
-        Subs.ItemStatus<CrayonComponent>(ent => new StatusControl(ent, _charges, _entityManager));
+        Subs.ItemStatus<CrayonComponent>(ent => new StatusControl(ent, _charges, EntityManager));
     }
 
     private sealed class StatusControl : Control

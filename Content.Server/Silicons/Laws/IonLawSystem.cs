@@ -17,7 +17,6 @@ public sealed partial class IonLawSystem : EntitySystem
     [Dependency] private IRobustRandom _random = default!;
     [Dependency] private SharedStationSystem _stationSystem = default!;
     [Dependency] private StationRecordsSystem _stationRecordsSystem = default!;
-    [Dependency] private ILogManager _logManager = default!;
 
     private ISawmill _sawmill = default!;
     private readonly Dictionary<string, List<IonLawSelector>> _selectors = new();
@@ -27,7 +26,7 @@ public sealed partial class IonLawSystem : EntitySystem
     {
         base.Initialize();
 
-        _sawmill = _logManager.GetSawmill("ion-law");
+        _sawmill = LogManager.GetSawmill("ion-law");
 
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
         BuildSelectors();
