@@ -32,12 +32,13 @@ public sealed class MagnetPickupSystem : EntitySystem
         SubscribeLocalEvent<MagnetPickupComponent, ItemToggledEvent>(OnMagnetToggled); // Persistence: add for construction bag
     }
 
+// Persistence: add for construction bag
     private void OnMagnetToggled(
         Entity<MagnetPickupComponent> entity, ref ItemToggledEvent args)
     {
         entity.Comp.Active = args.Activated;
         Dirty(entity);
-    } // Persistence: add for construction bag
+    } 
     private void OnMagnetMapInit(EntityUid uid, MagnetPickupComponent component, MapInitEvent args)
     {
         component.NextScan = _timing.CurTime;
@@ -51,8 +52,9 @@ public sealed class MagnetPickupSystem : EntitySystem
 
         while (query.MoveNext(out var uid, out var comp, out var storage, out var xform, out var meta))
         {
+            // Persistence: add for Construction
             if (!comp.Active)
-                continue; // Persistence: add for Construction bag
+                continue; 
 
             if (comp.NextScan > currentTime)
                 continue;
