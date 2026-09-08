@@ -36,17 +36,29 @@ namespace Content.Server.Shuttles.Components
         [DataField("thrusterType")]
         public ThrusterType Type = ThrusterType.Linear;
 
+        /// HULLROTPORT:
+        /// Shape of the exhaust trail, in the thruster's local frame, where +Y points out of the nozzle.
+        /// Persistence: defaults to a 1x3 trail so anything sitting behind the nozzle cooks.
+        /// Must be convex; a hull is taken over these points.
+        ///
         [DataField("burnShape")]
         public List<Vector2> BurnPoly = new()
         {
-            new Vector2(-0.4f, 0.5f),
-            new Vector2(-0.1f, 1.2f),
-            new Vector2(0.1f, 1.2f),
-            new Vector2(0.4f, 0.5f)
+            new Vector2(-0.45f, 0.5f),
+            new Vector2(-0.45f, 3.45f),
+            new Vector2(0.45f, 3.45f),
+            new Vector2(0.45f, 0.5f)
         };
 
         /// <summary>
-        /// How much damage is done per second to anything colliding with our thrust.
+        /// Persistence: whether the trail also burns entities anchored to the thruster's own grid.
+        /// Turn this off for ships that are meant to survive their own exhaust.
+        /// </summary>
+        [DataField]
+        public bool BurnOwnGrid = true;
+
+        /// <summary>
+        /// How much damage is done per <see cref="FireCooldown"/> to anything inside our exhaust trail.
         /// </summary>
         [DataField("damage")] public DamageSpecifier? Damage = new();
 
@@ -54,8 +66,6 @@ namespace Content.Server.Shuttles.Components
         public bool RequireSpace = true;
 
         // Used for burns
-
-        public List<EntityUid> Colliding = new();
 
         public bool Firing = false;
 

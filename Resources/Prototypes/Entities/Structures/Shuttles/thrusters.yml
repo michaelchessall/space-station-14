@@ -106,11 +106,13 @@
       map: ["enum.ThrusterVisualLayers.ThrustOn"]
       shader: unshaded
       visible: false
+    # plume spans the whole 3-tile burn so the danger zone is visible
     - state: thrust_burn_unshaded
       map: ["enum.ThrusterVisualLayers.ThrustingUnshaded"]
       shader: unshaded
       visible: false
-      offset: 0, 1
+      offset: 0, 2
+      scale: 1, 3
 
 - type: entity
   parent: Thruster
@@ -166,7 +168,7 @@
     powerLoad: 10000
   - type: Thruster
     thrust: 1600
-    burnShape: ["-0.3,0.5","0.2,1.6","0.8,1.6","1.3,0.5"]
+    burnShape: ["-0.45,0.5","-0.45,3.45","1.45,3.45","1.45,0.5"] # roughly 2x3
     damage:
       types:
         Heat: 120
@@ -185,6 +187,7 @@
       shader: unshaded
       visible: false
       offset: 0, 2
+      scale: 1, 1.5
   - type: Anchorable
     flags: None
   - type: StaticPrice

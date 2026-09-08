@@ -1,12 +1,12 @@
 using Content.Server.Audio;
 using Content.Server.Power.EntitySystems;
+using Content.Shared.Damage.Components;
 using Content.Server.Shuttles.Components;
 using Content.Shared.Damage.Systems;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Localizations;
 using Content.Shared.Maps;
-using Content.Shared.Physics;
 using Content.Shared.Power;
 using Content.Shared.Power.Components;
 using Content.Shared.Shuttles.Components;
@@ -16,10 +16,9 @@ using Content.Server.Construction; // Frontier
 using Content.Server.Construction.Components; // Frontier
 using Content.Shared.Construction.Components; // Frontier
 using Content.Shared.DeviceLinking.Events; // Frontier
+using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Physics.Collision.Shapes;
-using Robust.Shared.Physics.Components;
-using Robust.Shared.Physics.Events;
 using Robust.Shared.Physics.Systems;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
@@ -32,18 +31,21 @@ public sealed class ThrusterSystem : EntitySystem
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly SharedMapSystem _mapSystem = default!;
     [Dependency] private readonly AmbientSoundSystem _ambient = default!;
-    [Dependency] private readonly FixtureSystem _fixtureSystem = default!;
     [Dependency] private readonly DamageableSystem _damageable = default!;
     [Dependency] private readonly SharedPointLightSystem _light = default!;
     [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
     [Dependency] private readonly ConstructionSystem _construction = default!; // Frontier
     [Dependency] private readonly SharedTransformSystem _transform = default!; // Frontier
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!; // Persistence: trail burn
+    [Dependency] private readonly SharedPhysicsSystem _physics = default!; // Persistence: trail burn
 
     // Essentially whenever thruster enables we update the shuttle's available impulses which are used for movement.
     // This is done for each direction available.
 
-    public const string BurnFixture = "thruster-burn";
+    // HULLROT: reused each burn tick so the lookup doesn't allocate a set per thruster.
+    private readonly HashSet<Entity<DamageableComponent>> _burnTargets = new();
+    private readonly List<Entity<ThrusterComponent, TransformComponent>> _burning = new();
 
     public override void Initialize()
     {
@@ -56,8 +58,6 @@ public sealed class ThrusterSystem : EntitySystem
         SubscribeLocalEvent<ThrusterComponent, AnchorStateChangedEvent>(OnAnchorChange);
         SubscribeLocalEvent<ThrusterComponent, MoveEvent>(OnRotate);
         SubscribeLocalEvent<ThrusterComponent, IsHotEvent>(OnIsHotEvent);
-        SubscribeLocalEvent<ThrusterComponent, StartCollideEvent>(OnStartCollide);
-        SubscribeLocalEvent<ThrusterComponent, EndCollideEvent>(OnEndCollide);
 
         SubscribeLocalEvent<ThrusterComponent, ExaminedEvent>(OnThrusterExamine);
 
@@ -342,15 +342,6 @@ public sealed class ThrusterSystem : EntitySystem
                 DebugTools.Assert(!shuttleComponent.LinearThrusters[direction].Contains(uid));
                 shuttleComponent.LinearThrusters[direction].Add(uid);
 
-                // Don't just add / remove the fixture whenever the thruster fires because perf
-                if (TryComp(uid, out PhysicsComponent? physicsComponent) &&
-                    component.BurnPoly.Count > 0)
-                {
-                    var shape = new PolygonShape();
-                    shape.Set(component.BurnPoly);
-                    _fixtureSystem.TryCreateFixture(uid, shape, BurnFixture, hard: false, collisionLayer: (int)CollisionGroup.FullTileMask, body: physicsComponent);
-                }
-
                 break;
             case ThrusterType.Angular:
                 shuttleComponent.AngularThrust += component.Thrust;
@@ -461,12 +452,6 @@ public sealed class ThrusterSystem : EntitySystem
 
         _ambient.SetAmbience(uid, false);
 
-        if (TryComp(uid, out PhysicsComponent? physicsComponent))
-        {
-            _fixtureSystem.DestroyFixture(uid, BurnFixture, body: physicsComponent);
-        }
-
-        component.Colliding.Clear();
         RefreshCenter(uid, shuttleComponent);
     }
 
@@ -509,40 +494,77 @@ public sealed class ThrusterSystem : EntitySystem
     {
         base.Update(frameTime);
 
-        var query = EntityQueryEnumerator<ThrusterComponent>();
+        var query = EntityQueryEnumerator<ThrusterComponent, TransformComponent>();
         var curTime = _timing.CurTime;
 
-        while (query.MoveNext(out var ent, out var comp)) // Frontier: add out var ent
+        // hullrot: burning can destroy structures - including other thrusters - so collect first
+        // and damage afterwards rather than deleting entities out from under the enumerator.
+        _burning.Clear();
+
+        while (query.MoveNext(out var ent, out var comp, out var xform)) // Frontier: add out var ent
         {
             if (comp.NextFire > curTime)
                 continue;
 
             comp.NextFire += comp.FireCooldown;
 
-            if (!comp.Firing || comp.Colliding.Count == 0 || comp.Damage == null)
+            // Only a lit linear thruster has an exhaust plume; angular ones are internal gyros.
+            if (!comp.IsOn || !comp.Firing || comp.Type != ThrusterType.Linear)
                 continue;
 
-            foreach (var uid in comp.Colliding.ToArray())
-            {
-                _damageable.TryChangeDamage(uid, comp.Damage);
-            }
+            if (comp.Damage == null || comp.BurnPoly.Count < 3)
+                continue;
+
+            _burning.Add((ent, comp, xform));
         }
+
+        foreach (var thruster in _burning)
+        {
+            if (TerminatingOrDeleted(thruster.Owner))
+                continue;
+
+            BurnTrail(thruster); // Persistence
+        }
+
+        _burning.Clear();
     }
 
-    private void OnStartCollide(EntityUid uid, ThrusterComponent component, ref StartCollideEvent args)
+    /// hullrot: burns everything sitting in the thruster's exhaust trail, structures included.
+    /// This is a lookup rather than a physics fixture because thrusters are anchored, and two static
+    /// bodies never generate contacts with each other - so a fixture could only ever burn mobs and
+    /// loose items, never the anchored structures behind the nozzle.
+    private void BurnTrail(Entity<ThrusterComponent, TransformComponent> ent)
     {
-        if (args.OurFixtureId != BurnFixture)
+        var (uid, comp, xform) = ent;
+
+        if (xform.MapID == MapId.Nullspace || comp.Damage == null)
             return;
 
-        component.Colliding.Add(args.OtherEntity);
-    }
+        var shape = new PolygonShape();
+        shape.Set(comp.BurnPoly);
 
-    private void OnEndCollide(EntityUid uid, ThrusterComponent component, ref EndCollideEvent args)
-    {
-        if (args.OurFixtureId != BurnFixture)
-            return;
+        _burnTargets.Clear();
+        _lookup.GetEntitiesIntersecting(
+            xform.MapID,
+            shape,
+            _physics.GetPhysicsTransform(uid, xform),
+            _burnTargets,
+            LookupFlags.Uncontained);
 
-        component.Colliding.Remove(args.OtherEntity);
+        foreach (var target in _burnTargets)
+        {
+            // A burn can cascade into deleting other entities in the same trail.
+            if (target.Owner == uid || TerminatingOrDeleted(target.Owner))
+                continue;
+
+            // Don't chew through the hull we're bolted to unless the thruster is set up for it.
+            if (!comp.BurnOwnGrid && Transform(target.Owner).GridUid == xform.GridUid)
+                continue;
+
+            _damageable.TryChangeDamage((target.Owner, target.Comp), comp.Damage, origin: uid);
+        }
+
+        _burnTargets.Clear();
     }
 
     /// <summary>
