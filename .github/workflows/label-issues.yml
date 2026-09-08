@@ -1,0 +1,76 @@
+name: Label Issues
+
+on:
+  issues:
+    types:
+    - opened
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Apply Labels from Issue Checklist
+      shell: bash
+      env: 
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_REPO: ${{ github.repository }}
+        ISSUE_NUMBER: ${{ github.event.issue.number }}
+        ISSUE_BODY: ${{ github.event.issue.body }}
+
+      run: |
+        labels=()
+
+        if grep -qiE '^- \[[xX]\] Bugfix' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Bugfix")
+        fi
+
+        if grep -qiE '^- \[[xX]\] Sprite' <<< "$ISSUE_BODY"; then
+          labels+=("Changes: Sprites")
+        fi
+
+        if grep -qiE '^- \[[xX]\] YAML' <<< "$ISSUE_BODY"; then
+          labels+=("Changes: YAML")
+        fi
+
+        if grep -qiE '^- \[[xX]\] C#' <<< "$ISSUE_BODY"; then
+          labels+=("Changes: C#")
+        else
+          labels+=("Changes: No C#")
+        fi
+
+        if grep -qiE '^[[:space:]]*- \[[xX]\] Service' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Service")
+        fi
+
+        if grep -qiE '^[[:space:]]*- \[[xX]\] Cargo' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Cargo")
+        fi
+
+        if grep -qiE '^[[:space:]]*- \[[xX]\] Medical' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Medical")
+        fi
+
+        if grep -qiE '^[[:space:]]*- \[[xX]\] Science' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Science")
+        fi
+
+        if grep -qiE '^[[:space:]]*- \[[xX]\] Engineering' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Engineering")
+        fi
+
+        if grep -qiE '^[[:space:]]*- \[[xX]\] Security' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Security")
+        fi
+
+        if grep -qiE '^[[:space:]]*- \[[xX]\] Command' <<< "$ISSUE_BODY"; then
+          labels+=("Tag: Command")
+        fi
+
+        if [ "${#labels[@]}" -gt 0 ]; then
+          joined=$(IFS=,; printf '%s' "${labels[*]}")
+          gh issue edit "$ISSUE_NUMBER" --add-label "$joined"
+        fi
