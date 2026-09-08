@@ -6,6 +6,8 @@
   - EVAsuitHelmet
   - Engineeringsuit
   - Atmossuit
+  - AtmosFireSuit
+  - AtmosFireHelmet
   - Miningsuit
   - Luxuryminingsuit
   - Researchdirectorsuit
@@ -27,3 +29,4 @@
   id: MedicalHardsuits
   recipes:
   - Chiefmedicalsuit
+  - Paramedsuit

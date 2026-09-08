@@ -407,6 +407,16 @@ public abstract partial class SharedXenoArtifactSystem
         var nodeDepth = node.Comp.Depth;
         var depthMultipler = Math.Pow(1.5f, Math.Pow(nodeDepth, 1.5f));
         nodeComponent.ResearchValue = (int)(nodeComponent.BasePointValue * depthMultipler * durabilityMultiplier);
+
+        // Nodes that were unlocked by artifexium wildcards instead of by satisfying their triggers
+        // yield fewer points, scaled by how much of the unlock the chemical actually covered.
+        if (nodeComponent.ArtifexiumUnlockFraction > 0f)
+        {
+            var artifexiumFraction = Math.Clamp(nodeComponent.ArtifexiumUnlockFraction, 0f, 1f);
+            var penalty = nodeComponent.ArtifexiumMinPenalty + (nodeComponent.ArtifexiumMaxPenalty - nodeComponent.ArtifexiumMinPenalty) * artifexiumFraction;
+            nodeComponent.ResearchValue = (int)(nodeComponent.ResearchValue * (1f - penalty));
+        }
+
         Dirty(node);
     }
 

@@ -232,9 +232,12 @@
   recipeUnlocks:
   - Engineeringsuit
   - Atmossuit
+  - AtmosFireSuit
+  - AtmosFireHelmet
   - Miningsuit
   - ExtendedEmergencyOxygenTank
   - ExtendedEmergencyNitrogenTank
+  - Paramedsuit
   technologyPrerequisites:
   - EVAManufacturing
 

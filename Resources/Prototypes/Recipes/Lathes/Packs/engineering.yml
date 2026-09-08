@@ -46,6 +46,8 @@
   - EmergencyOxygenTank
   - EmergencyNitrogenTank
   - EmergencyFunnyOxygenTank
+# Persistence: make emergency eva suit craftable
+  - EmergencyEVAsuit
 
 - type: latheRecipePack
   id: ElectronicsStatic

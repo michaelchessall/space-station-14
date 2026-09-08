@@ -2,6 +2,7 @@ using Content.Server.Anomaly.Effects;
 using Content.Shared.Destructible.Thresholds;
 using Content.Shared.DeviceLinking;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; // Persistence: TimeOffsetSerializer
 
 namespace Content.Server.Anomaly.Components;
 
@@ -53,7 +54,7 @@ public sealed partial class TechAnomalyComponent : Component
     /// <summary>
     /// time until the next activation of the timer ports
     /// </summary>
-    [DataField, AutoPausedField]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField] // Persistence: TimeOffsetSerializer
     public TimeSpan NextTimer = TimeSpan.Zero;
 
     [DataField]

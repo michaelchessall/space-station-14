@@ -15,7 +15,7 @@ public sealed partial class ChasingWalkComponent : Component
     /// <summary>
     /// The next moment in time when the entity is pushed toward its goal
     /// </summary>
-    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), ViewVariables(VVAccess.ReadWrite)] // Persistence: TimeOffsetSerializer
     [AutoPausedField]
     public TimeSpan NextImpulseTime;
 

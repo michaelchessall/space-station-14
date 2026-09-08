@@ -3,6 +3,7 @@ using Content.Shared.Item;
 using Robust.Shared.Audio;
 using Robust.Shared.Containers;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; // Persistence: TimeOffsetSerializer
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Server.Kitchen.Components
@@ -58,7 +59,7 @@ namespace Content.Server.Kitchen.Components
         /// <summary>
         /// Tracks the elapsed time of the current cook timer.
         /// </summary>
-        [DataField, ViewVariables(VVAccess.ReadWrite)]
+        [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), ViewVariables(VVAccess.ReadWrite)] // Persistence: TimeOffsetSerializer
         public TimeSpan CurrentCookTimeEnd = TimeSpan.Zero;
 
         /// <summary>

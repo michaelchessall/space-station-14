@@ -64,8 +64,11 @@
   - type: Sprite
     state: radbarrel
   - type: RadiationSource
-    intensity: 1.0
-    slope: 0.25
+    intensity: 2.0
+  - type: RadioactiveDecay
+  - type: RadiationActivation
+    maxIntensity: 6
+  - type: RadiationReceiver
 
 - type: entityTable
   id: RandomChemicalBarrel
