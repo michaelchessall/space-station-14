@@ -438,7 +438,8 @@
   time: 25
   group: Savory
   reagents:
-    TableSalt: 5
+    TableSalt: 1
+    Blackpepper: 1
     Egg: 12
   solids:
     FoodBreadBun: 1
@@ -600,8 +601,8 @@
   time: 15
   group: Breads
   reagents:
-    TableSalt: 5
-    Blackpepper: 5
+    TableSalt: 1
+    Blackpepper: 1
   solids:
     FoodDough: 1
 
@@ -612,8 +613,8 @@
   time: 15
   group: Moth
   reagents:
-    TableSalt: 5
-    Blackpepper: 5
+    TableSalt: 1
+    Blackpepper: 1
   solids:
     FoodDoughCotton: 1
 
@@ -625,8 +626,8 @@
   time: 15
   group: Secret
   reagents:
-    TableSalt: 5
-    Blackpepper: 5
+    TableSalt: 1
+    Blackpepper: 1
   solids:
     FoodDough: 1
     PartRodMetal1: 1
@@ -1443,7 +1444,7 @@
   time: 15
   group: Savory
   reagents:
-    TableSalt: 5
+    TableSalt: 2
   solids:
     FoodPotato: 1
 
@@ -1454,7 +1455,7 @@
   time: 15
   group: Savory
   reagents:
-    TableSalt: 5
+    TableSalt: 2
   solids:
     FoodPotato: 1
     FoodCheeseSlice: 1
@@ -1466,7 +1467,7 @@
   time: 15
   group: Savory
   reagents:
-    TableSalt: 5
+    TableSalt: 2
   solids:
     FoodCarrot: 1
 
