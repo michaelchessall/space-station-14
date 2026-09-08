@@ -450,7 +450,7 @@ namespace Content.Server.Cargo.Systems
                     !TryComp(station, out StationDataComponent? stationData) ||
                     !TryGetOrderDatabase(station, out var orderDatabase))
                 {
-                    ConsolePopup(args.Actor, Loc.GetString("cargo-console-station-not-found"));
+                    _popup.PopupCursor(Loc.GetString("cargo-console-station-not-found"), args.Actor);
                     PlayDenySound(uid, component);
                     return;
                 }
@@ -461,14 +461,14 @@ namespace Content.Server.Cargo.Systems
                 {
                     return;
                 }
+
                 // Invalid order
                 if (!ProtoMan.Resolve(order.Product, out var product))
                 {
-                    ConsolePopup(args.Actor, Loc.GetString("cargo-console-invalid-product"));
+                    _popup.PopupCursor(Loc.GetString("cargo-console-invalid-product"), args.Actor);
                     PlayDenySound(uid, component);
                     return;
                 }
-                var cost = product.Cost * order.OrderQuantity;
 
                 var amount = GetOutstandingOrderCount((station.Value, orderDatabase), order.Account);
                 var capacity = orderDatabase.Capacity;
@@ -487,7 +487,7 @@ namespace Content.Server.Cargo.Systems
                 if (cappedAmount != order.OrderQuantity)
                 {
                     order.OrderQuantity = cappedAmount;
-                    ConsolePopup(args.Actor, Loc.GetString("cargo-console-snip-snip"));
+                    _popup.PopupCursor(Loc.GetString("cargo-console-snip-snip"), args.Actor);
                     PlayDenySound(uid, component);
                 }
 
@@ -510,7 +510,7 @@ namespace Content.Server.Cargo.Systems
                 // Not enough balance
                 if (cost > accountBalance)
                 {
-                    ConsolePopup(args.Actor, Loc.GetString("cargo-console-insufficient-funds", ("cost", cost)));
+                    _popup.PopupCursor(Loc.GetString("cargo-console-insufficient-funds", ("cost", cost)), args.Actor);
                     PlayDenySound(uid, component);
                     return;
                 }
@@ -532,7 +532,7 @@ namespace Content.Server.Cargo.Systems
 
                     if (ev.FulfillmentEntity == null)
                     {
-                        ConsolePopup(args.Actor, Loc.GetString("cargo-console-unfulfilled"));
+                        _popup.PopupCursor(Loc.GetString("cargo-console-unfulfilled"), args.Actor);
                         PlayDenySound(uid, component);
                         order.Approver = null;
                         return;
@@ -554,7 +554,7 @@ namespace Content.Server.Cargo.Systems
                         _radio.SendRadioMessage(uid, message, CargoOrderConsoleComponent.BaseAnnouncementChannel, uid, escapeMarkup: false);
                 }
 
-                ConsolePopup(args.Actor, Loc.GetString("cargo-console-trade-station", ("destination", MetaData(ev.FulfillmentEntity.Value).EntityName)));
+                _popup.PopupCursor(Loc.GetString("cargo-console-trade-station", ("destination", MetaData(ev.FulfillmentEntity.Value).EntityName)), args.Actor);
 
                 // Log order approval
                 _adminLogger.Add(LogType.Action,
@@ -838,11 +838,6 @@ namespace Content.Server.Cargo.Systems
             var otherOrders = station.Comp.Orders[bank.PrimaryAccount].Where(order => order.Account == console.Comp.Account);
 
             return ourOrders.Concat(otherOrders).ToList();
-        }
-
-        private void ConsolePopup(EntityUid actor, string text)
-        {
-            _popup.PopupCursor(text, actor);
         }
 
         private void PlayDenySound(EntityUid uid, CargoOrderConsoleComponent component)

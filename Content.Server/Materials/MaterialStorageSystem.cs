@@ -1,4 +1,8 @@
 using Content.Server.Administration.Logs;
+using Content.Shared.IdentityManagement;
+using Content.Shared.Materials;
+using Content.Shared.Popups;
+using Content.Shared.Stacks;
 using Content.Server.Power.Components;
 using Content.Server.Stack;
 using Content.Shared.ActionBlocker;
@@ -138,7 +142,7 @@ public sealed partial class MaterialStorageSystem : SharedMaterialStorageSystem
             return false;
         _audio.PlayPvs(storage.InsertingSound, receiver);
         _popup.PopupEntity(Loc.GetString("machine-insert-item",
-                ("user", user),
+                ("user", Identity.Entity(user, EntityManager)),
                 ("machine", receiver),
                 ("item", toInsert)),
             receiver);

@@ -38,7 +38,13 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
-using System.Linq;
+using Content.Shared.Stacks;
+using Content.Server.Construction.Components;
+using Content.Shared.Chat;
+using Content.Shared.Damage.Components;
+using Content.Shared.Power.EntitySystems;
+using Content.Shared.Temperature.Components;
+using Content.Shared.IdentityManagement;
 
 namespace Content.Server.Kitchen.EntitySystems
 {
@@ -303,11 +309,10 @@ namespace Content.Server.Kitchen.EntitySystems
 
             var victim = args.Victim;
 
-            var othersMessage = Loc.GetString("microwave-component-suicide-others-message", ("victim", victim));
             var selfMessage = Loc.GetString("microwave-component-suicide-message");
+            var othersMessage = Loc.GetString("microwave-component-suicide-others-message", ("victim", Identity.Entity(victim, EntityManager)));
 
-            _popupSystem.PopupEntity(othersMessage, victim, Filter.PvsExcept(victim), true);
-            _popupSystem.PopupEntity(selfMessage, victim, victim);
+            _popupSystem.PopupEntity(selfMessage, othersMessage, victim, victim);
 
             _audio.PlayPvs(ent.Comp.ClickSound, ent.Owner, AudioParams.Default.WithVolume(-2));
             ent.Comp.CurrentCookTimerTime = 10;
