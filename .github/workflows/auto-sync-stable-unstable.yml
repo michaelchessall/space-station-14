@@ -1,9 +1,10 @@
 name: Sync Stable To Unstable [Automatic]
 
 on:
+  workflow_dispatch:
   schedule:
     # To run weekly
-    - cron: '0 0 * * 0'
+    # - cron: '0 0 * * 0' Disabling auto run until testing is complete
 
 jobs:
   sync-unstable:

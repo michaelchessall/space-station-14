@@ -1,9 +1,10 @@
 name: Publish US
 
 on:
+  workflow_dispatch:
   schedule:
     # To run before US shifts. Scheduled at 20:00 UTC
-    - cron: '0 20 * * 0,3'
+    #- cron: '0 20 * * 0,3' Disabling automatic run until testing is complete
 
 jobs:
   publish:

@@ -1,9 +1,10 @@
 name: Sync Stable To US [Automatic]
 
 on:
+  workflow_dispatch:
   schedule:
     # To run 24 hours before US shifts. Scheduled at 20:00 UTC
-    - cron: '0 20 * * 6,2'
+    # - cron: '0 20 * * 6,2' Disabling auto run until testing is complete
 
 jobs:
   sync-us:
