@@ -1,0 +1,63 @@
+<Document>
+# Medicine and your Metabolism
+\n
+In the Threshold most [italic]medicine[/italic] works slower. This means that what will usually take you 1 minute to get healed up elsewhere may take you 10 minutes to heal in here.\n
+  [italic]Note: Harmful reagents will still hurt you the same.[/italic]
+\n
+
+  ## Absorption Rates and Effectiveness
+
+  This is the biggest effect that that the Threshold has on our metabolism. [color=burlywood]Absorption rates are lowered:[/color] the medicine stays in the patient's bloodstream for longer and it heals for less with each tick. \n
+  \n
+  Let's take a common medicine like [color=#ffaa00]Bicaridine[/color] as an example:
+  <Box>
+    <GuideEntityEmbed Entity="PillBicaridine" Caption="Bicaridine"/>
+  </Box>
+  Outside the Threshold [color=#ffaa00]Bicaridine[/color] usually is absorbed at the rate of [color=lightgoldenrodyellow]0.5u per second[/color] and each time it is aborbed it heals [color=forestgreen]1.5 Brute[/color].\n
+  In the Threshold [color=#ffaa00]Bicaridine[/color] will instead be absorbed at a rate of [color=lightgoldenrodyellow]0.05u per second[/color] and each time it heals [color=forestgreen]0.15 Brute[/color]. \n
+  What this means is that [color=lightgoldenrodyellow]5 units[/color] of [color=#ffaa00]Bicaridine[/color] will heal [color=forestgreen]7.5 Brute[/color] both outside and inside the Threshold, but in the Threshold [color=burlywood]it will take [bold]10 times as long[/bold] for the same amount of medicine to be processed[/color].\n
+\n
+  [bold]OVERDOSES:[/bold] They still work the same! \n
+  Keeping with our example: someone with [color=lightgoldenrodyellow]15 or more units[/color] of [color=#ffaa00]Bicaridine[/color] will still take damage at a rate of [color=lightcoral]0.5 Asphyxiation[/color] and [color=lightcoral]1.5 Poison[/color] per tick, and the overdose will not speed up the absorption rate, meaning it will taker longer for the [color=#ffaa00]Bicaridine[/color] to go under [color=lightgoldenrodyellow]15 units[/color].\n
+  \n
+
+  ## Some Exceptions
+
+  There has been some work done to make sure that some medicines do remain unaffected as they could become pretty much useless otherwise.
+
+  <Box>
+    <GuideEntityEmbed Entity="EmergencyMedipen" Caption="Epinephrine"/>
+    <GuideEntityEmbed Entity="PillKelotane" Caption="Inaprovaline"/>
+    <GuideEntityEmbed Entity="PillDexalin" Caption="Dexalin/Dexalin+"/>
+    <GuideEntityEmbed Entity="WaterJug" Caption="Saline"/>
+  </Box>
+
+  [color=#d2fffa]Epinphrine[/color], [color=darkred]Inaprovaline[/color], [color=#0041a8]Dexalin[/color], and [color=#4da0bd]Dexalin plus[/color] remain as effective as ever, this ensures going into a critical state isn't outright a death sentence.\n
+  [color=#0064C8]Saline[/color] also remains unaffected.\n
+
+  <Box>
+    <GuideEntityEmbed Entity="PillCharcoal" Caption="Charcoal"/>
+  </Box>
+
+  [color=slategray]Charcoal[/color] is a special case. Its [color=lightpink]Poison[/color] healing effectiveness has been vastly reduced. You will need [color=lightgoldenrodyellow]10 units[/color] of [color=slategray]Charcoal[/color] to heal what you can heal with [color=lightgoldenrodyellow]1 unit[/color] outside the Threshold.\n
+  However, its absorption rate is still the same and [color=burlywood]it clears the bloodstream with the same effectiveness[/color].\n
+  This all means that in the Threhsold it will take you more [color=slategray]Charcoal[/color] than usual to heal [color=lightpink]Poison[/color] but the same amount of [color=slategray]Charcoal[/color] as usual to clear other reagents.\n
+
+  ## Intravenous
+
+  [bold]IV bags[/bold] have been brought into the Threshold to help adapt to the slower rates.
+
+  <Box>
+    <GuideEntityEmbed Entity="CMBloodPack" Caption="IV Bag"/>
+    <GuideEntityEmbed Entity="CMIV" Caption="IV Stand"/>
+  </Box>
+
+  You can use an [bold]IV bag[/bold] to slowly drip the medicine you need to get into a patient.\n
+  To do this attach an [bold]IV bag[/bold] filled with medicine to a patient and [color=burlywood]so long as that medicine is not present in their bloodstream[/color] it will drip [color=lightgoldenrodyellow]1 unit[/color] at a time.\n
+  You can also use [bold]IV bags[/bold] to draw and inject blood from and into someone. [color=burlywood]Blood given via an IV bag will not naturally poison someone[/color], so long as it is the right type of blood for their species.\n
+  If you pull someone away from their [bold]IV[/bold] or their [bold]IV[/bold] away from them you will snap the line and injure the patient slightly.\n
+  \n
+  [bold]IV stands[/bold] allow you to leave the [bold]IV[/bold] line connected to a patient while you go elsewhere, but you can use [bold]IV bags[/bold] without a stand, so long as you remain near the person it's connected to.\n
+
+
+</Document>

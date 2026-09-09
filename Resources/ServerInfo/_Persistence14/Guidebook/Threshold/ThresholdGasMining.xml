@@ -7,7 +7,7 @@ Note that gas mining is a step up from regular mining, and it is not recommended
 
 ## Equipment & Preparation
 Before you can start mining, you need a a few  things:
-- A [color=cyan]Gas Analyzer[/color]: This device reveals the amount of gas trapped in the asteroid.
+- A [color=cyan]Gas Analyzer[/color]: This device reveals the amount of gas trapped in the asteroid. All gasses except nitrous oxide can be obtained from gas mining.
 - At least one [color=cyan]Gas miner[/color]: This machine is the primary tool for extracting gas from asteroids.
 - Two [color=cyan]Multi-chanel Transfer Nodes[/color] (MCTNs): These are used to transfer gas from the mining site to the shuttle, and from the shuttle to the station you will be selling gas to.
 - [color=cyan]MV Cables[/color]: These are used to connect the gas miner(s) to the MCTNs.

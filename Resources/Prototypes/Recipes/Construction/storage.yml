@@ -216,14 +216,3 @@
   canBuildInImpassable: true
   conditions:
     - !type:WallmountCondition
-
-- type: construction
-  id: GenericTankConstruction
-  name: construction-recipe-generictank
-  graph: GenericTankGraph
-  startNode: start
-  targetNode: generictank
-  category: construction-category-storage
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canBuildInImpassable: false

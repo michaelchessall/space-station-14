@@ -52,6 +52,10 @@ stack-explosive-cord = {$amount ->
     [1] explosive cord
     *[other] explosive cords
 }
+stack-warning-cone = {$amount ->
+    [1] warning cone
+    *[other] warning cones
+}
 stack-wood-plank = {$amount ->
     [1] wood plank
     *[other] wood planks

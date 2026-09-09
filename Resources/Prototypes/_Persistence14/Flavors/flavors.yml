@@ -9,3 +9,8 @@
   id: tartarustwist
   flavorType: Complex
   description: flavor-complex-tartarus-twist
+
+- type: flavor
+  id: cherrylimeade
+  flavorType: Complex
+  description: flavor-complex-cherry-limeade

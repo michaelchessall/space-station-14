@@ -22,9 +22,9 @@
   - type: WashingMachine
     washTime: 60
     cooldown: 10
-    bluntDamagePerSecond: 6
-    selfDamagePerSecond: 6
-    waterSprayAmount: 150
+    bluntDamagePerSecond: 1
+    selfDamagePerSecond: 1
+    waterSprayAmount: 15
     washLoopSound:
       path: /Audio/_Funkystation/Machines/washing_loop.ogg
       params:

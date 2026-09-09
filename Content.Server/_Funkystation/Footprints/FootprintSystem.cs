@@ -6,8 +6,10 @@ using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.FixedPoint;
 using Content.Shared.Fluids;
 using Content.Shared.Fluids.Components;
+using Content.Shared.Gravity;
 using Content.Shared.Inventory;
 using Content.Shared.Standing;
+using Content.Shared.Maps; // Persistence: Prevent footprints on space tiles (lattice)
 using Robust.Server.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -25,6 +27,7 @@ public sealed class FootprintSystem : EntitySystem
     [Dependency] private readonly SharedPuddleSystem _puddle = null!;
     [Dependency] private readonly IPrototypeManager _prototypeManager = null!;
     [Dependency] private readonly IRobustRandom _random = null!;
+    [Dependency] private readonly TurfSystem _turf = default!; // Persistence: Prevent footprints on space tiles (lattice)
     [Dependency] private readonly InventorySystem _inventory = null!;
 
     private static readonly FixedPoint2 MaxVolumePerTile = 50;
@@ -87,6 +90,11 @@ public sealed class FootprintSystem : EntitySystem
         if (HasComp<NoFootprintsComponent>(uid))
             return;
 
+        // Persistence: Footprints shouldn't form when there's no gravity
+        if (TryComp<GravityAffectedComponent>(uid, out var gravityAffected) &&
+            gravityAffected.Weightless)
+            return;
+
         if (_inventory.TryGetSlotEntity(uid, "shoes", out var shoes) && HasComp<NoFootprintsComponent>(shoes))
             return;
 
@@ -108,6 +116,11 @@ public sealed class FootprintSystem : EntitySystem
 
         var xform = Transform(uid);
         if (xform.GridUid is not { } gridUid || !TryComp<MapGridComponent>(gridUid, out var grid))
+            return;
+
+        // Persistence: Prevent footprints on space tiles (lattice)
+        var tileRef = _map.GetTileRef(gridUid, grid, args.Component.Coordinates);
+        if (tileRef.Tile.IsEmpty || _turf.IsSpace(tileRef))
             return;
 
         var oldLocal = _map.WorldToLocal(gridUid, grid, prevPos);

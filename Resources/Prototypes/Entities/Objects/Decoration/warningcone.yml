@@ -1,0 +1,40 @@
+- type: entity
+  parent: ClothingHeadBase
+  id: WarningConeStack
+  suffix: Full
+  name: warning cone
+  description: This cone is trying to warn you of something!
+  components:
+  - type: Sprite
+    sprite: Objects/Decoration/warningcone.rsi
+    state: cone-10
+    layers:
+    - state: cone-10
+      map: ["base"]
+  - type: Clothing
+    sprite: Objects/Decoration/warningcone.rsi
+  - type: Item
+    storedRotation: 0
+  - type: PhysicalComposition #you can't just pass up some free plastic!
+    materialComposition:
+      Plastic: 100
+  - type: StaticPrice
+    price: 25
+  - type: Stack
+    count: 10
+    stackType: WarningCone
+    baseLayer: base
+    layerStates:
+    - cone-1
+    - cone-5
+    - cone-10
+
+- type: entity
+  parent: WarningConeStack
+  id: ClothingHeadHatCone
+  suffix: 1
+  components:
+  - type: Sprite
+    state: cone-1
+  - type: Stack
+    count: 1

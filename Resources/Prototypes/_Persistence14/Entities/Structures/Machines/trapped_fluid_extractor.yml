@@ -1,0 +1,95 @@
+- type: entity
+  parent: [ BaseMachine, SmallConstructibleMachine ]
+  id: TrappedFluidExtractor
+  name: gas miner
+  description: Has a valve and pump attached to it.
+  placement:
+    mode: SnapgridCenter
+  components:
+  - type: Sprite
+    sprite: _NF/Objects/Specific/Atmospherics/extractor.rsi
+    granularLayersRendering: true
+    layers:
+    - state: pipe
+      map: [ "enum.PipeVisualLayers.Pipe" ]
+    - state: base
+      map: [ "enum.GasVolumePumpVisualLayers.Base" ]
+    - state: drill-off
+      map: [ "enum.GasVolumePumpVisualLayers.Drill" ]
+    - state: base-powered
+      map: [ "enum.GasVolumePumpVisualLayers.PowerIndicator" ]
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.TrappedFluidExtractorVisuals.State:
+        enum.GasVolumePumpVisualLayers.Drill:
+          Off: { state: drill-off }
+          On: { state: drill }
+        enum.GasVolumePumpVisualLayers.PowerIndicator:
+          Off: { state: base }
+          On: { state: base-powered }
+        active:
+          Off: { state: base, visible: False }
+          On: { state: drill-on-unlit }
+  - type: PipeColorVisuals
+  - type: Rotatable
+  - type: AtmosPipeColor
+  - type: AtmosPipeLayers
+    spriteLayersRsiPaths:
+      enum.PipeVisualLayers.Pipe:
+        Primary: _NF/Objects/Specific/Atmospherics/extractor.rsi
+        Secondary: _NF/Objects/Specific/Atmospherics/extractor_alt1.rsi
+        Tertiary: _NF/Objects/Specific/Atmospherics/extractor_alt2.rsi
+  - type: AtmosDevice
+  - type: TrappedFluidExtractor
+    transferRate: 500
+    maxTransferRate: 500
+    maxPressure: 6500
+    powerUseActive: 900
+  - type: AmbientSound
+    enabled: true
+    volume: -12
+    range: 5
+    sound:
+      path: /Audio/Ambience/Objects/gas_pump.ogg
+  - type: PowerConsumer
+    voltage: Medium
+    drawRate: 900
+  - type: PipeRestrictOverlap
+  - type: Machine
+    board: TrappedFluidExtractorMachineCircuitboard
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+      - !type:SpillBehavior
+        solution: tank
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+  - type: NodeContainer
+    nodes:
+      input:
+        !type:CableDeviceNode
+        nodeGroupID: MVPower
+      pipe:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: South
+  - type: Transform
+    noRot: false
+  - type: PowerSwitch
+  - type: AtmosMonitoringConsoleDevice
+  - type: GuideHelp
+    guides:
+    - ThresholdGasMining

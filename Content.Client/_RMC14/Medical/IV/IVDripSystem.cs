@@ -90,7 +90,7 @@ public sealed class IVDripSystem : SharedIVDripSystem
         if (!TryComp(pack, out SpriteComponent? sprite))
             return;
 
-        sprite.LayerSetVisible(BloodPackVisuals.Label, false);
+        // sprite.LayerSetVisible(BloodPackVisuals.Label, false); Persistence: Replaced with PaperLabel
 
         if (sprite.LayerMapTryGet(BloodPackVisuals.Fill, out var fillLayer))
         {

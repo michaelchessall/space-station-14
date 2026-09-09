@@ -48,6 +48,7 @@ public sealed partial class RadiationSystem : EntitySystem
 
         UpdateGridcast();
         UpdateResistanceDebugOverlay();
+        UpdateDecay(_accumulator);
         _accumulator = 0f;
     }
 

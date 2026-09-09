@@ -753,13 +753,13 @@
   parent: BaseOneTimeXenoArtifactEffect
   description: Becomes mildly radioactive
   components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: RadiationSource
-      intensity: 1
-      slope: 0.3
+  - type: XAEEntityEffect
+    effects: 
+    - flags: Artifact
+      effect: !type:Irradiate
+        intensity: 2.0
+        halfLife: 5h
+        maxIntensity: 6.0
 
 - type: entity
   id: XenoArtifactChargeBatteryLow
@@ -1438,13 +1438,14 @@
   parent: BaseOneTimeXenoArtifactEffect
   description: Becomes highly radioactive
   components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: RadiationSource
-      intensity: 2
-      slope: 0.3
+  - type: XAEEntityEffect
+    effects: 
+    - flags: Artifact
+      effect: !type:Irradiate
+        intensity: 4
+        halfLife: 5h
+        maxIntensity: 12
+        
 
 - type: entity
   id: XenoArtifactMaterialSpawnGlassFew

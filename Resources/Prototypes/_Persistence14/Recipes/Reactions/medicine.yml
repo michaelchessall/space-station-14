@@ -45,3 +45,27 @@
       amount: 1
   products:
     Noxapyrone: 2
+
+- type: reaction
+  id: Acetaminophen
+  reactants:
+    Psicodine:
+      amount: 8
+    Bicaridine:
+      amount: 6
+    ChloralHydrate:
+      amount: 1
+  products:
+    Acetaminophen: 15
+
+- type: reaction
+  id: Algesiprol
+  minTemp: 400
+  maxTemp: 450
+  reactants:
+    Acetaminophen:
+      amount: 2
+    Omnizine:
+      amount: 1
+  products:
+    Algesiprol: 3

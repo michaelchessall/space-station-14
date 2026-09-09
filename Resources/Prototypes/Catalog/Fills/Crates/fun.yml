@@ -65,7 +65,7 @@
       entity_storage: !type:NestedSelector
         tableId: AllLizardPlushieTable
         rolls: !type:ConstantNumberSelector
-          value: 6
+          value: 5
 
 - type: entity
   parent: CrateGenericSteel

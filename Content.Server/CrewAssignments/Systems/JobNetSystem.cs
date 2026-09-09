@@ -22,6 +22,7 @@ using Content.Shared.CrewRecords.Components;
 using Content.Shared.Cuffs;
 using Content.Shared.Cuffs.Components;
 using Content.Shared.DoAfter;
+using Content.Shared.Implants;
 using Content.Shared.Implants.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs;
@@ -98,6 +99,7 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
         SubscribeLocalEvent<JobNetComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<JobNetComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<JobNetComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<JobNetComponent, ImplantImplantedEvent>(OnJobNetImplantImplanted);
         SubscribeLocalEvent<JobNetComponent, OpenJobNetImplantEvent>(OnImplantActivate);
         SubscribeLocalEvent<JobNetComponent, JobNetSelectMessage>(OnSelect);
         SubscribeLocalEvent<JobNetComponent, JobNetPurchaseMessage>(OnPurchase);
@@ -656,6 +658,12 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
     private void OnImplantActivate(EntityUid uid, JobNetComponent component, OpenJobNetImplantEvent args)
     {
         ToggleUi(args.Performer, uid, component);
+    }
+
+    private void OnJobNetImplantImplanted(Entity<JobNetComponent> ent, ref ImplantImplantedEvent args)
+    {
+        var mob = args.Implanted;
+        _bank.EnsureAccount(Name(mob), 50);
     }
 
     public void TryAssignRogueObjective(EntityUid user, JobNetComponent component)

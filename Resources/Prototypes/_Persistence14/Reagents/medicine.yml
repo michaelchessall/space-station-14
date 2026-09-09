@@ -37,3 +37,140 @@
             types:
               Heat: -2
               Radiation: -2
+
+- type: reagent
+  id: Acetaminophen
+  name: reagent-name-acetaminophen
+  group: Medicine
+  desc: reagent-desc-acetaminophen
+  physicalDesc: reagent-physical-desc-powdery
+  flavor: medicine
+  color: "#9c7938"
+  metabolisms:
+    Bloodstream:
+      metabolismRate: 0.01
+      effects:
+      - !type:Emote
+        emote: Yawn
+        probability: 0.1
+      - !type:MovementSpeedModifier
+        walkSpeedModifier: 0.65
+        sprintSpeedModifier: 0.65
+
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectDrowsiness
+        time: 1
+        type: add
+        conditions:
+          - !type:ReagentCondition
+            reagent: Acetaminophen
+            min: 35
+      - !type:HealthChange # Don't abuse painkillers kids
+        conditions:
+          - !type:ReagentCondition
+            reagent: Acetaminophen
+            min: 35
+        damage:
+          types:
+            Poison: .1
+            Asphyxiation: .8
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectSeeingRainbow
+        type: add
+        time: 15
+        conditions:
+        - !type:ReagentCondition
+          reagent: Acetaminophen
+          min: 25
+      - !type:PopupMessage # we dont have sanity/mood so this will have to do
+        type: Local
+        visualType: Medium
+        messages:
+        - "painkiller-medicine-effect-painfree"
+        - "painkiller-medicine-effect-drowsy"
+        probability: 0.15
+        conditions:
+          - !type:DamageThreshold
+            max: 15
+      - !type:PopupMessage
+        type: Local
+        visualType: Medium
+        messages:
+        - "painkiller-medicine-effect-strength"
+        - "painkiller-medicine-effect-drowsy"
+        probability: 0.15
+        conditions:
+          - !type:DamageThreshold
+            min: 16
+
+- type: reagent
+  id: Algesiprol
+  name: reagent-name-algesiprol
+  group: Medicine
+  desc: reagent-desc-algesiprol
+  physicalDesc: reagent-physical-desc-powdery
+  flavor: medicine
+  color: "#a38c62"
+  metabolisms:
+    Bloodstream:
+      metabolismRate: 0.01
+      effects:
+      - !type:GenericStatusEffect
+        key: Adrenaline
+        component: IgnoreSlowOnDamage
+        time: 5
+        conditions:
+          - !type:ReagentCondition
+            reagent: Algesiprol
+            max: 16
+          - !type:DamageThreshold
+            max: 80
+      - !type:Emote
+        emote: Yawn
+        probability: 0.1
+      - !type:MovementSpeedModifier
+        walkSpeedModifier: 0.5
+        sprintSpeedModifier: 0.45
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectDrowsiness
+        time: 1
+        type: add
+        conditions:
+          - !type:ReagentCondition
+            reagent: Algesiprol
+            min: 15
+      - !type:HealthChange # Don't abuse painkillers kids
+        conditions:
+          - !type:ReagentCondition
+            reagent: Algesiprol
+            min: 16
+        damage:
+          types:
+            Poison: 1
+            Asphyxiation: 2
+      - !type:ModifyStatusEffect
+        effectProto: StatusEffectSeeingRainbow
+        conditions:
+        - !type:ReagentCondition
+          reagent: Algesiprol
+          min: 10
+      - !type:PopupMessage # we dont have sanity/mood so this will have to do
+        type: Local
+        visualType: Medium
+        messages:
+        - "painkiller-medicine-effect-painfree"
+        - "painkiller-medicine-effect-drowsy"
+        probability: 0.15
+        conditions:
+          - !type:DamageThreshold
+            max: 80
+      - !type:PopupMessage
+        type: Local
+        visualType: Medium
+        messages:
+        - "painkiller-medicine-effect-strength"
+        - "painkiller-medicine-effect-drowsy"
+        probability: 0.15
+        conditions:
+          - !type:DamageThreshold
+            min: 81

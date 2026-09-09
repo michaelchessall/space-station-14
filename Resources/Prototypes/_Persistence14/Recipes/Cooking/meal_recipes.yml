@@ -1,0 +1,15 @@
+﻿
+#Other
+
+- type: microwaveMealRecipe
+  id: RecipeCandleCookie
+  name: candle_cookie_recipe
+  result: FoodBakedCookieCandle
+  time: 5
+  group: BarsAndCookies
+  reagents:
+    Flour: 5
+    Sugar: 5
+    Egg: 6
+  solids:
+    FoodButterSlice: 1

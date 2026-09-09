@@ -59,6 +59,7 @@ guide-entry-teslaengine = Tesla Engine
 guide-entry-solarpanels = Solar Panels
 guide-entry-teg = Thermo-electric Generator (TEG)
 guide-entry-rtg = RTG
+guide-entry-gas-generator = Gas Generator
 guide-entry-jobs = Jobs
 guide-entry-cargo = Cargo
 guide-entry-cargo-bounties = Cargo Bounties

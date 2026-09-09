@@ -42,6 +42,19 @@
     energy: 1.5
     color: "#FF5500"
     enabled: false
+  - type: Tag # Start Persistence: Firebots can target reagent fires. Commented because they fail to reach wall fires
+    tags:
+    - ReagentFire
+  - type: WallMount
+    arc: 360
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+  - type: Physics
+    canCollide: false # End Persistence (I hate that HTN interacting with something on the same tile as a wall requires us to have a fixture, wallmount, and physics comp. Screaming!)
 
 - type: entity
   parent: PuddleSparkle

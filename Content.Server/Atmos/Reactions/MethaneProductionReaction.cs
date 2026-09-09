@@ -21,6 +21,7 @@ namespace Content.Server.Atmos.Reactions
             var nCO2 = mixture.GetMoles(Gas.CarbonDioxide);
             var nH2 = mixture.GetMoles(Gas.Hydrogen);
 
+            // CO₂ + 4H₂ -> 2H₂O + CH₄
             var limiting = MathF.Min(nCO2 / 1f, nH2 / 4f);
             var extent = limiting / Atmospherics.SabatierConversionRate;
 

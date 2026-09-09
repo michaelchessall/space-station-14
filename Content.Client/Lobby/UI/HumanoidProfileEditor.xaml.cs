@@ -16,6 +16,7 @@ using Robust.Client.UserInterface.Controls;
 using Robust.Client.UserInterface.XAML;
 using Robust.Client.Utility;
 using Robust.Shared.Configuration;
+using Robust.Shared.Console.Commands;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Enums;
 using Robust.Shared.Prototypes;
@@ -512,33 +513,47 @@ namespace Content.Client.Lobby.UI
                 Profile = new HumanoidCharacterProfile();
                 RandomizeEverything();
             }
-            ImportButton.Visible = false;
-            ExportButton.Visible = false;
-            ExportImageButton.Visible = false;
-            ResetButton.Visible = false;
-            OpenImagesButton.Visible = false;
 
-            // If it equals default then reset the button.
-            if (Profile == null || _preferencesManager.Preferences?.SelectedCharacter == null)
+            // Creating new character
+            if (_preferencesManager.Preferences?.SelectedCharacter == null)
             {
                 IsDirty = true;
+
                 TabContainer.Visible = true;
+
                 SaveButton.Visible = true;
                 JoinGameButton.Visible = false;
-                RandomizeEverythingButton.Visible = true;
-                NameRandomize.Visible = true;
-                NameEdit.Editable = true;
-                return;
-            }
 
-            // TODO: Check if profile matches default.
-            IsDirty = false;
-            TabContainer.Visible = false;
-            SaveButton.Visible = false;
-            JoinGameButton.Visible = true;
-            RandomizeEverythingButton.Visible = false;
-            NameRandomize.Visible = false;
-            NameEdit.Editable = false;
+                ImportButton.Visible = true;
+                ExportButton.Visible = false;
+                OpenImagesButton.Visible = false;
+                ExportImageButton.Visible = false;
+
+                NameRandomize.Visible = true;
+                RandomizeEverythingButton.Visible = true;
+                ResetButton.Visible = false;
+                NameEdit.Editable = true;
+            }
+            // Opening existing chracter
+            else
+            {
+                IsDirty = false;
+
+                TabContainer.Visible = false;
+
+                SaveButton.Visible = false;
+                JoinGameButton.Visible = true;
+
+                ImportButton.Visible = false;
+                ExportButton.Visible = true;
+                OpenImagesButton.Visible = true;
+                ExportImageButton.Visible = true;
+
+                RandomizeEverythingButton.Visible = false;
+                NameRandomize.Visible = false;
+                ResetButton.Visible = false;
+                NameEdit.Editable = false;
+            }
         }
 
         /// <summary>

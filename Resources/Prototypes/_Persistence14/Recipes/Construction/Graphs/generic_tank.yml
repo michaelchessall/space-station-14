@@ -1,0 +1,65 @@
+- type: constructionGraph
+  id: GenericTankGraph
+  start: start
+  graph:
+    - node: start
+      edges:
+        - to: generictank
+          steps:
+            - material: Steel
+              amount: 5
+              doAfter: 5
+    - node: generictank
+      entity: GenericTank
+      edges:
+        - to: start
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 5
+            - !type:DeleteEntity {}
+          conditions:
+            - !type:EntityAnchored
+              anchored: false
+          steps:
+            - tool: Screwing
+              doAfter: 5
+
+- type: constructionGraph
+  id: GenericHighCapacityTankGraph
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: generictankhigh
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 5
+      - material: Titanium
+        amount: 3
+        doAfter: 5
+      - material: ReinforcedGlass
+        amount: 3
+        doAfter: 5
+  - node: generictankhigh
+    entity: GenericTankHighCapacity
+    edges:
+    - to: start
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetTitanium1
+        amount: 3
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:SpawnPrototype
+        prototype: SheetRGlass1
+        amount: 3
+      - !type:DeleteEntity {}
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      steps:
+      - tool: Screwing
+        doAfter: 5

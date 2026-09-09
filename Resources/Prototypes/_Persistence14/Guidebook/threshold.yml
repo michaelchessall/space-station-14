@@ -14,6 +14,7 @@
     - Achievements
     - GridControl
     - AccessControl
+    - ThresholdMedical
 
 - type: guideEntry
   id: MakingMoney
@@ -59,3 +60,27 @@
   id: AccessControl
   name: guide-entry-access-control
   text: "/ServerInfo/_Persistence14/Guidebook/Threshold/AccessControl.xml"
+
+- type: guideEntry
+  id: ThresholdMedical
+  name: guide-entry-threshold-medical
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdMedical.xml"
+  children:
+    - ThresholdMedicineMetabolism
+    - ThresholdTopicals
+    - ThresholdResuscitation
+
+- type: guideEntry
+  id: ThresholdMedicineMetabolism
+  name: guide-entry-threshold-medicine-metabolism
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdMedicineMetabolism.xml"
+
+- type: guideEntry
+  id: ThresholdTopicals
+  name: guide-entry-threshold-topicals
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdTopicals.xml"
+
+- type: guideEntry
+  id: ThresholdResuscitation
+  name: guide-entry-threshold-resuscitation
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdResuscitation.xml"

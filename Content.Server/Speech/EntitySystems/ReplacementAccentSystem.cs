@@ -62,14 +62,15 @@ namespace Content.Server.Speech.EntitySystems
             {
                 // Start Persistence: Preserve punctuation for full replacement
                 string punctuation;
-                if (message.Substring(message.Length - 3) == "...")
+                if (message.Length >= 3 && message.Substring(message.Length - 3) == "...")
                     punctuation = "...";
-                else if (message.Substring(message.Length - 2) == "!!")
+                else if (message.Length >= 2 && message.Substring(message.Length - 2) == "!!")
                     punctuation = "!!";
-                else if (message.Last().ToString() == "," ||
-                         message.Last().ToString() == "." ||
-                         message.Last().ToString() == "!" ||
-                         message.Last().ToString() == "?")
+                else if (message.Length >= 1 &&
+                         (message.Last().ToString() == "," ||
+                          message.Last().ToString() == "." ||
+                          message.Last().ToString() == "!" ||
+                          message.Last().ToString() == "?"))
                     punctuation = message.Last().ToString();
                 else
                     punctuation = _configurationManager.GetCVar(CCVars.ChatPunctuation) ? "." : "";

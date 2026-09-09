@@ -1,0 +1,29 @@
+- type: entity
+  id: ChemistryBottleAcetaminophen
+  suffix: Acetaminophen
+  parent: BaseChemistryBottleFilled
+  components:
+  - type: Label
+    currentLabel: Acetaminophen
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Acetaminophen
+          Quantity: 30
+
+- type: entity
+  id: ChemistryBottleAlgesiprol
+  suffix: Algesiprol
+  parent: BaseChemistryBottleFilled
+  components:
+  - type: Label
+    currentLabel: Acetaminophen
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Algesiprol
+          Quantity: 30

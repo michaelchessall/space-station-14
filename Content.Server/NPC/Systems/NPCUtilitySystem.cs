@@ -35,6 +35,7 @@ using Robust.Server.Containers;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using System.Linq;
+using Content.Shared.Tag; // Persistence: Firebots can target reagent fires
 
 namespace Content.Server.NPC.Systems;
 
@@ -383,6 +384,11 @@ public sealed class NPCUtilitySystem : EntitySystem
                 {
                     if (TryComp(targetUid, out FlammableComponent? fire) && fire.OnFire)
                         return 1f;
+
+                    // Persistence: Firebots can target reagent fires
+                    if (TryComp(targetUid, out TagComponent? tags) && tags.Tags.AsReadOnly().Contains((_proto.Index<TagPrototype>("ReagentFire"))))
+                        return 1f;
+
                     return 0f;
                 }
             case TargetIsStunnedCon:
@@ -505,6 +511,24 @@ public sealed class NPCUtilitySystem : EntitySystem
                     {
                         entities.Add(ent);
                     }
+                    break;
+                }
+            case ComponentQueryAny compQueryAny: // Persistence: Firebots can target reagent fires
+                {
+                    if (compQueryAny.Components.Count == 0)
+                        return;
+
+                    var mapPos = _transform.GetMapCoordinates(owner, xform: _xformQuery.GetComponent(owner));
+                    _compTypes.Clear();
+                    _entitySet.Clear();
+                    foreach (var comp in compQueryAny.Components.Values)
+                    {
+                        _lookup.GetEntitiesInRange(comp.Component.GetType(), mapPos, vision, _entitySet);
+                    }
+
+                    foreach (var ent in _entitySet)
+                        entities.Add(ent);
+
                     break;
                 }
             default:

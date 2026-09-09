@@ -274,7 +274,13 @@ public sealed partial class CargoSystem
         if (_mobQuery.HasComponent(uid))
             return false;
 
-        return IsBountyComplete(uid);
+        if (IsBountyComplete(uid))
+            return true;
+
+        if (_pricing.GetPrice(uid) > 0)
+            return true;
+
+        return false;
     }
 
     private void OnStationSelect(EntityUid uid, CargoPalletConsoleComponent component, CargoPalletStationSelectMessage args)

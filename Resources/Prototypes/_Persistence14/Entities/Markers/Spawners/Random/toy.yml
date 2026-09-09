@@ -1,0 +1,16 @@
+# Add Persistence plushies to this list
+- type: entityTable # size ginormous  # price 5
+  id: AllPersistencePlushiesTable
+  table: !type:GroupSelector
+    children:
+    - id: PlushieMeera
+    - id: PlushieLlewellyn
+    - id: PlushieCade
+    - id: PlushieDawn
+    - id: PlushieAna
+    - id: PlushieHuna
+    - id: PlushieHelena
+    - id: PlushieMadeline
+    - id: PlushieKamryn
+    - id: PlushieIsolde
+    - id: PlushieDies

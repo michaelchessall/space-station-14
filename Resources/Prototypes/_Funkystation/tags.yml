@@ -1,2 +1,5 @@
 - type: Tag # Funky Wall Stains
   id: DirectionalWindow
+
+- type: Tag # Persistence: Firebots can target reagent fires
+  id: ReagentFire

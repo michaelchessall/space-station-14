@@ -92,7 +92,7 @@
         Caustic: -10
     conditions:
       - !type:DamageThreshold
-        min: 180
+        min: 90
     healingBeginSound:
       path: "/Audio/Items/Medical/ointment_begin.ogg"
       params:
@@ -193,7 +193,7 @@
         Slash: -10
     conditions:
       - !type:DamageThreshold
-        min: 180
+        min: 90
     bloodlossModifier: -10 # a suture should stop ongoing bleeding
     healingBeginSound:
       path: "/Audio/Items/Medical/brutepack_begin.ogg"
@@ -323,8 +323,8 @@
       - Biological
     damage:
       types:
-        Slash: -0.25
-        Piercing: -0.25
+        Slash: -1
+        Piercing: -1
     bloodlossModifier: -10
     healingBeginSound:
       path: "/Audio/Items/Medical/brutepack_begin.ogg"

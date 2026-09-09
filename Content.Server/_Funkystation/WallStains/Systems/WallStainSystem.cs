@@ -91,7 +91,7 @@ public sealed partial class WallStainSystem : EntitySystem
             return;
 
         var tilePos = _map.TileIndicesFor(gridUid.Value, grid, coords);
-
+        var stains = new Dictionary<EntityUid, Vector2i>();
         foreach (var offset in AdjacentTileOffsets)
         {
             var targetTile = tilePos + offset;
@@ -101,8 +101,13 @@ public sealed partial class WallStainSystem : EntitySystem
                 if (!IsWall(ent.Value))
                     continue;
 
-                ApplyStainToWall(ent.Value, solution, -offset, fraction: 0.25f);
+                stains.Add(ent.Value, offset);
             }
+        }
+
+        foreach ((var ent, var offset) in stains)
+        {
+            ApplyStainToWall(ent, solution, -offset, fraction: 0.25f);;
         }
     }
 

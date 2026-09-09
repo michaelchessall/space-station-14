@@ -89,6 +89,7 @@
   - ChemMasterMachineCircuitboard
   - CondenserMachineCircuitBoard
   - HotplateMachineCircuitboard
+  - ColdplateMachineCircuitboard # Persistence
   - CrewMonitoringComputerCircuitboard
   - MedicalRecordsComputerCircuitboard
   - BodyScannerComputerCircuitboard

@@ -1,3 +1,4 @@
+using Content.Shared.Guidebook;
 using Content.Shared.Atmos;
 
 namespace Content.Server.Power.Generation.GasGenerator;
@@ -108,6 +109,7 @@ public sealed partial class GasGeneratorComponent : Component
     /// Maximum power output (in watts).
     /// Mapped from YAML field `maxOutput`.
     /// </summary>
+    [GuidebookData]
     [DataField("maxOutput")]
     public float MaxPowerOutput = 50000f; // 50 kW
 

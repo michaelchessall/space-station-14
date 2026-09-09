@@ -1,6 +1,7 @@
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Cloning.Events;
+using Content.Shared.Fluids.Components;
 using Content.Shared.Gravity;
 using Content.Shared.Movement.Components;
 using Content.Shared.Popups;
@@ -53,6 +54,10 @@ public sealed partial class SharedJumpAbilitySystem : EntitySystem
 
     private void OnLeaperCollide(Entity<ActiveLeaperComponent> entity, ref StartCollideEvent args)
     {
+        // Persistence: Leapers shouldn't collide with puddles or footprints.
+        if (TryComp<PuddleComponent>(args.OtherEntity, out _))
+            return;
+
         _stun.TryKnockdown(entity.Owner, entity.Comp.KnockdownDuration, force: true);
         RemCompDeferred<ActiveLeaperComponent>(entity);
     }
