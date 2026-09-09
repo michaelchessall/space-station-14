@@ -11,6 +11,7 @@ using Content.Client.Gameplay;
 using Content.Client.Ghost;
 using Content.Client.Mind;
 using Content.Client.Roles;
+using Content.Client.Station;
 using Content.Client.Stylesheets;
 using Content.Client.UserInterface.Screens;
 using Content.Client.UserInterface.Systems.Chat.Widgets;
@@ -22,7 +23,9 @@ using Content.Shared.Damage.ForceSay;
 using Content.Shared.Decals;
 using Content.Shared.Input;
 using Content.Shared.Radio;
+using Content.Shared.Radio.Components;
 using Content.Shared.Roles.RoleCodeword;
+using Content.Shared.Station.Components;
 using Robust.Client.GameObjects;
 using Robust.Client.Graphics;
 using Robust.Client.Input;
@@ -66,6 +69,7 @@ public sealed partial class ChatUIController : UIController
     [UISystemDependency] private readonly TransformSystem? _transform = default;
     [UISystemDependency] private readonly MindSystem? _mindSystem = default!;
     [UISystemDependency] private readonly RoleCodewordSystem? _roleCodewordSystem = default!;
+    [UISystemDependency] private readonly StationSystem? _station = default!;
 
     private static readonly ProtoId<ColorPalettePrototype> ChatNamePalette = "ChatNames";
     private string[] _chatNameColors = default!;
@@ -684,54 +688,142 @@ public sealed partial class ChatUIController : UIController
         return channel;
     }
 
-    private bool TryGetRadioChannel(string text, out RadioChannelPrototype? radioChannel)
+    private bool TryGetRadioChannel(string text, out RadioChannelPrototype? radioChannel, out int? encryptionId)
     {
         radioChannel = null;
+        encryptionId = null;
         return _player.LocalEntity is EntityUid { Valid: true } uid
            && _chatSys != null
-           && _chatSys.TryProcessRadioMessage(uid, text, out _, out radioChannel, quiet: true);
+           && _chatSys.TryProcessRadioMessage(uid, text, out _, out radioChannel, out encryptionId, quiet: true);
+    }
+
+    private bool TryGetCustomRadioChannelDisplay(string input,
+        out RadioChannelPrototype? radioChannel,
+        out string? channelName,
+        out Color? channelColor)
+    {
+        radioChannel = null;
+        channelName = null;
+        channelColor = null;
+
+        // Persistence 14: Resolve custom channel indicator text and color on the client from faction radio metadata instead of showing the generic Radio label.
+        if (_station == null)
+            return false;
+
+        input = input.Trim();
+        if (input.Length < 2 || input[0] != SharedChatSystem.RadioChannelPrefix || char.IsWhiteSpace(input[1]))
+            return false;
+
+        var key = char.ToLowerInvariant(input[1]);
+
+        (bool Success, RadioChannelPrototype? Channel, string? Name, Color? Color) TryResolveAtStation(StationDataComponent stationData)
+        {
+            foreach (var (channelId, radioData) in stationData.RadioData)
+            {
+                if (!radioData.Enabled || radioData.Hotkey == '\0')
+                    continue;
+
+                if (char.ToLowerInvariant(radioData.Hotkey) != key)
+                    continue;
+
+                _prototypeManager.TryIndex(channelId, out RadioChannelPrototype? resolvedChannel);
+                var resolvedName = string.IsNullOrWhiteSpace(radioData.CustomName) ? null : radioData.CustomName;
+                Color? resolvedColor = string.IsNullOrWhiteSpace(radioData.CustomColor) ? null : radioData.GetColor();
+                return (true, resolvedChannel, resolvedName, resolvedColor);
+            }
+
+            return (false, null, null, null);
+        }
+
+        if (_player.LocalEntity is EntityUid localEntity
+            && _ent.TryGetComponent(localEntity, out WearingHeadsetComponent? wearing)
+            && _ent.TryGetComponent(wearing.Headset, out HeadsetComponent? headset))
+        {
+            foreach (var stationId in headset.TransmitTo.Order())
+            {
+                var station = _station.GetStationByID(stationId);
+                if (station == null || !_ent.TryGetComponent(station.Value, out StationDataComponent? stationData))
+                    continue;
+
+                var resolved = TryResolveAtStation(stationData);
+                if (resolved.Success)
+                {
+                    radioChannel = resolved.Channel;
+                    channelName = resolved.Name;
+                    channelColor = resolved.Color;
+                    return true;
+                }
+            }
+        }
+
+        // Fallback for cases where client headset state has not replicated yet.
+        foreach (var station in _station.GetStations())
+        {
+            if (!_ent.TryGetComponent(station, out StationDataComponent? stationData))
+                continue;
+
+            var resolved = TryResolveAtStation(stationData);
+            if (resolved.Success)
+            {
+                radioChannel = resolved.Channel;
+                channelName = resolved.Name;
+                channelColor = resolved.Color;
+                return true;
+            }
+        }
+
+        return false;
+        // End Persistence 14
     }
 
     public void UpdateSelectedChannel(ChatBox box)
     {
-        var (prefixChannel, _, radioChannel) = SplitInputContents(box.ChatInput.Input.Text.ToLower());
+        var (prefixChannel, _, radioChannel, _) = SplitInputContents(box.ChatInput.Input.Text.ToLower());
 
         if (prefixChannel == ChatSelectChannel.None)
             box.ChatInput.ChannelSelector.UpdateChannelSelectButton(box.SelectedChannel, null);
+        // Persistence 14: Override the channel selector chip with faction-specific custom channel presentation whenever the typed radio key resolves to custom metadata.
+        else if (prefixChannel == ChatSelectChannel.Radio
+                 && TryGetCustomRadioChannelDisplay(box.ChatInput.Input.Text, out var resolvedChannel, out var customName, out var customColor))
+            box.ChatInput.ChannelSelector.UpdateChannelSelectButton(prefixChannel, resolvedChannel ?? radioChannel, customName, customColor);
         else
             box.ChatInput.ChannelSelector.UpdateChannelSelectButton(prefixChannel, radioChannel);
+        // End Persistence 14
     }
 
-    public (ChatSelectChannel chatChannel, string text, RadioChannelPrototype? radioChannel) SplitInputContents(string text)
+    public (ChatSelectChannel chatChannel, string text, RadioChannelPrototype? radioChannel, int? encryptionId) SplitInputContents(string text)
     {
         text = text.Trim();
         if (text.Length == 0)
-            return (ChatSelectChannel.None, text, null);
+            return (ChatSelectChannel.None, text, null, null);
 
         // We only cut off prefix only if it is not a radio or local channel, which both map to the same /say command
         // because ????????
 
         ChatSelectChannel chatChannel;
-        if (TryGetRadioChannel(text, out var radioChannel))
+        if (TryGetRadioChannel(text, out var radioChannel, out var encryptionId))
             chatChannel = ChatSelectChannel.Radio;
         else
+        {
             chatChannel = PrefixToChannel.GetValueOrDefault(text[0]);
+            encryptionId = null;
+        }
 
         if ((CanSendChannels & chatChannel) == 0)
-            return (ChatSelectChannel.None, text, null);
+            return (ChatSelectChannel.None, text, null, null);
 
         if (chatChannel == ChatSelectChannel.Radio)
-            return (chatChannel, text, radioChannel);
+            return (chatChannel, text, radioChannel, encryptionId);
 
         if (chatChannel == ChatSelectChannel.Local)
         {
             if (_ghost?.IsGhost != true)
-                return (chatChannel, text, null);
+                return (chatChannel, text, null, null);
             else
                 chatChannel = ChatSelectChannel.Dead;
         }
 
-        return (chatChannel, text[1..].TrimStart(), null);
+        return (chatChannel, text[1..].TrimStart(), null, null);
     }
 
     public void SendMessage(ChatBox box, ChatSelectChannel channel)
@@ -746,14 +838,14 @@ public sealed partial class ChatUIController : UIController
         if (string.IsNullOrWhiteSpace(text))
             return;
 
-        (var prefixChannel, text, var _) = SplitInputContents(text);
+        (var prefixChannel, text, var _, var _) = SplitInputContents(text);
 
         // Check if message is longer than the character limit
         if (text.Length > MaxMessageLength)
         {
             var locWarning = Loc.GetString("chat-manager-max-message-length",
                 ("maxMessageLength", MaxMessageLength));
-            box.AddLine(locWarning, Color.Orange, default, locWarning, ChatChannel.Server, true); // Persistence: Chat stacking from RMC14 - pull/7587
+            box.AddLine(locWarning, Color.Orange);
             return;
         }
 
@@ -865,14 +957,8 @@ public sealed partial class ChatUIController : UIController
             }
         }
 
-        // Local messages that have an entity attached get a speech bubble - unless HideChat says
-        // this message shouldn't be visible at all, matching the same check just above for the
-        // log/history. Previously this switch ran unconditionally regardless of HideChat, which
-        // is why a HideChat-flagged "say" message (which still gets delivered to the client,
-        // just flagged - unlike whisper, whose sender skips delivery outright for anything other
-        // than a Full range result) would still show a bubble even though its log entry was
-        // correctly suppressed.
-        if (!speechBubble || msg.SenderEntity == default || msg.HideChat)
+        // Local messages that have an entity attached get a speech bubble.
+        if (!speechBubble || msg.SenderEntity == default)
             return;
 
         switch (msg.Channel)

@@ -6,6 +6,7 @@
   color: "#2cdb2c"
   encrypted: false
 
+# Legacy channels are kept defined so all existing content references continue to lint/resolve.
 - type: radioChannel
   id: CentCom
   name: chat-radio-centcom
@@ -114,3 +115,87 @@
   color: "#ff2222"
   # long range since I don't wanna make a special xenoborg telecomm server
   longRange: true
+
+- type: radioChannel
+  id: FactionCustom1
+  name: chat-radio-faction-custom-1
+  keycode: '1'
+  frequency: 2101
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom2
+  name: chat-radio-faction-custom-2
+  keycode: '2'
+  frequency: 2102
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom3
+  name: chat-radio-faction-custom-3
+  keycode: '3'
+  frequency: 2103
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom4
+  name: chat-radio-faction-custom-4
+  keycode: '4'
+  frequency: 2104
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom5
+  name: chat-radio-faction-custom-5
+  keycode: '5'
+  frequency: 2105
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom6
+  name: chat-radio-faction-custom-6
+  keycode: '6'
+  frequency: 2106
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom7
+  name: chat-radio-faction-custom-7
+  keycode: '7'
+  frequency: 2107
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom8
+  name: chat-radio-faction-custom-8
+  keycode: '8'
+  frequency: 2108
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom9
+  name: chat-radio-faction-custom-9
+  keycode: '9'
+  frequency: 2109
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom10
+  name: chat-radio-faction-custom-10
+  keycode: '0'
+  frequency: 2110
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom11
+  name: chat-radio-faction-custom-11
+  keycode: 'q'
+  frequency: 2111
+  color: "#2cdb2c"
+
+- type: radioChannel
+  id: FactionCustom12
+  name: chat-radio-faction-custom-12
+  keycode: 'w'
+  frequency: 2112
+  color: "#2cdb2c"

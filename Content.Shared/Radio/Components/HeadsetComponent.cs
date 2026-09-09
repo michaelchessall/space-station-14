@@ -1,6 +1,7 @@
 using Content.Shared.Inventory;
 using Robust.Shared.GameStates;
 using Robust.Shared.Serialization;
+using System.Collections.Generic;
 
 namespace Content.Shared.Radio.Components;
 
@@ -20,24 +21,29 @@ public sealed partial class HeadsetComponent : Component
     public SlotFlags RequiredSlot = SlotFlags.EARS;
 
     [DataField, AutoNetworkedField]
-    public int TransmitTo = 0;
+    public HashSet<int> TransmitTo = new();
 
     [DataField, AutoNetworkedField]
-    public int RecieveFrom = 0;
+    public HashSet<int> RecieveFrom = new();
+
+    [DataField, AutoNetworkedField]
+    public bool ShowTags = true;
 
 }
 [Serializable, NetSerializable]
 public sealed class HeadsetMenuBoundUserInterfaceState : BoundUserInterfaceState
 {
     public Dictionary<int, string> FormattedStations = new();
-    public int TransmitTo = 0;
-    public int RecieveFrom = 0;
+    public HashSet<int> TransmitTo = new();
+    public HashSet<int> RecieveFrom = new();
+    public bool ShowTags;
 
-    public HeadsetMenuBoundUserInterfaceState(Dictionary<int, string> formattedStations, int transmitTo, int recieveFrom)
+    public HeadsetMenuBoundUserInterfaceState(Dictionary<int, string> formattedStations, HashSet<int> transmitTo, HashSet<int> recieveFrom, bool showTags)
     {
         FormattedStations = formattedStations;
         TransmitTo = transmitTo;
         RecieveFrom = recieveFrom;
+        ShowTags = showTags;
     }
 }
 [Serializable, NetSerializable]
@@ -47,21 +53,31 @@ public enum HeadsetMenuUiKey : byte
 }
 
 [Serializable, NetSerializable]
-public sealed class HeadsetMenuOutputSelect : BoundUserInterfaceMessage
+public sealed class HeadsetMenuOutputToggle : BoundUserInterfaceMessage
 {
     public int Target;
-    public HeadsetMenuOutputSelect(int target)
+    public bool Enabled;
+    public HeadsetMenuOutputToggle(int target, bool enabled)
     {
         Target = target;
+        Enabled = enabled;
     }
 }
 
 [Serializable, NetSerializable]
-public sealed class HeadsetMenuInputSelect : BoundUserInterfaceMessage
+public sealed class HeadsetMenuTagsToggle(bool enabled) : BoundUserInterfaceMessage
+{
+    public bool Enabled = enabled;
+}
+
+[Serializable, NetSerializable]
+public sealed class HeadsetMenuInputToggle : BoundUserInterfaceMessage
 {
     public int Target;
-    public HeadsetMenuInputSelect(int target)
+    public bool Enabled;
+    public HeadsetMenuInputToggle(int target, bool enabled)
     {
         Target = target;
+        Enabled = enabled;
     }
 }

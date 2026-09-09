@@ -246,10 +246,10 @@
                         <Button Name="CreateAssignment" Access="Public"
                             Text="Create New Assignment"/>
                     </BoxContainer>
-                    
+
             </BoxContainer>
             <!-- Radio Management -->
-            <BoxContainer Orientation="Vertical" Margin="15">
+            <BoxContainer Orientation="Vertical" Margin="15" VerticalExpand="True">
                 <BoxContainer Orientation="Horizontal">
                     <Label Text="Selected Channel:" Margin="0 0 10 0"
                            StyleClasses="LabelKeyText" />
@@ -265,13 +265,53 @@
                         <Button Name="ChannelDisable" Access="Public" Text="Disabled"/>
                     </BoxContainer>
                 </BoxContainer>
-                <Control MinHeight="15"/>
+                <Control MinHeight="12"/>
                 <BoxContainer Orientation="Vertical">
+                    <BoxContainer Orientation="Horizontal">
+                        <Label Text="Create Channel:" StyleClasses="LabelKeyText" />
+                        <Control MinWidth="10"/>
+                        <LineEdit Name="CustomChannelName" Access="Public" PlaceHolder="Name" HorizontalExpand="True"/>
+                        <Control MinWidth="6"/>
+                        <LineEdit Name="CustomChannelHotkey" Access="Public" PlaceHolder="Key" MinWidth="46"/>
+                        <Control MinWidth="6"/>
+                        <Button Name="CreateChannelButton" Access="Public" Text="Create"/>
+                    </BoxContainer>
+                </BoxContainer>
+                <Control MinHeight="12"/>
+                <BoxContainer Orientation="Vertical">
+                    <BoxContainer Orientation="Horizontal">
+                        <Label Text="Edit Selected:" StyleClasses="LabelKeyText" />
+                        <Control MinWidth="17"/>
+                        <LineEdit Name="EditChannelName" Access="Public" PlaceHolder="Name" HorizontalExpand="True"/>
+                        <Control MinWidth="6"/>
+                        <LineEdit Name="EditChannelHotkey" Access="Public" PlaceHolder="Key" MinWidth="46"/>
+                        <Control MinWidth="6"/>
+                        <Button Name="EditChannelButton" Access="Public" Text="Save"/>
+                        <Control MinWidth="6"/>
+                        <Button Name="DeleteChannelButton" Access="Public" Text="Delete"/>
+                    </BoxContainer>
+                    <Control MinHeight="8"/>
+                    <BoxContainer Orientation="Horizontal">
+                        <Control MinWidth="149"/>
+                        <Label Text="Color:" MinWidth="44"/>
+                        <ColorSelectorSliders Name="ChannelColorPicker" Access="Public" IsAlphaVisible="False" SelectorType="Hsv" HorizontalExpand="True" MinHeight="44"/>
+                        <Control MinWidth="6"/>
+                        <PanelContainer Name="ChannelColorPreview" MinSize="32 32">
+                            <PanelContainer.PanelOverride>
+                                <gfx:StyleBoxFlat BackgroundColor="#2cdb2c" BorderColor="#808080" BorderThickness="1" />
+                            </PanelContainer.PanelOverride>
+                        </PanelContainer>
+                    </BoxContainer>
+                    <Control MinHeight="4"/>
+                    <Label Name="EditChannelHint" Text="Select a custom channel to edit. Color applies to both Create and Save." Margin="149 0 0 0"/>
+                </BoxContainer>
+                <Control MinHeight="10"/>
+                <BoxContainer Orientation="Vertical" VerticalExpand="True">
                     <BoxContainer Orientation="Horizontal">
                         <Label Text="Access:"
                             StyleClasses="LabelKeyText" />
                     </BoxContainer>
-                    <BoxContainer Orientation="Horizontal" MinHeight="300">
+                    <BoxContainer Orientation="Horizontal" VerticalExpand="True" MinHeight="90">
                         <PanelContainer VerticalExpand="True"
                                         HorizontalExpand="True"
                                     SizeFlagsStretchRatio="1"
@@ -312,7 +352,7 @@
                         </PanelContainer.PanelOverride>
                         <RichTextLabel Name="CurrentBenefitsLabel" VerticalExpand="True" HorizontalExpand="True" MinHeight="100"/>
                     </PanelContainer>
-                    
+
                 </BoxContainer>
                 <Control MinHeight="20" />
                 <BoxContainer Orientation="Horizontal">
@@ -332,7 +372,7 @@
                         <RichTextLabel Name="NextBenefitsLabel"  VerticalExpand="True" HorizontalExpand="True"  MinHeight="100"/>
                     </PanelContainer>
                 </BoxContainer>
-                
+
                 <BoxContainer Orientation="Horizontal">
                     <Label Text="Faction Account:"
                       StyleClasses="LabelKeyText" />

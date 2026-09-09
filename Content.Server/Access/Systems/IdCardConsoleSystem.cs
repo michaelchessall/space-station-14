@@ -342,6 +342,13 @@ public sealed class IdCardConsoleSystem : SharedIdCardConsoleSystem
         {
             component.PrivRecord = null;
         }
+
+        if (!component.TargetIdSlot.HasItem && owner && component.PrivRecord != null && component.SelectedRecord == null)
+        {
+            // Owners using only their privileged ID should still be able to manage their own assignment.
+            component.SelectedRecord = component.PrivRecord;
+        }
+
         if (component.SelectedRecord == null)
         {
 

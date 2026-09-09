@@ -68,9 +68,14 @@ public sealed class ChannelSelectorButton : ChatPopupButton<ChannelSelectorPopup
         };
     }
 
-    public void UpdateChannelSelectButton(ChatSelectChannel channel, Shared.Radio.RadioChannelPrototype? radio)
+    public void UpdateChannelSelectButton(ChatSelectChannel channel,
+        Shared.Radio.RadioChannelPrototype? radio,
+        string? radioNameOverride = null,
+        Color? radioColorOverride = null)
     {
-        Text = radio != null ? Loc.GetString(radio.Name) : ChannelSelectorName(channel);
-        Modulate = radio?.Color ?? ChannelSelectColor(channel);
+        // Persistence 14: Allow callers to override the stock radio prototype label and color so the chat chip can reflect faction-specific custom channel presentation.
+        Text = radioNameOverride ?? (radio != null ? Loc.GetString(radio.Name) : ChannelSelectorName(channel));
+        Modulate = radioColorOverride ?? radio?.Color ?? ChannelSelectColor(channel);
+        // End Persistence 14
     }
 }

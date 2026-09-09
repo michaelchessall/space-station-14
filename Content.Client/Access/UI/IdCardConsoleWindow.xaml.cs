@@ -161,7 +161,7 @@ namespace Content.Client.Access.UI
                     var button = new AssignmentButton(id, assignment.Name);
                     button.OnPressed += (args) => { _owner.OnAssignmentPressed(args); };
                     AccessLevelControlContainer.AddChild(button);
-                    if (state.TargetIdFullName == null || state.TargetIdFullName.Length == 0 || (!state.IsOwner && state.PrivAssignment == null))
+                    if (state.CrewRecord == null || (!state.IsOwner && state.PrivAssignment == null))
                     {
                         button.Disabled = true;
                     }

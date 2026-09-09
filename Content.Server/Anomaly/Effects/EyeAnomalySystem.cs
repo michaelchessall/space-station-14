@@ -390,13 +390,19 @@ public sealed class EyeAnomalySystem : EntitySystem
         if (!channel.Encrypted)
             return true;
 
-        if (headset.TransmitTo == 0)
+        if (headset.TransmitTo.Count == 0)
             return false;
 
-        if (_stationSystem.GetStationByID(headset.TransmitTo) is not { } station)
-            return false;
+        foreach (var stationId in headset.TransmitTo)
+        {
+            if (_stationSystem.GetStationByID(stationId) is not { } station)
+                continue;
 
-        return _headsetSystem.HasChannelAccess(victim, station, channel);
+            if (_headsetSystem.HasChannelAccess(victim, station, channel))
+                return true;
+        }
+
+        return false;
     }
 
     /// <summary>

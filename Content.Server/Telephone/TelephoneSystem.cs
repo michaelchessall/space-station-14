@@ -366,8 +366,7 @@ public sealed class TelephoneSystem : SharedTelephoneSystem
             message,
             wrappedMessage,
             GetNetEntity(messageSource), // Persistence: Chat stacking from RMC14 - pull/7587
-            _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key, // Persistence: Chat stacking from RMC14 - pull/7587
-            repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(source)); // Persistence: Chat stacking from RMC14 - pull/7587
+            _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key); // Persistence: Chat stacking from RMC14 - pull/7587
 
         var chatMsg = new MsgChatMessage { Message = chat };
 
