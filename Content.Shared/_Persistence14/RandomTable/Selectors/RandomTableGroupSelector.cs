@@ -35,7 +35,7 @@ public sealed partial class RandomTableGroupSelector : RandomTableSelector
     }
 
     /// <inheritdoc/>
-    public override IEnumerable<(RandomTableValueDefinition value, float prob)> List(RandomTableContext ctx, float probabilityMultipler = 1f)
+    public override IEnumerable<(RandomTableValueDefinition value, float prob)> ListImplementation(RandomTableContext ctx, float probabilityMultipler = 1f)
     {
         var totalWeight = SumWeights(ctx, out var activeChildren, useConditions: false);
         if (totalWeight <= 0) totalWeight = 1; // Literally just idiot proofing this...
@@ -43,7 +43,7 @@ public sealed partial class RandomTableGroupSelector : RandomTableSelector
         foreach (var child in activeChildren)
         {
             var childProbability = child.Weight / totalWeight;
-            foreach (var (value, prob) in child.List(ctx, probabilityMultipler * childProbability))
+            foreach (var (value, prob) in child.ListImplementation(ctx, probabilityMultipler * childProbability))
                 yield return (value, prob);
         }
     }

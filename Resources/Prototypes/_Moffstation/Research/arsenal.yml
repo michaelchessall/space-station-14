@@ -10,13 +10,13 @@
   tier: 1
   cost: 6000
   recipeUnlocks:
-  - ClothingEyesModularHudVisor
-  - ClothingEyesModularHudGoggles
-  - ClothingEyesModularHudGlasses
-  - ClothingEyesModularHudSunglasses
-  - ClothingEyesModularHudCheapSunglasses
-  - ClothingEyesModularHudJamjars
-  - ClothingEyesModularHudPatch
+    ClothingEyesModularHudVisor: 2
+    ClothingEyesModularHudGoggles: 2
+    ClothingEyesModularHudGlasses: 2
+    ClothingEyesModularHudSunglasses: 2
+    ClothingEyesModularHudCheapSunglasses: 2
+    ClothingEyesModularHudJamjars: 2
+    ClothingEyesModularHudPatch: 2
 
 # Tier 2
 
@@ -31,4 +31,4 @@
   technologyPrerequisites:
   - ModularHudFrames
   recipeUnlocks:
-  - HudModuleFlashImmunity
+    HudModuleFlashImmunity: 2

@@ -25,7 +25,7 @@ public sealed partial class TechnologyDiskComponent : Component
     /// The recipe that will be added. If null, one will be randomly generated
     /// </summary>
     [DataField, AutoNetworkedField]
-    public List<ProtoId<LatheRecipePrototype>>? Recipes;
+    public Dictionary<ProtoId<LatheRecipePrototype>, int>? Recipes;
 
     /// <summary>
     /// A weighted random prototype for how rare each tier should be.

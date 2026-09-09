@@ -11,8 +11,8 @@
   technologyPrerequisites:
   - ModularHudFrames
   recipeUnlocks:
-  - HudModuleNoirOverlay
-  - HudModuleBlackAndWhiteOverlay
+    HudModuleNoirOverlay: 2
+    HudModuleBlackAndWhiteOverlay: 2
 
 # Tier 2
 
@@ -28,4 +28,4 @@
   - ModularHudFrames
   - ModularHudModulesExperimentalT1
   recipeUnlocks:
-  - HudModuleSolutionScanner
+    HudModuleSolutionScanner: 2

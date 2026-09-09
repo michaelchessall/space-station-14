@@ -1,0 +1,60 @@
+- type: entity
+  id: AnomalyCapsule
+  parent: BaseItem
+  name: anomaly capsule
+  description: A high-strength casing for storing the concentrated cores required to create new anomalies.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
+    layers: 
+    - state: core-anim
+      visible: false
+      map: ["enum.AnomalyCapsuleVisualLayers.Core"]
+    - state: icon
+      map: ["enum.AnomalyCapsuleVisualLayers.Base"]
+    - state: up-chip
+      visible: false
+      map: ["enum.AnomalyCapsuleVisualLayers.Module1"]
+    - state: down-chip
+      visible: false
+      map: ["enum.AnomalyCapsuleVisualLayers.Module2"]
+  - type: GenericVisualizer
+    visuals: 
+      enum.AnomalyCapsuleVisualData.HasCore:
+        enum.AnomalyCapsuleVisualLayers.Core:
+          True: { visible: true }
+          False: { visible: false}
+      enum.AnomalyCapsuleVisualData.HasModule1:
+        enum.AnomalyCapsuleVisualLayers.Module1:
+          True: { visible: true }
+          False: { visible: false }
+      enum.AnomalyCapsuleVisualData.HasModule2:
+        enum.AnomalyCapsuleVisualLayers.Module2:
+          True: { visible: true }
+          False: { visible: false }
+  - type: Appearance
+  - type: AnomalyCapsuleVisualizer
+  - type: InteractionOutline
+  - type: ContainerContainer
+  - type: ItemSlots
+    slots: 
+      core-slot:
+        name: anomaly-capsule-slot-core
+        whitelist:
+          components:
+          - AnomalyCapsuleCore
+      module-slot-1:
+        name: anomaly-capsule-slot-mod-1
+        whitelist:
+          components:
+          - AnomalyCapsuleModule
+      module-slot-2:
+        name: anomaly-capsule-slot-mod-2
+        whitelist:
+          components:
+          - AnomalyCapsuleModule
+  - type: AnomalyCapsule
+    coreSlot: core-slot
+    moduleSlots: [ module-slot-1, module-slot-2 ]
+
+

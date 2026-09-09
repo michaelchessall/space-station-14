@@ -34,15 +34,6 @@ public sealed partial class TechnologyDatabaseComponent : Component
     [AutoNetworkedField]
     [DataField]
     public List<ProtoId<TechnologyPrototype>> UnlockedTechnologies = new();
-
-    /// <summary>
-    /// The ids of all the lathe recipes which have been unlocked.
-    /// This is maintained alongside the TechnologyIds
-    /// </summary>
-    /// todo: if you unlock all the recipes in a tech, it doesn't count as unlocking the tech. sadge
-    [AutoNetworkedField]
-    [DataField]
-    public Dictionary<ProtoId<LatheRecipePrototype>, int> UnlockedRecipes = new();
 }
 
 /// <summary>

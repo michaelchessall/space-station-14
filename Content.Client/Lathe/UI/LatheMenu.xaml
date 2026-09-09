@@ -77,12 +77,6 @@
                     Orientation="Horizontal"
                     Align="End"
                     HorizontalExpand="True">
-                    <Button
-                        Name="ServerListButton"
-                        Text="{Loc 'lathe-menu-server-list'}"
-                        TextAlign="Center"
-                        Mode="Press">
-                    </Button>
                 </BoxContainer>
                 <Label Text="{Loc 'lathe-menu-queue-title'}" Margin="5 5 5 5" HorizontalAlignment="Center"/>
                 <BoxContainer

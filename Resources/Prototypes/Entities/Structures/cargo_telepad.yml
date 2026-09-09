@@ -50,3 +50,4 @@
   - type: NameIdentifier
     group: CargoTelepads
   - type: AnimationPlayer
+  - type: TargetingModuleTarget

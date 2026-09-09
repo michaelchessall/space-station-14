@@ -3,6 +3,28 @@
 
 Anomalous Research is a subdepartment of Science focused around the containment and manipulation of various unique anomalies.
 
+<Box>
+<GuideEntityEmbed Entity="AnomalyPyroclastic" Caption=""/>
+<GuideEntityEmbed Entity="AnomalyShadow" Caption=""/>
+<GuideEntityEmbed Entity="AnomalyPolymorph" Caption=""/>
+</Box>
+
+## Generation
+
+<Box>
+<GuideEntityEmbed Entity="MachineAnomalyGenerator" Caption=""/>
+</Box>
+<Box>
+<GuideEntityEmbed Entity="AnomalyCapsule" Caption=""/>
+<GuideEntityEmbed Entity="AnomalyCapsuleCoreUnstable" Caption=""/>
+</Box>
+
+The anomaly generator can be used to produce an anomaly somewhere on the station by consuming constructed anomaly capsules.
+Capsules, and the unstable cores to power them, may be crafted from the Protolathe.
+
+The unstable anomaly core allows for the generation of a random anomaly. Different anomalies will require different containment methods to safely extract their research value.
+Other processed anomaly cores are known to exist, though the means to create them are lost to Solar Legion scientists at this time.
+
 ## Equipment
 <Box>
 <GuideEntityEmbed Entity="AnomalyScanner"/>
@@ -10,19 +32,25 @@ Anomalous Research is a subdepartment of Science focused around the containment 
 <GuideEntityEmbed Entity="MachineAPE"/>
 </Box>
 
-Scanners, vessels, and A.P.E.s are all used in the containment and observation of anomalies.
+The Anomalous Particle Emitter is a machine used to interface with anomalies. It is the primary way of manipulating the stats of an anomaly.
 
-<Box>
-<GuideEntityEmbed Entity="MachineAnomalyGenerator"/>
-</Box>
+The A.P.E. can shoot four different kinds of anomalous particles: Delta, Epsilon, Sigma and Zeta. Each particle type has certain effects:
 
-The anomaly generator can produce a random anomaly somewhere on the station at the cost of plasma.
+- [color=crimson]Danger:[/color] Increases the severity of an anomaly.
+- [color=plum]Unstable:[/color] Increases the instability of an anomaly.
+- [color=goldenrod]Containment:[/color] Increases anomaly stability at the cost of its health - if an anomaly is struck by too many containment particles, it will collapse, leaving behind a raw anomaly core.
+- [color=#6b75fa]Transformation:[/color] Increases anomaly severity with a chance of changing its behavior.
+
+Which particle type corresponds to each effect is unique and can be learned by scanning the anomaly with an Anomaly Scanner. 
+Syncronized anomaly scanners may be used on Anomaly Vessels to produce a steady supply of reserach points based on the intensity and modifiers of the scanned anomaly.
+
+The A.P.E. can also be locked by anyone with science access, which prevents it from being deconstructed, turned on or off, or having the particle type switched.
 
 ## Anomalies
-Anomalies are static objects that appear on the station. They cannot be moved, and must be worked around, no matter their location.
+Anomalies are static objects that appear on the station. Without specialized  technology, they cannot be moved and must be worked around, no matter their location.
 
 <Box>
-<GuideEntityEmbed Entity="AnomalyPyroclastic"/>
+<GuideEntityEmbed Entity="AnomalyPyroclastic" Caption=""/>
 </Box>
 
 Each anomaly has three main stats, two of which can be seen in anomaly scans:

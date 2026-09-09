@@ -11,8 +11,8 @@
   technologyPrerequisites:
   - ModularHudFrames
   recipeUnlocks:
-  - HudModuleShowContrabandDetails
-  - HudModuleVisionCorrection
+    HudModuleShowContrabandDetails: 2
+    HudModuleVisionCorrection: 2
 
 # Tier 2
 
@@ -28,9 +28,9 @@
   - ModularHudFrames
   - ModularHudModulesCivilianT1
   recipeUnlocks:
-  - HudModuleShowJobIcons
-  - HudModuleShowMindShieldIcons
-  - HudModuleShowCriminalRecordIcons
+    HudModuleShowJobIcons: 2
+    HudModuleShowMindShieldIcons: 2
+    HudModuleShowCriminalRecordIcons: 2
 
 - type: technology
   id: ModularHudModulesCivilianT2Medical
@@ -44,6 +44,6 @@
   - ModularHudFrames
   - ModularHudModulesCivilianT1
   recipeUnlocks:
-  - HudModuleShowMedicalIcons
-  - HudModuleShowHungerIcons
-  - HudModuleShowThirstIcons
+    HudModuleShowMedicalIcons: 2
+    HudModuleShowHungerIcons: 2
+    HudModuleShowThirstIcons: 2

@@ -7,6 +7,7 @@ using Content.Server.Popups;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Radio.EntitySystems;
 using Content.Server.Stack;
+using Content.Shared._Persistence14.Research.RecipeRelay;
 using Content.Shared.Atmos;
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
@@ -53,6 +54,7 @@ namespace Content.Server.Lathe
         [Dependency] private readonly StackSystem _stack = default!;
         [Dependency] private readonly TransformSystem _transform = default!;
         [Dependency] private readonly RadioSystem _radio = default!;
+        [Dependency] private readonly SharedRecipeRelaySystem _recipeRelay = default!;
 
         /// <summary>
         /// Per-tick cache
@@ -77,7 +79,7 @@ namespace Content.Server.Lathe
 
             SubscribeLocalEvent<LatheComponent, BeforeActivatableUIOpenEvent>((u, c, _) => UpdateUserInterfaceState(u, c));
             SubscribeLocalEvent<LatheComponent, MaterialAmountChangedEvent>(OnMaterialAmountChanged);
-            SubscribeLocalEvent<TechnologyDatabaseComponent, LatheGetRecipesEvent>(OnGetRecipes);
+            SubscribeLocalEvent<RecipeContainerComponent, LatheGetRecipesEvent>(OnGetRecipes);
             SubscribeLocalEvent<EmagLatheRecipesComponent, LatheGetRecipesEvent>(GetEmagLatheRecipes);
             SubscribeLocalEvent<LatheHeatProducingComponent, LatheStartPrintingEvent>(OnHeatStartPrinting);
         }
@@ -167,16 +169,15 @@ namespace Content.Server.Lathe
             return ev.Recipes;
         }
 
-        public void TakeRecipeUses(EntityUid uid, LatheRecipePrototype recipe, TechnologyDatabaseComponent component, int uses)
+        public void TakeRecipeUses(EntityUid uid, LatheRecipePrototype recipe, RecipeContainerComponent component, int uses)
         {
             if (component.UnlockedRecipes.ContainsKey(recipe.ID))
             {
                 component.UnlockedRecipes[recipe.ID] = int.Max(component.UnlockedRecipes[recipe.ID] - uses, 0);
             }
             Dirty(uid, component);
-            var ev = new TechnologyDatabaseModifiedEvent();
-            RaiseLocalEvent(uid, ref ev);
         }
+
         public bool TryAddToQueue(EntityUid uid, LatheRecipePrototype recipe, int quantity, LatheComponent? component = null)
         {
             if (!Resolve(uid, ref component))
@@ -185,21 +186,15 @@ namespace Content.Server.Lathe
             if (quantity <= 0)
                 return false;
             quantity = int.Min(quantity, MaxItemsPerRequest);
-            if (TryComp<ResearchClientComponent>(uid, out var researchClient))
+
+            if (_recipeRelay.TryGetRecipeContainer(uid, out var container))
             {
-                if (researchClient.Server != null)
+                if (container.Comp.UnlockedRecipes.ContainsKey(recipe.ID))
                 {
-                    if (TryComp<TechnologyDatabaseComponent>(researchClient.Server, out var database))
-                    {
-                        if (database.UnlockedRecipes.ContainsKey(recipe.ID))
-                        {
-                            quantity = int.Min(quantity, database.UnlockedRecipes[recipe.ID]);
-                            TakeRecipeUses(researchClient.Server.Value, recipe, database, quantity);
-                        }
-                    }
+                    quantity = int.Min(quantity, container.Comp.UnlockedRecipes[recipe.ID]);
+                    TakeRecipeUses(container.Owner, recipe, container.Comp, quantity);
                 }
             }
-
 
             if (quantity <= 0)
                 return false;
@@ -316,19 +311,21 @@ namespace Content.Server.Lathe
         /// <summary>
         /// Adds every unlocked recipe from each pack to the recipes list.
         /// </summary>
-        public void AddRecipesFromDynamicPacks(ref LatheGetRecipesEvent args, TechnologyDatabaseComponent database, IEnumerable<ProtoId<LatheRecipePackPrototype>> packs)
+        public void AddRecipesFromDynamicPacks(ref LatheGetRecipesEvent args, IEnumerable<ProtoId<LatheRecipePackPrototype>> packs)
         {
+            if (!_recipeRelay.TryGetRecipeContainer(args.Lathe, out var container))
+                return;
             foreach (var id in packs)
             {
                 var pack = _proto.Index(id);
                 foreach (var recipe in pack.Recipes)
                 {
-                    if (args.GetUnavailable || database.UnlockedRecipes.ContainsKey(recipe))
+                    if (args.GetUnavailable || container.Comp.UnlockedRecipes.ContainsKey(recipe))
                     {
                         if (args.Recipes.ContainsKey(recipe)) continue;
-                        if (database.UnlockedRecipes.ContainsKey(recipe))
+                        if (container.Comp.UnlockedRecipes.ContainsKey(recipe))
                         {
-                            args.Recipes.Add(recipe, database.UnlockedRecipes[recipe]);
+                            args.Recipes.Add(recipe, container.Comp.UnlockedRecipes[recipe]);
                         }
                         else
                         {
@@ -342,10 +339,10 @@ namespace Content.Server.Lathe
             }
         }
 
-        private void OnGetRecipes(EntityUid uid, TechnologyDatabaseComponent component, LatheGetRecipesEvent args)
+        private void OnGetRecipes(EntityUid uid, RecipeContainerComponent component, LatheGetRecipesEvent args)
         {
             if (uid == args.Lathe)
-                AddRecipesFromDynamicPacks(ref args, component, args.Comp.DynamicPacks);
+                AddRecipesFromDynamicPacks(ref args, args.Comp.DynamicPacks);
         }
 
         private void GetEmagLatheRecipes(EntityUid uid, EmagLatheRecipesComponent component, LatheGetRecipesEvent args)
@@ -358,8 +355,7 @@ namespace Content.Server.Lathe
 
             AddRecipesFromPacks(args.Recipes, component.EmagStaticPacks);
 
-            if (TryComp<TechnologyDatabaseComponent>(uid, out var database))
-                AddRecipesFromDynamicPacks(ref args, database, component.EmagDynamicPacks);
+            AddRecipesFromDynamicPacks(ref args, component.EmagDynamicPacks);
         }
 
         private void OnHeatStartPrinting(EntityUid uid, LatheHeatProducingComponent component, LatheStartPrintingEvent args)

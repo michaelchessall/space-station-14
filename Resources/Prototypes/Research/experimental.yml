@@ -10,8 +10,8 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - ProximitySensor
-  - RoboticsConsoleCircuitboard
+    ProximitySensor: 1
+    RoboticsConsoleCircuitboard: 1
 
 - type: technology
   id: BasicAnomalousResearch
@@ -23,11 +23,11 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - AnomalyScanner
-  - AnomalyLocator
-  - AnomalyLocatorWide
-  - APECircuitboard
-  - AnomalyVesselCircuitboard
+    AnomalyScanner: 2
+    AnomalyLocator: 2
+    AnomalyLocatorWide: 2
+    APECircuitboard: 1
+    AnomalyVesselCircuitboard: 1
 
 - type: technology
   id: BasicXenoArcheology
@@ -39,11 +39,11 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - NodeScanner
-  - AnalysisComputerCircuitboard
-  - ArtifactAnalyzerMachineCircuitboard
-  - ResearchComputerCircuitboard
-#  - ResearchAndDevelopmentServerMachineCircuitboard # Disabling this because of the RNDkit being added.
+    NodeScanner: 1
+    AnalysisComputerCircuitboard: 1
+    ArtifactAnalyzerMachineCircuitboard: 1
+    ResearchComputerCircuitboard: 1
+    # ResearchAndDevelopmentServerMachineCircuitboard: 1 # Disabling this because of the RNDkit being added.
 
 - type: technology
   id: AlternativeResearch
@@ -55,7 +55,7 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - TechDiskComputerCircuitboard
+    TechDiskComputerCircuitboard: 4
 
 - type: technology
   id: MagnetsTech
@@ -67,8 +67,8 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - ClothingShoesBootsMagSci
-  - ClothingShoesBootsMoon
+    ClothingShoesBootsMagSci: 4
+    ClothingShoesBootsMoon: 4
 
 - type: technology
   id: AnomalyCoreHarnessing
@@ -80,7 +80,7 @@
   tier: 1
   cost: 10000
   recipeUnlocks:
-  - WeaponGauntletGorilla
+    WeaponGauntletGorilla: 1
 
 # Tier 2
 
@@ -94,7 +94,7 @@
   tier: 2
   cost: 25000
   recipeUnlocks:
-  - ArtifactCrusherMachineCircuitboard
+    ArtifactCrusherMachineCircuitboard: 2
 
 - type: technology
   id: AdvancedAnomalyResearch
@@ -106,9 +106,9 @@
   tier: 2
   cost: 50000
   recipeUnlocks:
-  - WeaponPistolCHIMP
-  - AnomalySynchronizerCircuitboard
-  - AnomalyVesselExperimentalCircuitboard
+    WeaponPistolCHIMP: 3
+    AnomalySynchronizerCircuitboard: 2
+    AnomalyVesselExperimentalCircuitboard: 4
   technologyPrerequisites:
   - BasicAnomalousResearch
 
@@ -122,8 +122,8 @@
   tier: 2
   cost: 32500
   recipeUnlocks:
-  - WeaponParticleDecelerator
-  - HoloprojectorField
+    WeaponParticleDecelerator: 3
+    HoloprojectorField: 3
 
 - type: technology
   id: GravityManipulation
@@ -135,8 +135,8 @@
   tier: 2
   cost: 50000
   recipeUnlocks:
-    - WeaponForceGun
-    - WeaponTetherGun
+    WeaponForceGun: 1
+    WeaponTetherGun: 1
 
 # Tier 3
 
@@ -150,7 +150,7 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - ArtifactAnalyzerAdvancedMachineCircuitboard
+    ArtifactAnalyzerAdvancedMachineCircuitboard: 2
   technologyPrerequisites:
   - BasicXenoArcheology
 
@@ -164,7 +164,7 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - DeviceQuantumSpinInverter
+    DeviceQuantumSpinInverter: 2
 
 - type: technology
   id: BluespaceTimeManipulation
@@ -176,4 +176,4 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - DeviceDesynchronizer
+    DeviceDesynchronizer: 1

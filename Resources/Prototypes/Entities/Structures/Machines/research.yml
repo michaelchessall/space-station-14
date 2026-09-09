@@ -76,6 +76,18 @@
   - type: GuideHelp
     guides:
     - Science
+  - type: RecipeRelaySource
+  - type: RecipeContainer
+  - type: UserInterface
+    interfaces:
+      enum.RecipeRelaySourceUIKey.Main:
+        type: RecipeRelaySourceBoundUserInterface
+  - type: ActivatableUI
+    key: enum.RecipeRelaySourceUIKey.Main
+  - type: ActivatableUIRequiresPower
+  - type: ActivatableUIRequiresAccess
+  - type: RecipeRelaySameGridCondition
+  - type: RecipeRelayPoweredCondition
 
 - type: entity
   id: BaseResearchAndDevelopmentPointSource

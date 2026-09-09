@@ -1,3 +1,4 @@
+using Content.Shared._Persistence14.Research.RecipeRelay;
 using Content.Shared.Database;
 using Content.Shared.Research.Components;
 using Content.Shared.Research.Prototypes;
@@ -20,7 +21,6 @@ public sealed partial class ResearchSystem
         primaryDb.CurrentTechnologyCards = otherDb.CurrentTechnologyCards;
         primaryDb.SupportedDisciplines = otherDb.SupportedDisciplines;
         primaryDb.UnlockedTechnologies = otherDb.UnlockedTechnologies;
-        primaryDb.UnlockedRecipes = otherDb.UnlockedRecipes;
 
         Dirty(primaryUid, primaryDb);
 
@@ -107,9 +107,9 @@ public sealed partial class ResearchSystem
     /// <summary>
     ///     Adds a technology to the database without checking if it could be unlocked.
     /// </summary>
-    public void AddTechnology(EntityUid uid, TechnologyPrototype technology, TechnologyDatabaseComponent? component = null)
+    public void AddTechnology(EntityUid uid, TechnologyPrototype technology, TechnologyDatabaseComponent? component = null, RecipeContainerComponent? container = null)
     {
-        if (!Resolve(uid, ref component))
+        if (!Resolve(uid, ref component) || !Resolve(uid, ref container))
             return;
 
         //todo this needs to support some other stuff, too
@@ -121,17 +121,17 @@ public sealed partial class ResearchSystem
         if (!component.UnlockedTechnologies.Contains(technology.ID))
             component.UnlockedTechnologies.Add(technology.ID);
         var addedRecipes = new List<string>();
-        foreach (var unlock in technology.RecipeUnlocks)
+        foreach (var (unlock, qty) in technology.RecipeUnlocks)
         {
             PrototypeManager.Resolve(unlock, out var recipeProto);
             if (recipeProto == null) continue;
-            if (component.UnlockedRecipes.ContainsKey(unlock))
+            if (container.UnlockedRecipes.ContainsKey(unlock))
             {
-                component.UnlockedRecipes[unlock] = component.UnlockedRecipes[unlock] + recipeProto.UnlockUses;
+                container.UnlockedRecipes[unlock] = container.UnlockedRecipes[unlock] + qty;
             }
             else
             {
-                component.UnlockedRecipes.Add(unlock, recipeProto.UnlockUses);
+                container.UnlockedRecipes.Add(unlock, qty);
             }
             addedRecipes.Add(unlock);
         }
@@ -175,7 +175,6 @@ public sealed partial class ResearchSystem
         component.CurrentTechnologyCards = new List<ProtoId<TechnologyPrototype>>();
         component.SupportedDisciplines = new List<ProtoId<TechDisciplinePrototype>>();
         component.UnlockedTechnologies = new List<ProtoId<TechnologyPrototype>>();
-        component.UnlockedRecipes = new Dictionary<ProtoId<LatheRecipePrototype>, int>();
         Dirty(uid, component);
     }
 }

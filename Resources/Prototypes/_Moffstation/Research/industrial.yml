@@ -29,4 +29,4 @@
   - ModularHudFrames
 #  - ModularHudModulesIndustrialT1
   recipeUnlocks:
-  - HudModuleEyeProtection
+    HudModuleEyeProtection: 2

@@ -54,7 +54,7 @@ public sealed partial class AnomalySystem : SharedAnomalySystem
         SubscribeLocalEvent<AnomalyComponent, StartCollideEvent>(OnStartCollide);
         SubscribeLocalEvent<AnomalyStabilityChangedEvent>(OnVesselAnomalyStabilityChanged);
 
-        InitializeGenerator();
+        //InitializeGenerator(); Effect moved to Content.Server\_Persistence14\Research\Anomalies\AnomalyGeneratorSystem.cs for Persistence14
         InitializeVessel();
         InitializeCommands();
     }
@@ -189,7 +189,7 @@ public sealed partial class AnomalySystem : SharedAnomalySystem
     {
         base.Update(frameTime);
 
-        UpdateGenerator();
+        //UpdateGenerator(); Effect moved to Content.Server\_Persistence14\Research\Anomalies\AnomalyGeneratorSystem.cs for Persistence14
         UpdateVessels();
     }
 

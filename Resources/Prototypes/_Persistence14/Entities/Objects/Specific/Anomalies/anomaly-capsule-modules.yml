@@ -1,0 +1,65 @@
+- type: entity
+  id: AnomalyModuleBase
+  parent: BaseItem
+  abstract: true
+  components:
+  - type: InteractionOutline
+  - type: Item
+    size: Small
+  - type: Sprite
+    sprite: _Persistence14/Objects/Specific/Anomaly/anomaly-module.rsi
+    layers:
+    - state: prong
+      map: ["enum.AnomalyCapsuleModuleVisualLayers.Prong"]
+    - state: chip
+      map: ["enum.AnomalyCapsuleModuleVisualLayers.Chip"]
+  - type: AnomalyCapsuleModule
+  - type: AnomalyCapsuleModuleVisualizer
+    moduleLayers: [ "enum.AnomalyCapsuleModuleVisualLayers.Chip"]
+
+- type: entity
+  id: AnomalyModuleTargeting
+  parent: AnomalyModuleBase
+  name: bluespace targeting anomaly module
+  description: A module designed for an anomaly capsule allowing active targeting of a B.A.B.O.O.N. Localization Pad.
+  components:
+  - type: AnomalyCapsuleModule
+    blacklist:
+      components:
+      - TargetingCapsuleModule
+  - type: AnomalyCapsuleModuleVisualizer
+    color: "#1b7ecf"
+  - type: TargetingCapsuleModule
+    connectSound: 
+      path: /Audio/Items/beep.ogg
+
+- type: entity
+  id: AnomalyModuleEnvironmentalStabilizer
+  parent: AnomalyModuleBase
+  name: environmental stabilizer anomaly module
+  description: A module designed for an anomaly capsule stabilizing the anomaly core and ensuring it spawns an environmental anomaly. Incompatible with the infection stabilizer anomaly module.
+  components:
+  - type: AnomalyCapsuleModule
+    blacklist:
+      components:
+      - CategorySpecifierCapsuleModule
+  - type: AnomalyCapsuleModuleVisualizer
+    color: "#e2df12"
+  - type: CategorySpecifierCapsuleModule
+    category: Environmental
+
+- type: entity
+  id: AnomalyModuleInfectiousStabilizer
+  parent: AnomalyModuleBase
+  name: infection stabilizer anomaly module
+  description: A module designed for an anomaly capsule stabilizing the anomaly core and ensuring it spawns an infectious anomaly. Incompatible with the environmental stabilizer anomaly module.
+  components:
+  - type: AnomalyCapsuleModule
+    blacklist:
+      components:
+      - CategorySpecifierCapsuleModule
+  - type: AnomalyCapsuleModuleVisualizer
+    color: "#e25412"
+  - type: CategorySpecifierCapsuleModule
+    category: Infectious
+    

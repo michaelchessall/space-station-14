@@ -1,0 +1,55 @@
+- type: randomTable
+  id: UnstableCoreSpawnTable
+  table: !type:RandomTableNestedSelector
+    tableId: CompleteAnomalyRandomTable
+
+- type: randomTable
+  id: EnergeticCoreSpawnTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: PyroclasticAnomaly
+    - prototype: IceAnomaly
+    - prototype: ElectricAnomaly
+
+- type: randomTable
+  id: MassiveCoreSpawnTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: GravityAnomaly
+    - prototype: RockAnomaly
+    - prototype: LiquidAnomaly
+    # Gas when implemented
+
+- type: randomTable
+  id: LivingCoreSpawnTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: FloraAnomaly
+    - prototype: FleshAnomaly
+    - prototype: ShadowAnomaly
+
+- type: randomTable
+  id: StrangeCoreSpawnTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: TechAnomaly
+    - prototype: PolymorphAnomaly
+    - prototype: EyeAnomaly
+
+## Should contain all anomaly types
+- type: randomTable
+  id: CompleteAnomalyRandomTable
+  table: !type:RandomTableGroupSelector
+    children:
+    - prototype: PyroclasticAnomaly
+    - prototype: GravityAnomaly
+    - prototype: ElectricAnomaly
+    - prototype: FleshAnomaly
+    - prototype: BluespaceAnomaly
+    - prototype: IceAnomaly
+    - prototype: FloraAnomaly
+    - prototype: LiquidAnomaly
+    - prototype: ShadowAnomaly
+    - prototype: TechAnomaly
+    - prototype: PolymorphAnomaly
+    - prototype: EyeAnomaly

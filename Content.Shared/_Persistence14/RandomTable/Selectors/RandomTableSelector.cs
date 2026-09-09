@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Content.Shared._Persistence14.RandomTable.Count;
 using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
@@ -60,7 +61,23 @@ public abstract partial class RandomTableSelector
     /// <summary>
     /// Provides a simple list of all items in the table ignoring rolls and conditions.
     /// </summary>
-    public abstract IEnumerable<(RandomTableValueDefinition value, float prob)> List(RandomTableContext ctx, float probabilityMultiplier = 1f);
+    public abstract IEnumerable<(RandomTableValueDefinition value, float prob)> ListImplementation(RandomTableContext ctx, float probabilityMultiplier = 1f);
+
+    /// <summary>
+    /// Calculates a condensed list of items, combining like items from children tables.
+    /// </summary>
+    public Dictionary<RandomTableValueDefinition, float> List(RandomTableContext ctx, float probabilityMultipler = 1f)
+    {
+        var list = ListImplementation(ctx, probabilityMultipler);
+        Dictionary<RandomTableValueDefinition, float> dict = new();
+
+        foreach (var (value, prob) in list)
+        {
+            dict[value] = dict.GetValueOrDefault(value) + prob;
+        }
+
+        return dict;
+    }
 
     public bool CheckConditions(RandomTableContext ctx)
     {

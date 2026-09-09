@@ -1,0 +1,113 @@
+## Contains all Anomaly Prototypes containing display and spawning information about the various anomalies in the game.
+
+- type: anomaly
+  id: PyroclasticAnomaly
+  name: anomaly-name-pyroclastic
+  environmental: AnomalyPyroclastic
+  environmentalWeight: 3
+  infectious: AnomalyTrapPyroclastic
+
+- type: anomaly
+  id: IceAnomaly
+  name: anomaly-name-ice
+  environmental: AnomalyIce
+  environmentalWeight: 3
+  infectious: AnomalyTrapIce
+
+- type: anomaly
+  id: GravityAnomaly
+  name: anomaly-name-gravity
+  environmental: AnomalyGravity
+  environmentalWeight: 3
+  infectious: AnomalyTrapGravity
+
+- type: anomaly
+  id: ElectricAnomaly
+  name: anomaly-name-electric
+  environmental: AnomalyElectricity
+  environmentalWeight: 3
+  infectious: AnomalyTrapElectricity
+
+- type: anomaly
+  id: FleshAnomaly
+  name: anomaly-name-flesh
+  environmental: AnomalyFlesh
+  environmentalWeight: 3
+  infectious: AnomalyTrapFlesh
+
+- type: anomaly
+  id: BluespaceAnomaly
+  name: anomaly-name-bluespace
+  environmental: AnomalyBluespace
+  environmentalWeight: 3
+  infectious: AnomalyTrapBluespace
+
+- type: anomaly
+  id: RockAnomaly
+  name: anomaly-name-rock
+  environmentalVariants:
+    AnomalyRockUranium: 1
+    AnomalyRockBananium: 1
+    AnomalyRockQuartz: 3
+    AnomalyRockSilver: 2
+    AnomalyRockGold: 2
+    AnomalyRockIron: 3
+    AnomalyRockCoal: 3
+  environmentalWeight: 3
+  infectious: AnomalyTrapRock
+  image: AnomalyRockIron
+
+- type: anomaly
+  id: FloraAnomaly
+  name: anomaly-name-flora
+  environmental: AnomalyFlora
+  environmentalWeight: 3
+  infectious: AnomalyTrapFlora
+
+- type: anomaly
+  id: LiquidAnomaly
+  name: anomaly-name-liquid
+  environmental: AnomalyLiquid
+  environmentalWeight: 3
+  # No infectious version
+
+- type: anomaly
+  id: ShadowAnomaly
+  name: anomaly-name-shadow
+  environmental: AnomalyShadow
+  environmentalWeight: 3
+  infectious: AnomalyTrapShadow
+
+- type: anomaly
+  id: TechAnomaly
+  name: anomaly-name-tech
+  environmental: AnomalyTech
+  environmentalWeight: 3
+  infectious: AnomalyTrapTech
+
+- type: anomaly
+  id: SantaAnomaly
+  name: anomaly-name-santa
+  environmental: AnomalySanta
+  environmentalWeight: 3
+  infectious: AnomalyTrapSanta
+
+## Persistence14 Originals
+- type: anomaly
+  id: PolymorphAnomaly
+  name: anomaly-name-polymorph
+  environmental: AnomalyPolymorph
+  environmentalWeight: 3
+  # No infectious version
+
+- type: anomaly
+  id: EyeAnomaly
+  name: anomaly-name-eye
+  environmental: AnomalyEye
+  environmentalWeight: 3
+  # No infectious version
+
+- type: anomaly
+  id: GasAnomaly
+  name: anomaly-name-gas
+  # Not yet implemented

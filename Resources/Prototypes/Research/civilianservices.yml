@@ -11,7 +11,7 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - PlushieSoundActivator
+    PlushieSoundActivator: 1
 
 - type: technology
   id: Hydroponics
@@ -23,9 +23,9 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - SeedExtractorMachineCircuitboard
-  - HydroponicsTrayMachineCircuitboard
-  - ReagentGrinderIndustrialMachineCircuitboard
+    SeedExtractorMachineCircuitboard: 1
+    HydroponicsTrayMachineCircuitboard: 4
+    ReagentGrinderIndustrialMachineCircuitboard: 2
 
 - type: technology
   id: CritterMechs
@@ -37,15 +37,15 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - HamtrHarness
-  - HamtrLArm
-  - HamtrRArm
-  - HamtrLLeg
-  - HamtrRLeg
-  - HamtrCentralElectronics
-  - HamtrPeripheralsElectronics
-  - MechEquipmentGrabberSmall
-  - VimHarness
+    HamtrHarness: 1
+    HamtrLArm: 1
+    HamtrRArm: 1
+    HamtrLLeg: 1
+    HamtrRLeg: 1
+    HamtrCentralElectronics: 1
+    HamtrPeripheralsElectronics: 1
+    MechEquipmentGrabberSmall: 2
+    VimHarness: 1
 
 - type: technology
   id: AudioVisualCommunication
@@ -57,14 +57,14 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - SurveillanceCameraRouterCircuitboard
-  - SurveillanceCameraWirelessRouterCircuitboard
-  - SurveillanceWirelessCameraMovableCircuitboard
-  - SurveillanceWirelessCameraAnchoredCircuitboard
-  - SurveillanceCameraMonitorCircuitboard
-  - SurveillanceWirelessCameraMonitorCircuitboard
-  - TelecomServerCircuitboard
-  - HolopadMachineCircuitboard
+    SurveillanceCameraRouterCircuitboard: 4
+    SurveillanceCameraWirelessRouterCircuitboard: 4
+    SurveillanceWirelessCameraMovableCircuitboard: 4
+    SurveillanceWirelessCameraAnchoredCircuitboard: 4
+    SurveillanceCameraMonitorCircuitboard: 4
+    SurveillanceWirelessCameraMonitorCircuitboard: 4
+    TelecomServerCircuitboard: 4
+    HolopadMachineCircuitboard: 4
 
 - type: technology
   id: AdvancedEntertainment
@@ -76,13 +76,11 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-    - ComputerTelevisionCircuitboard
-    - SynthesizerInstrument
-    - DawInstrumentMachineCircuitboard
-    - MassMediaCircuitboard
-    - JukeboxCircuitBoard
-    - ClothingEyesGlassesSunglasses
-    - ClothingEyesGlassesCommand
+    ComputerTelevisionCircuitboard: 4
+    SynthesizerInstrument: 4
+    DawInstrumentMachineCircuitboard: 4
+    MassMediaCircuitboard: 4
+    JukeboxCircuitBoard: 4
 
 - type: technology
   id: MeatManipulation
@@ -94,10 +92,10 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - FatExtractorMachineCircuitboard
-  - BiofabricatorMachineCircuitboard
-  - BiomassReclaimerMachineCircuitboard
-  - ButcheringMachineCircuitboard
+    FatExtractorMachineCircuitboard: 4
+    BiofabricatorMachineCircuitboard: 4
+    BiomassReclaimerMachineCircuitboard: 4
+    ButcheringMachineCircuitboard: 1
 
 - type: technology
   id: Crematorium
@@ -109,7 +107,7 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - CrematoriumElectronics
+    CrematoriumElectronics: 1
 
 - type: technology
   id: PaperProtection
@@ -121,9 +119,9 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - BoxFolderTitaniumRed
-  - BoxFolderTitaniumGreen
-  - BoxFolderTitaniumBlue
+    BoxFolderTitaniumRed: 3
+    BoxFolderTitaniumGreen: 3
+    BoxFolderTitaniumBlue: 3
 
 # Tier 2
 
@@ -137,17 +135,17 @@
   tier: 2
   cost: 25000
   recipeUnlocks:
-  - FauxTileAstroGrass
-  - FauxTileMowedAstroGrass
-  - FauxTileJungleAstroGrass
-  - FauxTileDarkAstroGrass
-  - FauxTileLightAstroGrass
-  - FauxTileAstroIce
-  - FauxTileAstroSnow
-  - FauxTileAstroAsteroidSand
-  - FauxTileDesertAstroSand
-  - FauxTileAstroIronsand
-  - FauxTileAstroIronsandBorderless
+    FauxTileAstroGrass: 60
+    FauxTileMowedAstroGrass: 60
+    FauxTileJungleAstroGrass: 60
+    FauxTileDarkAstroGrass: 60
+    FauxTileLightAstroGrass: 60
+    FauxTileAstroIce: 60
+    FauxTileAstroSnow: 60
+    FauxTileAstroAsteroidSand: 60
+    FauxTileDesertAstroSand: 60
+    FauxTileAstroIronsand: 60
+    FauxTileAstroIronsandBorderless: 60
 
 - type: technology
   id: BiochemicalStasis
@@ -159,10 +157,10 @@
   tier: 2
   cost: 37500
   recipeUnlocks:
-  - StasisBedMachineCircuitboard
-  - CryoPodMachineCircuitboard
-  - CryostasisBeaker
-  - SyringeCryostasis
+    StasisBedMachineCircuitboard: 1
+    CryoPodMachineCircuitboard: 1
+    CryostasisBeaker: 1
+    SyringeCryostasis: 1
 
 - type: technology # Merge with other T2 medical research if possible!
   id: MechanizedTreatment
@@ -174,8 +172,8 @@
   tier: 2
   cost: 25000
   recipeUnlocks:
-  - BorgModuleAdvancedTopical
-  - AdvancedJetInjector
+    BorgModuleAdvancedTopical: 2
+    AdvancedJetInjector: 4
 
 - type: technology
   id: AdvancedCleaning
@@ -187,10 +185,10 @@
   tier: 2
   cost: 50000
   recipeUnlocks:
-  - AdvMopItem
-  - MegaSprayBottle
-  - BorgModuleAdvancedCleaning
-  - WashingMachineCircuitboard # Funky: Footprints & Stains
+    AdvMopItem: 1
+    MegaSprayBottle: 1
+    BorgModuleAdvancedCleaning: 1
+    WashingMachineCircuitboard: 1 # Funky: Footprints & Stains
 
 - type: technology
   id: HONKMech
@@ -202,15 +200,15 @@
   tier: 2
   cost: 32500
   recipeUnlocks:
-  - HonkerHarness
-  - HonkerLArm
-  - HonkerRArm
-  - HonkerLLeg
-  - HonkerRLeg
-  - HonkerCentralElectronics
-  - HonkerPeripheralsElectronics
-  - HonkerTargetingElectronics
-  - MechEquipmentHorn
+    HonkerHarness: 1
+    HonkerLArm: 1
+    HonkerRArm: 1
+    HonkerLLeg: 1
+    HonkerRLeg: 1
+    HonkerCentralElectronics: 1
+    HonkerPeripheralsElectronics: 1
+    HonkerTargetingElectronics: 1
+    MechEquipmentHorn: 2
 
 - type: technology
   id: AdvancedSpray
@@ -222,8 +220,8 @@
   tier: 2
   cost: 50000
   recipeUnlocks:
-  - WeaponSprayNozzle
-  - ClothingBackpackWaterTank
+    WeaponSprayNozzle: 1
+    ClothingBackpackWaterTank: 1
 
 - type: technology
   id: PushHorn
@@ -235,8 +233,8 @@
   tier: 2
   cost: 20000
   recipeUnlocks:
-  - PushHorn
-  - BorgModuleAdvancedClowning
+    PushHorn: 3
+    BorgModuleAdvancedClowning: 2
 
 # Tier 3
 
@@ -250,7 +248,7 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - ClothingShoesBootsSpeed
+    ClothingShoesBootsSpeed: 1
 
 - type: technology
   id: BluespaceChemistry
@@ -262,9 +260,9 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - BluespaceBeaker
-  - SyringeBluespace
-  - BluespaceJug
+    BluespaceBeaker: 1
+    SyringeBluespace: 1
+    BluespaceJug: 1
 
 - type: technology
   id: LauncherSyringe
@@ -276,8 +274,8 @@
   tier: 3
   cost: 150000
   recipeUnlocks:
-  - LauncherSyringe
-  - MiniSyringe
+    LauncherSyringe: 1
+    MiniSyringe: 3
 
 - type: technology
   id: AdvancedTelecomms
@@ -289,5 +287,5 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - TelecomServer1kCircuitboard
-  - HolopadLongRangeMachineCircuitboard
+    TelecomServer1kCircuitboard: 1
+    HolopadLongRangeMachineCircuitboard: 4

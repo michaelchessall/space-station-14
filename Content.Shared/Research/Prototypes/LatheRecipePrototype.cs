@@ -73,7 +73,7 @@ namespace Content.Shared.Research.Prototypes
         /// <summary>
         /// How many uses to add when this tech is unlocked.
         /// </summary>
-        [DataField]
+        [DataField, Obsolete("Do not use to set unlock amounts on research. Instead use the count on the TechnologyPrototype")]
         public int UnlockUses = 1;
     }
 }

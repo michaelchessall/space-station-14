@@ -10,14 +10,13 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - MiningDrill
-  - MineralScannerEmpty
-  - OreProcessorIndustrialMachineCircuitboard
-  - ClothingMaskWeldingGas
-  - ClothingShoesBootsJump
-  - ClothingHandsGlovesColorYellow
-  - ClothingEyesGlassesMeson
-  - WeaponGrapplingGun
+    MiningDrill: 4
+    MineralScannerEmpty: 4
+    OreProcessorIndustrialMachineCircuitboard: 4
+    ClothingMaskWeldingGas: 4
+    ClothingShoesBootsJump: 4
+    ClothingHandsGlovesColorYellow: 4
+    WeaponGrapplingGun: 2
 
 - type: technology
   id: SpaceScanning
@@ -29,8 +28,8 @@
   tier: 1
   cost: 5000
   recipeUnlocks:
-  - RadarConsoleCircuitboard
-  - HandHeldMassScanner
+    RadarConsoleCircuitboard: 4
+    HandHeldMassScanner: 4
 
 - type: technology
   id: AdvancedPowercells
@@ -42,9 +41,9 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - PowerCellHigh
-  - TurboItemRechargerCircuitboard
-  - SMESAdvancedMachineCircuitboard
+    PowerCellHigh: 4
+    TurboItemRechargerCircuitboard: 4
+    SMESAdvancedMachineCircuitboard: 4
 
 - type: technology
   id: MechanicalCompression
@@ -56,7 +55,7 @@
   tier: 1
   cost: 10000
   recipeUnlocks:
-  - FlatpackerMachineCircuitboard
+    FlatpackerMachineCircuitboard: 4
 
 - type: technology
   id: ConstructionDevices
@@ -68,8 +67,8 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - RCD
-  - HCD
+    RCD: 1
+    HCD: 1
 
 - type: technology
   id: IndustrialEngineering
@@ -81,10 +80,10 @@
   tier: 1
   cost: 10000
   recipeUnlocks:
-  - AutolatheHyperConvectionMachineCircuitboard
-  - ProtolatheHyperConvectionMachineCircuitboard
-  - CircuitImprinterHyperConvectionMachineCircuitboard
-  - SheetifierMachineCircuitboard
+    AutolatheHyperConvectionMachineCircuitboard: 4
+    ProtolatheHyperConvectionMachineCircuitboard: 4
+    CircuitImprinterHyperConvectionMachineCircuitboard: 4
+    SheetifierMachineCircuitboard: 1
 
 - type: technology
   id: PowerGeneration
@@ -96,15 +95,15 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - PortableGeneratorPacmanMachineCircuitboard
-  - PortableGeneratorSuperPacmanMachineCircuitboard
-  - PortableGeneratorMegamanMachineCircuitboard
-  - PortableGeneratorJrPacmanMachineCircuitboard
-  - PortableGeneratorOldmanMachineCircuitboard
-  - GasGeneratorMachineCircuitboard
-  - SolarControlComputerCircuitboard
-  - SolarTrackerElectronics
-  - EmitterCircuitboard
+    PortableGeneratorPacmanMachineCircuitboard: 4
+    PortableGeneratorSuperPacmanMachineCircuitboard: 4
+    PortableGeneratorMegamanMachineCircuitboard: 4
+    PortableGeneratorJrPacmanMachineCircuitboard: 4
+    PortableGeneratorOldmanMachineCircuitboard: 4
+    GasGeneratorMachineCircuitboard: 4
+    SolarControlComputerCircuitboard: 4
+    SolarTrackerElectronics: 4
+    EmitterCircuitboard: 4
 
 - type: technology
   id: AtmosphericTech
@@ -116,8 +115,8 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - ThermomachineFreezerMachineCircuitBoard
-  - GasRecyclerMachineCircuitboard
+    ThermomachineFreezerMachineCircuitBoard: 4
+    GasRecyclerMachineCircuitboard: 4
 
 - type: technology
   id: RipleyAPLU
@@ -129,14 +128,14 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - RipleyHarness
-  - RipleyLArm
-  - RipleyRArm
-  - RipleyLLeg
-  - RipleyRLeg
-  - RipleyCentralElectronics
-  - RipleyPeripheralsElectronics
-  - MechEquipmentGrabber
+    RipleyHarness: 1
+    RipleyLArm: 1
+    RipleyRArm: 1
+    RipleyLLeg: 1
+    RipleyRLeg: 1
+    RipleyCentralElectronics: 1
+    RipleyPeripheralsElectronics: 1
+    MechEquipmentGrabber: 2
 
 - type: technology
   id: EVAManufacturing
@@ -148,9 +147,9 @@
   tier: 1
   cost: 7500
   recipeUnlocks:
-  - Spationautsuit
-  - EVAsuit
-  - EVAsuitHelmet
+    Spationautsuit: 2
+    EVAsuit: 3
+    EVAsuitHelmet: 3
 
 # Tier 2
 
@@ -164,13 +163,13 @@
   tier: 2
   cost: 50000
   recipeUnlocks:
-  - ShuttleConsoleCircuitboard
-  - ThrusterMachineCircuitboard
-  - ThrusterWallmountCircuitboard
-  - GyroscopeMachineCircuitboard
-  - GyroscopeFloorMachineCircuitboard
-  - MiniGravityGeneratorCircuitboard
-  - StationAnchorCircuitboard
+    ShuttleConsoleCircuitboard: 1
+    ThrusterMachineCircuitboard: 1
+    ThrusterWallmountCircuitboard: 1
+    GyroscopeMachineCircuitboard: 1
+    GyroscopeFloorMachineCircuitboard: 1
+    MiniGravityGeneratorCircuitboard: 1
+    StationAnchorCircuitboard: 1
 
 - type: technology
   id: AdvancedAtmospherics
@@ -182,9 +181,9 @@
   tier: 2
   cost: 32500
   recipeUnlocks:
-  - HellfireFreezerMachineCircuitBoard
-  - PortableScrubberMachineCircuitBoard
-  - HolofanProjector
+    HellfireFreezerMachineCircuitBoard: 2
+    PortableScrubberMachineCircuitBoard: 3
+    HolofanProjector: 3
   technologyPrerequisites:
   - AtmosphericTech
 
@@ -198,12 +197,12 @@
   tier: 2
   cost: 50000
   recipeUnlocks:
-    - WelderExperimental
-    - PowerDrill
-    - JawsOfLife
-    - BorgModuleAdvancedTool
-    - Fulton
-    - FultonBeacon
+    WelderExperimental: 2
+    PowerDrill: 2
+    JawsOfLife: 2
+    BorgModuleAdvancedTool: 1
+    Fulton: 15
+    FultonBeacon: 1
 
 - type: technology
   id: MassExcavation
@@ -215,10 +214,10 @@
   tier: 2
   cost: 62500
   recipeUnlocks:
-    - OreBagOfHolding
-    - MiningDrillDiamond
-    - AdvancedMineralScannerEmpty
-    - BorgModuleAdvancedMining
+    OreBagOfHolding: 2
+    MiningDrillDiamond: 2
+    AdvancedMineralScannerEmpty: 2
+    BorgModuleAdvancedMining: 2
 
 - type: technology
   id: SpecializedEVA
@@ -230,14 +229,14 @@
   tier: 2
   cost: 62500
   recipeUnlocks:
-  - Engineeringsuit
-  - Atmossuit
-  - AtmosFireSuit
-  - AtmosFireHelmet
-  - Miningsuit
-  - ExtendedEmergencyOxygenTank
-  - ExtendedEmergencyNitrogenTank
-  - Paramedsuit
+    Engineeringsuit: 2
+    Atmossuit: 2
+    AtmosFireSuit: 2
+    AtmosFireHelmet: 2
+    Miningsuit: 2
+    Paramedsuit: 2 # Should probably be on the civilian tech tree
+    ExtendedEmergencyOxygenTank: 4
+    ExtendedEmergencyNitrogenTank: 4
   technologyPrerequisites:
   - EVAManufacturing
 
@@ -253,9 +252,9 @@
   tier: 3
   cost: 150000
   recipeUnlocks:
-  - ClothingBackpackHolding
-  - ClothingBackpackSatchelHolding
-  - ClothingBackpackDuffelHolding
+    ClothingBackpackHolding: 1
+    ClothingBackpackSatchelHolding: 1
+    ClothingBackpackDuffelHolding: 1
 
 - type: technology
   id: OptimizedMicrogalvanism
@@ -267,8 +266,8 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - PowerCellMicroreactor
-  - PowerCellHyper
+    PowerCellMicroreactor: 2
+    PowerCellHyper: 3
   technologyPrerequisites:
   - AdvancedPowercells
 
@@ -282,12 +281,12 @@
   tier: 3
   cost: 200000
   recipeUnlocks:
-  - Luxuryminingsuit
-  - Researchdirectorsuit
-  - Chiefmedicalsuit
-  - Chiefengineersuit
-  - Captainsuit
-  - ClothingHandsGlovesCaptain
+    Luxuryminingsuit: 1
+    Researchdirectorsuit: 1
+    Chiefmedicalsuit: 1
+    Chiefengineersuit: 1
+    Captainsuit: 1
+    ClothingHandsGlovesCaptain: 1
   technologyPrerequisites:
   - EVAManufacturing
   - SpecializedEVA

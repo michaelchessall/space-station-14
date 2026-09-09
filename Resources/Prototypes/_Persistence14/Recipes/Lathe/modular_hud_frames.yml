@@ -4,11 +4,10 @@
   categories:
   - Clothing
   completetime: 2
-  material:
+  materials:
     Steel: 100
     Glass: 200
     Plastic: 100
-  unlockUses: 2
 
 - type: latheRecipe
   parent: BaseModularHudFrameRecipe

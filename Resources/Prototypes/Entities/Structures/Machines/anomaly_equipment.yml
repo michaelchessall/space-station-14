@@ -260,17 +260,19 @@
   - type: Physics
     bodyType: Static
   - type: AnomalyGenerator
-    requiredMaterial: Phoron
+    requiredMaterial: Plasma
+    materialPerAnomaly: 1000
     generatingSound:
       path: /Audio/Machines/anomaly_generate.ogg
     generatingFinishedSound:
       path: /Audio/Machines/beep.ogg
+    capsuleContainer: anomaly-capsule
   - type: MaterialStorage
     whitelist:
       tags:
         - Sheet
     materialWhiteList:
-    - Phoron
+    - Plasma
   - type: OreSiloClient
   - type: Fixtures
     fixtures:
@@ -330,3 +332,11 @@
   - type: GuideHelp
     guides:
     - AnomalousResearch
+  - type: ContainerContainer
+  - type: ItemSlots
+    slots:
+      anomaly-capsule:
+        name: anomaly-generator-slot-capsule
+        whitelist:
+          components:
+          - AnomalyCapsule

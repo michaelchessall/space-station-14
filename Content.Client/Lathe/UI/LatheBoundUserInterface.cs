@@ -21,10 +21,10 @@ namespace Content.Client.Lathe.UI
             _menu = this.CreateWindowCenteredRight<LatheMenu>();
             _menu.SetEntity(Owner);
 
-            _menu.OnServerListButtonPressed += _ =>
+            /*_menu.OnServerListButtonPressed += _ => Persistence14: Removed in place of Recipe Relay System
             {
                 SendMessage(new ConsoleServerSelectionMessage());
-            };
+            };*/
 
             _menu.RecipeQueueAction += (recipe, amount) =>
             {

@@ -45,8 +45,10 @@ public abstract partial class RandomTableValueDefinition : RandomTableSelector
         yield return this;
     }
 
-    public override IEnumerable<(RandomTableValueDefinition value, float prob)> List(RandomTableContext ctx, float probabilityMultiplier = 1)
+    public override IEnumerable<(RandomTableValueDefinition value, float prob)> ListImplementation(RandomTableContext ctx, float probabilityMultiplier = 1)
     {
         yield return (this, probabilityMultiplier);
     }
+
+    public abstract override int GetHashCode();
 }

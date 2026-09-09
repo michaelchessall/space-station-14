@@ -1,4 +1,5 @@
 using System.Linq;
+using Content.Shared._Persistence14.Research.RecipeRelay;
 using Content.Shared.Lathe;
 using Content.Shared.Research.Components;
 using Content.Shared.Research.Prototypes;
@@ -179,7 +180,7 @@ public abstract class SharedResearchSystem : EntitySystem
         }
 
         description.AddMarkupOrThrow(Loc.GetString("research-console-unlocks-list-start"));
-        foreach (var recipe in technology.RecipeUnlocks)
+        foreach (var recipe in technology.RecipeUnlocks.Keys)
         {
             var recipeProto = PrototypeManager.Index(recipe);
             description.PushNewline();
@@ -250,21 +251,16 @@ public abstract class SharedResearchSystem : EntitySystem
         // check to make sure we didn't somehow get the recipe from another tech.
         // unlikely, but whatever
         var recipes = tech.RecipeUnlocks;
-        foreach (var recipe in recipes)
+        foreach (var (recipe, qty) in recipes)
         {
-            var hasTechElsewhere = false;
             foreach (var unlockedTech in entity.Comp.UnlockedTechnologies)
             {
                 var unlockedTechProto = PrototypeManager.Index<TechnologyPrototype>(unlockedTech);
 
-                if (!unlockedTechProto.RecipeUnlocks.Contains(recipe))
+                if (!unlockedTechProto.RecipeUnlocks.ContainsKey(recipe))
                     continue;
-                hasTechElsewhere = true;
                 break;
             }
-
-            if (!hasTechElsewhere)
-                entity.Comp.UnlockedRecipes.Remove(recipe);
         }
         Dirty(entity, entity.Comp);
         UpdateTechnologyCards(entity, entity);
@@ -288,23 +284,16 @@ public abstract class SharedResearchSystem : EntitySystem
     /// Adds a lathe recipe to the specified technology database
     /// without checking if it can be unlocked.
     /// </summary>
-    public void AddLatheRecipe(EntityUid uid, string recipe, TechnologyDatabaseComponent? component = null)
+    public void AddLatheRecipe(EntityUid uid, ProtoId<LatheRecipePrototype> recipe, int quanity, RecipeContainerComponent? component = null)
     {
         if (!Resolve(uid, ref component))
             return;
 
-        var uses = 1;
-        PrototypeManager.Resolve<LatheRecipePrototype>(recipe, out var recipeProto);
-
-        if (recipeProto != null)
-        {
-            uses = recipeProto.UnlockUses;
-        }
         if (component.UnlockedRecipes.ContainsKey(recipe))
         {
-            component.UnlockedRecipes[recipe] = component.UnlockedRecipes[recipe] + uses;
+            component.UnlockedRecipes[recipe] = component.UnlockedRecipes[recipe] + quanity;
         }
-        else component.UnlockedRecipes.Add(recipe, uses);
+        else component.UnlockedRecipes.Add(recipe, quanity);
         Dirty(uid, component);
 
         var ev = new TechnologyDatabaseModifiedEvent(new List<string> { recipe });

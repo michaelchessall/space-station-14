@@ -33,4 +33,6 @@ public sealed partial class RandomTablePrototypeValueDefinition : RandomTableVal
 
     public static implicit operator RandomTablePrototypeValueDefinition(string val) => new RandomTablePrototypeValueDefinition(val);
     public static implicit operator string(RandomTablePrototypeValueDefinition def) => def._protoId;
+
+    public override int GetHashCode() => _protoId.GetHashCode();
 }

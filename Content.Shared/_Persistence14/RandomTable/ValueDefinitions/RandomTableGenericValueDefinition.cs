@@ -14,4 +14,5 @@ public abstract partial class RandomTableGenericValueDefinition<T> : RandomTable
     }
 
     public static implicit operator T(RandomTableGenericValueDefinition<T> def) => def._t ?? default!;
+    public override int GetHashCode() => _t?.GetHashCode() ?? 0;
 }

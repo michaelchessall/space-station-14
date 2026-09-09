@@ -153,6 +153,7 @@ public sealed partial class PersistentIdentifierSystem : EntitySystem
         bool useFetchIfFalse = true)
     {
         ent = default!;
+        if (reference.TargetId == EmptyId) return false;
         conditional ??= _ => true;
         var register = EnsureGlobalRegister();
         if (register.Comp.TryGet(reference.TargetId, out ent, _entMan) && conditional(ent))

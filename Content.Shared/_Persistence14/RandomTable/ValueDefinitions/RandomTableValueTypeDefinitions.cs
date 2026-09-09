@@ -18,6 +18,8 @@ public sealed partial class RandomTableStringValueDefinition : RandomTableValueD
 
     public static implicit operator RandomTableStringValueDefinition(string val) => new RandomTableStringValueDefinition(val);
     public static implicit operator string(RandomTableStringValueDefinition def) => def._value;
+
+    public override int GetHashCode() => _value.GetHashCode();
 }
 
 public sealed partial class RandomTableIntValueDefinition : RandomTableValueDefinition
@@ -58,6 +60,9 @@ public sealed partial class RandomTableIntValueDefinition : RandomTableValueDefi
         t = (T)converted;
         return true;
     }
+
+    public override int GetHashCode() => _value.GetHashCode();
+
 }
 
 public sealed partial class RandomTableFloatValueDefinition : RandomTableValueDefinition
@@ -98,4 +103,6 @@ public sealed partial class RandomTableFloatValueDefinition : RandomTableValueDe
         t = (T)converted;
         return true;
     }
+
+    public override int GetHashCode() => _value.GetHashCode();
 }

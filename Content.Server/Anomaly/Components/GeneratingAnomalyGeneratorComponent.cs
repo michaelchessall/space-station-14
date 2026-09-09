@@ -3,7 +3,7 @@ using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Server.Anomaly.Components;
 
-[RegisterComponent, Access(typeof(SharedAnomalySystem)), AutoGenerateComponentPause]
+[RegisterComponent, AutoGenerateComponentPause]
 public sealed partial class GeneratingAnomalyGeneratorComponent : Component
 {
     /// <summary>

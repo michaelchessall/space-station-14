@@ -85,8 +85,8 @@ public sealed class ResearchTest
                 var unlockedTechs = new HashSet<ProtoId<LatheRecipePrototype>>();
                 foreach (var tech in protoManager.EnumeratePrototypes<TechnologyPrototype>())
                 {
-                    unlockedTechs.UnionWith(tech.RecipeUnlocks);
-                    foreach (var recipe in tech.RecipeUnlocks)
+                    unlockedTechs.UnionWith(tech.RecipeUnlocks.Keys);
+                    foreach (var recipe in tech.RecipeUnlocks.Keys)
                     {
                         Assert.That(latheTechs, Does.Contain(recipe), $"Recipe '{recipe}' from tech '{tech.ID}' cannot be unlocked on any lathes.");
                     }

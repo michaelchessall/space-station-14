@@ -16,11 +16,11 @@ public sealed partial class RandomTableNestedSelector : RandomTableSelector
             yield return item;
     }
 
-    public override IEnumerable<(RandomTableValueDefinition value, float prob)> List(RandomTableContext ctx, float probabilityMultipler = 1f)
+    public override IEnumerable<(RandomTableValueDefinition value, float prob)> ListImplementation(RandomTableContext ctx, float probabilityMultipler = 1f)
     {
         var table = ctx.PrototypeManager.Index(TableId).Table;
 
-        foreach (var (value, prob) in table.List(ctx, probabilityMultipler))
+        foreach (var (value, prob) in table.ListImplementation(ctx, probabilityMultipler))
             yield return (value, prob);
     }
 }

@@ -13,7 +13,7 @@ public sealed partial class RandomTableNullSelector : RandomTableSelector
         yield break;
     }
 
-    public override IEnumerable<(RandomTableValueDefinition, float)> List(RandomTableContext ctx, float probabilityMultipler) 
+    public override IEnumerable<(RandomTableValueDefinition, float)> ListImplementation(RandomTableContext ctx, float probabilityMultipler) 
     {
         yield break;
     }

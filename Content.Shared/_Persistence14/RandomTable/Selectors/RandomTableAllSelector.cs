@@ -19,10 +19,10 @@ public sealed partial class RandomTableAllSelector : RandomTableSelector
                 yield return item;
     }
 
-    public override IEnumerable<(RandomTableValueDefinition value, float prob)> List(RandomTableContext ctx, float probabilityMultipler = 1f)
+    public override IEnumerable<(RandomTableValueDefinition value, float prob)> ListImplementation(RandomTableContext ctx, float probabilityMultipler = 1f)
     {
         foreach (var child in Children)
-            foreach (var (value, prob) in child.List(ctx, probabilityMultipler))
+            foreach (var (value, prob) in child.ListImplementation(ctx, probabilityMultipler))
                 yield return (value, prob);
     }
 }

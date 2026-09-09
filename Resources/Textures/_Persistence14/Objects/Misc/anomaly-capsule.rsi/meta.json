@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "created by JetBalrog (Discord/Github)",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "icon"
+    },
+    {
+      "name": "icon-open"
+    },
+    {
+      "name": "icon-open-2"
+    },
+    {
+      "name": "icon-lid-lower"
+    },
+    {
+      "name": "icon-seed"
+    },
+    {
+      "name": "icon-open-filled"
+    },
+    {
+      "name": "icon-open-filled-2"
+    },
+    {
+      "name": "icon-filled"
+    },
+    {
+      "name": "up-chip"
+    },
+    {
+      "name": "down-chip"
+    },
+    {
+      "name": "core-anim",
+      "delays": [[ 0.5, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2]]
+    }
+  ]
+}

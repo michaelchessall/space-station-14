@@ -1,0 +1,64 @@
+- type: entity
+  id: AnomalyCapsuleCoreBase
+  parent: BaseItem
+  abstract: true
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
+    state: icon-seed
+  - type: InteractionOutline
+  - type: AnomalyCapsuleCore
+  - type: AnomalyCapsuleCoreVisualizer
+    core:
+      sprite: _Persistence14/Objects/Misc/anomaly-capsule.rsi
+      state: core-anim
+
+- type: entity
+  id: AnomalyCapsuleCoreUnstable
+  parent: AnomalyCapsuleCoreBase
+  name: unstable anomaly core
+  description: An unstable processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool: !type:RandomTableNestedSelector
+      tableId: UnstableCoreSpawnTable
+
+- type: entity
+  id: AnomalyCapsuleCoreEnergetic
+  parent: AnomalyCapsuleCoreBase
+  name: energetic anomaly core
+  description: An energetic processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool: !type:RandomTableNestedSelector
+      tableId: EnergeticCoreSpawnTable
+
+- type: entity
+  id: AnomalyCapsuleCoreMassive
+  parent: AnomalyCapsuleCoreBase
+  name: massive anomaly core
+  description: A massive processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool: !type:RandomTableNestedSelector
+      tableId: MassiveCoreSpawnTable
+
+- type: entity
+  id: AnomalyCapsuleCoreLiving
+  parent: AnomalyCapsuleCoreBase
+  name: living anomaly core
+  description: A living processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool: !type:RandomTableNestedSelector
+      tableId: LivingCoreSpawnTable
+
+- type: entity
+  id: AnomalyCapsuleCoreStrange
+  parent: AnomalyCapsuleCoreBase
+  name: strange anomaly core
+  description: A strange processed anomaly core which can be stored in an anomaly capsule for anomaly generation.
+  components:
+  - type: AnomalyCapsuleCore
+    anomalyPool: !type:RandomTableNestedSelector
+      tableId: StrangeCoreSpawnTable

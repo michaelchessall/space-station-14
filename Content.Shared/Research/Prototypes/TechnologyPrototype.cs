@@ -59,10 +59,10 @@ public sealed partial class TechnologyPrototype : IPrototype
     public List<ProtoId<TechnologyPrototype>> TechnologyPrerequisites = new();
 
     /// <summary>
-    /// A list of <see cref="LatheRecipePrototype"/>s that are unlocked by this technology
+    /// A lookup dictionary of recipe unlocks and the number of counts of those recipes unlocked by the technology.
     /// </summary>
     [DataField]
-    public List<ProtoId<LatheRecipePrototype>> RecipeUnlocks = new();
+    public Dictionary<ProtoId<LatheRecipePrototype>, int> RecipeUnlocks = new();
 
     /// <summary>
     /// A list of non-standard effects that are done when this technology is unlocked.
