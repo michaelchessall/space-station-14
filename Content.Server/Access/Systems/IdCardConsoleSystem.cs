@@ -34,21 +34,20 @@ namespace Content.Server.Access.Systems;
 [UsedImplicitly]
 public sealed partial class IdCardConsoleSystem : SharedIdCardConsoleSystem
 {
-    [Dependency] private readonly IConfigurationManager _cfgManager = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly StationRecordsSystem _record = default!;
-    [Dependency] private readonly UserInterfaceSystem _userInterface = default!;
-    [Dependency] private readonly AccessReaderSystem _accessReader = default!;
-    [Dependency] private readonly AccessSystem _access = default!;
-    [Dependency] private readonly IdCardSystem _idCard = default!;
-    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly ThrowingSystem _throwing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly PaperSystem _paperSystem = default!;
-    [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private IConfigurationManager _cfgManager = default!;
+    [Dependency] private StationRecordsSystem _record = default!;
+    [Dependency] private UserInterfaceSystem _userInterface = default!;
+    [Dependency] private AccessReaderSystem _accessReader = default!;
+    [Dependency] private AccessSystem _access = default!;
+    [Dependency] private IdCardSystem _idCard = default!;
+    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private ThrowingSystem _throwing = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private PaperSystem _paperSystem = default!;
+    [Dependency] private MetaDataSystem _metaData = default!;
 
     public override void Initialize()
     {
@@ -421,8 +420,8 @@ public sealed partial class IdCardConsoleSystem : SharedIdCardConsoleSystem
         _idCard.TryChangeFullName(targetId, newFullName, player: player);
         _idCard.TryChangeJobTitle(targetId, newJobTitle, player: player);
 
-        if (_prototype.TryIndex(newJobProto, out var job)
-            && _prototype.Resolve(job.Icon, out var jobIcon))
+        if (ProtoMan.TryIndex(newJobProto, out var job)
+            && ProtoMan.Resolve(job.Icon, out var jobIcon))
         {
             _idCard.TryChangeJobIcon(targetId, jobIcon, player: player);
             _idCard.TryChangeJobDepartment(targetId, job);

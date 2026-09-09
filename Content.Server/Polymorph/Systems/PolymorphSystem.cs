@@ -47,32 +47,32 @@ namespace Content.Server.Polymorph.Systems;
 
 public sealed partial class PolymorphSystem : EntitySystem
 {
-    [Dependency] private readonly SharedMapSystem _map = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly IGameTiming _gameTiming = default!;
-    [Dependency] private readonly ActionsSystem _actions = default!;
-    [Dependency] private readonly AudioSystem _audio = default!;
-    [Dependency] private readonly SharedBuckleSystem _buckle = default!;
-    [Dependency] private readonly ContainerSystem _container = default!;
-    [Dependency] private readonly DamageableSystem _damageable = default!;
-    [Dependency] private readonly MobStateSystem _mobState = default!;
-    [Dependency] private readonly MobThresholdSystem _mobThreshold = default!;
-    [Dependency] private readonly ServerInventorySystem _inventory = default!;
-    [Dependency] private readonly SharedHandsSystem _hands = default!;
-    [Dependency] private readonly SharedPopupSystem _popup = default!;
-    [Dependency] private readonly TransformSystem _transform = default!;
-    [Dependency] private readonly SharedVisualBodySystem _visualBody = default!;
-    [Dependency] private readonly SharedMindSystem _mindSystem = default!;
-    [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private IGameTiming _gameTiming = default!;
+    [Dependency] private ActionsSystem _actions = default!;
+    [Dependency] private AudioSystem _audio = default!;
+    [Dependency] private SharedBuckleSystem _buckle = default!;
+    [Dependency] private ContainerSystem _container = default!;
+    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private MobThresholdSystem _mobThreshold = default!;
+    [Dependency] private ServerInventorySystem _inventory = default!;
+    [Dependency] private SharedHandsSystem _hands = default!;
+    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private TransformSystem _transform = default!;
+    [Dependency] private SharedVisualBodySystem _visualBody = default!;
+    [Dependency] private SharedMindSystem _mindSystem = default!;
+    [Dependency] private MetaDataSystem _metaData = default!;
     [Dependency] private PersistentIdentifierSystem _pid = default!;
     [Dependency] private AdminVerbSystem _adminVerb = default!;
-    [Dependency] private readonly IAdminManager _adminManager = default!;
+    [Dependency] private IAdminManager _adminManager = default!;
     [Dependency] private EntityVoidSystem _void = default!;
     [Dependency] private RejuvenateSystem _rejuv = default!;
-    [Dependency] private readonly StatusEffectsSystem _statusEffect = default!;
+    [Dependency] private StatusEffectsSystem _statusEffect = default!;
 
     private static readonly ProtoId<TagPrototype> PolymorphTransferReagentTag = "PolymorphTransferReagent";
-    private const string RevertPolymorphId = "ActionRevertPolymorph";
+    private static readonly EntProtoId RevertPolymorphId = "ActionRevertPolymorph";
 
     /// <summary>
     /// Tracks every currently-polymorphed entity ourselves, since EntityQueryEnumerator silently
@@ -96,6 +96,7 @@ public sealed partial class PolymorphSystem : EntitySystem
     /// isn't safe - we copy it first each tick.
     /// </summary>
     private readonly List<EntityUid> _updateBuffer = new();
+    private static readonly EntProtoId RevertPolymorphConfirmId = "ActionRevertPolymorphConfirm";
 
     public override void Initialize()
     {
@@ -192,18 +193,20 @@ public sealed partial class PolymorphSystem : EntitySystem
         if (component.Configuration.Forced)
             return;
 
-        /*
-        if (_actions.AddAction(uid, ref component.Action, out var action, RevertPolymorphId) &&
-            _pid.TryResolveId(component.Parent, out var parentEnt))
-        {
-            _actions.SetEntityIcon((component.Action.Value, action), parentEnt);
-            _actions.SetUseDelay(component.Action.Value, TimeSpan.FromSeconds(component.Configuration.Delay));
-        }*/
+        if (!_actions.AddAction(
+            uid,
+            ref component.Action,
+            out var action,
+            component.Configuration.RevertConfirmationPopup ? RevertPolymorphConfirmId : RevertPolymorphId))
+            return;
+
+        _actions.SetEntityIcon((component.Action.Value, action), component.Parent);
+        _actions.SetUseDelay(component.Action.Value, TimeSpan.FromSeconds(component.Configuration.Delay));
     }
 
     private void OnPolymorphActionEvent(Entity<PolymorphableComponent> ent, ref PolymorphActionEvent args)
     {
-        if (!_proto.Resolve(args.ProtoId, out var prototype) || args.Handled)
+        if (!ProtoMan.Resolve(args.ProtoId, out var prototype) || args.Handled)
             return;
 
         QueuePolymorph(ent, prototype.Configuration);
@@ -313,7 +316,7 @@ public sealed partial class PolymorphSystem : EntitySystem
     /// <param name="protoId">The id of the polymorph prototype</param>
     public EntityUid? PolymorphEntity(EntityUid uid, ProtoId<PolymorphPrototype> protoId)
     {
-        var config = _proto.Index(protoId).Configuration;
+        var config = ProtoMan.Index(protoId).Configuration;
         return PolymorphEntity(uid, config);
     }
 
@@ -607,14 +610,20 @@ public sealed partial class PolymorphSystem : EntitySystem
         if (target.Comp.PolymorphActions.ContainsKey(id))
             return;
 
-        if (!_proto.Resolve(id, out var polyProto))
+        if (!ProtoMan.Resolve(id, out var polyProto))
             return;
 
-        var entProto = _proto.Index(polyProto.Configuration.Entity);
+        var entProto = ProtoMan.Index(polyProto.Configuration.Entity);
 
         EntityUid? actionId = default!;
-        if (!_actions.AddAction(target, ref actionId, RevertPolymorphId, target))
+        if (!_actions.AddAction(
+            target,
+            ref actionId,
+            polyProto.Configuration.RevertConfirmationPopup ? RevertPolymorphConfirmId : RevertPolymorphId,
+            target))
+        {
             return;
+        }
 
         target.Comp.PolymorphActions.Add(id, actionId.Value);
 

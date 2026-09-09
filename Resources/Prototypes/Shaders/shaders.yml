@@ -120,8 +120,18 @@
   id: Hologram
   kind: source
   path: "/Textures/Shaders/hologram.swsl"
+  
+- type: shader
+  id: HeatBlur
+  kind: source
+  path: "/Textures/Shaders/heatBlur.swsl"
+  
+- type: shader
+  id: NightVision
+  kind: source
+  path: "/Textures/Shaders/nightvision.swsl"
 
-# Persistence shaders
+  # Persistence shaders
 - type: shader
   id: WhiteHoleNegative
   kind: source
@@ -136,8 +146,3 @@
   id: SectorEventTint
   kind: source
   path: "/Textures/Shaders/sector_event_tint.swsl"
-  
-- type: shader
-  id: HeatBlur
-  kind: source
-  path: "/Textures/Shaders/heatBlur.swsl"

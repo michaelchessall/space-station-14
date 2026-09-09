@@ -32,7 +32,7 @@ public sealed partial class ResearchSystem
         if (!this.IsPowered(uid, EntityManager))
             return;
 
-        if (!PrototypeManager.TryIndex<TechnologyPrototype>(args.Id, out var technologyPrototype))
+        if (!ProtoMan.TryIndex<TechnologyPrototype>(args.Id, out var technologyPrototype))
             return;
 
         if (TryComp<AccessReaderComponent>(uid, out var access) && !_accessReader.IsAllowed(act, uid, access))

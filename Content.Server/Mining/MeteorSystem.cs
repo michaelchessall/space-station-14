@@ -27,6 +27,9 @@ public sealed partial class MeteorSystem : EntitySystem
         if (TerminatingOrDeleted(args.OtherEntity) || TerminatingOrDeleted(uid))
             return;
 
+        if (!args.OtherFixture.Hard)
+            return;
+
         if (component.HitList.Contains(args.OtherEntity))
             return;
 

@@ -18,7 +18,6 @@ using Content.Shared.Telephone;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Player; // Persistence: Chat stacking from RMC14 - pull/7587
-using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Replays;
 using Robust.Shared.Timing;
@@ -29,17 +28,16 @@ namespace Content.Server.Telephone;
 
 public sealed partial class TelephoneSystem : SharedTelephoneSystem
 {
-    [Dependency] private readonly AppearanceSystem _appearanceSystem = default!;
-    [Dependency] private readonly InteractionSystem _interaction = default!;
-    [Dependency] private readonly IdCardSystem _idCardSystem = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly IReplayRecordingManager _replay = default!;
-    [Dependency] private readonly IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587
+    [Dependency] private AppearanceSystem _appearanceSystem = default!;
+    [Dependency] private InteractionSystem _interaction = default!;
+    [Dependency] private IdCardSystem _idCardSystem = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private IAdminLogManager _adminLogger = default!;
+    [Dependency] private IReplayRecordingManager _replay = default!;
+    [Dependency] private IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587
 
     // Has set used to prevent telephone feedback loops
     private HashSet<(EntityUid, string, Entity<TelephoneComponent>)> _recentChatMessages = new();
@@ -369,7 +367,7 @@ public sealed partial class TelephoneSystem : SharedTelephoneSystem
         name = FormattedMessage.EscapeText(name);
 
         SpeechVerbPrototype speech;
-        if (ev.SpeechVerb != null && _prototype.Resolve(ev.SpeechVerb, out var evntProto))
+        if (ev.SpeechVerb != null && ProtoMan.Resolve(ev.SpeechVerb, out var evntProto))
             speech = evntProto;
         else
             speech = _chat.GetSpeechVerb(messageSource, message);

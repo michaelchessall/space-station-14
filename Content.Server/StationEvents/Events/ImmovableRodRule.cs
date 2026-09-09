@@ -1,3 +1,4 @@
+using Content.Server.GameTicking.Rules.Components;
 using Content.Server.ImmovableRod;
 using Content.Server.StationEvents.Components;
 using Content.Server.Weapons.Ranged.Systems;
@@ -24,8 +25,8 @@ public sealed partial class ImmovableRodRule : StationEventSystem<ImmovableRodRu
 
         var proto = _prototypeManager.Index<EntityPrototype>(protoName);
 
-        if (proto.TryGetComponent<ImmovableRodComponent>(out var rod, EntityManager.ComponentFactory) &&
-            proto.TryGetComponent<TimedDespawnComponent>(out var despawn, EntityManager.ComponentFactory))
+        if (proto.TryComp<ImmovableRodComponent>(out var rod, EntityManager.ComponentFactory) &&
+            proto.TryComp<TimedDespawnComponent>(out var despawn, EntityManager.ComponentFactory))
         {
             if (!TryFindRandomTile(out _, out _, out _, out var targetCoords))
                 return;

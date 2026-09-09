@@ -24,7 +24,6 @@ public sealed partial class GasTileVisibleGasOverlay : Overlay
     [Dependency] private IEntityManager _entManager = default!;
     [Dependency] private IResourceCache _resourceCache = default!;
     [Dependency] private IPrototypeManager _protoManager = default!;
-    [Dependency] private IMapManager _mapManager = default!;
 
     private static readonly ProtoId<ShaderPrototype> UnshadedShader = "unshaded";
 
@@ -141,7 +140,7 @@ public sealed partial class GasTileVisibleGasOverlay : Overlay
             return;
 
         // TODO: WorldBounds callback.
-        _mapManager.FindGridsIntersecting(args.MapId,
+        _mapSystem.FindGridsIntersecting(args.MapId,
             args.WorldAABB,
             ref gridState,
             static (EntityUid uid,

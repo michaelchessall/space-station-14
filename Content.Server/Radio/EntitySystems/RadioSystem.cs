@@ -30,18 +30,17 @@ namespace Content.Server.Radio.EntitySystems;
 /// </summary>
 public sealed partial class RadioSystem : EntitySystem
 {
-    [Dependency] private readonly INetManager _netMan = default!;
-    [Dependency] private readonly IConfigurationManager _cfg = default!;
-    [Dependency] private readonly IReplayRecordingManager _replay = default!;
-    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private INetManager _netMan = default!;
+    [Dependency] private IConfigurationManager _cfg = default!;
+    [Dependency] private IReplayRecordingManager _replay = default!;
+    [Dependency] private IAdminLogManager _adminLogger = default!;
+    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private ChatSystem _chat = default!;
     [Dependency] private IChatManager _chatManager = default!;
     [Dependency] private GhostSystem _ghost = default!;
-    [Dependency] private readonly HeadsetSystem _headset = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly SharedTransformSystem _xform = default!;
+    [Dependency] private HeadsetSystem _headset = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private SharedTransformSystem _xform = default!;
 
     [Dependency] private EntityQuery<TelecomExemptComponent> _exemptQuery = default!;
 
@@ -103,7 +102,7 @@ public sealed partial class RadioSystem : EntitySystem
     /// </summary>
     public void SendRadioMessage(EntityUid messageSource, string message, ProtoId<RadioChannelPrototype> channel, EntityUid radioSource, bool escapeMarkup = true, bool useNetworkOverride = true)
     {
-        SendRadioMessage(messageSource, message, _prototype.Index(channel), radioSource, escapeMarkup: escapeMarkup, useNetworkOverride);
+        SendRadioMessage(messageSource, message, ProtoMan.Index(channel), radioSource, escapeMarkup: escapeMarkup, useNetworkOverride);
     }
 
     /// <summary>
@@ -126,7 +125,7 @@ public sealed partial class RadioSystem : EntitySystem
         name = FormattedMessage.EscapeText(name);
 
         SpeechVerbPrototype speech;
-        if (evt.SpeechVerb != null && _prototype.Resolve(evt.SpeechVerb, out var evntProto))
+        if (evt.SpeechVerb != null && ProtoMan.Resolve(evt.SpeechVerb, out var evntProto))
             speech = evntProto;
         else
             speech = _chat.GetSpeechVerb(messageSource, message);

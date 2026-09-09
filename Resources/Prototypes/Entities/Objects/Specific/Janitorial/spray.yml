@@ -110,7 +110,7 @@
       - ReagentId: SpaceCleaner
         Quantity: 60
   - type: Label
-    currentLabel: space_cleaner
+    localizedLabel: spray-bottle-label-space-cleaner
   - type: Tag
     tags:
       - Spray
@@ -127,7 +127,7 @@
       - ReagentId: SpaceCleaner
         Quantity: 120
   - type: Label
-    currentLabel: space_cleaner
+    localizedLabel: spray-bottle-label-space-cleaner
 
 - type: entity
   parent: [SolutionNormal, SprayBottle]
@@ -195,6 +195,8 @@
         - ItemMask
   - type: Appearance
   - type: VaporVisuals
+  - type: TileFrictionModifier
+    modifier: 0
 
 - type: entity
   parent: Vapor

@@ -75,7 +75,7 @@ public sealed partial class CargoSystem
         InfrastructureLevelPrototype? foundLevel = null;
         foreach (var level in tradeStation.Levels)
         {
-            _protoMan.Resolve(level, out var levelProto);
+            ProtoMan.Resolve(level, out var levelProto);
             if (levelProto == null) continue;
             if (levelProto.RequiredXP <= tradeStation.ExperiencePoints)
             {
@@ -124,7 +124,7 @@ public sealed partial class CargoSystem
                         bool foundLast = false;
                         foreach (var level in tradeStation.Levels)
                         {
-                            _protoMan.Resolve(level, out var levelProto);
+                            ProtoMan.Resolve(level, out var levelProto);
                             if (levelProto == null) continue;
                             if (levelProto.RequiredXP <= tradeStation.ExperiencePoints)
                             {
@@ -146,9 +146,9 @@ public sealed partial class CargoSystem
                     }
                     foreach (var bounty in bountyDb.Bounties)
                     {
-                        _protoMan.Resolve(bounty.Bounty, out var bountyProto);
+                        ProtoMan.Resolve(bounty.Bounty, out var bountyProto);
                         if (bountyProto == null) continue;
-                        _protoMan.Resolve(bountyProto.Group, out var bountyGroup);
+                        ProtoMan.Resolve(bountyProto.Group, out var bountyGroup);
                         if (bountyGroup == null) continue;
                         if (sortedBounties.ContainsKey(bountyProto.Group))
                         {
@@ -231,7 +231,7 @@ public sealed partial class CargoSystem
 
     public void SetupBountyLabel(EntityUid uid, EntityUid stationId, CargoBountyData bounty, PaperComponent? paper = null, CargoBountyLabelComponent? label = null)
     {
-        if (!Resolve(uid, ref paper, ref label) || !_protoMan.Resolve<CargoBountyPrototype>(bounty.Bounty, out var prototype))
+        if (!Resolve(uid, ref paper, ref label) || !ProtoMan.Resolve<CargoBountyPrototype>(bounty.Bounty, out var prototype))
             return;
 
         label.Id = bounty.Id;
@@ -242,7 +242,7 @@ public sealed partial class CargoSystem
         msg.AddMarkupOrThrow(Loc.GetString("bounty-manifest-list-start"));
         msg.PushNewline();
 
-        foreach (var entry in prototype.Condition.GetManifestEntry(EntityManager, _protoMan))
+        foreach (var entry in prototype.Condition.GetManifestEntry(EntityManager, ProtoMan))
         {
             msg.AddMarkupOrThrow($"- {entry}");
             msg.PushNewline();
@@ -293,7 +293,7 @@ public sealed partial class CargoSystem
         else if (!TryGetBountyFromId(station, component.Id, out bounty, database))
             return;
         if (bounty == null) return;
-        if (!_protoMan.Resolve(bounty.Bounty, out var bountyPrototype))
+        if (!ProtoMan.Resolve(bounty.Bounty, out var bountyPrototype))
             return;
 
         var result = bountyPrototype.Condition.CheckCondition(container.Owner, EntityManager);
@@ -322,7 +322,7 @@ public sealed partial class CargoSystem
     }
     public void CompleteBounty(EntityUid station, CargoBountyData bounty, EntityUid? actor, string? dealerName)
     {
-        if (!_protoMan.Resolve(bounty.Bounty, out var proto))
+        if (!ProtoMan.Resolve(bounty.Bounty, out var proto))
             return;
 
         if (dealerName != null)
@@ -356,7 +356,7 @@ public sealed partial class CargoSystem
             if (!TryGetBountyLabel(sold, out _, out var component) ||
                 component.AssociatedStationId is not { } station ||
                 !TryGetBounty(sold, component, out var bounty) ||
-                !_protoMan.Resolve(bounty.Bounty, out var bountyProto))
+                !ProtoMan.Resolve(bounty.Bounty, out var bountyProto))
                 continue;
 
             var result = bountyProto.Condition.CheckCondition(sold, EntityManager);
@@ -417,7 +417,7 @@ public sealed partial class CargoSystem
         {
             var proto = kv.Key;
             var count = kv.Value;
-            _protoMan.Resolve(proto, out var prototype);
+            ProtoMan.Resolve(proto, out var prototype);
             if (prototype == null) continue;
             for (var i = 0; i < count; i++)
             {
@@ -449,7 +449,7 @@ public sealed partial class CargoSystem
     }
 
     public bool IsBountyComplete(EntityUid containerUid, ProtoId<CargoBountyPrototype> prototype, bool absolute = false)
-        => IsBountyComplete(containerUid, _protoMan.Index(prototype), absolute);
+        => IsBountyComplete(containerUid, ProtoMan.Index(prototype), absolute);
 
     public bool IsBountyComplete(EntityUid containerUid, CargoBountyData bountyData, bool absolute = false)
         => IsBountyComplete(containerUid, bountyData.Bounty, absolute);
@@ -475,8 +475,8 @@ public sealed partial class CargoSystem
             group = component.Group;
         }
         // todo: consider making the cargo bounties weighted.
-        var allBounties = _protoMan.EnumeratePrototypes<CargoBountyPrototype>()
-            .Where(p => p.Group == group.Value)
+        var allBounties = ProtoMan.EnumeratePrototypes<CargoBountyPrototype>()
+            .Where(p => p.Group == component.Group)
             .ToList();
         var filteredBounties = new List<CargoBountyPrototype>();
         foreach (var proto in allBounties)
@@ -495,7 +495,7 @@ public sealed partial class CargoSystem
     [PublicAPI]
     public bool TryAddBounty(EntityUid uid, string bountyId, StationCargoBountyDatabaseComponent? component = null)
     {
-        if (!_protoMan.TryIndex<CargoBountyPrototype>(bountyId, out var bounty))
+        if (!ProtoMan.TryIndex<CargoBountyPrototype>(bountyId, out var bounty))
         {
             return false;
         }
@@ -652,7 +652,7 @@ public sealed partial class CargoSystem
             {
                 foreach (var bounty in comp.Bounties)
                 {
-                    _protoMan.Resolve(bounty.Bounty, out var bountyProto);
+                    ProtoMan.Resolve(bounty.Bounty, out var bountyProto);
                     if (bountyProto == null) continue;
                     tradeStation.ExperiencePoints = Math.Max(tradeStation.ExperiencePoints - bountyProto.FailureXP, 0);
                 }

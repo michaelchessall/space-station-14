@@ -31,16 +31,16 @@ namespace Content.Shared.Access.Systems;
 
 public sealed partial class AccessReaderSystem : EntitySystem
 {
-    [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly InventorySystem _inventorySystem = default!;
-    [Dependency] private readonly IGameTiming _gameTiming = default!;
-    [Dependency] private readonly EmagSystem _emag = default!;
-    [Dependency] private readonly SharedGameTicker _gameTicker = default!;
-    [Dependency] private readonly SharedHandsSystem _handsSystem = default!;
-    [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
-    [Dependency] private readonly SharedStationRecordsSystem _recordsSystem = default!;
-    [Dependency] private readonly SharedStationSystem _station = default!;
-    [Dependency] private readonly IdentitySystem _identity = default!;
+    [Dependency] private InventorySystem _inventorySystem = default!;
+    [Dependency] private IGameTiming _gameTiming = default!;
+    [Dependency] private EmagSystem _emag = default!;
+    [Dependency] private TagSystem _tag = default!;
+    [Dependency] private SharedGameTicker _gameTicker = default!;
+    [Dependency] private SharedHandsSystem _handsSystem = default!;
+    [Dependency] private SharedContainerSystem _containerSystem = default!;
+    [Dependency] private SharedStationRecordsSystem _recordsSystem = default!;
+    [Dependency] private SharedStationSystem _station = default!;
+    [Dependency] private IdentitySystem _identity = default!;
 
     private static readonly ProtoId<TagPrototype> PreventAccessLoggingTag = "PreventAccessLogging";
 
@@ -1144,7 +1144,7 @@ public sealed partial class AccessReaderSystem : EntitySystem
     private bool FindAccessTagsItem(EntityUid uid, out HashSet<ProtoId<AccessLevelPrototype>> tags)
     {
         tags = new();
-        var ev = new GetAccessTagsEvent(tags, _prototype);
+        var ev = new GetAccessTagsEvent(tags, ProtoMan);
         RaiseLocalEvent(uid, ref ev);
 
         return tags.Count != 0;
@@ -1236,7 +1236,7 @@ public sealed partial class AccessReaderSystem : EntitySystem
             {
                 var accessName = Loc.GetString("access-reader-unknown-id");
 
-                if (_prototype.Resolve(access, out var accessProto) && !string.IsNullOrWhiteSpace(accessProto.Name))
+                if (ProtoMan.Resolve(access, out var accessProto) && !string.IsNullOrWhiteSpace(accessProto.Name))
                     accessName = Loc.GetString(accessProto.Name);
 
                 sb.Append(Loc.GetString("access-reader-access-label", ("access", accessName)));

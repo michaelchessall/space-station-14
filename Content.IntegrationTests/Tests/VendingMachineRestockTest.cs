@@ -141,7 +141,7 @@ namespace Content.IntegrationTests.Tests
                     List<EntProtoId<VendingMachineRestockComponent>>> entitiesWhichSpawnRestocks = new();
                 foreach (var proto in prototypeManager.EnumeratePrototypes<EntityPrototype>())
                 {
-                    if (!proto.TryGetComponent<EntityTableContainerFillComponent>(out var fill, compFact))
+                    if (!proto.TryComp<EntityTableContainerFillComponent>(out var fill, compFact))
                         continue;
 
                     var containers = fill.Containers;
@@ -349,7 +349,6 @@ namespace Content.IntegrationTests.Tests
             var server = pair.Server;
             await server.WaitIdleAsync();
 
-            var mapManager = server.ResolveDependency<IMapManager>();
             var entityManager = server.ResolveDependency<IEntityManager>();
             var entitySystemManager = server.ResolveDependency<IEntitySystemManager>();
 

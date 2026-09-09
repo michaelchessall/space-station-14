@@ -21,7 +21,6 @@ namespace Content.Shared.Stacks;
 [UsedImplicitly]
 public abstract partial class SharedStackSystem : EntitySystem
 {
-    [Dependency] private IPrototypeManager _prototype = default!;
     [Dependency] private IViewVariablesManager _vvm = default!;
     [Dependency] protected SharedAppearanceSystem Appearance = default!;
     [Dependency] protected SharedHandsSystem Hands = default!;

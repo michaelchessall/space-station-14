@@ -12,7 +12,6 @@ namespace Content.Shared.Construction
     /// </summary>
     public sealed partial class MachinePartSystem : EntitySystem
     {
-        [Dependency] private IPrototypeManager _prototype = default!;
         [Dependency] private SharedLatheSystem _lathe = default!;
         [Dependency] private SharedConstructionSystem _construction = default!;
 
@@ -32,8 +31,8 @@ namespace Content.Shared.Construction
                 args.PushMarkup(Loc.GetString("machine-board-component-on-examine-label"));
                 foreach (var (material, amount) in component.StackRequirements)
                 {
-                    var stack = _prototype.Index(material);
-                    var name = _prototype.Index(stack.Spawn).Name;
+                    var stack = ProtoMan.Index(material);
+                    var name = ProtoMan.Index(stack.Spawn).Name;
 
                     args.PushMarkup(Loc.GetString("machine-board-component-required-element-entry-text",
                         ("amount", amount),
@@ -66,10 +65,10 @@ namespace Content.Shared.Construction
 
             foreach (var (stackId, amount) in comp.StackRequirements)
             {
-                var stackProto = _prototype.Index(stackId);
-                var defaultProto = _prototype.Index(stackProto.Spawn);
+                var stackProto = ProtoMan.Index(stackId);
+                var defaultProto = ProtoMan.Index(stackProto.Spawn);
 
-                if (defaultProto.TryGetComponent<PhysicalCompositionComponent>(out var physComp, EntityManager.ComponentFactory))
+                if (defaultProto.TryComp<PhysicalCompositionComponent>(out var physComp, EntityManager.ComponentFactory))
                 {
                     foreach (var (mat, matAmount) in physComp.MaterialComposition)
                     {
@@ -114,8 +113,8 @@ namespace Content.Shared.Construction
                         materials[mat] += matAmount * amount * coefficient;
                     }
                 }
-                else if (_prototype.Resolve(defaultProtoId, out var defaultProto) &&
-                         defaultProto.TryGetComponent<PhysicalCompositionComponent>(out var physComp, EntityManager.ComponentFactory))
+                else if (ProtoMan.Resolve(defaultProtoId, out var defaultProto) &&
+                         defaultProto.TryComp<PhysicalCompositionComponent>(out var physComp, EntityManager.ComponentFactory))
                 {
                     foreach (var (mat, matAmount) in physComp.MaterialComposition)
                     {

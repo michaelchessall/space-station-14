@@ -20,7 +20,6 @@ using Content.Shared.Repairable;
 using Content.Shared.Stacks;
 using Robust.Server.GameObjects;
 using Robust.Shared.Player;
-using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 
 namespace Content.Server.Materials;
@@ -28,7 +27,6 @@ namespace Content.Server.Materials;
 /// <inheritdoc/>
 public sealed partial class MaterialReclaimerSystem : SharedMaterialReclaimerSystem
 {
-    [Dependency] private IPrototypeManager _prototype = default!;
     [Dependency] private AppearanceSystem _appearance = default!;
     [Dependency] private GhostSystem _ghostSystem = default!;
     [Dependency] private MaterialStorageSystem _materialStorage = default!;
@@ -172,6 +170,8 @@ public sealed partial class MaterialReclaimerSystem : SharedMaterialReclaimerSys
                 SpawnChemicalsFromComposition(uid, item, completion, true, component, xform);
         }
 
+        var eventArgs = new DestructionEventArgs();
+        RaiseLocalEvent(item, eventArgs);
         QueueDel(item);
     }
 
@@ -243,7 +243,7 @@ public sealed partial class MaterialReclaimerSystem : SharedMaterialReclaimerSys
             // Are we a recycler? Only use drainable solution.
             if (_solutionContainer.TryGetDrainableSolution(item, out _, out var drainableSolution))
             {
-                totalChemicals.AddSolution(drainableSolution, _prototype);
+                totalChemicals.AddSolution(drainableSolution, ProtoMan);
             }
         }
         else
@@ -251,7 +251,7 @@ public sealed partial class MaterialReclaimerSystem : SharedMaterialReclaimerSys
             // Are we an industrial reagent grinder? Use extractable solution.
             if (_solutionContainer.TryGetExtractableSolution(item, out _, out var extractableSolution))
             {
-                totalChemicals.AddSolution(extractableSolution, _prototype);
+                totalChemicals.AddSolution(extractableSolution, ProtoMan);
             }
         }
 

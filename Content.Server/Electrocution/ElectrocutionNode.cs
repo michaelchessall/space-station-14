@@ -4,11 +4,14 @@ using Robust.Shared.Map.Components;
 
 namespace Content.Server.Electrocution
 {
+
     [DataDefinition]
     public sealed partial class ElectrocutionNode : Node
     {
+
         [DataField("cable")]
         public EntityUid? CableEntity;
+
         [DataField("node")]
         public string? NodeName;
 
