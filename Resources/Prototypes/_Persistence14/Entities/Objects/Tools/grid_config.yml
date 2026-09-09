@@ -13,7 +13,7 @@
       layers:
         - state: id
           visible: false
-          map: [ "enum.GridConfigVisualLayers.Base" ]
+          map: [ "enum.GridConfigVisualLayers.ID" ]
         - state: icon
         - state: screen
           visible: false
@@ -57,7 +57,7 @@
     - type: GenericVisualizer
       visuals:
         enum.GridConfigVisuals.HasId:
-          enum.GridConfigVisualLayers.Base:
+          enum.GridConfigVisualLayers.ID:
             Id: { visible: true }
             NoId: { visible: false }
         enum.GridConfigVisuals.Screen:

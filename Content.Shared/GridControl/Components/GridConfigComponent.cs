@@ -142,7 +142,7 @@ public enum GridConfigVisuals : byte
 [Serializable, NetSerializable]
 public enum GridConfigVisualLayers : byte
 {
-    Base,
+    ID,
     Screen,
 }
 
