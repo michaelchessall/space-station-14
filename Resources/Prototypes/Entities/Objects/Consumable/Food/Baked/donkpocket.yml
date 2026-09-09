@@ -59,7 +59,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 8
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
 
 - type: entity
@@ -97,7 +97,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 10
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 4
 
 - type: entity
@@ -131,7 +131,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 10
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
   - type: Sprite
     state: spicy
@@ -167,7 +167,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 10
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
 
 - type: entity
@@ -209,7 +209,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 15
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
 
 - type: entity
@@ -251,7 +251,7 @@
           Quantity: 10
         - ReagentId: Honk
           Quantity: 1
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
 
 - type: entity
@@ -289,7 +289,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 10
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
         - ReagentId: Sugar
           Quantity: 2
@@ -328,7 +328,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 10
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
 
 - type: entity
@@ -365,7 +365,7 @@
         reagents:
         - ReagentId: Nutriment
           Quantity: 10
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
 
 - type: entity
@@ -429,5 +429,5 @@
           Quantity: 10
         - ReagentId: Fiber
           Quantity: 5
-        - ReagentId: Omnizine
+        - ReagentId: Tricordrazine
           Quantity: 2
