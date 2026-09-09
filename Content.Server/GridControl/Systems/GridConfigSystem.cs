@@ -65,7 +65,9 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
 
         Subs.BuiEvents<GridConfigComponent>(GridConfigUiKey.Key, subs =>
         {
-            subs.Event<BoundUIOpenedEvent>(UpdateUserInterface);
+            //figuring how to use this was a real headscratcher
+            subs.Event<BoundUIOpenedEvent>(OnUiOpened);
+            subs.Event<BoundUIClosedEvent>(OnUiClosed);
             subs.Event<GridConfigChangeName>(OnChangeName);
             subs.Event<GridConfigTargetSelect>(OnTargetSelect);
             subs.Event<GridConfigChangeMode>(OnChangeMode);
@@ -94,6 +96,17 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
             subs.Event<GridControlOff>(OnGridControlOff);
         });
 
+    }
+    // the screen ONLY turns on when the UI is opened! 
+    private void OnUiOpened(EntityUid uid, GridConfigComponent component, BoundUIOpenedEvent args)
+    {
+        UpdateScreenAppearance(uid, true);
+        UpdateUserInterface(uid, component, args);
+    }
+    // the screen sprite updates when the UI is closed 
+    private void OnUiClosed(EntityUid uid, GridConfigComponent component, BoundUIClosedEvent args)
+    {
+        UpdateScreenAppearance(uid, false);
     }
 
     private void OnUnlink(EntityUid uid, StationTaggerComponent component, EntityEventArgs args)
@@ -134,7 +147,8 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
     private void OnRemoved(EntityUid uid, GridConfigComponent component, EntityEventArgs args)
     {
         component.ConnectedStation = null;
-        UpdateAppearance(uid, component);
+        //Persi >=]
+        UpdateIDAppearance(uid, component);
         UpdateUserInterface(uid, component, args);
     }
     private void OnRemoved(EntityUid uid, StationCreatorComponent component, EntityEventArgs args)
@@ -510,7 +524,8 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
 
     private void UpdateUserInterface(EntityUid uid, GridConfigComponent component, EntityEventArgs args)
     {
-        UpdateAppearance(uid, component);
+        //Persistence >=]
+        UpdateIDAppearance(uid, component);
         if (!component.Initialized)
             return;
         int currentTileCount = 0;

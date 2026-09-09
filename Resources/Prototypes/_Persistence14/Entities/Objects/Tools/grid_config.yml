@@ -15,6 +15,9 @@
           visible: false
           map: [ "enum.GridConfigVisualLayers.Base" ]
         - state: icon
+        - state: screen
+          visible: false
+          map: [ "enum.GridConfigVisualLayers.Screen" ]
     - type: Item
       size: Small
     - type: Clothing
@@ -57,4 +60,8 @@
           enum.GridConfigVisualLayers.Base:
             Id: { visible: true }
             NoId: { visible: false }
+        enum.GridConfigVisuals.Screen:
+          enum.GridConfigVisualLayers.Screen:
+            On: { visible: true }
+            Off: { visible: false }
     - type: Appearance

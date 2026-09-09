@@ -50,13 +50,13 @@ public abstract partial class SharedGridConfigSystem : EntitySystem
     private void OnComponentInit(EntityUid uid, GridConfigComponent component, ComponentInit args)
     {
         _itemSlotsSystem.AddItemSlot(uid, GridConfigComponent.PrivilegedIdCardSlotId, component.PrivilegedIdSlot);
-        UpdateAppearance(uid, component);
+        UpdateIDAppearance(uid, component);
     }
 
     private void OnComponentRemove(EntityUid uid, GridConfigComponent component, ComponentRemove args)
     {
         _itemSlotsSystem.RemoveItemSlot(uid, component.PrivilegedIdSlot);
-        UpdateAppearance(uid, component);
+        UpdateIDAppearance(uid, component);
     }
     [Serializable, NetSerializable]
     public sealed partial class GridConfigDoAfterEvent : DoAfterEvent
@@ -78,7 +78,7 @@ public abstract partial class SharedGridConfigSystem : EntitySystem
         public override DoAfterEvent Clone() => this;
     }
 
-    protected void UpdateAppearance(EntityUid uid, GridConfigComponent component)
+    protected void UpdateIDAppearance(EntityUid uid, GridConfigComponent component)
     {
         if (!TryComp<AppearanceComponent>(uid, out var appearance))
             return;
@@ -90,9 +90,15 @@ public abstract partial class SharedGridConfigSystem : EntitySystem
         if (hasId)
             state = GridConfigVisualState.Id;
         _appearance.SetData(uid, GridConfigVisuals.HasId, state, appearance);
+    }
 
-//        if (!_userInterface.TryOpenUi(entity.Owner, GridConfigUiKey.Key, user))
-//            return;
+    protected void UpdateScreenAppearance(EntityUid uid, bool isOpen)
+    {
+        if (!TryComp<AppearanceComponent>(uid, out var appearance))
+            return;
+
+        var state = isOpen ? GridConfigScreenVisualState.On : GridConfigScreenVisualState.Off;
+        _appearance.SetData(uid, GridConfigVisuals.Screen, state, appearance);
     }
 }
 
