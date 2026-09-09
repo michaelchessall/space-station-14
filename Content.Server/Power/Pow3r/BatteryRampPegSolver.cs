@@ -128,7 +128,7 @@ namespace Content.Server.Power.Pow3r
                 batterySpace = Math.Max(0, batterySpace);
                 var scaledSpace = batterySpace / frameTime;
 
-                var chargeRate = battery.MaxChargeRate + battery.LoadingNetworkDemand / battery.Efficiency;
+                var chargeRate = battery.MaxChargeRate;
 
                 battery.DesiredPower = Math.Min(chargeRate, scaledSpace);
                 DebugTools.Assert(battery.DesiredPower >= 0);
@@ -180,7 +180,7 @@ namespace Content.Server.Power.Pow3r
                     var scaledSpace = battery.CurrentStorage / frameTime;
                     var supplyCap = Math.Min(battery.MaxSupply,
                         battery.SupplyRampPosition + battery.SupplyRampTolerance);
-                    var supplyAndPassthrough = supplyCap + battery.CurrentReceiving * battery.Efficiency;
+                    var supplyAndPassthrough = Math.Min(supplyCap + battery.CurrentReceiving * battery.Efficiency, battery.MaxSupply);
 
                     battery.AvailableSupply = Math.Min(scaledSpace, supplyAndPassthrough);
                     battery.LoadingNetworkDemand = unmet;

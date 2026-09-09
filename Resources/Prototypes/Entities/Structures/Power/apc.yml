@@ -61,7 +61,6 @@
     # This can not be done by changing the charge rate as the power supply ramps up over time.
     # This disables prediction for this battery.
     netsync: false
-    maxCharge: 50000
     startingCharge: 0
   - type: ExaminableBattery
   - type: NodeContainer
@@ -100,10 +99,8 @@
     graph: APC
     node: apc
   - type: PowerNetworkBattery
-    maxSupply: 10000
-    maxChargeRate: 5000
-    supplyRampTolerance: 1000
-    supplyRampRate: 500
+    supplyRampTolerance: 5000
+    supplyRampRate: 10000
   - type: WallMount
   - type: WiresPanel
   - type: Wires
@@ -233,33 +230,36 @@
       powercell: !type:Container
       board: !type:Container
 
-# Constructed APC
+# Completed APCs
 - type: entity
   parent: BaseAPC
-  id: APCConstructed
-  suffix: Open
+  id: APCStandardCapacity
+  suffix: 20kW
   components:
-  - type: WiresPanel
-    open: false
+  - type: Battery
+    maxCharge: &standard-charge 20000
+  - type: Apc
+    maxLoad: *standard-charge
+  - type: PowerNetworkBattery
+    maxChargeRate: *standard-charge
+    maxSupply: *standard-charge
   - type: Construction
     graph: APC
     node: apc-standard
 
 - type: entity
-  parent: APCConstructed
-  id: APCBasic
-
-# APCs in use
-- type: entity
   parent: BaseAPC
   id: APCMediumCapacity
   name: APC medium capacity
+  suffix: 30kW
   components:
   - type: Battery
-    maxCharge: 30000
-    startingCharge: 0
+    maxCharge: &medium-charge 30000
   - type: Apc
-    maxLoad: 30000
+    maxLoad: *medium-charge
+  - type: PowerNetworkBattery
+    maxChargeRate: *medium-charge
+    maxSupply: *medium-charge
   - type: Construction
     graph: APC
     node: apc-medium
@@ -299,13 +299,15 @@
   parent: BaseAPC
   name: APC high capacity
   id: APCHighCapacity
-  suffix: High Capacity, 40kW
+  suffix: 40kW
   components:
   - type: Battery
-    maxCharge: 40000
-    startingCharge: 0
+    maxCharge: &high-charge 40000
   - type: Apc
-    maxLoad: 40000
+    maxLoad: *high-charge
+  - type: PowerNetworkBattery
+    maxChargeRate: *high-charge
+    maxSupply: *high-charge
   - type: Construction
     graph: APC
     node: apc-high
@@ -344,14 +346,16 @@
 - type: entity
   parent: BaseAPC
   name: APC hyper capacity
-  id: APCSuperCapacity
-  suffix: Super Capacity, 50kW
+  id: APCHyperCapacity
+  suffix: Hyper Capacity, 50kW
   components:
   - type: Battery
-    maxCharge: 50000
-    startingCharge: 0
+    maxCharge: &hyper-charge 50000
   - type: Apc
-    maxLoad: 50000
+    maxLoad: *hyper-charge
+  - type: PowerNetworkBattery
+    maxChargeRate: *hyper-charge
+    maxSupply: *hyper-charge
   - type: Construction
     graph: APC
     node: apc-hyper
@@ -388,23 +392,25 @@
       visible: false
 
 - type: entity
-  parent: BaseAPC
-  id: APCHyperCapacity
-  suffix: Hyper Capacity, 200kJ
-  components:
-  - type: Battery
-    maxCharge: 200000
-    startingCharge: 200000
-  - type: Apc
-    maxLoad: 50000
+  parent: APCHyperCapacity
+  id: APCSuperCapacity
+  categories: [ HideSpawnMenu ]
 
 - type: entity
-  parent: BaseAPC
+  parent: APCHyperCapacity
   id: APCXenoborg
-  suffix: Basic, 50kJ, Xenoborg
+  suffix: 50kW, Xenoborg
   components:
-  - type: Battery
-    maxCharge: 50000
-    startingCharge: 50000
   - type: AccessReader
     access: [["Xenoborg"]]
+
+# Save Stability Entities
+- type: entity
+  parent: APCStandardCapacity
+  categories: [ HideSpawnMenu ]
+  id: APCConstructed
+
+- type: entity
+  parent: APCStandardCapacity
+  categories: [ HideSpawnMenu ]
+  id: APCBasic
