@@ -10,6 +10,11 @@
     - type: Sprite
       sprite: _Persistence14/Objects/Tools/grid-configurator.rsi
       state: icon
+      layers:
+        - state: id
+          visible: false
+          map: [ "enum.GridConfigVisualLayers.Base" ]
+        - state: icon
     - type: Item
       size: Small
     - type: Clothing
@@ -46,3 +51,10 @@
       materialComposition:
         Plastic: 50
         Steel: 100
+    - type: GenericVisualizer
+      visuals:
+        enum.GridConfigVisuals.HasId:
+          enum.GridConfigVisualLayers.Base:
+            Id: { visible: true }
+            NoId: { visible: false }
+    - type: Appearance

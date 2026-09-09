@@ -134,6 +134,7 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
     private void OnRemoved(EntityUid uid, GridConfigComponent component, EntityEventArgs args)
     {
         component.ConnectedStation = null;
+        UpdateAppearance(uid, component);
         UpdateUserInterface(uid, component, args);
     }
     private void OnRemoved(EntityUid uid, StationCreatorComponent component, EntityEventArgs args)
@@ -509,6 +510,7 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
 
     private void UpdateUserInterface(EntityUid uid, GridConfigComponent component, EntityEventArgs args)
     {
+        UpdateAppearance(uid, component);
         if (!component.Initialized)
             return;
         int currentTileCount = 0;
