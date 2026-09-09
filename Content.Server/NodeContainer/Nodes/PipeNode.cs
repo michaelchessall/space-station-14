@@ -27,19 +27,13 @@ namespace Content.Server.NodeContainer.Nodes
         ///     The *current* layer to which the pipe node is assigned.
         /// </summary>
         [DataField("pipeLayer")]
-        public AtmosPipeLayer OriginalPipeLayer = AtmosPipeLayer.Primary;
-
-        [DataField]
-        public PipeLayerRotationMode Mode = PipeLayerRotationMode.Stable;
+        public AtmosPipeLayer CurrentPipeLayer = AtmosPipeLayer.Primary;
 
         /// <summary>
         ///     The *current* pipe directions (accounting for rotation)
         ///     Used to check if this pipe can connect to another pipe in a given direction.
         /// </summary>
         public PipeDirection CurrentPipeDirection { get; private set; }
-
-        [ViewVariables(VVAccess.ReadOnly)]
-        public AtmosPipeLayer CurrentPipeLayer { get; set; }
 
         private HashSet<PipeNode>? _alwaysReachable;
 
@@ -124,7 +118,6 @@ namespace Content.Server.NodeContainer.Nodes
 
             var xform = entMan.GetComponent<TransformComponent>(owner);
             CurrentPipeDirection = OriginalPipeDirection.RotatePipeDirection(xform.LocalRotation);
-            CurrentPipeLayer = OriginalPipeLayer.RotatePipeLayer(xform.LocalRotation, Mode);
         }
 
         bool IRotatableNode.RotateNode(in MoveEvent ev)
@@ -135,22 +128,16 @@ namespace Content.Server.NodeContainer.Nodes
             // update valid pipe direction
             if (!RotationsEnabled)
             {
-                if (CurrentPipeDirection == OriginalPipeDirection &&
-                    CurrentPipeLayer == OriginalPipeLayer)
+                if (CurrentPipeDirection == OriginalPipeDirection)
                     return false;
 
                 CurrentPipeDirection = OriginalPipeDirection;
-                CurrentPipeLayer = OriginalPipeLayer;
                 return true;
             }
 
             var oldDirection = CurrentPipeDirection;
             CurrentPipeDirection = OriginalPipeDirection.RotatePipeDirection(ev.NewRotation);
-
-            var oldLayer = CurrentPipeLayer;
-            CurrentPipeLayer = OriginalPipeLayer.RotatePipeLayer(ev.NewRotation, Mode);
-
-            return oldDirection != CurrentPipeDirection || oldLayer != CurrentPipeLayer;
+            return oldDirection != CurrentPipeDirection;
         }
 
         public override void OnAnchorStateChanged(IEntityManager entityManager, bool anchored)
@@ -163,13 +150,11 @@ namespace Content.Server.NodeContainer.Nodes
             if (!RotationsEnabled)
             {
                 CurrentPipeDirection = OriginalPipeDirection;
-                CurrentPipeLayer = OriginalPipeLayer;
                 return;
             }
 
             var xform = entityManager.GetComponent<TransformComponent>(Owner);
             CurrentPipeDirection = OriginalPipeDirection.RotatePipeDirection(xform.LocalRotation);
-            CurrentPipeLayer = OriginalPipeLayer.RotatePipeLayer(xform.LocalRotation, Mode);
         }
 
         public override IEnumerable<Node> GetReachableNodes(
