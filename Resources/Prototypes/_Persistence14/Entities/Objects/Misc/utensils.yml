@@ -7,9 +7,6 @@
   name: stirring rod
   description: A glass rod used for stirring liquids.
   components:
-  - type: Tag
-    tags:
-    - Glass
   - type: Sprite
     sprite: _Persistence14/Objects/Misc/utensils.rsi
     state: stirringrod
