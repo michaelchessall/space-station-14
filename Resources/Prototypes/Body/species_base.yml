@@ -22,7 +22,7 @@
     damageOverlayGroups:
       Brute:
         sprite: Mobs/Effects/brute_damage.rsi
-        color: "#3dffc8"
+        color: "#FF0000"
       Burn:
         sprite: Mobs/Effects/burn_damage.rsi
   - type: GenericVisualizer
