@@ -65,7 +65,6 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
 
         Subs.BuiEvents<GridConfigComponent>(GridConfigUiKey.Key, subs =>
         {
-            //figuring how to use this was a real headscratcher
             subs.Event<BoundUIOpenedEvent>(OnUiOpened);
             subs.Event<BoundUIClosedEvent>(OnUiClosed);
             subs.Event<GridConfigChangeName>(OnChangeName);
