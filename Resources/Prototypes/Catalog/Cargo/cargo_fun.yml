@@ -57,7 +57,7 @@
     sprite: Objects/Fun/Plushies/lizard.rsi
     state: icon
   product: CrateFunLizardPlushieBulk
-  cost: 500
+  cost: 4000
   category: cargoproduct-category-name-fun
   group: market
 
@@ -188,5 +188,45 @@
     state: random
   product: CratePlants
   cost: 1000
+  category: cargoproduct-category-name-fun
+  group: market
+
+- type: cargoProduct
+  id: TapeRecorderKit
+  icon:
+    sprite: DeltaV/Objects/Storage/boxes.rsi
+    state: recorder
+  product: BoxTapeRecorder
+  cost: 750
+  category: cargoproduct-category-name-fun
+  group: market
+
+- type: cargoProduct
+  id: BlackPlayingCards
+  icon:
+    sprite: _Moffstation/Objects/Misc/Cards/card_black.rsi
+    state: box
+  product: PlayingCardDeckBoxBlack
+  cost: 250
+  category: cargoproduct-category-name-fun
+  group: market
+
+- type: cargoProduct
+  id: NunoPlayingCards
+  icon:
+    sprite: _Moffstation/Objects/Misc/Cards/card_nuno.rsi
+    state: box
+  product: NunoCardDeckBox
+  cost: 250
+  category: cargoproduct-category-name-fun
+  group: market
+
+- type: cargoProduct
+  id: NanotrasenPlayingCards
+  icon:
+    sprite: _Moffstation/Objects/Misc/Cards/card_nanotrasen.rsi
+    state: box
+  product: PlayingCardDeckBoxNanotrasen
+  cost: 2500
   category: cargoproduct-category-name-fun
   group: market

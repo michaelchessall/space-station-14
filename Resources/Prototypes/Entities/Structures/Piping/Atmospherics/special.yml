@@ -1,5 +1,8 @@
 # Devices which are not portable but don't link up to anything
+
 - type: entity
+  # Persistence: make atmos fans into machines
+  parent: [ BaseMachinePowered, SmallConstructibleMachine ]
   id: AtmosDeviceFanTiny
   name: tiny fan
   description: A tiny fan, releasing a thin gust of air.
@@ -14,9 +17,10 @@
     bodyType: Static
   - type: ApcPowerReceiver
     powerLoad: 500
-  - type: ExtensionCableReceiver
-  - type: LightningTarget
-    priority: 1
+  # Persistence: make atmos fans into machines
+  #- type: ExtensionCableReceiver
+  #- type: LightningTarget
+  #  priority: 1
   - type: Sprite
     sprite: Structures/Piping/Atmospherics/tinyfan.rsi
     layers:
@@ -43,8 +47,15 @@
   - type: Tag
     tags:
       - SpreaderIgnore
+  # Persistence: make atmos fans into machines
+  - type: Machine
+    board: AtmosDeviceFanTinyMachineCircuitBoard
+  # Persistence: make atmos fans into machines
+  - type: WiresPanel
 
 - type: entity
+  # Persistence: make atmos fans into machines
+  parent: [ BaseMachinePowered, SmallConstructibleMachine ]
   id: AtmosDeviceFanDirectional
   name: directional fan
   description: A thin fan, stopping the movement of gases across it.
@@ -53,6 +64,8 @@
   components:
   - type: Transform
     anchored: true
+    # Persistence: make atmos fans into machines
+    noRot: false
   - type: Anchorable
   - type: Pullable
   - type: Rotatable
@@ -60,9 +73,10 @@
     bodyType: Static
   - type: ApcPowerReceiver
     powerLoad: 500
-  - type: ExtensionCableReceiver
-  - type: LightningTarget
-    priority: 1
+  # Persistence: make atmos fans into machines
+  #- type: ExtensionCableReceiver
+  #- type: LightningTarget
+  #  priority: 1
   - type: Sprite
     sprite: Structures/Piping/Atmospherics/directionalfan.rsi
     layers:
@@ -91,3 +105,8 @@
   - type: Tag
     tags:
       - SpreaderIgnore
+  # Persistence: make atmos fans into machines
+  - type: Machine
+    board: AtmosDeviceFanDirectionalMachineCircuitBoard
+  # Persistence: make atmos fans into machines
+  - type: WiresPanel

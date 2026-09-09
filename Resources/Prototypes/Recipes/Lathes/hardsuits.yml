@@ -10,6 +10,19 @@
     Gold: 300
   unlockUses: 2
 
+# Tier 0 (unlocked without any research)
+
+- type: latheRecipe
+  parent: BaseHardsuitRecipe
+  id: EmergencyEVAsuit
+  result: ClothingOuterSuitEmergency
+  materials:
+    Plastic: 500
+    Steel: 100
+    Cloth: 200
+    Plasteel: 200
+    Durathread: 500
+
 # Tier 1 (Spationauts and Standard EVA)
 
 - type: latheRecipe
@@ -74,6 +87,29 @@
 
 - type: latheRecipe
   parent: BaseHardsuitRecipe
+  id: AtmosFireSuit
+  result: ClothingOuterSuitAtmosFire
+  materials:
+    Plasteel: 1500
+    Durathread: 1000
+    Silver: 200
+    Gold: 200
+  completetime: 20
+
+- type: latheRecipe
+  parent: BaseHardsuitRecipe
+  id: AtmosFireHelmet
+  result: ClothingHeadHelmetAtmosFire
+  materials:
+    Plasteel: 500
+    Durathread: 500
+    Glass: 500
+    Silver: 100
+    Gold: 100
+  completetime: 20
+
+- type: latheRecipe
+  parent: BaseHardsuitRecipe
   id: Miningsuit
   result: ClothingOuterHardsuitSalvage
   materials:
@@ -83,6 +119,19 @@
     Silver: 500
     Gold: 500
     Uranium: 300
+  completetime: 20
+
+- type: latheRecipe
+  parent: BaseHardsuitRecipe
+  id: Paramedsuit
+  result: ClothingOuterHardsuitVoidParamed
+  materials:
+    Plasteel: 1500
+    Durathread: 2000
+    Silver: 200
+    Gold: 150
+    Glass: 500
+
   completetime: 20
 
 # Tier 3 (Head Departmental Suits)

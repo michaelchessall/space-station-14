@@ -1,5 +1,6 @@
-blank_issues_enabled: true
+blank_issues_enabled: false
+
 contact_links:
-  - name: Request a Feature
-    url: https://discord.gg/rGvu9hKffJ
-    about: Submit feature requests on our Discord server (https://discord.gg/rGvu9hKffJ).
+- name: Discord
+  url: https://discord.gg/g5hcqjt2c
+  about: Always feel free to ask questions or discuss ideas with us over on discord!

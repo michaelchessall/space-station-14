@@ -74,7 +74,7 @@ public sealed partial class ParticleAcceleratorControlBoxComponent : Component
     /// <summary>
     /// The time at which the PA last fired a wave of particles.
     /// </summary>
-    [DataField("lastFire")]
+    [DataField("lastFire", customTypeSerializer: typeof(TimeOffsetSerializer))] // Persistence: TimeOffsetSerializer
     [ViewVariables(VVAccess.ReadWrite)]
     public TimeSpan LastFire;
 
