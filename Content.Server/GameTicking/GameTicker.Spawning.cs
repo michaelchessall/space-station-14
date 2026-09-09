@@ -191,7 +191,7 @@ namespace Content.Server.GameTicking
             var newMind = _mind.CreateMind(data!.UserId, character!.Name);
             _mind.SetUserId(newMind, data.UserId);
 
-            var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
+            var jobPrototype = ProtoMan.Index<JobPrototype>(jobId);
 
             _playTimeTrackings.PlayerRolesChanged(player);
 
@@ -277,7 +277,7 @@ namespace Content.Server.GameTicking
             var jobId = "Passenger";
 
 
-            var jobPrototype = _prototypeManager.Index<JobPrototype>(jobId);
+            var jobPrototype = ProtoMan.Index<JobPrototype>(jobId);
 
             _playTimeTrackings.PlayerRolesChanged(player);
             _bankSystem.EnsureAccount(character!.Name, 50);

@@ -197,10 +197,11 @@ public sealed partial class PolymorphSystem : EntitySystem
             uid,
             ref component.Action,
             out var action,
-            component.Configuration.RevertConfirmationPopup ? RevertPolymorphConfirmId : RevertPolymorphId))
+            component.Configuration.RevertConfirmationPopup ? RevertPolymorphConfirmId : RevertPolymorphId) ||
+            !_pid.TryResolveId(component.ParentPersistentId, out var parent))
             return;
 
-        _actions.SetEntityIcon((component.Action.Value, action), component.Parent);
+        _actions.SetEntityIcon((component.Action.Value, action), parent);
         _actions.SetUseDelay(component.Action.Value, TimeSpan.FromSeconds(component.Configuration.Delay));
     }
 

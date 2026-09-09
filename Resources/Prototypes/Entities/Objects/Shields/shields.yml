@@ -102,7 +102,6 @@
           Slash: 10
           Piercing: 5
           Heat: 20
-          Heat: 1
     - type: PhysicalComposition
       materialComposition:
         Steel: 0

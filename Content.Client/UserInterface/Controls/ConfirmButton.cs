@@ -178,9 +178,6 @@ public sealed partial class ConfirmButton : Button
                 _nextReset = _gameTiming.CurTime + ResetTime;
                 Disabled = true;
                 break;
-            case true:
-                OnPressed?.Invoke(buttonEvent);
-                break;
         }
     }
 

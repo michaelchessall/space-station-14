@@ -123,7 +123,7 @@ public sealed partial class ResearchSystem
         var addedRecipes = new List<string>();
         foreach (var unlock in technology.RecipeUnlocks)
         {
-            PrototypeManager.Resolve(unlock, out var recipeProto);
+            ProtoMan.Resolve(unlock, out var recipeProto);
             if (recipeProto == null) continue;
             if (component.UnlockedRecipes.ContainsKey(unlock))
             {

@@ -444,7 +444,9 @@ public sealed partial class BluespaceParkingSystem : SharedBluespaceParkingSyste
             var box2Rot = new Box2Rotated(box2, angle, finalCoords.Position).Enlarged(-0.5f);
 
             // This doesn't stop it from spawning on top of random things in space
-            if (_mapping.FindGridsIntersecting(finalCoords.MapId, box2Rot).Any())
+            var grids = new List<Entity<MapGridComponent>>();
+            _mapping.FindGridsIntersecting(finalCoords.MapId, box2Rot, ref grids);
+            if (grids.Any())
             {
                 // Bump it further and further just in case.
                 var fraction = (float)(i + 1) / maxIterations;

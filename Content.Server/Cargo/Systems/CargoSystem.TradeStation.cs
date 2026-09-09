@@ -332,7 +332,7 @@ public sealed partial class CargoSystem
             var taxPaidInt = (int)Math.Round(taxpaid);
             total -= taxPaidInt;
 
-            var stackPrototype = _protoMan.Index<StackPrototype>(CreditProtoID);
+            var stackPrototype = ProtoMan.Index<StackPrototype>(CreditProtoID);
             var cashStack = _stack.SpawnAtPosition((int)Math.Round(total), stackPrototype, player.ToCoordinates());
             if (!_hands.TryPickupAnyHand(player, cashStack))
                 _transform.SetLocalRotation(cashStack, Angle.Zero); // Orient these to grid north instead of map north
