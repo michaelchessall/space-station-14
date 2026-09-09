@@ -1,11 +1,11 @@
-name: "Labels: Branch staging-stable"
+name: "Labels: Branch staging-unstable"
 
 on:
   pull_request_target:
     types:
       - opened
     branches:
-      - 'staging-stable'
+      - 'staging-unstable'
 
 jobs:
   add_label:
@@ -13,4 +13,4 @@ jobs:
     steps:
     - uses: actions-ecosystem/action-add-labels@v1
       with:
-        labels: "pr-stable"
+        labels: "pr-unstable"

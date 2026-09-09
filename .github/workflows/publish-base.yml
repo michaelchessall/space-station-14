@@ -1,13 +1,22 @@
-name: Publish
-
-concurrency:
-  group: publish
-  cancel-in-progress: true
+name: Publish Base
 
 on:
-  workflow_dispatch:
-  # schedule:
-   # - cron: '0 10 * * *'
+  workflow_call:
+    inputs:
+      source_ref:
+        description: Branch or ref to build
+        type: string
+        default: github.ref_name
+        required: true
+      
+      fork_id:
+        description: Robust.Cdn fork to publish to
+        required: true
+        type: string
+
+concurrency:
+  group: publish-${{ inputs.fork_id }}
+  cancel-in-progress: true
 
 jobs:
   build:
@@ -23,7 +32,14 @@ jobs:
 
     - uses: actions/checkout@v4.2.2
       with:
+        ref: ${{ inputs.source_ref }}
         submodules: 'recursive'
+        fetch-depth: 0
+
+    - name: Get source version
+      id: version
+      run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v4.1.0
       with:
@@ -47,8 +63,9 @@ jobs:
       run: dotnet run --project Content.Packaging client --no-wipe-release
 
     - name: Publish version
-      run: Tools/publish_multi_request.py
+      run: Tools/publish_multi_request.py --fork-id "${{ inputs.fork_id }}"
       env:
+        PUBLISH_VERSION: ${{ steps.version.outputs.sha }}
         PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
         GITHUB_REPOSITORY: ${{ vars.GITHUB_REPOSITORY }}
 

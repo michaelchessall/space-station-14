@@ -1,0 +1,13 @@
+name: Sync Stable To EU [Automatic]
+
+on:
+  workflow_dispatch:
+  schedule:
+    # To run 24 hours before EU shifts. Scheduled at 15:00 UTC
+    # - cron: '0 15 * * 0,5' Disabling auto run until testing is complete
+
+jobs:
+  sync-eu:
+    uses: ./.github/workflows/sync-stable-base.yml
+    with:
+      target_branch: server-eu
