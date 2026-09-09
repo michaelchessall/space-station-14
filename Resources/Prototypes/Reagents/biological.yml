@@ -182,7 +182,7 @@
   recognizable: true
   metabolisms:
     Bloodstream:
-     metabolismRate: 0.1
+     metabolismRate: 0.1 #new to persistence 14
      effects:
       - !type:SatiateThirst
         factor: 1.5
@@ -191,9 +191,9 @@
         amount: 3
       - !type:EvenHealthChange
         damage:
-          Burn: -0.6
-          Brute: -0.6
-          Toxin: -0.4
+          Burn: -0.6 #new to persistence 14
+          Brute: -0.6 #new to persistence 14
+          Toxin: -0.4 #new to persistence 14
       - !type:HealthChange
         damage:
           types:

@@ -215,7 +215,7 @@
   group: Narcotics
   desc: reagent-desc-thc
   flavor: bitter
-  flavorMinimum: 0.05
+  flavorMinimum: 0.25
   color: "#808080"
   physicalDesc: reagent-physical-desc-crystalline
   plantMetabolism:
@@ -225,10 +225,11 @@
     amount: -1
   metabolisms:
     Bloodstream:
+      metabolismRate: 0.5
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
-        time: 16
+        time: 15
         type: Add
 
 - type: reagent
@@ -255,6 +256,7 @@
   color: "#215263"
   metabolisms:
     Bloodstream:
+      metabolismRate: 0.5
       effects:
       - !type:MovementSpeedModifier
         walkSpeedModifier: 0.65
@@ -282,11 +284,12 @@
   color: "#63806e"
   metabolisms:
     Bloodstream:
+      metabolismRate: 0.5
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
         type: Add
-        time: 5
+        time: 20
 
 - type: reagent
   id: Bananadine
@@ -298,11 +301,12 @@
   color: "#ffff00"
   metabolisms:
     Bloodstream:
+      metabolismRate: 0.5
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
         type: Add
-        time: 5
+        time: 7.5
 
 # Probably replace this one with sleeping chem when putting someone in a comatose state is easier
 - type: reagent
@@ -467,11 +471,12 @@
   color: "#EE35FF"
   metabolisms:
     Bloodstream:
+      metabolismRate: 0.5
       effects:
       - !type:Emote
         emote: Laugh
         showInChat: true
-        probability: 0.1
+        probability: 0.25
         conditions:
         - !type:ReagentCondition
           reagent: Happiness
@@ -479,7 +484,7 @@
       - !type:Emote
         emote: Whistle
         showInChat: true
-        probability: 0.1
+        probability: 0.25
         conditions:
         - !type:ReagentCondition
           reagent: Happiness
@@ -487,7 +492,7 @@
       - !type:Emote
         emote: Crying
         showInChat: true
-        probability: 0.1
+        probability: 0.25
         conditions:
         - !type:ReagentCondition
           reagent: Happiness
