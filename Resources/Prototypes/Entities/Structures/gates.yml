@@ -10,6 +10,7 @@
     layers:
     - state: base
   - type: Anchorable
+  - type: Rotatable
   - type: Construction
     graph: LogicGate
     node: empty
@@ -290,7 +291,7 @@
     - Output
   - type: Construction
     node: memory_cell
-
+    
 - type: entity
   parent: BaseLogicItem
   id: RandomGate

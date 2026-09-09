@@ -20,17 +20,17 @@ using System.Linq;
 
 namespace Content.Server.Storage.EntitySystems;
 
-public sealed partial class BluespaceLockerSystem : EntitySystem
+public sealed class BluespaceLockerSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _robustRandom = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedContainerSystem _containerSystem = default!;
-    [Dependency] private EntityStorageSystem _entityStorage = default!;
-    [Dependency] private WeldableSystem _weldableSystem = default!;
-    [Dependency] private LockSystem _lockSystem = default!;
-    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private SharedTransformSystem _transformSystem = default!;
-    [Dependency] private ExplosionSystem _explosionSystem = default!;
+    [Dependency] private readonly IRobustRandom _robustRandom = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedContainerSystem _containerSystem = default!;
+    [Dependency] private readonly EntityStorageSystem _entityStorage = default!;
+    [Dependency] private readonly WeldableSystem _weldableSystem = default!;
+    [Dependency] private readonly LockSystem _lockSystem = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
+    [Dependency] private readonly ExplosionSystem _explosionSystem = default!;
 
     public override void Initialize()
     {
@@ -85,7 +85,7 @@ public sealed partial class BluespaceLockerSystem : EntitySystem
 
         // Close target if it is open
         if (target.Value.storageComponent.Open)
-            _entityStorage.CloseStorage((target.Value.uid, target.Value.storageComponent));
+            _entityStorage.CloseStorage(target.Value.uid, target.Value.storageComponent);
 
         // Apply bluespace effects if target is not a bluespace locker, otherwise let it handle it
         if (target.Value.bluespaceLockerComponent == null)
@@ -351,7 +351,7 @@ public sealed partial class BluespaceLockerSystem : EntitySystem
             if (Resolve(target.Value.uid, ref lockComponent, false) && lockComponent.Locked)
                 _lockSystem.Unlock(target.Value.uid, target.Value.uid, lockComponent);
 
-            _entityStorage.OpenStorage((target.Value.uid, target.Value.storageComponent));
+            _entityStorage.OpenStorage(target.Value.uid, target.Value.storageComponent);
         }
 
         // Bluespace effects

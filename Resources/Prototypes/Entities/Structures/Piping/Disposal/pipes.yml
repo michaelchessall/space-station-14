@@ -33,9 +33,8 @@
     anchored: true
   - type: Anchorable
   - type: Damageable
-    damageModifierSet: Metallic
-  - type: Injurable
     damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
   - type: Destructible
     thresholds:
     - trigger:
@@ -58,7 +57,9 @@
   - type: Rotatable
   - type: Pullable
   - type: CollideOnAnchor
-  - type: DisposalTube
+  - type: ContainerContainer
+    containers:
+      DisposalTube: !type:Container
   - type: StaticPrice
     price: 30
 
@@ -68,24 +69,9 @@
   name: disposal holder
   components:
   - type: DisposalHolder
-    traversalSpeed: 10
-    exitDistanceMultiplier: 1.5
-    exitSpeedMultiplier: 1
-    container:
-      occludes: true
-      showEnts: false
-      ents: []
   - type: ContainerContainer
     containers:
       DisposalHolderComponent: !type:Container
-  - type: Physics
-    bodyType: Kinematic
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape:
-          !type:PhysShapeCircle
-          radius: 0.25
 
 # Pipes
 
@@ -114,18 +100,22 @@
     - map: [ "pipe" ]
       state: conpipe-s
   - type: DisposalTube
-    exits:
-    - South
-    - North
+    containerId: DisposalTransit
+  - type: DisposalTransit
+  - type: ContainerContainer
+    containers:
+      DisposalTransit: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-s }
-          True: { state: pipe-s }
+          Free: { state: conpipe-s }
+          Anchored: { state: pipe-s }
   - type: Construction
     graph: DisposalPipe
     node: pipe
+    containers:
+    - DisposalTransit
 
 - type: entity
   id: DisposalTagger
@@ -138,16 +128,17 @@
     - map: [ "pipe" ]
       state: conpipe-tagger
   - type: DisposalTube
-    exits:
-    - South
-    - North
+    containerId: DisposalTagger
   - type: DisposalTagger
+  - type: ContainerContainer
+    containers:
+      DisposalTagger: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-tagger }
-          True: { state: pipe-tagger }
+          Free: { state: conpipe-tagger }
+          Anchored: { state: pipe-tagger }
   - type: ActivatableUI
     key: enum.DisposalTaggerUiKey.Key
   - type: UserInterface
@@ -157,6 +148,8 @@
   - type: Construction
     graph: DisposalPipe
     node: tagger
+    containers:
+    - DisposalTagger
 
 - type: entity
   id: DisposalSignaller
@@ -169,10 +162,8 @@
     - map: [ "pipe" ]
       state: conpipe-signaller
   - type: DisposalTube
-    exits:
-    - South
-    - North
-  - type: DisposalSignaller
+    containerId: DisposalTransit
+  - type: DisposalTransit
   - type: DeviceNetwork
     deviceNetId: Wireless
     receiveFrequencyId: BasicDevice
@@ -181,15 +172,21 @@
     - ItemDetected
   - type: WirelessNetworkConnection
     range: 200
+  - type: DisposalSignaller
+  - type: ContainerContainer
+    containers:
+      DisposalTransit: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-signaller }
-          True: { state: pipe-signaller }
+          Free: { state: conpipe-signaller }
+          Anchored: { state: pipe-signaller }
   - type: Construction
     graph: DisposalPipe
     node: pipe
+    containers:
+    - DisposalTransit
 
 - type: entity
   id: DisposalTrunk
@@ -202,13 +199,17 @@
     - map: [ "pipe" ]
       state: conpipe-t
   - type: DisposalTube
+    containerId: DisposalEntry
   - type: DisposalEntry
+  - type: ContainerContainer
+    containers:
+      DisposalEntry: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-t }
-          True: { state: pipe-t }
+          Free: { state: conpipe-t }
+          Anchored: { state: pipe-t }
   - type: Fixtures
     fixtures:
       fix1:
@@ -220,6 +221,8 @@
   - type: Construction
     graph: DisposalPipe
     node: trunk
+    containers:
+    - DisposalEntry
 
 - type: entity
   id: DisposalRouter
@@ -232,17 +235,21 @@
     - map: [ "pipe" ]
       state: conpipe-j1s
   - type: DisposalTube
-    exits:
-    - West
-    - South
-    - North
+    containerId: DisposalRouter
   - type: DisposalRouter
+    degrees:
+    - 0
+    - -90
+    - 180
+  - type: ContainerContainer
+    containers:
+      DisposalRouter: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-j1s }
-          True: { state: pipe-j1s }
+          Free: { state: conpipe-j1s }
+          Anchored: { state: pipe-j1s }
   - type: Flippable
     mirrorEntity: DisposalRouterFlipped
   - type: ActivatableUI
@@ -262,6 +269,8 @@
   - type: Construction
     graph: DisposalPipe
     node: router
+    containers:
+    - DisposalRouter
 
 - type: entity
   id: DisposalRouterFlipped
@@ -274,16 +283,21 @@
     - map: [ "pipe" ]
       state: conpipe-j2s
   - type: DisposalTube
-    exits:
-    - East
-    - South
-    - North
+    containerId: DisposalRouter
+  - type: DisposalRouter
+    degrees:
+    - 0
+    - 90
+    - 180
+  - type: ContainerContainer
+    containers:
+      DisposalRouter: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-j2s }
-          True: { state: pipe-j2s }
+          Free: { state: conpipe-j2s }
+          Anchored: { state: pipe-j2s }
   - type: Flippable
     mirrorEntity: DisposalRouter
   - type: Fixtures
@@ -296,6 +310,8 @@
         - SubfloorMask
   - type: Construction
     node: routerflipped
+    containers:
+    - DisposalRouter
 
 - type: entity
   id: DisposalJunction
@@ -309,16 +325,21 @@
       state: conpipe-j1
     visible: true
   - type: DisposalTube
-    exits:
-    - South
-    - West
-    - North
+    containerId: DisposalJunction
+  - type: DisposalJunction
+    degrees:
+    - 0
+    - -90
+    - 180
+  - type: ContainerContainer
+    containers:
+      DisposalJunction: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-j1 }
-          True: { state: pipe-j1 }
+          Free: { state: conpipe-j1 }
+          Anchored: { state: pipe-j1 }
   - type: Flippable
     mirrorEntity: DisposalJunctionFlipped
   - type: Fixtures
@@ -332,6 +353,8 @@
   - type: Construction
     graph: DisposalPipe
     node: junction
+    containers:
+    - DisposalJunction
 
 - type: entity
   id: DisposalJunctionFlipped
@@ -344,16 +367,21 @@
     - map: [ "pipe" ]
       state: conpipe-j2
   - type: DisposalTube
-    exits:
-    - South
-    - East
-    - North
+    containerId: DisposalJunction
+  - type: DisposalJunction
+    degrees:
+    - 0
+    - 90
+    - 180
+  - type: ContainerContainer
+    containers:
+      DisposalJunction: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-j2 }
-          True: { state: pipe-j2 }
+          Free: { state: conpipe-j2 }
+          Anchored: { state: pipe-j2 }
   - type: Flippable
     mirrorEntity: DisposalJunction
   - type: Fixtures
@@ -367,6 +395,8 @@
   - type: Construction
     graph: DisposalPipe
     node: junctionflipped
+    containers:
+    - DisposalJunction
 
 - type: entity
   id: DisposalYJunction
@@ -379,16 +409,21 @@
     - map: [ "pipe" ]
       state: conpipe-y
   - type: DisposalTube
-    exits:
-    - South
-    - West
-    - East
+    containerId: DisposalJunction
+  - type: DisposalJunction
+    degrees:
+    - 0
+    - 90
+    - -90
+  - type: ContainerContainer
+    containers:
+      DisposalJunction: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-y }
-          True: { state: pipe-y }
+          Free: { state: conpipe-y }
+          Anchored: { state: pipe-y }
   - type: Fixtures
     fixtures:
       fix1:
@@ -400,6 +435,8 @@
   - type: Construction
     graph: DisposalPipe
     node: yJunction
+    containers:
+    - DisposalJunction
 
 - type: entity
   id: DisposalXJunction
@@ -413,17 +450,22 @@
       state: conpipe-x
     visible: true
   - type: DisposalTube
-    exits:
-    - South
-    - East
-    - North
-    - West
+    containerId: DisposalJunction
+  - type: DisposalJunction
+    degrees:
+    - 0
+    - -90
+    - 180
+    - 90
+  - type: ContainerContainer
+    containers:
+      DisposalJunction: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-x }
-          True: { state: pipe-x }
+          Free: { state: conpipe-x }
+          Anchored: { state: pipe-x }
   - type: Fixtures
     fixtures:
       fix1:
@@ -435,6 +477,8 @@
   - type: Construction
     graph: DisposalPipe
     node: xJunction
+    containers:
+    - DisposalJunction
 
 - type: entity
   id: DisposalBend
@@ -447,15 +491,17 @@
     - map: [ "pipe" ]
       state: conpipe-c
   - type: DisposalTube
-    exits:
-    - South
-    - West
+    containerId: DisposalBend
+  - type: DisposalBend
+  - type: ContainerContainer
+    containers:
+      DisposalBend: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: conpipe-c }
-          True: { state: pipe-c }
+          Free: { state: conpipe-c }
+          Anchored: { state: pipe-c }
   - type: Fixtures
     fixtures:
       fix1:
@@ -467,6 +513,8 @@
   - type: Construction
     graph: DisposalPipe
     node: bend
+    containers:
+    - DisposalBend
 
 - type: entity
   parent: DisposalJunction
@@ -479,10 +527,7 @@
     - map: [ "pipe" ]
       state: signal-router-free
   - type: DisposalTube
-    exits:
-    - West
-    - South
-    - North
+    containerId: DisposalSignalRouter
   - type: DisposalSignalRouter
   - type: DeviceLinkSink
     ports:
@@ -494,17 +539,22 @@
     receiveFrequencyId: BasicDevice
   - type: WirelessNetworkConnection
     range: 200
+  - type: ContainerContainer
+    containers:
+      DisposalSignalRouter: !type:Container
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: signal-router-free }
-          True: { state: signal-router }
+          Free: { state: signal-router-free }
+          Anchored: { state: signal-router }
   - type: Flippable
     mirrorEntity: DisposalSignalRouterFlipped
   - type: Construction
     graph: DisposalPipe
     node: signal_router
+    containers:
+    - DisposalSignalRouter
 
 - type: entity
   parent: DisposalSignalRouter
@@ -515,16 +565,16 @@
     layers:
     - map: [ "pipe" ]
       state: signal-router-flipped-free
-  - type: DisposalTube
-    exits:
-    - East
-    - South
-    - North
+  - type: DisposalJunction
+    degrees:
+    - 0
+    - 90
+    - 180
   - type: GenericVisualizer
     visuals:
-      enum.AnchorVisuals.Anchored:
+      enum.DisposalTubeVisuals.VisualState:
         pipe:
-          False: { state: signal-router-flipped-free }
-          True: { state: signal-router-flipped }
+          Free: { state: signal-router-flipped-free }
+          Anchored: { state: signal-router-flipped }
   - type: Construction
     node: signal_router_flipped

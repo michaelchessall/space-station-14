@@ -6,9 +6,10 @@ using Robust.Shared.Random;
 namespace Content.Server.Vocalization.Systems;
 
 /// <inheritdoc cref="DatasetVocalizerComponent"/>
-public sealed partial class DatasetVocalizationSystem : EntitySystem
+public sealed class DatasetVocalizationSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private readonly IPrototypeManager _protoMan = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
 
     public override void Initialize()
     {
@@ -22,7 +23,7 @@ public sealed partial class DatasetVocalizationSystem : EntitySystem
         if (args.Handled)
             return;
 
-        var dataset = ProtoMan.Index(ent.Comp.Dataset);
+        var dataset = _protoMan.Index(ent.Comp.Dataset);
 
         args.Message = _random.Pick(dataset);
         args.Handled = true;

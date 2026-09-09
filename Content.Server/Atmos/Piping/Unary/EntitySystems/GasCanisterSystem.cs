@@ -9,24 +9,21 @@ using Content.Shared.Atmos.Piping.Unary.Systems;
 using Content.Shared.Cargo;
 using Content.Shared.Database;
 using Content.Shared.NodeContainer;
-using Content.Shared.Popups;
 using GasCanisterComponent = Content.Shared.Atmos.Piping.Unary.Components.GasCanisterComponent;
 
 namespace Content.Server.Atmos.Piping.Unary.EntitySystems;
 
-public sealed partial class GasCanisterSystem : SharedGasCanisterSystem
+public sealed class GasCanisterSystem : SharedGasCanisterSystem
 {
-    [Dependency] private AtmosphereSystem _atmos = default!;
-    [Dependency] private NodeContainerSystem _nodeContainer = default!;
-    [Dependency] private SharedAppearanceSystem _appearance = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-
-    private const float ReleaseArea = 0.05f; // 500cm^2 Number chosen for balance reasons. It's quite large, but so are gas canisters (holding 1.5 cubic meters of gas!)
+    [Dependency] private readonly AtmosphereSystem _atmos = default!;
+    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private readonly NodeContainerSystem _nodeContainer = default!;
 
     public override void Initialize()
     {
         base.Initialize();
 
+        SubscribeLocalEvent<GasCanisterComponent, AtmosDeviceUpdateEvent>(OnCanisterUpdated);
         SubscribeLocalEvent<GasCanisterComponent, PriceCalculationEvent>(CalculateCanisterPrice);
         SubscribeLocalEvent<GasCanisterComponent, GasAnalyzerScanEvent>(OnAnalyzed);
     }
@@ -66,68 +63,65 @@ public sealed partial class GasCanisterSystem : SharedGasCanisterSystem
             tankPressure = tankComponent.Air.Pressure;
         }
 
-        UI.SetUiState(uid,
-            GasCanisterUiKey.Key,
+        UI.SetUiState(uid, GasCanisterUiKey.Key,
             new GasCanisterBoundUserInterfaceState(canister.Air.Pressure, portStatus, tankPressure));
     }
 
-    protected override void SafetyMeasures(Entity<GasCanisterComponent> entity)
+    private void OnCanisterUpdated(EntityUid uid, GasCanisterComponent canister, ref AtmosDeviceUpdateEvent args)
     {
-        if (entity.Comp.SafetyValveOpen)
+        _atmos.React(canister.Air, canister);
+
+        if (!TryComp<NodeContainerComponent>(uid, out var nodeContainer)
+            || !TryComp<AppearanceComponent>(uid, out var appearance))
             return;
 
-        ToggleSafetyValve(entity, open: true);
-        if (entity.Comp.SafetyAlert != null)
-            _popup.PopupEntity(Loc.GetString(entity.Comp.SafetyAlert), entity, PopupType.LargeCaution);
-    }
-
-    private void ToggleSafetyValve(Entity<GasCanisterComponent> entity, bool open)
-    {
-        entity.Comp.SafetyValveOpen = open;
-        Audio.PlayPvs(entity.Comp.ValveSound, entity);
-    }
-
-    protected override void DeviceUpdated(Entity<GasCanisterComponent> entity, ref AtmosDeviceUpdateEvent args)
-    {
-        _atmos.React(entity.Comp.Air, entity.Comp);
-
-        if (!TryComp<NodeContainerComponent>(entity, out var nodeContainer))
-            return;
-
-        if (!_nodeContainer.TryGetNode(nodeContainer, entity.Comp.PortName, out PortablePipeNode? portNode))
+        if (!_nodeContainer.TryGetNode(nodeContainer, canister.PortName, out PortablePipeNode? portNode))
             return;
 
         if (portNode.NodeGroup is PipeNet { NodeCount: > 1 } net)
         {
-            MixContainerWithPipeNet(entity.Comp.Air, net.Air);
+            MixContainerWithPipeNet(canister.Air, net.Air);
         }
 
-        // If safety valve is open, we release gas through there ignoring other outputs.
-        if (entity.Comp.SafetyValveOpen)
+        // Release valve is open, release gas.
+        if (canister.ReleaseValve)
         {
-            var environment = _atmos.GetContainingMixture(entity.Owner, args.Grid, args.Map, false, true);
-            _atmos.FlowGas(entity.Comp.Air, environment, args.dt, ReleaseArea);
-            if (entity.Comp.Air.Pressure < entity.Comp.SafetyPressure)
-                ToggleSafetyValve(entity, false);
-        }
-        else if (entity.Comp.ReleaseValveOpen)  // Release valve is open, release gas.
-        {
-            var output = entity.Comp.GasTankSlot.Item == null
-                ? _atmos.GetContainingMixture(entity.Owner, args.Grid, args.Map, false, true)
-                : CompOrNull<GasTankComponent>(entity.Comp.GasTankSlot.Item.Value)?.Air;
-
-            // Only let gas flow one way!
-            _atmos.ReleaseGasTo(entity.Comp.Air, output, entity.Comp.ReleasePressure);
+            if (canister.GasTankSlot.Item != null)
+            {
+                var gasTank = Comp<GasTankComponent>(canister.GasTankSlot.Item.Value);
+                _atmos.ReleaseGasTo(canister.Air, gasTank.Air, canister.ReleasePressure);
+            }
+            else
+            {
+                var environment = _atmos.GetContainingMixture(uid, args.Grid, args.Map, false, true);
+                _atmos.ReleaseGasTo(canister.Air, environment, canister.ReleasePressure);
+            }
         }
 
         // If last pressure is very close to the current pressure, do nothing.
-        if (MathHelper.CloseToPercent(entity.Comp.Air.Pressure, entity.Comp.LastPressure))
+        if (MathHelper.CloseToPercent(canister.Air.Pressure, canister.LastPressure))
             return;
 
-        entity.Comp.LastPressure = entity.Comp.Air.Pressure;
+        DirtyUI(uid, canister, nodeContainer);
 
-        DirtyUI(entity, entity.Comp, nodeContainer);
-        UpdateAppearance(entity);
+        canister.LastPressure = canister.Air.Pressure;
+
+        if (canister.Air.Pressure < 10)
+        {
+            _appearance.SetData(uid, GasCanisterVisuals.PressureState, 0, appearance);
+        }
+        else if (canister.Air.Pressure < Atmospherics.OneAtmosphere)
+        {
+            _appearance.SetData(uid, GasCanisterVisuals.PressureState, 1, appearance);
+        }
+        else if (canister.Air.Pressure < (15 * Atmospherics.OneAtmosphere))
+        {
+            _appearance.SetData(uid, GasCanisterVisuals.PressureState, 2, appearance);
+        }
+        else
+        {
+            _appearance.SetData(uid, GasCanisterVisuals.PressureState, 3, appearance);
+        }
     }
 
     /// <summary>

@@ -6,9 +6,10 @@ using Robust.Shared.Serialization;
 namespace Content.Shared.Access.Systems
 {
     [UsedImplicitly]
-    public abstract partial class SharedIdCardConsoleSystem : EntitySystem
+    public abstract class SharedIdCardConsoleSystem : EntitySystem
     {
-        [Dependency] private ItemSlotsSystem _itemSlotsSystem = default!;
+        [Dependency] private readonly ItemSlotsSystem _itemSlotsSystem = default!;
+        [Dependency] private readonly ILogManager _log = default!;
 
         public const string Sawmill = "idconsole";
         protected ISawmill _sawmill = default!;
@@ -16,7 +17,7 @@ namespace Content.Shared.Access.Systems
         public override void Initialize()
         {
             base.Initialize();
-            _sawmill = LogManager.GetSawmill(Sawmill);
+            _sawmill = _log.GetSawmill(Sawmill);
 
             SubscribeLocalEvent<IdCardConsoleComponent, ComponentInit>(OnComponentInit);
             SubscribeLocalEvent<IdCardConsoleComponent, ComponentRemove>(OnComponentRemove);

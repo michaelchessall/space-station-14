@@ -18,17 +18,16 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.Chat;
 
-public sealed partial class SuicideSystem : EntitySystem
+public sealed class SuicideSystem : EntitySystem
 {
-    [Dependency] private EntityLookupSystem _entityLookupSystem = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private HandsSystem _hands = default!;
-    [Dependency] private TagSystem _tagSystem = default!;
-    [Dependency] private MobStateSystem _mobState = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
-    [Dependency] private GhostSystem _ghostSystem = default!;
-    [Dependency] private SharedSuicideSystem _suicide = default!;
-    [Dependency] private EntityQuery<ItemComponent> _itemQuery = default!;
+    [Dependency] private readonly EntityLookupSystem _entityLookupSystem = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly TagSystem _tagSystem = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
+    [Dependency] private readonly GhostSystem _ghostSystem = default!;
+    [Dependency] private readonly SharedSuicideSystem _suicide = default!;
 
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
 
@@ -133,10 +132,11 @@ public sealed partial class SuicideSystem : EntitySystem
 
         // Try to suicide by nearby entities, like Microwaves or Crematoriums, by raising an event on it
         // Returns upon being handled by any entity
+        var itemQuery = GetEntityQuery<ItemComponent>();
         foreach (var entity in _entityLookupSystem.GetEntitiesInRange(victim, 1, LookupFlags.Approximate | LookupFlags.Static))
         {
             // Skip any nearby items that can be picked up, we already checked the active held item above
-            if (_itemQuery.HasComponent(entity))
+            if (itemQuery.HasComponent(entity))
                 continue;
 
             RaiseLocalEvent(entity, suicideByEnvironmentEvent);
@@ -156,9 +156,11 @@ public sealed partial class SuicideSystem : EntitySystem
         if (args.Handled)
             return;
 
-        var selfMessage = Loc.GetString("suicide-command-default-text-self");
         var othersMessage = Loc.GetString("suicide-command-default-text-others", ("name", Identity.Entity(victim, EntityManager)));
-        _popup.PopupEntity(selfMessage, othersMessage, victim, victim);
+        _popup.PopupEntity(othersMessage, victim, Filter.PvsExcept(victim), true);
+
+        var selfMessage = Loc.GetString("suicide-command-default-text-self");
+        _popup.PopupEntity(selfMessage, victim, victim);
 
         if (args.DamageSpecifier != null)
         {

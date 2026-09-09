@@ -6,10 +6,11 @@ using Robust.Shared.Random;
 
 namespace Content.Server.RandomMetadata;
 
-public sealed partial class RandomMetadataSystem : EntitySystem
+public sealed class RandomMetadataSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private MetaDataSystem _metaData = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
 
     private readonly List<(string, object)> _outputSegments = new();
 
@@ -49,7 +50,7 @@ public sealed partial class RandomMetadataSystem : EntitySystem
         _outputSegments.Clear();
         for (var i = 0; i < segments.Count; ++i)
         {
-            var localizedProto = ProtoMan.Index(segments[i]);
+            var localizedProto = _prototype.Index(segments[i]);
             _outputSegments.Add(($"part{i}", _random.Pick(localizedProto)));
         }
 

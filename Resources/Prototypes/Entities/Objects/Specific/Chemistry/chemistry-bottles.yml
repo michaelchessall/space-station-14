@@ -1,6 +1,6 @@
 - type: entity
   name: bottle
-  parent: [SolutionDrink, SolutionTiny, BaseItem] # This solution name is hardcoded in ChemMasterComponent
+  parent: BaseItem
   id: BaseChemistryEmptyBottle
   abstract: true
   description: A small bottle.
@@ -29,6 +29,10 @@
     solution: drink
     destroyOnEmpty: false
     utensil: None
+  - type: SolutionContainerManager
+    solutions:
+      drink: # This solution name and target volume is hard-coded in ChemMasterComponent
+        maxVol: 30
   - type: MixableSolution
     solution: drink
   - type: RefillableSolution
@@ -75,7 +79,6 @@
       types:
         Blunt: 4
   - type: Damageable
-  - type: Injurable
     damageContainer: Inorganic
   - type: Destructible
     thresholds:
@@ -159,12 +162,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-aloxadone
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Aloxadone
-        Quantity: 30
+    currentLabel: reagent-name-aloxadone
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Aloxadone
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleAmbuzol
@@ -172,12 +177,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ambuzol
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Ambuzol
-        Quantity: 30
+    currentLabel: reagent-name-ambuzol
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Ambuzol
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleAmbuzolPlus
@@ -185,12 +192,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ambuzol-plus
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: AmbuzolPlus
-        Quantity: 30
+    currentLabel: reagent-name-ambuzol-plus
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: AmbuzolPlus
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleArithrazine
@@ -198,12 +207,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-arithrazine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Arithrazine
-        Quantity: 30
+    currentLabel: reagent-name-arithrazine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Arithrazine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleBarozine
@@ -211,12 +222,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-barozine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Barozine
-        Quantity: 30
+    currentLabel: reagent-name-barozine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Barozine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleBicaridine
@@ -224,12 +237,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-bicaridine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Bicaridine
-        Quantity: 30
+    currentLabel: reagent-name-bicaridine
+  - type: SolutionContainerManager
+    solutions:
+      drink: # This solution name and target volume is hard-coded in ChemMasterComponent
+        maxVol: 30
+        reagents:
+        - ReagentId: Bicaridine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleBruizine
@@ -237,12 +252,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-bruizine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Bruizine
-        Quantity: 30
+    currentLabel: reagent-name-bruizine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Bruizine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleCognizine
@@ -250,12 +267,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-cognizine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Cognizine
-        Quantity: 30
+    currentLabel: reagent-name-cognizine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Cognizine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleCryoxadone
@@ -263,12 +282,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-cryoxadone
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Cryoxadone
-        Quantity: 30
+    currentLabel: reagent-name-cryoxadone
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Cryoxadone
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleCryptobiolin
@@ -276,12 +297,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-cryptobiolin
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Cryptobiolin
-        Quantity: 30
+    currentLabel: reagent-name-cryptobiolin
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Cryptobiolin
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleDermaline
@@ -289,12 +312,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-dermaline
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Dermaline
-        Quantity: 30
+    currentLabel: reagent-name-dermaline
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Dermaline
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleDexalin
@@ -302,12 +327,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-dexalin
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Dexalin
-        Quantity: 30
+    currentLabel: reagent-name-dexalin
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Dexalin
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleDexalinPlus
@@ -315,12 +342,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-dexalin-plus
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: DexalinPlus
-        Quantity: 30
+    currentLabel: reagent-name-dexalin-plus
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: DexalinPlus
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleDiphenhydramine
@@ -328,12 +357,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-diphenhydramine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Diphenhydramine
-        Quantity: 30
+    currentLabel: reagent-name-diphenhydramine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Diphenhydramine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleDiphenylmethylamine
@@ -341,12 +372,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-diphenylmethylamine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Diphenylmethylamine
-        Quantity: 30
+    currentLabel: reagent-name-diphenylmethylamine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Diphenylmethylamine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleDoxarubixadone
@@ -354,12 +387,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-doxarubixadone
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Doxarubixadone
-        Quantity: 30
+    currentLabel: reagent-name-doxarubixadone
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Doxarubixadone
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleDylovene
@@ -367,12 +402,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-dylovene
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Dylovene
-        Quantity: 30
+    currentLabel: reagent-name-dylovene
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Dylovene
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleEpinephrine
@@ -380,12 +417,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-epinephrine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Epinephrine
-        Quantity: 30
+    currentLabel: reagent-name-epinephrine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Epinephrine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleEthyloxyephedrine
@@ -393,12 +432,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ethyloxyephedrine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Ethyloxyephedrine
-        Quantity: 30
+    currentLabel: reagent-name-ethyloxyephedrine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Ethyloxyephedrine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleEthylredoxrazine
@@ -406,12 +447,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ethylredoxrazine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Ethylredoxrazine
-        Quantity: 30
+    currentLabel: reagent-name-ethylredoxrazine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Ethylredoxrazine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleHaloperidol
@@ -419,12 +462,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-haloperidol
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Haloperidol
-        Quantity: 30
+    currentLabel: reagent-name-haloperidol
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Haloperidol
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleHolywater
@@ -432,12 +477,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-holywater
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Holywater
-        Quantity: 30
+    currentLabel: reagent-name-holywater
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Holywater
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleHyronalin
@@ -445,12 +492,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-hyronalin
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Hyronalin
-        Quantity: 30
+    currentLabel: reagent-name-hyronalin
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Hyronalin
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleInaprovaline
@@ -458,12 +507,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-inaprovaline
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Inaprovaline
-        Quantity: 30
+    currentLabel: reagent-name-inaprovaline
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Inaprovaline
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleInsuzine
@@ -471,12 +522,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-insuzine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Insuzine
-        Quantity: 30
+    currentLabel: reagent-name-insuzine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Insuzine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleIpecac
@@ -484,12 +537,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ipecac
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Ipecac
-        Quantity: 30
+    currentLabel: reagent-name-ipecac
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Ipecac
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleKelotane
@@ -497,12 +552,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-kelotane
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Kelotane
-        Quantity: 30
+    currentLabel: reagent-name-kelotane
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Kelotane
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleLacerinol
@@ -510,12 +567,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-lacerinol
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Lacerinol
-        Quantity: 30
+    currentLabel: reagent-name-lacerinol
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Lacerinol
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleLeporazine
@@ -523,12 +582,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-leporazine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Leporazine
-        Quantity: 30
+    currentLabel: reagent-name-leporazine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Leporazine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleLipozine
@@ -536,12 +597,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-lipozine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Lipozine
-        Quantity: 30
+    currentLabel: reagent-name-lipozine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Lipozine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleMannitol
@@ -549,12 +612,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-mannitol
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Mannitol
-        Quantity: 30
+    currentLabel: reagent-name-mannitol
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Mannitol
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleOculine
@@ -562,12 +627,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-oculine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Oculine
-        Quantity: 30
+    currentLabel: reagent-name-oculine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Oculine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleOmnizine
@@ -575,12 +642,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-omnizine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Omnizine
-        Quantity: 30
+    currentLabel: reagent-name-omnizine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Omnizine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleOpporozidone
@@ -588,12 +657,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-opporozidone
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Opporozidone
-        Quantity: 30
+    currentLabel: reagent-name-opporozidone
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Opporozidone
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePhalanximine
@@ -601,12 +672,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-phalanximine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Phalanximine
-        Quantity: 30
+    currentLabel: reagent-name-phalanximine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Phalanximine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePolypyryliumOligomers
@@ -614,12 +687,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-polypyrylium-oligomers
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: PolypyryliumOligomers
-        Quantity: 30
+    currentLabel: reagent-name-polypyrylium-oligomers
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: PolypyryliumOligomers
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePotassiumIodide
@@ -627,12 +702,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-potassium-iodide
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: PotassiumIodide
-        Quantity: 30
+    currentLabel: reagent-name-potassium-iodide
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: PotassiumIodide
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePsicodine
@@ -640,12 +717,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-psicodine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Psicodine
-        Quantity: 30
+    currentLabel: reagent-name-psicodine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Psicodine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePulpedBananaPeel
@@ -653,12 +732,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-pulped-banana-peel
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: PulpedBananaPeel
-        Quantity: 30
+    currentLabel: reagent-name-pulped-banana-peel
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: PulpedBananaPeel
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePuncturase
@@ -666,12 +747,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-puncturase
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Puncturase
-        Quantity: 30
+    currentLabel: reagent-name-puncturase
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Puncturase
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePyrazine
@@ -679,12 +762,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-pyrazine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Pyrazine
-        Quantity: 30
+    currentLabel: reagent-name-pyrazine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Pyrazine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSaline
@@ -692,12 +777,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-saline
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Saline
-        Quantity: 30
+    currentLabel: reagent-name-saline
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Saline
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSiderlac
@@ -705,12 +792,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-siderlac
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Siderlac
-        Quantity: 30
+    currentLabel: reagent-name-siderlac
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Siderlac
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSigynate
@@ -718,12 +807,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-sigynate
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Sigynate
-        Quantity: 30
+    currentLabel: reagent-name-sigynate
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Sigynate
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleStellibinin
@@ -731,12 +822,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-stellibinin
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Stellibinin
-        Quantity: 30
+    currentLabel: reagent-name-stellibinin
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Stellibinin
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSynaptizine
@@ -744,12 +837,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-synaptizine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Synaptizine
-        Quantity: 30
+    currentLabel: reagent-name-synaptizine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Synaptizine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleTranexamicAcid
@@ -757,12 +852,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-tranexamic-acid
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: TranexamicAcid
-        Quantity: 30
+    currentLabel: reagent-name-tranexamic-acid
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: TranexamicAcid
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleTricordrazine
@@ -770,12 +867,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-tricordrazine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Tricordrazine
-        Quantity: 30
+    currentLabel: reagent-name-tricordrazine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Tricordrazine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleUltravasculine
@@ -783,12 +882,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ultravasculine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Ultravasculine
-        Quantity: 30
+    currentLabel: reagent-name-ultravasculine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Ultravasculine
+          Quantity: 30
 
 - type: entity
   parent: BaseChemistryBottleFilled
@@ -796,12 +897,14 @@
   suffix: charcoal
   components:
   - type: Label
-    localizedLabel: reagent-name-charcoal
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Charcoal
-        Quantity: 30
+    currentLabel: reagent-name-charcoal
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Charcoal
+          Quantity: 30
 
 # Other bottles
 
@@ -811,12 +914,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-robust-harvest
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: RobustHarvest
-        Quantity: 30
+    currentLabel: reagent-name-robust-harvest
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: RobustHarvest
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleEZNutrient
@@ -824,12 +929,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-e-z-nutrient
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: EZNutrient
-        Quantity: 30
+    currentLabel: reagent-name-e-z-nutrient
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: EZNutrient
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleLeft4Zed
@@ -837,12 +944,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-left4-zed
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Left4Zed
-        Quantity: 30
+    currentLabel: reagent-name-left4-zed
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Left4Zed
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleUnstableMutagen
@@ -850,12 +959,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-unstable-mutagen
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: UnstableMutagen
-        Quantity: 30
+    currentLabel: reagent-name-unstable-mutagen
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: UnstableMutagen
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleNocturine
@@ -863,12 +974,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-nocturine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Nocturine
-        Quantity: 30
+    currentLabel: reagent-name-nocturine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Nocturine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleEphedrine
@@ -876,12 +989,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ephedrine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Ephedrine
-        Quantity: 30
+    currentLabel: reagent-name-ephedrine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Ephedrine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePax
@@ -889,12 +1004,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-pax
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Pax
-        Quantity: 30
+    currentLabel: reagent-name-pax
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Pax
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleMuteToxin
@@ -902,12 +1019,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-mute-toxin
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: MuteToxin
-        Quantity: 30
+    currentLabel: reagent-name-mute-toxin
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: MuteToxin
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleLead
@@ -915,12 +1034,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-lead
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Lead
-        Quantity: 30
+    currentLabel: reagent-name-lead
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Lead
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleToxin
@@ -928,12 +1049,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-toxin
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Toxin
-        Quantity: 30
+    currentLabel: reagent-name-toxin
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Toxin
+          Quantity: 30
 
 - type: entity
   parent: BaseChemistryBottleFilled
@@ -941,12 +1064,14 @@
   suffix: laughter
   components:
   - type: Label
-    localizedLabel: reagent-name-laughter
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Laughter
-        Quantity: 30
+    currentLabel: reagent-name-laughter
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Laughter
+          Quantity: 30
 
 # Base reagent bottles
 - type: entity
@@ -955,12 +1080,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-aluminium
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Aluminium
-        Quantity: 30
+    currentLabel: reagent-name-aluminium
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Aluminium
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleCarbon
@@ -968,12 +1095,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-carbon
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Carbon
-        Quantity: 30
+    currentLabel: reagent-name-carbon
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Carbon
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleChlorine
@@ -981,12 +1110,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-chlorine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Chlorine
-        Quantity: 30
+    currentLabel: reagent-name-chlorine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Chlorine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleCopper
@@ -994,12 +1125,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-copper
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Copper
-        Quantity: 30
+    currentLabel: reagent-name-copper
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Copper
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleEthanol
@@ -1007,12 +1140,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-ethanol
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Ethanol
-        Quantity: 30
+    currentLabel: reagent-name-ethanol
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Ethanol
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleFluorine
@@ -1020,12 +1155,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-fluorine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Fluorine
-        Quantity: 30
+    currentLabel: reagent-name-fluorine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Fluorine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleHydrogen
@@ -1033,12 +1170,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-hydrogen
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Hydrogen
-        Quantity: 30
+    currentLabel: reagent-name-hydrogen
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Hydrogen
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleIodine
@@ -1046,12 +1185,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-iodine
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Iodine
-        Quantity: 30
+    currentLabel: reagent-name-iodine
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Iodine
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleIron
@@ -1059,12 +1200,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-iron
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Iron
-        Quantity: 30
+    currentLabel: reagent-name-iron
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Iron
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleLithium
@@ -1072,12 +1215,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-lithium
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Lithium
-        Quantity: 30
+    currentLabel: reagent-name-lithium
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Lithium
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleMercury
@@ -1085,12 +1230,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-mercury
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Mercury
-        Quantity: 30
+    currentLabel: reagent-name-mercury
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Mercury
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleNitrogen
@@ -1098,12 +1245,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-nitrogen
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Nitrogen
-        Quantity: 30
+    currentLabel: reagent-name-nitrogen
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Nitrogen
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleOxygen
@@ -1111,12 +1260,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-oxygen
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Oxygen
-        Quantity: 30
+    currentLabel: reagent-name-oxygen
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Oxygen
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePhosphorus
@@ -1124,12 +1275,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-phosphorus
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Phosphorus
-        Quantity: 30
+    currentLabel: reagent-name-phosphorus
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Phosphorus
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottlePotassium
@@ -1137,12 +1290,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-potassium
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Potassium
-        Quantity: 30
+    currentLabel: reagent-name-potassium
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Potassium
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleRadium
@@ -1150,12 +1305,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-radium
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Radium
-        Quantity: 30
+    currentLabel: reagent-name-radium
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Radium
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSilicon
@@ -1163,12 +1320,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-silicon
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Silicon
-        Quantity: 30
+    currentLabel: reagent-name-silicon
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Silicon
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSodium
@@ -1176,12 +1335,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-sodium
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Sodium
-        Quantity: 30
+    currentLabel: reagent-name-sodium
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Sodium
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSugar
@@ -1189,12 +1350,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-sugar
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Sugar
-        Quantity: 30
+    currentLabel: reagent-name-sugar
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Sugar
+          Quantity: 30
 
 - type: entity
   id: ChemistryBottleSulfur
@@ -1202,12 +1365,14 @@
   parent: BaseChemistryBottleFilled
   components:
   - type: Label
-    localizedLabel: reagent-name-sulfur
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Sulfur
-        Quantity: 30
+    currentLabel: reagent-name-sulfur
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Sulfur
+          Quantity: 30
 
 # Entity tables
 - type: entityTable

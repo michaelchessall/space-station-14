@@ -9,10 +9,10 @@ using System.Numerics;
 namespace Content.Server.Interaction;
 
 [AdminCommand(AdminFlags.Debug)]
-public sealed partial class TilePryCommand : LocalizedEntityCommands
+public sealed class TilePryCommand : LocalizedEntityCommands
 {
-    [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
-    [Dependency] private SharedMapSystem _mapSystem = default!;
+    [Dependency] private readonly ITileDefinitionManager _tileDefinitionManager = default!;
+    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
 
     private readonly string _platingId = "Plating";
 

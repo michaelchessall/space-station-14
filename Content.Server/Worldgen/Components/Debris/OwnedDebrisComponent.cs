@@ -1,5 +1,5 @@
-﻿using System.Numerics;
 using Content.Server.Worldgen.Systems.Debris;
+using System.Numerics;
 
 namespace Content.Server.Worldgen.Components.Debris;
 

@@ -35,7 +35,7 @@ using Robust.Shared.Toolshed.Commands.Values;
 
 namespace Content.Server.Atmos.EntitySystems
 {
-    public sealed partial class FlammableSystem : EntitySystem
+    public sealed class FlammableSystem : EntitySystem
     {
         [Dependency] private readonly ActionBlockerSystem _actionBlockerSystem = default!;
         [Dependency] private readonly AtmosphereSystem _atmosphereSystem = default!;
@@ -55,8 +55,8 @@ namespace Content.Server.Atmos.EntitySystems
         [Dependency] private readonly IGameTiming _timing = default!;
         [Dependency] private readonly ContainerSystem _container = default!;
 
-        [Dependency] private EntityQuery<InventoryComponent> _inventoryQuery = default!;
-        [Dependency] private EntityQuery<PhysicsComponent> _physicsQuery = default!;
+        private EntityQuery<InventoryComponent> _inventoryQuery;
+        private EntityQuery<PhysicsComponent> _physicsQuery;
 
         private static readonly TimeSpan UpdateTime = TimeSpan.FromSeconds(1);
 
@@ -65,6 +65,9 @@ namespace Content.Server.Atmos.EntitySystems
         public override void Initialize()
         {
             UpdatesAfter.Add(typeof(AtmosphereSystem));
+
+            _inventoryQuery = GetEntityQuery<InventoryComponent>();
+            _physicsQuery = GetEntityQuery<PhysicsComponent>();
 
             SubscribeLocalEvent<FlammableComponent, MapInitEvent>(OnMapInit);
             SubscribeLocalEvent<FlammableComponent, InteractUsingEvent>(OnInteractUsing);
@@ -307,11 +310,6 @@ namespace Content.Server.Atmos.EntitySystems
 
             _appearance.SetData(uid, FireVisuals.OnFire, flammable.OnFire, appearance);
             _appearance.SetData(uid, FireVisuals.FireStacks, flammable.FireStacks, appearance);
-
-            if (flammable.Displacement != null)
-                _appearance.SetData(uid, FireVisuals.FireDisplacement, flammable.Displacement.Value.Id, appearance);
-            else
-                _appearance.RemoveData(uid, FireVisuals.FireDisplacement);
 
             // Also enable toggleable-light visuals
             // This is intended so that matches & candles can re-use code for un-shaded layers on in-hand sprites.

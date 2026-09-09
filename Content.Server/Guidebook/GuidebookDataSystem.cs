@@ -9,8 +9,10 @@ namespace Content.Server.Guidebook;
 /// Server system for identifying component fields/properties to extract values from entity prototypes.
 /// Extracted data is sent to clients when they connect or when prototypes are reloaded.
 /// </summary>
-public sealed partial class GuidebookDataSystem : EntitySystem
+public sealed class GuidebookDataSystem : EntitySystem
 {
+    [Dependency] private readonly IPrototypeManager _protoMan = default!;
+
     private readonly Dictionary<string, List<MemberInfo>> _tagged = [];
     private GuidebookData _cachedData = new();
 
@@ -70,7 +72,7 @@ public sealed partial class GuidebookDataSystem : EntitySystem
         }
 
         // Scan entity prototypes for the component-member pairs we noted
-        var entityPrototypes = ProtoMan.EnumeratePrototypes<EntityPrototype>();
+        var entityPrototypes = _protoMan.EnumeratePrototypes<EntityPrototype>();
         foreach (var prototype in entityPrototypes)
         {
             foreach (var (component, entry) in prototype.Components)

@@ -1,9 +1,9 @@
 - type: entity
-  parent: [SolutionTank, SolutionHuge]
-  id: SinkEmpty
   name: sink
-  description: The faucets have been tightened to the maximum possible torque but are still known to drip.
+  id: BaseSink
+  abstract: true
   suffix: Empty
+  description: The faucets have been tightened to the maximum possible torque but are still known to drip.
   placement:
     mode: SnapgridCenter
   components:
@@ -12,19 +12,23 @@
   - type: Sprite
     sprite: Structures/Furniture/sink.rsi
     layers:
-    - state: sink_stem
-    - map: [ "enum.SolutionContainerLayers.Fill" ]
-      state: sink-fill-1
-      visible: false
+      - state: sink_stem
+      - map: [ "enum.SolutionContainerLayers.Fill" ]
+        state: sink-fill-1
+        visible: false
   - type: Appearance
   - type: SolutionContainerVisuals
     maxFillLevels: 1
     fillBaseName: sink-fill-
     solutionName: drainBuffer
-  - type: SolutionManager
+  - type: SolutionContainerManager
     solutions:
-    - SolutionDrainNormal
+      drainBuffer:
+        maxVol: 100
+      tank:
+        maxVol: 500
   - type: SolutionRegeneration
+    solution: tank
     generated:
       reagents:
       - ReagentId: Water
@@ -37,20 +41,25 @@
   - type: DumpableSolution
     solution: drainBuffer
   - type: Damageable
-    damageModifierSet: Metallic
-  - type: Injurable
     damageContainer: Inorganic
+    damageModifierSet: Metallic
   - type: Destructible
     thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 40
-      behaviors:
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
+      - trigger:
+          !type:DamageTrigger
+          damage: 80
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
+      - trigger:
+          !type:DamageTrigger
+          damage: 40
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
+          - !type:PlaySoundBehavior
+            sound:
+              collection: MetalBreak
   - type: AmbientSound
     enabled: false
     volume: -8
@@ -59,22 +68,35 @@
       path: /Audio/Ambience/Objects/drain.ogg
 
 - type: entity
-  parent: SinkEmpty
+  name: sink
+  id: SinkEmpty # Separated from BaseSink to prevent warnings
+  parent: BaseSink
+  components:
+  - type: Construction
+    graph: SinkEmpty
+    node: sinkempty
+
+- type: entity
+  name: sink
   id: Sink
+  parent: BaseSink
   suffix: Water
   components:
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Water
-        Quantity: 480
+  - type: SolutionContainerManager
+    solutions:
+      drainBuffer:
+        maxVol: 200
+      tank:
+        reagents:
+        - ReagentId: Water
+          Quantity: 500
 
 #Wide sink
 
 - type: entity
-  parent: Sink
-  id: SinkWide
   name: wide sink
+  id: BaseSinkWide
+  parent: BaseSink
   components:
   - type: Sprite
     sprite: Structures/Furniture/sink.rsi
@@ -87,15 +109,20 @@
     maxFillLevels: 1
     fillBaseName: sink_wide-fill-
     solutionName: drainBuffer
+
+- type: entity
+  name: wide sink
+  id: SinkWide
+  parent: BaseSinkWide
+  components:
   - type: Construction
     graph: SinkWide
     node: sinkwide
 
-
 - type: entity
   name: wide sink
   id: SinkWideWater
-  parent: SinkWide
+  parent: BaseSinkWide
   suffix: Water
   components:
   - type: SolutionContainerManager
@@ -112,7 +139,7 @@
 - type: entity
   name: sink
   id: BaseSinkStemless
-  parent: SinkEmpty
+  parent: BaseSink
   abstract: true
   components:
   - type: Sprite
@@ -138,8 +165,11 @@
   parent: BaseSinkStemless
   suffix: Water
   components:
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Water
-        Quantity: 480
+  - type: SolutionContainerManager
+    solutions:
+      drainBuffer:
+        maxVol: 100
+      tank:
+        reagents:
+        - ReagentId: Water
+          Quantity: 500

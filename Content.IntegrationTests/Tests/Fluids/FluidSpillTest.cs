@@ -1,5 +1,4 @@
 #nullable enable
-using Content.IntegrationTests.Fixtures;
 using Content.Server.Fluids.EntitySystems;
 using Content.Server.Spreader;
 using Content.Shared.Chemistry.Components;
@@ -15,7 +14,7 @@ namespace Content.IntegrationTests.Tests.Fluids;
 
 [TestFixture]
 [TestOf(typeof(SpreaderSystem))]
-public sealed class FluidSpill : GameTest
+public sealed class FluidSpill
 {
     private static PuddleComponent? GetPuddle(IEntityManager entityManager, Entity<MapGridComponent> mapGrid, Vector2i pos)
     {
@@ -37,8 +36,9 @@ public sealed class FluidSpill : GameTest
     [Test]
     public async Task SpillCorner()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
+        var mapManager = server.ResolveDependency<IMapManager>();
         var entityManager = server.ResolveDependency<IEntityManager>();
         var puddleSystem = server.System<PuddleSystem>();
         var mapSystem = server.System<SharedMapSystem>();
@@ -54,7 +54,7 @@ public sealed class FluidSpill : GameTest
         await server.WaitPost(() =>
         {
             mapSystem.CreateMap(out var mapId);
-            var grid = mapSystem.CreateGridEntity(mapId);
+            var grid = mapManager.CreateGridEntity(mapId);
             gridId = grid.Owner;
 
             for (var x = 0; x < 3; x++)
@@ -110,5 +110,7 @@ public sealed class FluidSpill : GameTest
                 }
             }
         });
+
+        await pair.CleanReturnAsync();
     }
 }

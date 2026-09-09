@@ -10,19 +10,22 @@ using Content.Shared.Objectives.Components;
 using Content.Shared.Objectives.Systems;
 using Content.Shared.Stacks;
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server.Objectives.Systems;
 
-public sealed partial class StealConditionSystem : EntitySystem
+public sealed class StealConditionSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private MetaDataSystem _metaData = default!;
-    [Dependency] private MobStateSystem _mobState = default!;
-    [Dependency] private SharedInteractionSystem _interaction = default!;
-    [Dependency] private SharedObjectivesSystem _objectives = default!;
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private EntityQuery<ContainerManagerComponent> _containerQuery = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
+    [Dependency] private readonly SharedObjectivesSystem _objectives = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+
+    private EntityQuery<ContainerManagerComponent> _containerQuery;
 
     private HashSet<Entity<TransformComponent>> _nearestEnts = new();
     private HashSet<EntityUid> _countedItems = new();
@@ -30,6 +33,8 @@ public sealed partial class StealConditionSystem : EntitySystem
     public override void Initialize()
     {
         base.Initialize();
+
+        _containerQuery = GetEntityQuery<ContainerManagerComponent>();
 
         SubscribeLocalEvent<StealConditionComponent, ObjectiveAssignedEvent>(OnAssigned);
         SubscribeLocalEvent<StealConditionComponent, ObjectiveAfterAssignEvent>(OnAfterAssign);
@@ -39,32 +44,31 @@ public sealed partial class StealConditionSystem : EntitySystem
     /// start checks of target acceptability, and generation of start values.
     private void OnAssigned(Entity<StealConditionComponent> condition, ref ObjectiveAssignedEvent args)
     {
-        var minSize = condition.Comp.MinCollectionSize;
-        var maxSize = condition.Comp.MaxCollectionSize;
+        List<StealTargetComponent?> targetList = new();
 
-        if (condition.Comp.VerifyMapExistence)
+        var query = AllEntityQuery<StealTargetComponent>();
+        while (query.MoveNext(out var target))
         {
-            // TODO: Use entity pools someday
-            List<StealTargetComponent?> targetList = new();
+            if (condition.Comp.StealGroup != target.StealGroup)
+                continue;
 
-            var query = AllEntityQuery<StealTargetComponent>();
-            while (query.MoveNext(out var target))
-            {
-                if (condition.Comp.StealGroup != target.StealGroup)
-                    continue;
-
-                targetList.Add(target);
-            }
-
-            if (targetList.Count == 0)
-            {
-                args.Cancelled = true;
-                return;
-            }
-
-            maxSize = Math.Min(targetList.Count, maxSize);
-            minSize = Math.Min(targetList.Count, minSize);
+            targetList.Add(target);
         }
+
+        // cancel if the required items do not exist
+        if (targetList.Count == 0 && condition.Comp.VerifyMapExistence)
+        {
+            args.Cancelled = true;
+            return;
+        }
+
+        //setup condition settings
+        var maxSize = condition.Comp.VerifyMapExistence
+            ? Math.Min(targetList.Count, condition.Comp.MaxCollectionSize)
+            : condition.Comp.MaxCollectionSize;
+        var minSize = condition.Comp.VerifyMapExistence
+            ? Math.Min(targetList.Count, condition.Comp.MinCollectionSize)
+            : condition.Comp.MinCollectionSize;
 
         condition.Comp.CollectionSize = _random.Next(minSize, maxSize);
     }
@@ -72,7 +76,7 @@ public sealed partial class StealConditionSystem : EntitySystem
     //Set the visual, name, icon for the objective.
     private void OnAfterAssign(Entity<StealConditionComponent> condition, ref ObjectiveAfterAssignEvent args)
     {
-        var group = ProtoMan.Index(condition.Comp.StealGroup);
+        var group = _proto.Index(condition.Comp.StealGroup);
         string localizedName = Loc.GetString(group.Name);
 
         var title = condition.Comp.OwnerText == null

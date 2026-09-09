@@ -37,9 +37,10 @@
   conserveEnergy: false
   reactants:
     Flour:
-      amount: 45
-    Water:
       amount: 15
+    Water:
+      amount: 10
+  group: Precipitate
   effects:
   - !type:SpawnEntity
       entity: FoodDough
@@ -83,11 +84,12 @@
   conserveEnergy: false
   reactants:
     Fiber:
-      amount: 40
+      amount: 10
     Flour:
       amount: 5
     Water:
-      amount: 15
+      amount: 10
+  group: Precipitate
   effects:
   - !type:SpawnEntity
     entity: FoodDoughCotton
@@ -99,15 +101,14 @@
   conserveEnergy: false
   reactants:
     Flour:
-      amount: 20
-    Butter:
-      amount: 10
+      amount: 15
     Egg:
-      amount: 6
+      amount: 12
     Sugar:
-      amount: 10
+      amount: 5
     Milk:
-      amount: 10
+      amount: 5
+  group: Precipitate
   effects:
   - !type:SpawnEntity
       entity: FoodCakeBatter
@@ -118,10 +119,11 @@
   quantized: true
   conserveEnergy: false
   reactants:
-    Cream:
-      amount: 30
+    Milk:
+      amount: 15
     TableSalt:
-      amount: 1
+      amount: 5
+      catalyst: true
   group: Precipitate
   effects:
   - !type:SpawnEntity
@@ -134,12 +136,10 @@
   conserveEnergy: false
   reactants:
     Flour:
-      amount: 40
-    Butter:
-      amount: 10
-    Water:
-      amount: 5
-    Sugar:
+      amount: 15
+    Egg:
+      amount: 12
+    TableSalt:
       amount: 5
   group: Precipitate
   effects:
@@ -173,7 +173,7 @@
   conserveEnergy: false
   reactants:
     MilkSoy:
-      amount: 55
+      amount: 30
     Enzyme:
       amount: 5
       catalyst: true

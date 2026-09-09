@@ -10,7 +10,7 @@ namespace Content.Shared.Weapons.Ranged.Systems;
 
 public abstract partial class SharedGunSystem
 {
-    [Dependency] private DamageExamineSystem _damageExamine = default!;
+    [Dependency] private readonly DamageExamineSystem _damageExamine = default!;
 
     // needed for server system
     protected virtual void InitializeCartridge()
@@ -38,10 +38,10 @@ public abstract partial class SharedGunSystem
 
     private DamageSpecifier? GetProjectileDamage(EntProtoId proto)
     {
-        if (!ProtoMan.TryIndex(proto, out var entityProto))
+        if (!ProtoManager.TryIndex(proto, out var entityProto))
             return null;
 
-        if (!entityProto.TryComp<ProjectileComponent>(out var projectile, Factory))
+        if (!entityProto.TryGetComponent<ProjectileComponent>(out var projectile, Factory))
             return null;
 
         if (!projectile.Damage.Empty)

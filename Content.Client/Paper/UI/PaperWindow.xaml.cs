@@ -19,14 +19,12 @@ namespace Content.Client.Paper.UI
     public sealed partial class PaperWindow : BaseWindow
     {
         private string _currentRawText = string.Empty;
-        [Dependency] private IInputManager _inputManager = default!;
-        [Dependency] private IResourceCache _resCache = default!;
+        [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly IResourceCache _resCache = default!;
 
         private static readonly Color DefaultTextColor = new(25, 25, 25);
 
-        // Default color for text which hasn't been changed using markup
-        private Color _writtenTextColor = DefaultTextColor;
-
+        // <summary>
         // Size of resize handles around the paper
         private const int DRAG_MARGIN_SIZE = 16;
 
@@ -167,7 +165,7 @@ namespace Content.Client.Paper.UI
                     visuals.FooterMargin.Right, visuals.FooterMargin.Bottom);
 
             PaperContent.ModulateSelfOverride = visuals.ContentImageModulate;
-            _writtenTextColor = visuals.DefaultTextColor ?? DefaultTextColor;
+            FillStatus.ModulateSelfOverride = visuals.FontAccentColor;
 
             var contentImage = visuals.ContentImagePath != null ? _resCache.GetResource<TextureResource>(visuals.ContentImagePath) : null;
             if (contentImage != null)
@@ -294,7 +292,7 @@ namespace Content.Client.Paper.UI
 
             var fm = new FormattedMessage();
             fm.AddMarkupPermissive(state.Text);
-            WrittenTextLabel.SetMessage(fm, _allowedTags, _writtenTextColor);
+            WrittenTextLabel.SetMessage(fm, _allowedTags, DefaultTextColor);
 
             var tagCount = CountTags(state.Text);
             var extraBottomMargin = tagCount * 3.0f; // 3 pixels per tag for extra height

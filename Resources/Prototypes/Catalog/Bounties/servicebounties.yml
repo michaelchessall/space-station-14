@@ -146,8 +146,8 @@
       tags:
       - Meat
     blacklist:
-      tags:
-      - Slice
+      components:
+      - SliceableFood
 
 - type: cargoBounty
   id: BountyFruit

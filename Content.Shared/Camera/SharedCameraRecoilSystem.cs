@@ -7,7 +7,7 @@ using System.Numerics;
 namespace Content.Shared.Camera;
 
 [UsedImplicitly]
-public abstract partial class SharedCameraRecoilSystem : EntitySystem
+public abstract class SharedCameraRecoilSystem : EntitySystem
 {
     /// <summary>
     ///     Maximum rate of magnitude restore towards 0 kick.
@@ -29,8 +29,8 @@ public abstract partial class SharedCameraRecoilSystem : EntitySystem
     /// </summary>
     protected const float KickMagnitudeMax = 1f;
 
-    [Dependency] private SharedContentEyeSystem _eye = default!;
-    [Dependency] private INetManager _net = default!;
+    [Dependency] private readonly SharedContentEyeSystem _eye = default!;
+    [Dependency] private readonly INetManager _net = default!;
 
     public override void Initialize()
     {

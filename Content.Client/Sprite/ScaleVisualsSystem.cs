@@ -4,9 +4,9 @@ using System.Numerics;
 
 namespace Content.Client.Sprite;
 
-public sealed partial class ScaleVisualsSystem : SharedScaleVisualsSystem
+public sealed class ScaleVisualsSystem : SharedScaleVisualsSystem
 {
-    [Dependency] private SpriteSystem _sprite = default!;
+    [Dependency] private readonly SpriteSystem _sprite = default!;
 
     public override void Initialize()
     {

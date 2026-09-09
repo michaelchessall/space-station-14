@@ -1,18 +1,17 @@
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Dataset;
 using Robust.Shared.Localization;
 using Robust.Shared.Prototypes;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests.Localization;
 
 [TestFixture]
-public sealed class LocalizedDatasetPrototypeTest : GameTest
+public sealed class LocalizedDatasetPrototypeTest
 {
     [Test]
     public async Task ValidProtoIdsTest()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
 
         var server = pair.Server;
         var protoMan = server.ResolveDependency<IPrototypeManager>();
@@ -37,5 +36,7 @@ public sealed class LocalizedDatasetPrototypeTest : GameTest
                 Assert.That(localizationMan.HasString(nextId), Is.False, $"LocalizedDataset {proto.ID} with prefix \"{proto.Values.Prefix}\" specifies {proto.Values.Count} entries, but a localized string exists with ID {nextId}! Does count need to be raised?");
             }
         });
+
+        await pair.CleanReturnAsync();
     }
 }

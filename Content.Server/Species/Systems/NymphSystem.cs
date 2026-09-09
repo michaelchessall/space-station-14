@@ -9,8 +9,9 @@ namespace Content.Server.Species.Systems;
 
 public sealed partial class NymphSystem : EntitySystem
 {
-    [Dependency] private MindSystem _mindSystem = default!;
-    [Dependency] private ZombieSystem _zombie = default!;
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
+    [Dependency] private readonly MindSystem _mindSystem = default!;
+    [Dependency] private readonly ZombieSystem _zombie = default!;
 
     public override void Initialize()
     {
@@ -24,7 +25,7 @@ public sealed partial class NymphSystem : EntitySystem
         if (TerminatingOrDeleted(uid) || TerminatingOrDeleted(args.Target))
             return;
 
-        if (!ProtoMan.TryIndex<EntityPrototype>(comp.EntityPrototype, out var entityProto))
+        if (!_protoManager.TryIndex<EntityPrototype>(comp.EntityPrototype, out var entityProto))
             return;
 
         // Get the organs' position & spawn a nymph there

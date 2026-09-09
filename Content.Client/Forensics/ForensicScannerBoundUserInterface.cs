@@ -4,9 +4,9 @@ using Robust.Shared.Timing;
 
 namespace Content.Client.Forensics
 {
-    public sealed partial class ForensicScannerBoundUserInterface : BoundUserInterface
+    public sealed class ForensicScannerBoundUserInterface : BoundUserInterface
     {
-        [Dependency] private IGameTiming _gameTiming = default!;
+        [Dependency] private readonly IGameTiming _gameTiming = default!;
 
         [ViewVariables]
         private ForensicScannerMenu? _window;

@@ -1444,8 +1444,9 @@
   canRotate: true
   canBuildInImpassable: false
   conditions:
+  # Need an *additional* condition here that forces there to be a wall in the opposite direction to the one used for placement.
+  # Also see below. Didn't add it b/c construction ECS work going on. Cheers, - 20kdc
     - !type:TileNotBlocked
-    - !type:AgainstWall
 
 - type: construction
   id: LightSmallFixture
@@ -1458,8 +1459,8 @@
   canRotate: true
   canBuildInImpassable: false
   conditions:
+  # Same here. - 20kdc
     - !type:TileNotBlocked
-    - !type:AgainstWall
 
 - type: construction
   id: EmergencyLightFixture
@@ -1473,7 +1474,6 @@
   canBuildInImpassable: false
   conditions:
     - !type:TileNotBlocked
-    - !type:AgainstWall
 
 - type: construction
   id: LightGroundFixture
@@ -1500,7 +1500,6 @@
   canBuildInImpassable: false
   conditions:
     - !type:TileNotBlocked
-    - !type:AgainstWall
 
 #conveyor
 - type: construction

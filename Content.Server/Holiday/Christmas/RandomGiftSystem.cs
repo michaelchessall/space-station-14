@@ -16,14 +16,15 @@ namespace Content.Server.Holiday.Christmas;
 /// <summary>
 /// This handles granting players their gift.
 /// </summary>
-public sealed partial class RandomGiftSystem : EntitySystem
+public sealed class RandomGiftSystem : EntitySystem
 {
-    [Dependency] private AudioSystem _audio = default!;
-    [Dependency] private HandsSystem _hands = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private IAdminLogManager _adminLogger = default!;
-    [Dependency] private EntityWhitelistSystem _whitelistSystem = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private readonly List<string> _possibleGiftsSafe = new();
     private readonly List<string> _possibleGiftsUnsafe = new();
@@ -43,7 +44,7 @@ public sealed partial class RandomGiftSystem : EntitySystem
         if (_whitelistSystem.IsWhitelistFail(component.ContentsViewers, args.Examiner) || component.SelectedEntity is null)
             return;
 
-        var name = ProtoMan.Index<EntityPrototype>(component.SelectedEntity).Name;
+        var name = _prototype.Index<EntityPrototype>(component.SelectedEntity).Name;
         args.PushText(Loc.GetString("gift-packin-contains", ("name", name)));
     }
 
@@ -95,7 +96,7 @@ public sealed partial class RandomGiftSystem : EntitySystem
         var mapGridCompName = Factory.GetComponentName<MapGridComponent>();
         var physicsCompName = Factory.GetComponentName<PhysicsComponent>();
 
-        foreach (var proto in ProtoMan.EnumeratePrototypes<EntityPrototype>())
+        foreach (var proto in _prototype.EnumeratePrototypes<EntityPrototype>())
         {
             if (proto.Abstract || proto.HideSpawnMenu || proto.Components.ContainsKey(mapGridCompName) || !proto.Components.ContainsKey(physicsCompName))
                 continue;

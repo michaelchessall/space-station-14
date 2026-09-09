@@ -14,11 +14,12 @@ using System.Linq;
 
 namespace Content.Server.GameTicking.Rules;
 
-public sealed partial class SecretRuleSystem : GameRuleSystem<SecretRuleComponent>
+public sealed class SecretRuleSystem : GameRuleSystem<SecretRuleComponent>
 {
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private IConfigurationManager _configurationManager = default!;
-    [Dependency] private IAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IConfigurationManager _configurationManager = default!;
+    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
 
     private string _ruleCompName = default!;
 
@@ -45,9 +46,6 @@ public sealed partial class SecretRuleSystem : GameRuleSystem<SecretRuleComponen
 
         foreach (var rule in preset.Rules)
         {
-            if (GameTicker.IsIgnored(rule))
-                continue;
-
             EntityUid ruleEnt;
 
             // if we're pre-round (i.e. will only be added)
@@ -74,7 +72,7 @@ public sealed partial class SecretRuleSystem : GameRuleSystem<SecretRuleComponen
 
     private bool TryPickPreset(ProtoId<WeightedRandomPrototype> weights, [NotNullWhen(true)] out GamePresetPrototype? preset)
     {
-        var options = ProtoMan.Index(weights).Weights.ShallowClone();
+        var options = _prototypeManager.Index(weights).Weights.ShallowClone();
         var players = GameTicker.ReadyPlayerCount();
 
         GamePresetPrototype? selectedPreset = null;
@@ -89,7 +87,7 @@ public sealed partial class SecretRuleSystem : GameRuleSystem<SecretRuleComponen
                 if (accumulated < rand)
                     continue;
 
-                if (!ProtoMan.TryIndex(key, out selectedPreset))
+                if (!_prototypeManager.TryIndex(key, out selectedPreset))
                     Log.Error($"Invalid preset {selectedPreset} in secret rule weights: {weights}");
 
                 options.Remove(key);
@@ -122,7 +120,7 @@ public sealed partial class SecretRuleSystem : GameRuleSystem<SecretRuleComponen
     /// </summary>
     public bool CanPickAny(ProtoId<WeightedRandomPrototype> weightedPresets)
     {
-        var ids = ProtoMan.Index(weightedPresets).Weights.Keys
+        var ids = _prototypeManager.Index(weightedPresets).Weights.Keys
             .Select(x => new ProtoId<GamePresetPrototype>(x));
 
         return CanPickAny(ids);
@@ -136,7 +134,7 @@ public sealed partial class SecretRuleSystem : GameRuleSystem<SecretRuleComponen
         var players = GameTicker.ReadyPlayerCount();
         foreach (var id in protos)
         {
-            if (!ProtoMan.TryIndex(id, out var selectedPreset))
+            if (!_prototypeManager.TryIndex(id, out var selectedPreset))
                 Log.Error($"Invalid preset {selectedPreset} in secret rule weights: {id}");
 
             if (CanPick(selectedPreset, players))
@@ -154,6 +152,19 @@ public sealed partial class SecretRuleSystem : GameRuleSystem<SecretRuleComponen
         if (selected == null)
             return false;
 
-        return players >= GameTicker.GetMinimumPlayerCount(selected);
+        foreach (var ruleId in selected.Rules)
+        {
+            if (!_prototypeManager.TryIndex(ruleId, out EntityPrototype? rule)
+                || !rule.TryGetComponent(_ruleCompName, out GameRuleComponent? ruleComp))
+            {
+                Log.Error($"Encountered invalid rule {ruleId} in preset {selected.ID}");
+                return false;
+            }
+
+            if (ruleComp.MinPlayers > players && ruleComp.CancelPresetOnTooFewPlayers)
+                return false;
+        }
+
+        return true;
     }
 }

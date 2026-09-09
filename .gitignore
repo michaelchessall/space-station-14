@@ -307,9 +307,6 @@ Resources/MapImages
 
 *.bak
 
-# Shader error output
-error.glsl
-
 # Direnv stuff
 .direnv/
 /Content.Client/Lobby/UI/HumanoidProfileEditor.xaml.cs
@@ -317,6 +314,3 @@ error.glsl
 .github/agents/Diagnoser.agent.md
 .github/agents/Populator.agent.md
 build_output.txt
-
-# C# Dev Kit cache file
-*.lscache

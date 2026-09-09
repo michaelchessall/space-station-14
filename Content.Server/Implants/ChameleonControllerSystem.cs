@@ -15,13 +15,14 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Server.Implants;
 
-public sealed partial class ChameleonControllerSystem : SharedChameleonControllerSystem
+public sealed class ChameleonControllerSystem : SharedChameleonControllerSystem
 {
-    [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private SharedStationSpawningSystem _stationSpawningSystem = default!;
-    [Dependency] private ChameleonClothingSystem _chameleonClothingSystem = default!;
-    [Dependency] private IServerPreferencesManager _preferences = default!;
-    [Dependency] private UseDelaySystem _delay = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly SharedStationSpawningSystem _stationSpawningSystem = default!;
+    [Dependency] private readonly ChameleonClothingSystem _chameleonClothingSystem = default!;
+    [Dependency] private readonly IServerPreferencesManager _preferences = default!;
+    [Dependency] private readonly UseDelaySystem _delay = default!;
 
     public override void Initialize()
     {
@@ -45,10 +46,10 @@ public sealed partial class ChameleonControllerSystem : SharedChameleonControlle
     /// </summary>
     private void ChangeChameleonClothingToOutfit(EntityUid user, ProtoId<ChameleonOutfitPrototype> outfit)
     {
-        var outfitPrototype = ProtoMan.Index(outfit);
+        var outfitPrototype = _proto.Index(outfit);
 
-        ProtoMan.Resolve(outfitPrototype.Job, out var jobPrototype);
-        ProtoMan.Resolve(outfitPrototype.StartingGear, out var startingGearPrototype);
+        _proto.Resolve(outfitPrototype.Job, out var jobPrototype);
+        _proto.Resolve(outfitPrototype.StartingGear, out var startingGearPrototype);
 
         GetJobEquipmentInformation(jobPrototype, user, out var customRoleLoadout, out var defaultRoleLoadout, out var jobStartingGearPrototype);
 
@@ -79,7 +80,7 @@ public sealed partial class ChameleonControllerSystem : SharedChameleonControlle
         if (jobPrototype == null)
             return;
 
-        ProtoMan.Resolve(jobPrototype.StartingGear, out jobStartingGearPrototype);
+        _proto.Resolve(jobPrototype.StartingGear, out jobStartingGearPrototype);
 
         if (!TryComp<ActorComponent>(user, out var actorComponent))
             return;
@@ -94,16 +95,16 @@ public sealed partial class ChameleonControllerSystem : SharedChameleonControlle
 
         profile.Loadouts.TryGetValue(jobProtoId, out customRoleLoadout);
 
-        if (!ProtoMan.HasIndex<RoleLoadoutPrototype>(jobProtoId))
+        if (!_proto.HasIndex<RoleLoadoutPrototype>(jobProtoId))
             return;
 
         defaultRoleLoadout = new RoleLoadout(jobProtoId);
-        defaultRoleLoadout.SetDefault(profile, null, ProtoMan); // only sets the default if the player has no loadout
+        defaultRoleLoadout.SetDefault(profile, null, _proto); // only sets the default if the player has no loadout
     }
 
     private void ChameleonControllerOutfitItemSelected(Entity<ChameleonClothingComponent> ent, ref InventoryRelayedEvent<ChameleonControllerOutfitSelectedEvent> args)
     {
-        if (!ent.Comp.CanBeSetByController || !_inventory.TryGetContainingSlot(ent.Owner, out var slot))
+        if (!_inventory.TryGetContainingSlot(ent.Owner, out var slot))
             return;
 
         _chameleonClothingSystem.SetSelectedPrototype(ent, GetGearForSlot(args, slot.Name), component: ent.Comp);

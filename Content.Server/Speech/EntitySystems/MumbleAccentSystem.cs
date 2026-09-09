@@ -4,13 +4,15 @@ using Content.Shared.Chat;
 using Content.Shared.Chat.Prototypes;
 using Content.Shared.Speech;
 using Content.Shared.Speech.Components;
+using Robust.Shared.Prototypes;
 
 namespace Content.Server.Speech.EntitySystems;
 
-public sealed partial class MumbleAccentSystem : EntitySystem
+public sealed class MumbleAccentSystem : EntitySystem
 {
-    [Dependency] private ChatSystem _chat = default!;
-    [Dependency] private ReplacementAccentSystem _replacement = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly ReplacementAccentSystem _replacement = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     public override void Initialize()
     {
@@ -30,7 +32,7 @@ public sealed partial class MumbleAccentSystem : EntitySystem
             // play a muffled version of the vocal emote
             args.Handled = _chat.TryPlayEmoteSound(
                 ent.Owner,
-                ProtoMan.Index(sounds),
+                _prototype.Index(sounds),
                 args.Emote,
                 ent.Comp.EmoteAudioParams);
         }

@@ -11,7 +11,6 @@ using Content.Shared.Access.Systems;
 using Content.Shared.Bed.Cryostorage;
 using Content.Shared.Chat;
 using Content.Shared.Climbing.Systems;
-using Content.Shared.Clothing.Components;
 using Content.Shared.Database;
 using Content.Shared.GameTicking;
 using Content.Shared.Hands.Components;
@@ -33,27 +32,24 @@ using System.Globalization;
 namespace Content.Server.Bed.Cryostorage;
 
 /// <inheritdoc/>
-public sealed partial class CryostorageSystem : SharedCryostorageSystem
+public sealed class CryostorageSystem : SharedCryostorageSystem
 {
-    [Dependency] private IChatManager _chatManager = default!;
-    [Dependency] private IPlayerManager _playerManager = default!;
-    [Dependency] private AudioSystem _audio = default!;
-    [Dependency] private AccessReaderSystem _accessReader = default!;
-    [Dependency] private ChatSystem _chatSystem = default!;
-    [Dependency] private ClimbSystem _climb = default!;
-    [Dependency] private ContainerSystem _container = default!;
-    [Dependency] private GhostSystem _ghostSystem = default!;
-    [Dependency] private HandsSystem _hands = default!;
-    [Dependency] private ServerInventorySystem _inventory = default!;
-    [Dependency] private PopupSystem _popup = default!;
-    [Dependency] private StationSystem _station = default!;
-    [Dependency] private StationJobsSystem _stationJobs = default!;
-    [Dependency] private StationRecordsSystem _stationRecords = default!;
-    [Dependency] private TransformSystem _transform = default!;
-    [Dependency] private UserInterfaceSystem _ui = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly AudioSystem _audio = default!;
+    [Dependency] private readonly AccessReaderSystem _accessReader = default!;
+    [Dependency] private readonly ChatSystem _chatSystem = default!;
+    [Dependency] private readonly ClimbSystem _climb = default!;
+    [Dependency] private readonly ContainerSystem _container = default!;
+    [Dependency] private readonly HandsSystem _hands = default!;
+    [Dependency] private readonly ServerInventorySystem _inventory = default!;
+    [Dependency] private readonly PopupSystem _popup = default!;
+    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly StationRecordsSystem _stationRecords = default!;
+    [Dependency] private readonly TransformSystem _transform = default!;
+    [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly MapLoaderSystem _loader = default!;
     [Dependency] private readonly GameTicker _ticker = default!;
-
     /// <inheritdoc/>
     public override void Initialize()
     {
@@ -203,6 +199,7 @@ public sealed partial class CryostorageSystem : SharedCryostorageSystem
             var ev = new PersonalCryoEvent(true);
             RaiseLocalEvent(cryostorageEnt.Value, ref ev);
         }
+            
 
         _audio.PlayPvs(cryostorageComponent.RemoveSound, ent);
 
@@ -303,15 +300,12 @@ public sealed partial class CryostorageSystem : SharedCryostorageSystem
         var enumerator = _inventory.GetSlotEnumerator(uid);
         while (enumerator.NextItem(out var item, out var slotDef))
         {
-            if (HasComp<AttachedClothingComponent>(item))
-                continue;
-
             data.ItemSlots.Add(slotDef.Name, Name(item));
         }
 
         foreach (var hand in _hands.EnumerateHands(uid))
         {
-            if (!_hands.TryGetHeldItem(uid, hand, out var heldEntity, true))
+            if (!_hands.TryGetHeldItem(uid, hand, out var heldEntity))
                 continue;
 
             data.HeldItems.Add(hand, Name(heldEntity.Value));

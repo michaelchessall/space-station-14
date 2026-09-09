@@ -5,146 +5,136 @@
   name: gas canister
   description: A canister that can contain any type of gas. It can be attached to connector ports using a wrench.
   components:
-  - type: Animateable
-  - type: InteractionOutline
-  - type: Transform
-    noRot: true
-  - type: Sprite
-    sprite: Structures/Storage/canister.rsi
-    noRot: true
-    layers:
-    - state: grey
-    - state: paper
-      visible: false
-      map: [ "enum.PaperLabelVisuals.Layer" ]
-    - state: integrity-unshaded-0
-      map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-      shader: unshaded
-      visible: false
-    - state: mask-grey
-      map: [ "enum.MaxPressureVisualLayers.Base" ]
-      visible: false
-  - type: Appearance
-  - type: GenericVisualizer
-    visuals:
-      enum.AnchorVisuals.Anchored:
-        connectedToPort:
-          False: { state: can-connector, visible: false }
-          True: { state: can-connector, visible: true }
-      enum.GasCanisterVisuals.TankInserted:
-        tankInserted:
-          False: { state: can-open, visible: false }
-          True: { state: can-open, visible: true }
-      enum.LockVisuals.Locked:
-        locked:
-          False: { state: unlocked, shader: "unshaded" }
-          True: { state: locked, shader: "unshaded" }
-      enum.GasCanisterVisuals.PressureState:
-        pressureLight:
-          0: { state: can-o0, shader: "unshaded" }
-          1: { state: can-o1, shader: "unshaded" }
-          2: { state: can-o2, shader: "unshaded" }
-          3: { state: can-o3, shader: "unshaded" }
-      enum.PaperLabelVisuals.HasLabel:
-        enum.PaperLabelVisuals.Layer:
-          True: { visible: true }
-          False: { visible: false }
-      enum.StorageVisuals.Open:
-        enum.PaperLabelVisuals.Layer:
-          True: { visible: false }
-      enum.PaperLabelVisuals.LabelType:
-        enum.PaperLabelVisuals.Layer:
-          Paper: { state: paper }
-          Bounty: { state: bounty }
-          CaptainsPaper: { state: captains_paper }
-          Invoice: { state: invoice }
-  - type: ActivatableUI
-    key: enum.GasCanisterUiKey.Key
-  - type: UIRequiresLock
-    userInterfaceKeys:
-    - enum.GasCanisterUiKey.Key
-  - type: UserInterface
-    interfaces:
-      enum.GasCanisterUiKey.Key:
-        type: GasCanisterBoundUserInterface
-  - type: Destructible
-    thresholds:
-    - trigger:
-        !type:DamageTrigger
-        damage: 300
-      behaviors:
-      - !type:PlaySoundBehavior
-        sound:
-          collection: MetalBreak
-      - !type:SpawnEntitiesBehavior
-        spawn:
-          GasCanisterBrokenBase:
-            min: 1
-            max: 1
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
-      - !type:DumpCanisterBehavior
-  - type: Damageable
-    damageModifierSet: Metallic
-  - type: Injurable
-    damageContainer: Inorganic
-  - type: Physics
-    bodyType: Dynamic
-  - type: Fixtures
-    fixtures:
-      fix1:
-        shape:
-          !type:PhysShapeAabb
-          bounds: "-0.25,-0.25,0.25,0.25"
-        density: 190
-        mask:
-        - SmallMobMask
-        layer:
-        - MachineLayer
-  - type: AtmosDevice
-    requireAnchored: false
-    joinSystem: true
-  - type: ContainerContainer
-    containers:
-      tank_slot: !type:ContainerSlot {}
-      paper_label: !type:ContainerSlot
-  - type: NodeContainer
-    nodes:
-      port:
-        !type:PortablePipeNode
-        nodeGroupID: Pipe
-        rotationsEnabled: false
-        volume: 1
-  - type: GasPortable
-  - type: MaxPressureVisuals
-    integrityMask: mask-grey
-  - type: GasCanister
-    maxIntegrity: 15 # 5 times stronger than a gas tank
-    integrity: 15
-    maxReleasePressure: 1013.25
-    safetyPressure: 10132.5 # High enough that liquid tanks don't burst immediately, with an extra 33% wiggle room to work with
-    overpressure: 20265 # Purposefully high because cans react really fucking fast, may need to redo this value if reactions change!
-    gasTankSlot:
-      name: comp-gas-canister-slot-name-gas-tank
-      ejectOnBreak: true
-      whitelist:
-        components:
-          - GasTank
-  - type: Explosive
-    explosionType: Minibomb # Mostly a pressure wave explosive so primarily blunt damage
-    maxIntensity: 100
-    tileBreakScale: 0.2 # Keeps the can from spacing all the hot gas it has now vented :). If this proves to be too much it can be removed.
-  - type: StaticPrice
-    price: 200
-  - type: AccessReader
-    access: [["Atmospherics"], ["Engineering"], ["Research"]]
-  - type: Lock
-    locked: false
-  - type: GuideHelp
-    guides:
-    - GasCanisters
-  - type: Paintable
-    group: Canisters
+    - type: Animateable
+    - type: InteractionOutline
+    - type: Transform
+      noRot: true
+    - type: Sprite
+      sprite: Structures/Storage/canister.rsi
+      noRot: true
+      layers:
+        - state: grey
+        - state: paper
+          visible: false
+          map: [ "enum.PaperLabelVisuals.Layer" ]
+    - type: Appearance
+    - type: GenericVisualizer
+      visuals:
+        enum.AnchorVisuals.Anchored:
+          connectedToPort:
+            False: { state: can-connector, visible: false }
+            True: { state: can-connector, visible: true }
+        enum.GasCanisterVisuals.TankInserted:
+          tankInserted:
+            False: { state: can-open, visible: false }
+            True: { state: can-open, visible: true }
+        enum.LockVisuals.Locked:
+          locked:
+            False: { state: unlocked, shader: "unshaded" }
+            True: { state: locked, shader: "unshaded" }
+        enum.GasCanisterVisuals.PressureState:
+          pressureLight:
+            0: { state: can-o0, shader: "unshaded" }
+            1: { state: can-o1, shader: "unshaded" }
+            2: { state: can-o2, shader: "unshaded" }
+            3: { state: can-o3, shader: "unshaded" }
+        enum.PaperLabelVisuals.HasLabel:
+          enum.PaperLabelVisuals.Layer:
+            True: { visible: true }
+            False: { visible: false }
+        enum.StorageVisuals.Open:
+          enum.PaperLabelVisuals.Layer:
+            True: { visible: false }
+        enum.PaperLabelVisuals.LabelType:
+          enum.PaperLabelVisuals.Layer:
+            Paper: { state: paper }
+            Bounty: { state: bounty }
+            CaptainsPaper: { state: captains_paper }
+            Invoice: { state: invoice }
+    - type: ActivatableUI
+      key: enum.GasCanisterUiKey.Key
+    - type: UIRequiresLock
+      userInterfaceKeys:
+      - enum.GasCanisterUiKey.Key
+    - type: UserInterface
+      interfaces:
+        enum.GasCanisterUiKey.Key:
+          type: GasCanisterBoundUserInterface
+    - type: Destructible
+      thresholds:
+        - trigger:
+            !type:DamageTrigger
+            damage: 600
+          behaviors:
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+        - trigger:
+            !type:DamageTrigger
+            damage: 300
+          behaviors:
+            - !type:PlaySoundBehavior
+              sound:
+                collection: MetalBreak
+            - !type:SpawnEntitiesBehavior
+              spawn:
+                GasCanisterBrokenBase:
+                  min: 1
+                  max: 1
+            - !type:DoActsBehavior
+              acts: [ "Destruction" ]
+            - !type:DumpCanisterBehavior
+    - type: Damageable
+      damageContainer: Inorganic
+      damageModifierSet: Metallic
+    - type: Physics
+      bodyType: Dynamic
+    - type: Fixtures
+      fixtures:
+        fix1:
+          shape:
+            !type:PhysShapeAabb
+            bounds: "-0.25,-0.25,0.25,0.25"
+          density: 190
+          mask:
+          - SmallMobMask
+          layer:
+          - MachineLayer
+    - type: AtmosDevice
+      requireAnchored: false
+      joinSystem: true
+    - type: ContainerContainer
+      containers:
+        tank_slot: !type:ContainerSlot {}
+        paper_label: !type:ContainerSlot
+    - type: NodeContainer
+      nodes:
+        port:
+          !type:PortablePipeNode
+          nodeGroupID: Pipe
+          rotationsEnabled: false
+          volume: 1
+    - type: GasPortable
+    - type: GasCanister
+      gasTankSlot:
+        name: comp-gas-canister-slot-name-gas-tank
+        ejectOnBreak: true
+        whitelist:
+          components:
+            - GasTank
+    - type: StaticPrice
+      price: 200
+    - type: AccessReader
+      access: [["Atmospherics"], ["Engineering"], ["Research"]]
+    - type: Lock
+      locked: false
+    - type: GuideHelp
+      guides:
+      - GasCanisters
+    - type: Paintable
+      group: Canisters
+    - type: Construction
+      graph: StorageCanisterGraph
+      node: canister
 
 - type: entity
   parent: GasCanister
@@ -156,25 +146,19 @@
       state: "yellow"
     - type: Sprite
       layers:
-      - state: yellow
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-yellow
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-yellow
+        - state: yellow
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -202,7 +186,7 @@
       layers:
         - state: methane
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Methane: 2769.36
@@ -241,7 +225,7 @@
       layers:
         - state: hydrogen
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Hydrogen: 2769.36
@@ -280,7 +264,7 @@
       layers:
         - state: fluorine
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Fluorine: 2769.36
@@ -319,7 +303,7 @@
       layers:
         - state: chlorine
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Chlorine: 2769.36
@@ -358,7 +342,7 @@
       layers:
         - state: clf3
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           ChlorineTrifluoride: 2769.36
@@ -396,23 +380,10 @@
   description: A canister that can contain any type of gas. This one is supposed to contain air mixture. It can be attached to connector ports using a wrench.
   components:
   - type: Sprite
-    sprite: Structures/Storage/canister.rsi
     layers:
-    - state: grey
-    - state: paper
-      visible: false
-      map: [ "enum.PaperLabelVisuals.Layer" ]
-    - state: integrity-unshaded-0
-      map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-      shader: unshaded
-      visible: false
-    - state: mask-grey
-      map: [ "enum.MaxPressureVisualLayers.Base" ]
-      visible: false
-  - type: MaxPressureVisuals
-    integrityMask: mask-grey
+      - state: grey
   - type: GasCanister
-    air:
+    gasMixture:
       volume: 1500
       moles:
         Oxygen: 581.56 # oxygen 21%
@@ -420,6 +391,12 @@
       temperature: 293.15
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 600
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 300
@@ -444,27 +421,21 @@
   components:
   - type: Sprite
     layers:
-    - state: blue
-    - state: paper
-      visible: false
-      map: [ "enum.PaperLabelVisuals.Layer" ]
-    - state: integrity-unshaded-0
-      map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-      shader: unshaded
-      visible: false
-    - state: mask-blue
-      map: [ "enum.MaxPressureVisualLayers.Base" ]
-      visible: false
-  - type: MaxPressureVisuals
-    integrityMask: mask-blue
+      - state: blue
   - type: GasCanister
-    air:
+    gasMixture:
       volume: 1500
       moles:
         Oxygen: 2769.36 # oxygen
       temperature: 293.15
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 600
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 300
@@ -488,7 +459,7 @@
   description: A canister that can contain any type of gas. This one is supposed to contain liquid oxygen. It can be attached to connector ports using a wrench.
   components:
   - type: GasCanister
-    air:
+    gasMixture:
       volume: 1500
       moles:
         Oxygen: 18710.71051 # oxygen
@@ -504,27 +475,21 @@
   components:
     - type: Sprite
       layers:
-      - state: red
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-red
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-red
+        - state: red
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Nitrogen: 2769.36 # nitrogen
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -548,7 +513,7 @@
   description: A canister that can contain any type of gas. This one is supposed to contain liquid nitrogen. It can be attached to connector ports using a wrench.
   components:
   - type: GasCanister
-    air:
+    gasMixture:
       volume: 1500
       moles:
         Nitrogen: 18710.71051 # nitrogen
@@ -564,27 +529,21 @@
   components:
     - type: Sprite
       layers:
-      - state: black
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-black
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-black
+        - state: black
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           CarbonDioxide: 2769.36 # CO2
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -610,7 +569,7 @@
   description: A canister that can contain any type of gas. This one is supposed to contain liquid carbon dioxide. It can be attached to connector ports using a wrench.
   components:
   - type: GasCanister
-    air:
+    gasMixture:
       volume: 1500
       moles:
         CarbonDioxide: 18710.71051 # CO2
@@ -626,27 +585,21 @@
   components:
     - type: Sprite
       layers:
-      - state: orange
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-orange
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-orange
+        - state: orange
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Plasma: 2769.36 # plasma
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -673,27 +626,21 @@
   components:
     - type: Sprite
       layers:
-      - state: green
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-green
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-green
+        - state: green
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Tritium: 2769.36 # Tritium
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -720,27 +667,21 @@
   components:
     - type: Sprite
       layers:
-      - state: water_vapor
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-water_vapor
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-water_vapor
+        - state: water_vapor
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           WaterVapor: 2769.36 # Water vapor
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -765,27 +706,21 @@
   components:
     - type: Sprite
       layers:
-      - state: greenys
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-greenys
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-greenys
+        - state: greenys
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           Ammonia: 2769.36 # Ammonia
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -812,27 +747,21 @@
   components:
     - type: Sprite
       layers:
-      - state: redws
-      - state: paper
-        visible: false
-        map: [ "enum.PaperLabelVisuals.Layer" ]
-      - state: integrity-unshaded-0
-        map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-        shader: unshaded
-        visible: false
-      - state: mask-redws
-        map: [ "enum.MaxPressureVisualLayers.Base" ]
-        visible: false
-    - type: MaxPressureVisuals
-      integrityMask: mask-redws
+        - state: redws
     - type: GasCanister
-      air:
+      gasMixture:
         volume: 1500
         moles:
           NitrousOxide: 2769.36 # N2O
         temperature: 293.15
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 600
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 300
@@ -860,26 +789,20 @@
   - type: Sprite
     layers:
     - state: frezon
-    - state: paper
-      visible: false
-      map: [ "enum.PaperLabelVisuals.Layer" ]
-    - state: integrity-unshaded-0
-      map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
-      shader: unshaded
-      visible: false
-    - state: mask-frezon
-      map: [ "enum.MaxPressureVisualLayers.Base" ]
-      visible: false
-  - type: MaxPressureVisuals
-    integrityMask: mask-frezon
   - type: GasCanister
-    air:
+    gasMixture:
       volume: 1500
       moles:
         Frezon: 2769.36 # Frezon
       temperature: 293.15
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 600
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 300
@@ -898,22 +821,6 @@
   - type: Lock
     locked: true
 
-
-- type: entity
-  parent: GasCanister
-  id: MaxCapCanister # As of writing canisters currently have about 9000 explosive intensity. 95% the total damage of a syndicate bomb but spread across a larger area.
-  categories: [ Debug ]
-  name: max cap in a can
-  suffix: Max Cap
-  components:
-  - type: GasCanister
-    air:
-      volume: 1500
-      moles:
-        Oxygen: 1400
-        Tritium: 700
-      temperature: 373.149
-
 # Broke Entities
 
 - type: entity
@@ -924,6 +831,12 @@
   components:
     - type: Destructible
       thresholds:
+      - trigger:
+          !type:DamageTrigger
+          damage: 200
+        behaviors:
+          - !type:DoActsBehavior
+            acts: [ "Destruction" ]
       - trigger:
           !type:DamageTrigger
           damage: 100
@@ -939,9 +852,8 @@
         - !type:DoActsBehavior
           acts: [ "Destruction" ]
     - type: Damageable
-      damageModifierSet: Metallic
-    - type: Injurable
       damageContainer: Inorganic
+      damageModifierSet: Metallic
     - type: InteractionOutline
     - type: Sprite
       sprite: Structures/Storage/canister.rsi

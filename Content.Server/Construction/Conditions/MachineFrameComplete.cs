@@ -88,7 +88,8 @@ namespace Content.Server.Construction.Conditions
                 var examineName = constructionSys.GetExamineName(info);
                 args.PushMarkup(Loc.GetString("construction-condition-machine-frame-required-element-entry",
                                     ("amount", info.Amount),
-                                    ("elementName", examineName)));
+                                    ("elementName", examineName))
+                                + "\n");
             }
 
             return true;

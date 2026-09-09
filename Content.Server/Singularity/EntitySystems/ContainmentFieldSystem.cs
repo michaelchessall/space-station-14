@@ -10,11 +10,11 @@ using Robust.Shared.Timing;
 
 namespace Content.Server.Singularity.EntitySystems;
 
-public sealed partial class ContainmentFieldSystem : EntitySystem
+public sealed class ContainmentFieldSystem : EntitySystem
 {
-    [Dependency] private ThrowingSystem _throwing = default!;
-    [Dependency] private PopupSystem _popupSystem = default!;
-    [Dependency] private SharedTransformSystem _transformSystem = default!;
+    [Dependency] private readonly ThrowingSystem _throwing = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
+    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
 
     public override void Initialize()
     {

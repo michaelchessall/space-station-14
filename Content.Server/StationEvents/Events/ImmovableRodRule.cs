@@ -1,4 +1,3 @@
-using Content.Server.GameTicking.Rules.Components;
 using Content.Server.ImmovableRod;
 using Content.Server.StationEvents.Components;
 using Content.Server.Weapons.Ranged.Systems;
@@ -11,11 +10,11 @@ using TimedDespawnComponent = Robust.Shared.Spawners.TimedDespawnComponent;
 
 namespace Content.Server.StationEvents.Events;
 
-public sealed partial class ImmovableRodRule : StationEventSystem<ImmovableRodRuleComponent>
+public sealed class ImmovableRodRule : StationEventSystem<ImmovableRodRuleComponent>
 {
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private GunSystem _gun = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly GunSystem _gun = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
 
     protected override void Started(EntityUid uid, ImmovableRodRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
     {
@@ -25,8 +24,8 @@ public sealed partial class ImmovableRodRule : StationEventSystem<ImmovableRodRu
 
         var proto = _prototypeManager.Index<EntityPrototype>(protoName);
 
-        if (proto.TryComp<ImmovableRodComponent>(out var rod, EntityManager.ComponentFactory) &&
-            proto.TryComp<TimedDespawnComponent>(out var despawn, EntityManager.ComponentFactory))
+        if (proto.TryGetComponent<ImmovableRodComponent>(out var rod, EntityManager.ComponentFactory) &&
+            proto.TryGetComponent<TimedDespawnComponent>(out var despawn, EntityManager.ComponentFactory))
         {
             if (!TryFindRandomTile(out _, out _, out _, out var targetCoords))
                 return;

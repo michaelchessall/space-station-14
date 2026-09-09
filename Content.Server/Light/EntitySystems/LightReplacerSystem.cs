@@ -1,4 +1,3 @@
-using System.Linq;
 using Content.Shared.Examine;
 using Content.Shared.Interaction;
 using Content.Shared.Light.Components;
@@ -8,16 +7,17 @@ using Content.Shared.Storage;
 using JetBrains.Annotations;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
+using System.Linq;
 
 namespace Content.Server.Light.EntitySystems;
 
 [UsedImplicitly]
-public sealed partial class LightReplacerSystem : SharedLightReplacerSystem
+public sealed class LightReplacerSystem : SharedLightReplacerSystem
 {
-    [Dependency] private PoweredLightSystem _poweredLight = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private SharedContainerSystem _container = default!;
-    [Dependency] private SharedPopupSystem _popupSystem = default!;
+    [Dependency] private readonly PoweredLightSystem _poweredLight = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly SharedContainerSystem _container = default!;
+    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
 
     public override void Initialize()
     {
@@ -42,9 +42,10 @@ public sealed partial class LightReplacerSystem : SharedLightReplacerSystem
 
             args.PushMarkup(Loc.GetString("comp-light-replacer-has-lights"));
             var groups = new Dictionary<string, int>();
+            var metaQuery = GetEntityQuery<MetaDataComponent>();
             foreach (var bulb in component.InsertedBulbs.ContainedEntities)
             {
-                var metaData = MetaData(bulb);
+                var metaData = metaQuery.GetComponent(bulb);
                 groups[metaData.EntityName] = groups.GetValueOrDefault(metaData.EntityName) + 1;
             }
 

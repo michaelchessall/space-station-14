@@ -21,12 +21,9 @@ public sealed partial class MagnetPickupComponent : Component
     /// <summary>
     /// What container slot the magnet needs to be in to work.
     /// </summary>
-    [DataField]
-    public SlotFlags? SlotFlags = Inventory.SlotFlags.BELT;
+    [ViewVariables(VVAccess.ReadWrite), DataField("slotFlags")]
+    public SlotFlags SlotFlags = SlotFlags.BELT;
 
-    [DataField]
-    public bool RequireActiveHand = false;
-
-    [DataField]
+    [ViewVariables(VVAccess.ReadWrite), DataField("range")]
     public float Range = 1f;
 }

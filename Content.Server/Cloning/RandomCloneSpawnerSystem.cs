@@ -1,5 +1,6 @@
 using Content.Server.Cloning.Components;
-using Content.Shared.Objectives.Systems;
+using Content.Shared.Mind;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server.Cloning;
@@ -7,12 +8,13 @@ namespace Content.Server.Cloning;
 /// <summary>
 ///     This deals with spawning and setting up a clone of a random crew member.
 /// </summary>
-public sealed partial class RandomCloneSpawnerSystem : EntitySystem
+public sealed class RandomCloneSpawnerSystem : EntitySystem
 {
-    [Dependency] private CloningSystem _cloning = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private SharedTransformSystem _transformSystem = default!;
-    [Dependency] private AliveHumanoidTargetSystem _target = default!;
+    [Dependency] private readonly CloningSystem _cloning = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
 
     public override void Initialize()
     {
@@ -25,13 +27,13 @@ public sealed partial class RandomCloneSpawnerSystem : EntitySystem
     {
         QueueDel(ent.Owner);
 
-        if (!ProtoMan.TryIndex(ent.Comp.Settings, out var settings))
+        if (!_prototypeManager.TryIndex(ent.Comp.Settings, out var settings))
         {
             Log.Error($"Used invalid cloning settings {ent.Comp.Settings} for RandomCloneSpawner");
             return;
         }
 
-        var allHumans = _target.GetMinds();
+        var allHumans = _mind.GetAliveHumans();
 
         if (allHumans.Count == 0)
             return;

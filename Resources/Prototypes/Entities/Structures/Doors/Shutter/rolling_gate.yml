@@ -61,9 +61,8 @@
     interfaces:
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
-  - type: Injurable
-    damageContainer: StructuralInorganic
   - type: Damageable
+    damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallic
   - type: Destructible
     thresholds:

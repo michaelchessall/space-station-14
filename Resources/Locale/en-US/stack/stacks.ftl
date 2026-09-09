@@ -96,10 +96,6 @@ stack-artifact-fragment = artifact {$amount ->
     [1] fragment
     *[other] fragments
 }
-stack-conveyor-belt = {$amount ->
-    [1] conveyor belt
-    *[other] conveyor belts
-}
 
 # best materials
 stack-ground-tobacco = ground tobacco

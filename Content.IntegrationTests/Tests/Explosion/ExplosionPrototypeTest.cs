@@ -1,10 +1,9 @@
-using Content.IntegrationTests.Fixtures;
 using Content.IntegrationTests.Utility;
 using Content.Shared.Explosion;
 
 namespace Content.IntegrationTests.Tests.Explosion;
 
-public sealed class ExplosionPrototypeTest : GameTest
+public sealed class ExplosionPrototypeTest
 {
     private static string[] _explosionKinds = GameDataScrounger.PrototypesOfKind<ExplosionPrototype>();
 
@@ -14,7 +13,7 @@ public sealed class ExplosionPrototypeTest : GameTest
     [Description("Ensures various properties of ExplosionPrototype are correctly configured.")]
     public async Task Validate(string protoKey)
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
         var protoMan = server.ProtoMan;
 
@@ -41,5 +40,7 @@ public sealed class ExplosionPrototypeTest : GameTest
             Assert.That(proto.IntensityPerState, Is.Positive);
             Assert.That(proto.FireStates, Is.Positive);
         }
+
+        await pair.CleanReturnAsync();
     }
 }

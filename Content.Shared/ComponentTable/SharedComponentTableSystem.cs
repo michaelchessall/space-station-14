@@ -1,13 +1,15 @@
 using Content.Shared.EntityTable;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.ComponentTable;
 
 /// <summary>
 /// Applies an entity prototype to an entity on map init. Taken from entities inside an EntityTableSelector.
 /// </summary>
-public sealed partial class SharedComponentTableSystem : EntitySystem
+public sealed class SharedComponentTableSystem : EntitySystem
 {
-    [Dependency] private EntityTableSystem _entTable = default!;
+    [Dependency] private readonly EntityTableSystem _entTable = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
 
     public override void Initialize()
     {
@@ -22,7 +24,7 @@ public sealed partial class SharedComponentTableSystem : EntitySystem
 
         foreach (var entity in spawns)
         {
-            if (ProtoMan.Resolve(entity, out var entProto))
+            if (_proto.Resolve(entity, out var entProto))
             {
                 EntityManager.AddComponents(ent, entProto.Components);
             }

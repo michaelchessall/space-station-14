@@ -1,4 +1,3 @@
-using Content.IntegrationTests.Fixtures;
 using Content.Server.Power.Components;
 using Content.Shared.Gravity;
 using Robust.Shared.GameObjects;
@@ -12,7 +11,7 @@ namespace Content.IntegrationTests.Tests
     /// making sure that gravity is applied to the correct grids.
     [TestFixture]
     [TestOf(typeof(GravityGeneratorComponent))]
-    public sealed class GravityGridTest : GameTest
+    public sealed class GravityGridTest
     {
         [TestPrototypes]
         private const string Prototypes = @"
@@ -32,12 +31,13 @@ namespace Content.IntegrationTests.Tests
         [Test]
         public async Task Test()
         {
-            var pair = Pair;
+            await using var pair = await PoolManager.GetServerClient();
             var server = pair.Server;
 
             var testMap = await pair.CreateTestMap();
 
             var entityMan = server.EntMan;
+            var mapMan = server.MapMan;
             var mapSys = entityMan.System<SharedMapSystem>();
 
             EntityUid generator = default;
@@ -48,8 +48,8 @@ namespace Content.IntegrationTests.Tests
             await server.WaitAssertion(() =>
             {
                 var mapId = testMap.MapId;
-                grid1 = mapSys.CreateGridEntity(mapId);
-                grid2 = mapSys.CreateGridEntity(mapId);
+                grid1 = mapMan.CreateGridEntity(mapId);
+                grid2 = mapMan.CreateGridEntity(mapId);
 
                 mapSys.SetTile(grid1, grid1, Vector2i.Zero, new Tile(1));
                 mapSys.SetTile(grid2, grid2, Vector2i.Zero, new Tile(1));
@@ -96,6 +96,8 @@ namespace Content.IntegrationTests.Tests
                     Assert.That(entityMan.GetComponent<GravityComponent>(grid2).Enabled, Is.False);
                 });
             });
+
+            await pair.CleanReturnAsync();
         }
     }
 }

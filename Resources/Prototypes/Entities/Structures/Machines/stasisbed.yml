@@ -30,9 +30,8 @@
     powerLoad: 1000
   - type: ExtensionCableReceiver
   - type: Damageable
-    damageModifierSet: Metallic
-  - type: Injurable
     damageContainer: Inorganic
+    damageModifierSet: Metallic
   - type: Destructible
     thresholds:
     - trigger:
@@ -66,4 +65,3 @@
     guides:
     - MedicalDoctor
   - type: PowerSwitch
-  - type: AmbientMusicMarkerMedical

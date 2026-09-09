@@ -1,5 +1,6 @@
 using Content.Client.Disposal.Unit;
 using Content.Client.Power.EntitySystems;
+using Content.Shared.Disposal;
 using Content.Shared.Disposal.Components;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
@@ -10,84 +11,71 @@ namespace Content.Client.Disposal.Mailing;
 public sealed class MailingUnitBoundUserInterface : BoundUserInterface
 {
     [ViewVariables]
-    private MailingUnitWindow? _mailingUnitWindow;
+    public MailingUnitWindow? MailingUnitWindow;
 
     public MailingUnitBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
     {
     }
 
-    private void ButtonPressed(DisposalUnitUiButton button)
+    private void ButtonPressed(DisposalUnitComponent.UiButton button)
     {
-        SendPredictedMessage(new DisposalUnitUiButtonPressedMessage(button));
+        SendMessage(new DisposalUnitComponent.UiButtonPressedMessage(button));
+        // If we get client-side power stuff then we can predict the button presses but for now we won't as it stuffs
+        // the pressure lerp up.
     }
 
     private void TargetSelected(ItemList.ItemListSelectedEventArgs args)
     {
         var item = args.ItemList[args.ItemIndex];
-        SendPredictedMessage(new TargetSelectedMessage(item.Text));
+        SendMessage(new TargetSelectedMessage(item.Text));
     }
 
     protected override void Open()
     {
         base.Open();
 
-        _mailingUnitWindow = this.CreateWindow<MailingUnitWindow>();
-        _mailingUnitWindow.OpenCenteredRight();
+        MailingUnitWindow = this.CreateWindow<MailingUnitWindow>();
+        MailingUnitWindow.OpenCenteredRight();
 
-        _mailingUnitWindow.Eject.OnPressed += _ => ButtonPressed(DisposalUnitUiButton.Eject);
-        _mailingUnitWindow.Engage.OnPressed += _ => ButtonPressed(DisposalUnitUiButton.Engage);
-        _mailingUnitWindow.Power.OnPressed += _ => ButtonPressed(DisposalUnitUiButton.Power);
+        MailingUnitWindow.Eject.OnPressed += _ => ButtonPressed(DisposalUnitComponent.UiButton.Eject);
+        MailingUnitWindow.Engage.OnPressed += _ => ButtonPressed(DisposalUnitComponent.UiButton.Engage);
+        MailingUnitWindow.Power.OnPressed += _ => ButtonPressed(DisposalUnitComponent.UiButton.Power);
 
-        _mailingUnitWindow.TargetListContainer.OnItemSelected += TargetSelected;
-
-        if (EntMan.TryGetComponent(Owner, out MailingUnitComponent? component))
-        {
-            Refresh((Owner, component));
-        }
-    }
-
-    public override void Update()
-    {
-        base.Update();
+        MailingUnitWindow.TargetListContainer.OnItemSelected += TargetSelected;
 
         if (EntMan.TryGetComponent(Owner, out MailingUnitComponent? component))
-        {
             Refresh((Owner, component));
-        }
     }
 
     public void Refresh(Entity<MailingUnitComponent> entity)
     {
-        if (_mailingUnitWindow == null)
+        if (MailingUnitWindow == null)
             return;
 
-        var name = EntMan.GetComponent<MetaDataComponent>(entity.Owner).EntityName;
+        // TODO: This should be decoupled from disposals
+        if (EntMan.TryGetComponent(entity.Owner, out DisposalUnitComponent? disposals))
+        {
+            var disposalSystem = EntMan.System<DisposalUnitSystem>();
 
-        _mailingUnitWindow.Title = string.IsNullOrEmpty(entity.Comp.Tag)
-            ? Loc.GetString("ui-mailing-unit-window-title", ("name", name))
-            : Loc.GetString("ui-mailing-unit-window-title-tagged", ("tag", entity.Comp.Tag));
-        _mailingUnitWindow.Target.Text = entity.Comp.Target;
+            var disposalState = disposalSystem.GetState(Owner, disposals);
+            var fullPressure = disposalSystem.EstimatedFullPressure(Owner, disposals);
 
-        var entries = entity.Comp.TargetList.Select(target => new ItemList.Item(_mailingUnitWindow.TargetListContainer)
+            MailingUnitWindow.UnitState.Text = Loc.GetString($"disposal-unit-state-{disposalState}");
+            MailingUnitWindow.FullPressure = fullPressure;
+            MailingUnitWindow.PressureBar.UpdatePressure(fullPressure);
+            MailingUnitWindow.Power.Pressed = EntMan.System<PowerReceiverSystem>().IsPowered(Owner);
+            MailingUnitWindow.Engage.Pressed = disposals.Engaged;
+        }
+
+        MailingUnitWindow.Title = Loc.GetString("ui-mailing-unit-window-title", ("tag", entity.Comp.Tag ?? " "));
+        //UnitTag.Text = state.Tag;
+        MailingUnitWindow.Target.Text = entity.Comp.Target;
+
+        var entries = entity.Comp.TargetList.Select(target => new ItemList.Item(MailingUnitWindow.TargetListContainer)
         {
             Text = target,
             Selected = target == entity.Comp.Target
         }).ToList();
-        _mailingUnitWindow.TargetListContainer.SetItems(entries);
-
-        if (!EntMan.TryGetComponent(entity.Owner, out DisposalUnitComponent? disposals))
-            return;
-
-        var disposalSystem = EntMan.System<DisposalUnitSystem>();
-        var disposalState = disposalSystem.GetState((Owner, disposals));
-        var fullPressure = disposalSystem.EstimatedFullPressure((Owner, disposals));
-        var pressurePerSecond = disposals.PressurePerSecond;
-
-        _mailingUnitWindow.UnitState.Text = Loc.GetString($"disposal-unit-state-{disposalState}");
-        _mailingUnitWindow.FullPressure = fullPressure;
-        _mailingUnitWindow.PressurePerSecond = pressurePerSecond;
-        _mailingUnitWindow.PressureBar.UpdatePressure(fullPressure, pressurePerSecond);
-        _mailingUnitWindow.Power.Pressed = EntMan.System<PowerReceiverSystem>().IsPowered(Owner);
-        _mailingUnitWindow.Engage.Pressed = disposals.Engaged;
+        MailingUnitWindow.TargetListContainer.SetItems(entries);
     }
 }

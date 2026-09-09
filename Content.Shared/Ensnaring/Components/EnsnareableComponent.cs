@@ -8,7 +8,6 @@ namespace Content.Shared.Ensnaring.Components;
 /// Use this on an entity that you would like to be ensnared by anything that has the <see cref="EnsnaringComponent"/>
 /// </summary>
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState(true)]
-[Access(typeof(SharedEnsnareableSystem))]
 public sealed partial class EnsnareableComponent : Component
 {
     /// <summary>
@@ -24,25 +23,22 @@ public sealed partial class EnsnareableComponent : Component
     public float SprintSpeed = 1.0f;
 
     /// <summary>
-    /// The container where the <see cref="EnsnaringComponent"/> entity will be stored
+    /// Is this entity currently ensnared?
     /// </summary>
-    public Container? Container = default!;
+    [DataField, AutoNetworkedField]
+    public bool IsEnsnared;
 
     /// <summary>
-    /// The sprite to show in the ensnared entity.
+    /// The container where the <see cref="EnsnaringComponent"/> entity will be stored
     /// </summary>
+    public Container Container = default!;
+
     [DataField]
     public string? Sprite;
 
-/// <summary>
-/// The state layer of the sprite to be displayed.
-/// </summary>
     [DataField]
     public string? State;
 
-/// <summary>
-/// The alert displayed when ensnared.
-/// </summary>
     [DataField]
     public ProtoId<AlertPrototype> EnsnaredAlert = "Ensnared";
 }

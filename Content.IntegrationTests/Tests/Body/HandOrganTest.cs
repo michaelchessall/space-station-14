@@ -1,16 +1,15 @@
-using System.Collections.Generic;
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Body;
 using Content.Shared.Hands.Components;
 using Robust.Shared.Containers;
 using Robust.Shared.GameObjects;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests.Body;
 
 [TestFixture]
 [TestOf(typeof(HandOrganSystem))]
-public sealed class HandOrganTest : GameTest
+public sealed class HandOrganTest
 {
     [TestPrototypes]
     private const string Prototypes = @"
@@ -47,7 +46,7 @@ public sealed class HandOrganTest : GameTest
     [Test]
     public async Task HandInsertionAndRemovalTest()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         await server.WaitIdleAsync();
@@ -82,5 +81,7 @@ public sealed class HandOrganTest : GameTest
                 Assert.That(hands.Count, Is.EqualTo(expectedCount));
             }
         });
+
+        await pair.CleanReturnAsync();
     }
 }

@@ -2,14 +2,16 @@ using Content.Server.Chat.Systems;
 using Content.Shared.Chat;
 using Content.Shared.Trigger;
 using Content.Shared.Trigger.Components.Effects;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server.Trigger.Systems;
 
-public sealed partial class SpeakOnTriggerSystem : EntitySystem
+public sealed class SpeakOnTriggerSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
 
     public override void Initialize()
     {
@@ -33,7 +35,7 @@ public sealed partial class SpeakOnTriggerSystem : EntitySystem
             message = Loc.GetString(ent.Comp.Text);
         else
         {
-            if (!ProtoMan.Resolve(ent.Comp.Pack, out var messagePack))
+            if (!_prototypeManager.Resolve(ent.Comp.Pack, out var messagePack))
                 return;
             message = Loc.GetString(_random.Pick(messagePack.Values));
         }

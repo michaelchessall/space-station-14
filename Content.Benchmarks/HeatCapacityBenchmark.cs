@@ -1,5 +1,3 @@
-using System.IO;
-using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Content.IntegrationTests;
 using Content.IntegrationTests.Pair;
@@ -8,6 +6,7 @@ using Content.Shared.Atmos;
 using Robust.Shared;
 using Robust.Shared.Analyzers;
 using Robust.Shared.GameObjects;
+using System.Threading.Tasks;
 
 namespace Content.Benchmarks;
 
@@ -28,7 +27,7 @@ public class HeatCapacityBenchmark
     {
         ProgramShared.PathOffset = "../../../../";
         PoolManager.Startup();
-        _pair = await PoolManager.GetServerClient(testContext: new ExternalTestContext("Benchmark", StreamWriter.Null));
+        _pair = await PoolManager.GetServerClient();
         await _pair.Connect();
         _cEntMan = _pair.Client.ResolveDependency<IEntityManager>();
         _sEntMan = _pair.Server.ResolveDependency<IEntityManager>();

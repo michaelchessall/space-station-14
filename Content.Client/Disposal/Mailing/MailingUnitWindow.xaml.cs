@@ -12,7 +12,6 @@ namespace Content.Client.Disposal.Mailing
     public sealed partial class MailingUnitWindow : FancyWindow
     {
         public TimeSpan FullPressure;
-        public float PressurePerSecond;
 
         public MailingUnitWindow()
         {
@@ -22,7 +21,7 @@ namespace Content.Client.Disposal.Mailing
         protected override void FrameUpdate(FrameEventArgs args)
         {
             base.FrameUpdate(args);
-            PressureBar.UpdatePressure(FullPressure, PressurePerSecond);
+            PressureBar.UpdatePressure(FullPressure);
         }
     }
 }

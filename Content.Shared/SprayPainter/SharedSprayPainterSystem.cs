@@ -10,6 +10,7 @@ using Content.Shared.SprayPainter.Components;
 using Content.Shared.SprayPainter.Prototypes;
 using Content.Shared.Verbs;
 using Robust.Shared.Audio.Systems;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using System.Linq;
@@ -20,15 +21,16 @@ namespace Content.Shared.SprayPainter;
 /// System for painting paintable objects using a spray painter.
 /// Pipes are handled serverside since AtmosPipeColorSystem is server only.
 /// </summary>
-public abstract partial class SharedSprayPainterSystem : EntitySystem
+public abstract class SharedSprayPainterSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] protected ISharedAdminLogManager AdminLogger = default!;
-    [Dependency] protected SharedAppearanceSystem Appearance = default!;
-    [Dependency] protected SharedAudioSystem Audio = default!;
-    [Dependency] protected SharedChargesSystem Charges = default!;
-    [Dependency] protected SharedDoAfterSystem DoAfter = default!;
-    [Dependency] private SharedPopupSystem _popup = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] protected readonly IPrototypeManager Proto = default!;
+    [Dependency] protected readonly ISharedAdminLogManager AdminLogger = default!;
+    [Dependency] protected readonly SharedAppearanceSystem Appearance = default!;
+    [Dependency] protected readonly SharedAudioSystem Audio = default!;
+    [Dependency] protected readonly SharedChargesSystem Charges = default!;
+    [Dependency] protected readonly SharedDoAfterSystem DoAfter = default!;
+    [Dependency] private readonly SharedPopupSystem _popup = default!;
 
     public override void Initialize()
     {
@@ -59,7 +61,7 @@ public abstract partial class SharedSprayPainterSystem : EntitySystem
     private void OnMapInit(Entity<SprayPainterComponent> ent, ref MapInitEvent args)
     {
         bool stylesByGroupPopulated = false;
-        foreach (var groupProto in ProtoMan.EnumeratePrototypes<PaintableGroupPrototype>())
+        foreach (var groupProto in Proto.EnumeratePrototypes<PaintableGroupPrototype>())
         {
             ent.Comp.StylesByGroup[groupProto.ID] = groupProto.DefaultStyle;
             stylesByGroupPopulated = true;
@@ -187,7 +189,7 @@ public abstract partial class SharedSprayPainterSystem : EntitySystem
 
         if (ent.Comp.Group is not { } group
             || !painter.StylesByGroup.TryGetValue(group, out var selectedStyle)
-            || !ProtoMan.Resolve(group, out PaintableGroupPrototype? targetGroup))
+            || !Proto.Resolve(group, out PaintableGroupPrototype? targetGroup))
             return;
 
         // Valid paint target.

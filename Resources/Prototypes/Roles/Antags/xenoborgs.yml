@@ -9,12 +9,6 @@
     role: JobBorg
     time: 18000  # 5 hrs
 
-- type: antagSpecifier
-  parent: RestrictedAntag
-  id: MothershipCore
-  prefRoles: [ MothershipCore ]
-  spawnerPrototype: SpawnPointGhostRoleMothershipCore
-
 - type: antag
   id: Xenoborg
   name: roles-antag-xenoborg-name
@@ -25,14 +19,3 @@
   - !type:RoleTimeRequirement
     role: JobBorg
     time: 18000  # 5 hrs
-
-- type: antagSpecifier
-  abstract: true
-  parent: RestrictedAntag
-  id: BaseXenoborg
-  prefRoles: [ Xenoborg ]
-  spawnerPrototype: SpawnPointGhostRoleXenoborg
-
-- type: antagSpecifier
-  parent: BaseXenoborg
-  id: Xenoborg

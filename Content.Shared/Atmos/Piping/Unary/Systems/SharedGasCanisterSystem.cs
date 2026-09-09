@@ -1,6 +1,5 @@
 using Content.Shared.Administration.Logs;
 using Content.Shared.Atmos.Components;
-using Content.Shared.Atmos.EntitySystems;
 using Content.Shared.Atmos.Piping.Binary.Components;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Database;
@@ -10,7 +9,7 @@ using GasCanisterComponent = Content.Shared.Atmos.Piping.Unary.Components.GasCan
 
 namespace Content.Shared.Atmos.Piping.Unary.Systems;
 
-public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<GasCanisterComponent>
+public abstract class SharedGasCanisterSystem : EntitySystem
 {
     [Dependency] protected readonly ISharedAdminLogManager AdminLogger = default!;
     [Dependency] private readonly ItemSlotsSystem _slots = default!;
@@ -44,7 +43,6 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
     {
         // Fixes empty canisters not populating UI elements
         DirtyUI(ent.Owner, ent);
-        UpdateAppearance(ent);
     }
 
     private void OnCanisterStartup(Entity<GasCanisterComponent> ent, ref ComponentStartup args)
@@ -75,7 +73,7 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
         var item = canister.GasTankSlot.Item;
         _slots.TryEjectToHands(uid, canister.GasTankSlot, args.Actor, excludeUserAudio: true);
 
-        if (canister.ReleaseValveOpen)
+        if (canister.ReleaseValve)
         {
             AdminLogger.Add(LogType.CanisterTankEjected, LogImpact.High, $"Player {ToPrettyString(args.Actor):player} ejected tank {ToPrettyString(item):tank} from {ToPrettyString(uid):canister} while the valve was open, releasing [{GetContainedGasesString((uid, canister))}] to atmosphere");
         }
@@ -105,36 +103,24 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
         DirtyUI(uid, canister);
     }
 
-    private void OnCanisterChangeReleaseValve(Entity<GasCanisterComponent> entity, ref GasCanisterChangeReleaseValveMessage args)
+    private void OnCanisterChangeReleaseValve(EntityUid uid, GasCanisterComponent canister, GasCanisterChangeReleaseValveMessage args)
     {
         // filling a jetpack with plasma is less important than filling a room with it
-        var impact = entity.Comp.GasTankSlot.HasItem ? LogImpact.Medium : LogImpact.High;
+        var impact = canister.GasTankSlot.HasItem ? LogImpact.Medium : LogImpact.High;
 
         var containedGasDict = new Dictionary<Gas, float>();
         var containedGasArray = Enum.GetValues(typeof(Gas));
 
         for (var i = 0; i < containedGasArray.Length; i++)
         {
-            if (entity.Comp.Air.GetMoles(i) > 0f)
-                containedGasDict.Add((Gas)i, entity.Comp.Air[i]);
+            containedGasDict.Add((Gas)i, canister.Air[i]);
         }
 
-        AdminLogger.Add(LogType.CanisterValve, impact, $"{ToPrettyString(args.Actor):player} set the valve on {ToPrettyString(entity):canister} to {args.Valve:valveState} while it contained [{string.Join(", ", containedGasDict)}]");
+        AdminLogger.Add(LogType.CanisterValve, impact, $"{ToPrettyString(args.Actor):player} set the valve on {ToPrettyString(uid):canister} to {args.Valve:valveState} while it contained [{string.Join(", ", containedGasDict)}]");
 
-        ToggleValve(entity, args.Valve, args.Actor);
-        DirtyUI(entity);
-    }
-
-    protected void ToggleValve(Entity<GasCanisterComponent> entity, EntityUid? user = null)
-    {
-        ToggleValve(entity, !entity.Comp.ReleaseValveOpen, user);
-    }
-
-    protected void ToggleValve(Entity<GasCanisterComponent> entity, bool open, EntityUid? user = null)
-    {
-        entity.Comp.ReleaseValveOpen = open;
-        Audio.PlayPredicted(entity.Comp.ValveSound, entity, user);
-        Dirty(entity);
+        canister.ReleaseValve = args.Valve;
+        Dirty(uid, canister);
+        DirtyUI(uid, canister);
     }
 
     private void OnCanisterInsertAttempt(EntityUid uid, GasCanisterComponent component, ref ItemSlotInsertAttemptEvent args)
@@ -143,34 +129,11 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
             return;
 
         // Could whitelist but we want to check if it's open so.
-        if (!TryComp<GasTankComponent>(args.Item, out var gasTank) || gasTank.ReleaseValveOpen)
+        if (!TryComp<GasTankComponent>(args.Item, out var gasTank) || gasTank.IsValveOpen)
         {
             args.Cancelled = true;
         }
     }
 
     protected abstract void DirtyUI(EntityUid uid, GasCanisterComponent? component = null, NodeContainerComponent? nodes = null);
-
-    protected void UpdateAppearance(Entity<GasCanisterComponent> entity)
-    {
-        if (!TryComp<AppearanceComponent>(entity, out var appearance))
-            return;
-
-        if (entity.Comp.Air.Pressure < 10)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 0, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < Atmospherics.OneAtmosphere)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 1, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < (15 * Atmospherics.OneAtmosphere))
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 2, appearance);
-        }
-        else
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 3, appearance);
-        }
-    }
 }

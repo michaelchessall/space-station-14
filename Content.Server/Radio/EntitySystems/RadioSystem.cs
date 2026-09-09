@@ -1,7 +1,6 @@
 using Content.Server.Administration.Logs;
-using Content.Server.Chat.Managers;
+using Content.Server.Chat.Managers; // Persistence: Chat stacking from RMC14 - pull/7587
 using Content.Server.Chat.Systems;
-using Content.Server.Ghost;
 using Content.Server.Power.Components;
 using Content.Server.Station.Systems;
 using Content.Shared._RMC14.Chat; // Persistence: Chat stacking from RMC14 - pull/7587
@@ -28,30 +27,33 @@ namespace Content.Server.Radio.EntitySystems;
 /// <summary>
 ///     This system handles intrinsic radios and the general process of converting radio messages into chat messages.
 /// </summary>
-public sealed partial class RadioSystem : EntitySystem
+public sealed class RadioSystem : EntitySystem
 {
-    [Dependency] private INetManager _netMan = default!;
-    [Dependency] private IConfigurationManager _cfg = default!;
-    [Dependency] private IReplayRecordingManager _replay = default!;
-    [Dependency] private IAdminLogManager _adminLogger = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private ChatSystem _chat = default!;
-    [Dependency] private IChatManager _chatManager = default!;
-    [Dependency] private GhostSystem _ghost = default!;
-    [Dependency] private HeadsetSystem _headset = default!;
-    [Dependency] private StationSystem _station = default!;
-    [Dependency] private SharedTransformSystem _xform = default!;
-
-    [Dependency] private EntityQuery<TelecomExemptComponent> _exemptQuery = default!;
-
+    [Dependency] private readonly INetManager _netMan = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly IReplayRecordingManager _replay = default!;
+    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly HeadsetSystem _headset = default!;
+    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly SharedTransformSystem _xform = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587
     // set used to prevent radio feedback loops.
     private readonly HashSet<string> _messages = new();
+
+    private EntityQuery<TelecomExemptComponent> _exemptQuery;
 
     public override void Initialize()
     {
         base.Initialize();
         SubscribeLocalEvent<IntrinsicRadioReceiverComponent, RadioReceiveEvent>(OnIntrinsicReceive);
         SubscribeLocalEvent<IntrinsicRadioTransmitterComponent, EntitySpokeEvent>(OnIntrinsicSpeak);
+
+        SubscribeLocalEvent<TelecomServerComponent, ExaminedEvent>(OnServerExamined);
+
+        _exemptQuery = GetEntityQuery<TelecomExemptComponent>();
     }
 
     private void OnServerExamined(Entity<TelecomServerComponent> ent, ref ExaminedEvent args)
@@ -76,25 +78,8 @@ public sealed partial class RadioSystem : EntitySystem
 
     private void OnIntrinsicReceive(EntityUid uid, IntrinsicRadioReceiverComponent component, ref RadioReceiveEvent args)
     {
-        if (!TryComp(uid, out ActorComponent? actor))
-            return;
-
-        var msg = args.ChatMsg;
-        if (_ghost.CanGhostWarp(actor.PlayerSession, out _))
-        {
-            msg = new MsgChatMessage
-            {
-                Message = new ChatMessage(args.ChatMsg.Message)
-                {
-                    WrappedMessage = _chatManager.PrependFollowButtonIfAppropriate(
-                        args.ChatMsg.Message.WrappedMessage,
-                        args.MessageSource,
-                        actor.PlayerSession.Channel),
-                },
-            };
-        }
-
-        _netMan.ServerSendMessage(msg, actor.PlayerSession.Channel);
+        if (TryComp(uid, out ActorComponent? actor))
+            _netMan.ServerSendMessage(args.ChatMsg, actor.PlayerSession.Channel);
     }
 
     /// <summary>
@@ -102,7 +87,7 @@ public sealed partial class RadioSystem : EntitySystem
     /// </summary>
     public void SendRadioMessage(EntityUid messageSource, string message, ProtoId<RadioChannelPrototype> channel, EntityUid radioSource, bool escapeMarkup = true, bool useNetworkOverride = true)
     {
-        SendRadioMessage(messageSource, message, ProtoMan.Index(channel), radioSource, escapeMarkup: escapeMarkup, useNetworkOverride);
+        SendRadioMessage(messageSource, message, _prototype.Index(channel), radioSource, escapeMarkup: escapeMarkup, useNetworkOverride);
     }
 
     /// <summary>
@@ -125,7 +110,7 @@ public sealed partial class RadioSystem : EntitySystem
         name = FormattedMessage.EscapeText(name);
 
         SpeechVerbPrototype speech;
-        if (evt.SpeechVerb != null && ProtoMan.Resolve(evt.SpeechVerb, out var evntProto))
+        if (evt.SpeechVerb != null && _prototype.Resolve(evt.SpeechVerb, out var evntProto))
             speech = evntProto;
         else
             speech = _chat.GetSpeechVerb(messageSource, message);

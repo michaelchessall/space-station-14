@@ -22,11 +22,12 @@ namespace Content.Client.Atmos;
 /// <remarks>
 /// This placement mode is not on the engine because it is content specific.
 /// </remarks>
-public sealed partial class AlignAtmosPipeLayers : SnapgridCenter
+public sealed class AlignAtmosPipeLayers : SnapgridCenter
 {
-    [Dependency] private IEntityManager _entityManager = default!;
-    [Dependency] private IPrototypeManager _protoManager = default!;
-    [Dependency] private IEyeManager _eyeManager = default!;
+    [Dependency] private readonly IEntityManager _entityManager = default!;
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly IEyeManager _eyeManager = default!;
 
     private readonly SharedMapSystem _mapSystem;
     private readonly SharedTransformSystem _transformSystem;
@@ -85,7 +86,7 @@ public sealed partial class AlignAtmosPipeLayers : SnapgridCenter
         if (pManager.PlacementType != PlacementTypes.None)
             return;
 
-        MouseCoords = _unalignedMouseCoords.AlignWithClosestGridTile(SearchBoxSize, _entityManager);
+        MouseCoords = _unalignedMouseCoords.AlignWithClosestGridTile(SearchBoxSize, _entityManager, _mapManager);
 
         var gridId = _transformSystem.GetGrid(MouseCoords);
 
@@ -167,7 +168,7 @@ public sealed partial class AlignAtmosPipeLayers : SnapgridCenter
         if (!_protoManager.TryIndex<EntityPrototype>(pManager.CurrentPermission.EntityType, out var currentProto))
             return;
 
-        if (!currentProto.TryComp<AtmosPipeLayersComponent>(out var atmosPipeLayers, _entityManager.ComponentFactory))
+        if (!currentProto.TryGetComponent<AtmosPipeLayersComponent>(out var atmosPipeLayers, _entityManager.ComponentFactory))
             return;
 
         if (!_pipeLayersSystem.TryGetAlternativePrototype(atmosPipeLayers, layer, out var newProtoId))
@@ -179,7 +180,7 @@ public sealed partial class AlignAtmosPipeLayers : SnapgridCenter
             pManager.CurrentPermission.EntityType = newProtoId;
 
             // Update the appearance of the ghost sprite
-            if (newProto.TryComp<SpriteComponent>(out var sprite, _entityManager.ComponentFactory))
+            if (newProto.TryGetComponent<SpriteComponent>(out var sprite, _entityManager.ComponentFactory))
             {
                 var textures = new List<IDirectionalTextureProvider>();
 

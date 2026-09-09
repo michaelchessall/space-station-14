@@ -9,10 +9,11 @@ using System.Diagnostics.CodeAnalysis;
 namespace Content.Shared.StatusEffect
 {
     [Obsolete("Migration to Content.Shared.StatusEffectNew.StatusEffectsSystem is required")]
-    public sealed partial class StatusEffectsSystem : EntitySystem
+    public sealed class StatusEffectsSystem : EntitySystem
     {
-        [Dependency] private IGameTiming _gameTiming = default!;
-        [Dependency] private AlertsSystem _alertsSystem = default!;
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly IGameTiming _gameTiming = default!;
+        [Dependency] private readonly AlertsSystem _alertsSystem = default!;
         private List<EntityUid> _toRemove = new();
 
         public override void Initialize()
@@ -179,7 +180,7 @@ namespace Content.Shared.StatusEffect
 
             // we already checked if it has the index in CanApplyEffect so a straight index and not tryindex here
             // is fine
-            var proto = ProtoMan.Index<StatusEffectPrototype>(key);
+            var proto = _prototypeManager.Index<StatusEffectPrototype>(key);
 
             var start = startTime ?? _gameTiming.CurTime;
             (TimeSpan, TimeSpan) cooldown = (start, start + time);
@@ -231,7 +232,7 @@ namespace Content.Shared.StatusEffect
             (TimeSpan, TimeSpan)? maxCooldown = null;
             foreach (var kvp in status.ActiveEffects)
             {
-                var proto = ProtoMan.Index<StatusEffectPrototype>(kvp.Key);
+                var proto = _prototypeManager.Index<StatusEffectPrototype>(kvp.Key);
 
                 if (proto.Alert == alert)
                 {
@@ -266,7 +267,7 @@ namespace Content.Shared.StatusEffect
                 return false;
             if (!status.ActiveEffects.ContainsKey(key))
                 return false;
-            if (!ProtoMan.TryIndex<StatusEffectPrototype>(key, out var proto))
+            if (!_prototypeManager.TryIndex<StatusEffectPrototype>(key, out var proto))
                 return false;
 
             var state = status.ActiveEffects[key];
@@ -356,7 +357,7 @@ namespace Content.Shared.StatusEffect
             if (ev.Cancelled)
                 return false;
 
-            if (!ProtoMan.TryIndex<StatusEffectPrototype>(key, out var proto))
+            if (!_prototypeManager.TryIndex<StatusEffectPrototype>(key, out var proto))
                 return false;
             if (!status.AllowedEffects.Contains(key) && !proto.AlwaysAllowed)
                 return false;
@@ -385,7 +386,7 @@ namespace Content.Shared.StatusEffect
             timer.Item2 += time;
             status.ActiveEffects[key].Cooldown = timer;
 
-            if (ProtoMan.TryIndex<StatusEffectPrototype>(key, out var proto)
+            if (_prototypeManager.TryIndex<StatusEffectPrototype>(key, out var proto)
                 && proto.Alert != null)
             {
                 (TimeSpan, TimeSpan)? cooldown = GetAlertCooldown(uid, proto.Alert.Value, status);
@@ -422,7 +423,7 @@ namespace Content.Shared.StatusEffect
             timer.Item2 -= time;
             status.ActiveEffects[key].Cooldown = timer;
 
-            if (ProtoMan.TryIndex<StatusEffectPrototype>(key, out var proto)
+            if (_prototypeManager.TryIndex<StatusEffectPrototype>(key, out var proto)
                 && proto.Alert != null)
             {
                 (TimeSpan, TimeSpan)? cooldown = GetAlertCooldown(uid, proto.Alert.Value, status);

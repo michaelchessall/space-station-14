@@ -19,7 +19,7 @@ using Content.Shared.Damage.Systems; // Persistence 14: Deal damage to entities 
 
 namespace Content.Shared.Morgue;
 
-public abstract partial class SharedCrematoriumSystem : EntitySystem
+public abstract class SharedCrematoriumSystem : EntitySystem
 {
     [Dependency] protected readonly SharedEntityStorageSystem EntityStorage = default!;
     [Dependency] protected readonly SharedPopupSystem Popup = default!;
@@ -89,9 +89,9 @@ public abstract partial class SharedCrematoriumSystem : EntitySystem
         AlternativeVerb verb = new()
         {
             Text = Loc.GetString("cremate-verb-get-data-text"),
+            // TODO VERB ICON add flame/burn symbol?
             Act = () => TryCremate((uid, component, storage), args.User),
-            Impact = LogImpact.High, // could be a body? or evidence? I dunno.
-            Icon = component.CremateVerbIcon
+            Impact = LogImpact.High // could be a body? or evidence? I dunno.
         };
         args.Verbs.Add(verb);
     }
@@ -163,7 +163,7 @@ public abstract partial class SharedCrematoriumSystem : EntitySystem
                 PredictedTrySpawnInContainer(ent.Comp1.LeftOverProtoId, ent.Owner, ent.Comp2.Contents.ID, out _);
         }
 
-        EntityStorage.OpenStorage((ent.Owner, ent.Comp2));
+        EntityStorage.OpenStorage(ent.Owner, ent.Comp2);
 
         if (_net.IsServer) // can't predict without the user
             _audio.PlayPvs(ent.Comp1.CremateFinishSound, ent.Owner);

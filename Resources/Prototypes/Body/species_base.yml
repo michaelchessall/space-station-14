@@ -25,6 +25,12 @@
         color: "#FF0000"
       Burn:
         sprite: Mobs/Effects/burn_damage.rsi
+  - type: GenericVisualizer
+    visuals:
+      enum.CreamPiedVisuals.Creamed:
+        clownedon:
+          True: { visible: true }
+          False: { visible: false }
   - type: StatusIcon
     bounds: -0.5,-0.5,0.5,0.5
   - type: JobStatus
@@ -75,8 +81,10 @@
     - RatvarianLanguage
     - PressureImmunity
     - Muted
+    - TemporaryBlindness
     - Pacified
     - Flashed
+    - RadiationProtection
     - Adrenaline
   - type: Identity
   - type: IdExaminable
@@ -118,9 +126,6 @@
     factions:
     - NanoTrasen
   - type: CreamPied
-    sprite:
-      sprite: Effects/creampie.rsi
-      state: creampie_human
   - type: ParcelWrapOverride
     parcelPrototype: WrappedParcelHumanoid
     wrapDelay: 5
@@ -139,7 +144,10 @@
     speechSounds: Alto
   - type: DamageForceSay
   - type: Vocal
-    emoteSounds: MaleHuman
+    sounds:
+      Male: MaleHuman
+      Female: FemaleHuman
+      Unsexed: MaleHuman
   - type: Emoting
   - type: BodyEmotes
     soundsId: GeneralBodyEmotes
@@ -176,8 +184,6 @@
       Dead:
       - ActionAcceptDeath
   # funky end
-  - type: RandomPrice
-    maxRandomPrice: 20000
   - type: Tag
     tags:
     - CanPilot
@@ -259,6 +265,7 @@
     thermalRegulationTemperatureThreshold: 2
   - type: Perishable
   - type: Butcherable
+    butcheringType: Spike
     spawned:
     - id: FoodMeat
       amount: 5

@@ -1,4 +1,3 @@
-using System.Linq;
 using Content.Server.Atmos.Components;
 using Content.Server.MiningFluid.Components;
 using Content.Server.NodeContainer.Nodes;
@@ -10,11 +9,13 @@ using Content.Shared.Interaction;
 using Content.Shared.NodeContainer;
 using JetBrains.Annotations;
 using Robust.Server.GameObjects;
+using System.Linq;
+using static Content.Shared.Atmos.Components.GasAnalyzerComponent;
 
 namespace Content.Server.Atmos.EntitySystems;
 
 [UsedImplicitly]
-public sealed partial class GasAnalyzerSystem : EntitySystem
+public sealed class GasAnalyzerSystem : EntitySystem
 {
     [Dependency] private readonly PopupSystem _popup = default!;
     [Dependency] private readonly AtmosphereSystem _atmo = default!;
@@ -103,7 +104,6 @@ public sealed partial class GasAnalyzerSystem : EntitySystem
             _popup.PopupEntity(Loc.GetString("gas-analyzer-shutoff"), user.Value, user.Value);
 
         entity.Comp.Enabled = false;
-        entity.Comp.User = null;
         Dirty(entity);
         _appearance.SetData(entity.Owner, GasAnalyzerVisuals.Enabled, entity.Comp.Enabled);
         RemCompDeferred<ActiveGasAnalyzerComponent>(entity.Owner);
@@ -142,15 +142,15 @@ public sealed partial class GasAnalyzerSystem : EntitySystem
             return false;
 
         // check if the user has walked away from what they scanned
-        if (component.Target.HasValue && component.User.HasValue)
+        if (component.Target.HasValue)
         {
             // Listen! Even if you don't want the Gas Analyzer to work on moving targets, you should use
             // this code to determine if the object is still generally in range so that the check is consistent with the code
             // in OnAfterInteract() and also consistent with interaction code in general.
-            if (!_interactionSystem.InRangeUnobstructed((component.User.Value, null), (component.Target.Value, null)))
+            if (!_interactionSystem.InRangeUnobstructed((component.User, null), (component.Target.Value, null)))
             {
-                if (component.Enabled)
-                    _popup.PopupEntity(Loc.GetString("gas-analyzer-object-out-of-range"), component.User.Value, component.User.Value);
+                if (component.User is { } userId && component.Enabled)
+                    _popup.PopupEntity(Loc.GetString("gas-analyzer-object-out-of-range"), userId, userId);
 
                 component.Target = null;
             }
@@ -278,17 +278,17 @@ public sealed partial class GasAnalyzerSystem : EntitySystem
     {
         var gases = new List<GasEntry>();
 
-        if (mixture == null)
-            return [];
-
         for (var i = 0; i < Atmospherics.TotalNumberOfGases; i++)
         {
-            var gas = (Gas)i;
+            var gas = _atmo.GetGas(i);
 
-            if (mixture[i] <= UIMinMoles)
+            if (mixture?[i] <= UIMinMoles)
                 continue;
 
-            gases.Add(new GasEntry(gas, mixture[i]));
+            if (mixture != null)
+            {
+                gases.Add(new GasEntry(gas.Name, mixture[i], gas.Color));
+            }
         }
 
         var gasesOrdered = gases.OrderByDescending(gas => gas.Amount);

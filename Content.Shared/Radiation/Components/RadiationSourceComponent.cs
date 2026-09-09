@@ -1,13 +1,9 @@
-using Content.Shared.Radiation.Systems;
-using Robust.Shared.Physics;
-
 namespace Content.Shared.Radiation.Components;
 
 /// <summary>
 ///     Irradiate all objects in range.
 /// </summary>
 [RegisterComponent]
-[Access(typeof(SharedRadiationSystem))]
 public sealed partial class RadiationSourceComponent : Component
 {
     /// <summary>
@@ -30,9 +26,6 @@ public sealed partial class RadiationSourceComponent : Component
 
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public bool Enabled = true;
-
-    [ViewVariables]
-    public DynamicTree.Proxy Proxy = DynamicTree.Proxy.Free;
 
     /// <summary>
     ///     Optional minimum time (seconds) between this source participating in gridcast updates.

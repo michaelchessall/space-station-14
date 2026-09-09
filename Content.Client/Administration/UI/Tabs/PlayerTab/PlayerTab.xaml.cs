@@ -9,7 +9,6 @@ using Robust.Client.Player;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.XAML;
 using Robust.Shared.Configuration;
-using Robust.Shared.Prototypes;
 using static Content.Client.Administration.UI.Tabs.PlayerTab.PlayerTabHeader;
 using static Robust.Client.UserInterface.Controls.BaseButton;
 
@@ -18,10 +17,9 @@ namespace Content.Client.Administration.UI.Tabs.PlayerTab;
 [GenerateTypedNameReferences]
 public sealed partial class PlayerTab : Control
 {
-    [Dependency] private IEntityManager _entManager = default!;
-    [Dependency] private IConfigurationManager _config = default!;
-    [Dependency] private IPlayerManager _playerMan = default!;
-    [Dependency] private IPrototypeManager _proto = default!;
+    [Dependency] private readonly IEntityManager _entManager = default!;
+    [Dependency] private readonly IConfigurationManager _config = default!;
+    [Dependency] private readonly IPlayerManager _playerMan = default!;
 
     private const string ArrowUp = "↑";
     private const string ArrowDown = "↓";
@@ -157,12 +155,7 @@ public sealed partial class PlayerTab : Control
         UpdateHeaderSymbols();
 
         SearchList.PopulateList(sortedPlayers.Select(info => new PlayerListData(info,
-                $"{info.Username} " +
-                $"{info.CharacterName} " +
-                $"{info.IdentityName} " +
-                $"{info.StartingJob} " +
-                $"{(info.Subtype is not null ? Loc.GetString(info.Subtype) : string.Empty)} " +
-                $"{(_proto.TryIndex(info.RoleProto, out var proto) ? Loc.GetString(proto.Name) : string.Empty)}"))
+                $"{info.Username} {info.CharacterName} {info.IdentityName} {info.StartingJob}"))
             .ToList());
     }
 
@@ -245,9 +238,7 @@ public sealed partial class PlayerTab : Control
             Header.Username => Compare(x.Username, y.Username),
             Header.Character => Compare(x.CharacterName, y.CharacterName),
             Header.Job => Compare(x.StartingJob, y.StartingJob),
-            Header.RoleType => y.SortWeight != x.SortWeight
-                ? y.SortWeight - x.SortWeight
-                : string.Compare(x.RoleProto?.Id ?? "", y.RoleProto?.Id ?? "", StringComparison.Ordinal),
+            Header.RoleType => y.SortWeight - x.SortWeight,
             Header.Playtime => TimeSpan.Compare(x.OverallPlaytime ?? default, y.OverallPlaytime ?? default),
             _ => 1
         };

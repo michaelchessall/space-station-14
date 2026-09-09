@@ -1,15 +1,14 @@
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.Components;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests.Atmos;
 
 [TestFixture]
 [TestOf(typeof(Atmospherics))]
-public sealed class GasArrayTest : GameTest
+public sealed class GasArrayTest
 {
     private const string GasTankTestDummyId = "GasTankTestDummy";
 
@@ -43,7 +42,7 @@ public sealed class GasArrayTest : GameTest
     [Test]
     public async Task TestGasArrayDeserialization()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var compFactory = server.ResolveDependency<IComponentFactory>();
@@ -54,7 +53,7 @@ public sealed class GasArrayTest : GameTest
             var gasTank = prototypeManager.Index(GasTankTestDummyId);
             Assert.Multiple(() =>
             {
-                Assert.That(gasTank.TryComp<GasTankComponent>(out var gasTankComponent, compFactory));
+                Assert.That(gasTank.TryGetComponent<GasTankComponent>(out var gasTankComponent, compFactory));
 
                 Assert.That(gasTankComponent!.Air.GetMoles(Gas.Oxygen), Is.EqualTo(10));
                 Assert.That(gasTankComponent!.Air.GetMoles(Gas.Frezon), Is.EqualTo(20));
@@ -67,7 +66,7 @@ public sealed class GasArrayTest : GameTest
             var legacyGasTank = prototypeManager.Index(GasTankLegacyTestDummyId);
             Assert.Multiple(() =>
             {
-                Assert.That(legacyGasTank.TryComp<GasTankComponent>(out var gasTankComponent, compFactory));
+                Assert.That(legacyGasTank.TryGetComponent<GasTankComponent>(out var gasTankComponent, compFactory));
 
                 Assert.That(gasTankComponent!.Air.GetMoles(3), Is.EqualTo(10));
 
@@ -81,5 +80,6 @@ public sealed class GasArrayTest : GameTest
                 }
             });
         });
+        await pair.CleanReturnAsync();
     }
 }

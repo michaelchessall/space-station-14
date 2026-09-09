@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: [SolutionFood, SolutionToolNormal, Clothing]
+  parent: Clothing
   id: ClothingShoesBase
   components:
   - type: Clothing
@@ -42,11 +42,12 @@
 
 - type: entity
   abstract: true
-  parent: [ClothingShoesBase, BaseSlicingRefinable]
+  parent: ClothingShoesBase
   id: ClothingShoesBaseButcherable
   components:
-  - type: ToolRefinable
-    refineResult:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
     - id: MaterialCloth1
       amount: 1
   - type: PhysicalComposition # 50% of the amount of cloth you'd obtain upon butchering
@@ -65,7 +66,6 @@
       item:
         name: clothing-boots-sidearm
         priority: 4
-        ejectOnBreak: true
         whitelist:
           tags:
           - Knife

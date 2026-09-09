@@ -1,12 +1,9 @@
 - type: entity
   name: spear
-  parent: [BaseItem, SolutionDart, BaseMinorContraband]
+  parent: [BaseItem, BaseMinorContraband]
   id: Spear
   description: Definition of a Classic. Keeping murder affordable since 200,000 BCE.
   components:
-  - type: Tool
-    qualities:
-    - Slicing
   - type: EmbeddableProjectile
     offset: -0.15,0.0
   - type: ThrowingAngle
@@ -30,6 +27,7 @@
         - ItemMask
         restitution: 0.3
         friction: 0.2
+  - type: Sharp
   - type: Sprite
     sprite: Objects/Weapons/Melee/spear.rsi
     layers:
@@ -60,6 +58,10 @@
   - type: Construction
     graph: Spear
     node: spear
+  - type: SolutionContainerManager
+    solutions:
+      melee:
+        maxVol: 2
   - type: MeleeChemicalInjector
     solution: melee
   - type: RefillableSolution
@@ -77,10 +79,15 @@
       types:
         Piercing: 4
   - type: Damageable
-  - type: Injurable
     damageContainer: Inorganic
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 30 #excess damage avoids cost of spawning entities.
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 20
@@ -110,6 +117,10 @@
     inHandsMaxFillLevels: 1
     equippedFillBaseName: -fill-
     equippedMaxFillLevels: 1
+  - type: PhysicalComposition
+    materialComposition:
+      Wood: 100
+      Glass: 100
 
 - type: entity
   name: reinforced spear
@@ -199,6 +210,12 @@
     graph: SpearBone
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 30 #excess damage avoids cost of spawning entities.
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 20

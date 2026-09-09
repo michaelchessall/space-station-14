@@ -10,9 +10,9 @@ using static Robust.Client.UserInterface.Controls.BaseButton;
 
 namespace Content.Client.Access.UI
 {
-    public sealed partial class IdCardConsoleBoundUserInterface : BoundUserInterface
+    public sealed class IdCardConsoleBoundUserInterface : BoundUserInterface
     {
-        [Dependency] private IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
         private readonly SharedIdCardConsoleSystem _idCardConsoleSystem = default!;
 
         private IdCardConsoleWindow? _window;

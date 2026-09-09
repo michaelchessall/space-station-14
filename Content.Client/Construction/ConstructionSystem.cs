@@ -21,13 +21,13 @@ namespace Content.Client.Construction
     /// The client-side implementation of the construction system, which is used for constructing entities in game.
     /// </summary>
     [UsedImplicitly]
-    public sealed partial class ConstructionSystem : SharedConstructionSystem
+    public sealed class ConstructionSystem : SharedConstructionSystem
     {
-        [Dependency] private IPlayerManager _playerManager = default!;
-        [Dependency] private ExamineSystemShared _examineSystem = default!;
-        [Dependency] private SharedTransformSystem _transformSystem = default!;
-        [Dependency] private SpriteSystem _sprite = default!;
-        [Dependency] private PopupSystem _popupSystem = default!;
+        [Dependency] private readonly IPlayerManager _playerManager = default!;
+        [Dependency] private readonly ExamineSystemShared _examineSystem = default!;
+        [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
+        [Dependency] private readonly SpriteSystem _sprite = default!;
+        [Dependency] private readonly PopupSystem _popupSystem = default!;
 
         private readonly Dictionary<int, EntityUid> _ghosts = new();
         private readonly Dictionary<string, ConstructionGuide> _guideCache = new();
@@ -44,7 +44,6 @@ namespace Content.Client.Construction
             WarmupRecipesCache();
 
             UpdatesOutsidePrediction = true;
-            SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypeReload);
             SubscribeLocalEvent<LocalPlayerAttachedEvent>(HandlePlayerAttached);
             SubscribeNetworkEvent<AckStructureConstructionMessage>(HandleAckStructure);
             SubscribeNetworkEvent<ResponseConstructionGuide>(OnConstructionGuideReceived);
@@ -76,19 +75,11 @@ namespace Content.Client.Construction
             return false;
         }
 
-        private void OnPrototypeReload(PrototypesReloadedEventArgs obj)
-        {
-            if (obj.WasModified<ConstructionPrototype>())
-                WarmupRecipesCache();
-        }
-
         private void WarmupRecipesCache()
         {
-            _recipesMetadataCache.Clear();
-
-            foreach (var constructionProto in ProtoMan.EnumeratePrototypes<ConstructionPrototype>())
+            foreach (var constructionProto in PrototypeManager.EnumeratePrototypes<ConstructionPrototype>())
             {
-                if (!ProtoMan.Resolve(constructionProto.Graph, out var graphProto))
+                if (!PrototypeManager.Resolve(constructionProto.Graph, out var graphProto))
                     continue;
 
                 if (constructionProto.TargetNode is not { } targetNodeId)
@@ -129,7 +120,7 @@ namespace Content.Client.Construction
                     // If we got the id of the prototype, we exit the “recursion” by clearing the stack.
                     stack.Clear();
 
-                    if (!ProtoMan.Resolve(entityId, out var proto))
+                    if (!PrototypeManager.Resolve(entityId, out var proto))
                         continue;
 
                     var name = constructionProto.SetName.HasValue ? Loc.GetString(constructionProto.SetName) : proto.Name;
@@ -177,7 +168,7 @@ namespace Content.Client.Construction
                     "construction-ghost-examine-message",
                     ("name", component.Prototype.Name)));
 
-                if (!ProtoMan.Resolve(component.Prototype.Graph, out var graph))
+                if (!PrototypeManager.Resolve(component.Prototype.Graph, out var graph))
                     return;
 
                 var startNode = graph.Nodes[component.Prototype.StartNode];
@@ -278,7 +269,7 @@ namespace Content.Client.Construction
                 return false;
             }
 
-            if (!TryGetRecipePrototype(prototype.ID, out var targetProtoId) || !ProtoMan.TryIndex(targetProtoId, out EntityPrototype? targetProto))
+            if (!TryGetRecipePrototype(prototype.ID, out var targetProtoId) || !PrototypeManager.TryIndex(targetProtoId, out EntityPrototype? targetProto))
                 return false;
 
             if (GhostPresent(loc))
@@ -300,7 +291,7 @@ namespace Content.Client.Construction
 
             var sprite = Comp<SpriteComponent>(ghost.Value);
 
-            if (targetProto.TryComp(out IconComponent? icon, EntityManager.ComponentFactory))
+            if (targetProto.TryGetComponent(out IconComponent? icon, EntityManager.ComponentFactory))
             {
                 _sprite.AddBlankLayer((ghost.Value, sprite), 0);
                 _sprite.LayerSetSprite((ghost.Value, sprite), 0, icon.Icon);
@@ -312,9 +303,9 @@ namespace Content.Client.Construction
                 var dummy = EntityManager.SpawnEntity(targetProtoId, MapCoordinates.Nullspace);
                 var targetSprite = EnsureComp<SpriteComponent>(dummy);
                 EntityManager.System<AppearanceSystem>().OnChangeData(dummy, targetSprite);
-                var ghostDrawDepth = sprite.DrawDepth;
+
                 _sprite.CopySprite((dummy, targetSprite), (ghost.Value, sprite));
-                _sprite.SetDrawDepth((ghost.Value, sprite), ghostDrawDepth);
+
                 for (var i = 0; i < sprite.AllLayers.Count(); i++)
                 {
                     sprite.LayerSetShader(i, "unshaded");

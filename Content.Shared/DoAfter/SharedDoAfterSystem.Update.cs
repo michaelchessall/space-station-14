@@ -9,16 +9,14 @@ namespace Content.Shared.DoAfter;
 
 public abstract partial class SharedDoAfterSystem : EntitySystem
 {
-    [Dependency] private IDynamicTypeFactory _factory = default!;
+    [Dependency] private readonly IDynamicTypeFactory _factory = default!;
 #if EXCEPTION_TOLERANCE
-    [Dependency] private INetManager _netManager = default!;
-    [Dependency] private IRuntimeLog _runtimeLog = default!;
+    [Dependency] private readonly INetManager _netManager = default!;
+    [Dependency] private readonly IRuntimeLog _runtimeLog = default!;
 #endif
-    [Dependency] private SharedGravitySystem _gravity = default!;
-    [Dependency] private SharedInteractionSystem _interaction = default!;
-    [Dependency] private SharedHandsSystem _hands = default!;
-
-    [Dependency] private EntityQuery<HandsComponent> _handsQuery = default!;
+    [Dependency] private readonly SharedGravitySystem _gravity = default!;
+    [Dependency] private readonly SharedInteractionSystem _interaction = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
 
     private DoAfter[] _doAfters = Array.Empty<DoAfter>();
 
@@ -27,6 +25,8 @@ public abstract partial class SharedDoAfterSystem : EntitySystem
         base.Update(frameTime);
 
         var time = GameTiming.CurTime;
+        var xformQuery = GetEntityQuery<TransformComponent>();
+        var handsQuery = GetEntityQuery<HandsComponent>();
 
         var enumerator = EntityQueryEnumerator<ActiveDoAfterComponent, DoAfterComponent>();
         while (enumerator.MoveNext(out var uid, out var active, out var comp))
@@ -34,7 +34,7 @@ public abstract partial class SharedDoAfterSystem : EntitySystem
 
             try
             {
-                Update(uid, active, comp, time);
+                Update(uid, active, comp, time, xformQuery, handsQuery);
             }
             // ReSharper disable once RedundantCatchClause
 #if EXCEPTION_TOLERANCE
@@ -87,7 +87,9 @@ public abstract partial class SharedDoAfterSystem : EntitySystem
         EntityUid uid,
         ActiveDoAfterComponent active,
         DoAfterComponent comp,
-        TimeSpan time)
+        TimeSpan time,
+        EntityQuery<TransformComponent> xformQuery,
+        EntityQuery<HandsComponent> handsQuery)
     {
         var dirty = false;
 
@@ -120,7 +122,7 @@ public abstract partial class SharedDoAfterSystem : EntitySystem
                 continue;
             }
 
-            if (ShouldCancel(doAfter))
+            if (ShouldCancel(doAfter, xformQuery, handsQuery))
             {
                 InternalCancel(doAfter, comp);
                 dirty = true;
@@ -194,28 +196,39 @@ public abstract partial class SharedDoAfterSystem : EntitySystem
         }
     }
 
-    private bool ShouldCancel(DoAfter doAfter)
+    private bool ShouldCancel(DoAfter doAfter,
+        EntityQuery<TransformComponent> xformQuery,
+        EntityQuery<HandsComponent> handsQuery)
     {
         var args = doAfter.Args;
 
-        if (args.Used is { } used && !Exists(used))
+        //re-using xformQuery for Exists() checks.
+        if (args.Used is { } used && !xformQuery.HasComponent(used))
             return true;
 
-        if (args.EventTarget is { Valid: true } eventTarget && !Exists(eventTarget))
+        if (args.EventTarget is { Valid: true } eventTarget && !xformQuery.HasComponent(eventTarget))
+            return true;
+
+        if (!xformQuery.TryGetComponent(args.User, out var userXform))
+            return true;
+
+        TransformComponent? targetXform = null;
+        if (args.Target is { } target && !xformQuery.TryGetComponent(target, out targetXform))
+            return true;
+
+        if (args.Used is { } @using && !xformQuery.HasComp(@using))
             return true;
 
         // TODO: Re-use existing xform query for these calculations.
         if (args.BreakOnMove && !(!args.BreakOnWeightlessMove && _gravity.IsWeightless(args.User)))
         {
-            var movementEntity = doAfter.MovementEntity;
-            var movementXform = Transform(movementEntity);
-
-            // Whether the effective movement entity has moved too much from its original position.
-            if (!_transform.InRange(movementXform.Coordinates, doAfter.UserPosition, args.MovementThreshold))
+            // Whether the user has moved too much from their original position.
+            if (!_transform.InRange(userXform.Coordinates, doAfter.UserPosition, args.MovementThreshold))
                 return true;
 
-            // Whether the distance between the effective movement entity and the target(if any) has changed too much.
-            if (args.Target is { } target && Transform(target).Coordinates.TryDistance(EntityManager, movementXform.Coordinates, out var distance))
+            // Whether the distance between the user and target(if any) has changed too much.
+            if (targetXform != null &&
+                targetXform.Coordinates.TryDistance(EntityManager, userXform.Coordinates, out var distance))
             {
                 if (Math.Abs(distance - doAfter.TargetDistance) > args.MovementThreshold)
                     return true;
@@ -252,7 +265,7 @@ public abstract partial class SharedDoAfterSystem : EntitySystem
         // This does not mean their hand needs to be empty.
         if (args.NeedHand)
         {
-            if (!_handsQuery.TryGetComponent(args.User, out var hands) || hands.Count == 0)
+            if (!handsQuery.TryGetComponent(args.User, out var hands) || hands.Count == 0)
                 return true;
 
             // If an item was in the user's hand to begin with,
@@ -267,6 +280,7 @@ public abstract partial class SharedDoAfterSystem : EntitySystem
 
         if (args.RequireCanInteract && !_actionBlocker.CanInteract(args.User, args.Target))
             return true;
+
 
         return false;
     }

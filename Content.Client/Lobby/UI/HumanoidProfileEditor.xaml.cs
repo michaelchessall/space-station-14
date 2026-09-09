@@ -269,7 +269,8 @@ namespace Content.Client.Lobby.UI
 
             NameEdit.OnTextChanged += args => { SetName(args.Text); };
             NameEdit.IsValid = args => args.Length <= _maxNameLength;
-            RandomizeUnlockedButton.OnPressed += args => { RandomizeProfile(); };
+            NameRandomize.OnPressed += args => RandomizeName();
+            RandomizeEverythingButton.OnPressed += args => { RandomizeEverything(); };
             WarningLabel.SetMarkup($"[color=red]{Loc.GetString("humanoid-profile-editor-naming-rules-warning")}[/color]");
 
             #endregion Name
@@ -287,16 +288,6 @@ namespace Content.Client.Lobby.UI
             };
 
             #endregion Sex
-
-            #region Voice
-
-            VoiceButton.OnItemSelected += args =>
-            {
-                VoiceButton.SelectId(args.Id);
-                SetVoice(_voices[args.Id]);
-            };
-
-            #endregion
 
             #region Age
 
@@ -433,6 +424,7 @@ namespace Content.Client.Lobby.UI
             if (Profile == null)
             {
                 Profile = new HumanoidCharacterProfile();
+                RandomizeEverything();
             }
             SetDirty();
         }
@@ -519,6 +511,7 @@ namespace Content.Client.Lobby.UI
             if (Profile == null)
             {
                 Profile = new HumanoidCharacterProfile();
+                RandomizeEverything();
             }
 
             // Creating new character
@@ -536,6 +529,8 @@ namespace Content.Client.Lobby.UI
                 OpenImagesButton.Visible = false;
                 ExportImageButton.Visible = false;
 
+                NameRandomize.Visible = true;
+                RandomizeEverythingButton.Visible = true;
                 ResetButton.Visible = false;
                 NameEdit.Editable = true;
             }
@@ -554,6 +549,8 @@ namespace Content.Client.Lobby.UI
                 OpenImagesButton.Visible = true;
                 ExportImageButton.Visible = true;
 
+                RandomizeEverythingButton.Visible = false;
+                NameRandomize.Visible = false;
                 ResetButton.Visible = false;
                 NameEdit.Editable = false;
             }
@@ -599,7 +596,6 @@ namespace Content.Client.Lobby.UI
             UpdateNameEdit();
             UpdateFlavorTextEdit();
             UpdateSexControls();
-            UpdateVoiceControls();
             UpdateGenderControls();
             UpdateSkinColor();
             UpdateSpawnPriorityControls();

@@ -113,7 +113,10 @@
         layer:
         - MobLayer
   - type: Vocal
-    emoteSounds: MaleGoblin
+    sounds:
+      Male: MaleGoblin
+      Female: FemaleGoblin
+      Unsexed: MaleGoblin
 
 - type: entity
   parent: OrganBase

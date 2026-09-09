@@ -1,5 +1,3 @@
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
@@ -18,11 +16,12 @@ using Robust.Server.Player;
 using Robust.Shared.Console;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests.Commands;
 
 [TestFixture]
-public sealed class SuicideCommandTests : GameTest
+public sealed class SuicideCommandTests
 {
 
     [TestPrototypes]
@@ -58,13 +57,6 @@ public sealed class SuicideCommandTests : GameTest
     private static readonly ProtoId<TagPrototype> CannotSuicideTag = "CannotSuicide";
     private static readonly ProtoId<DamageTypePrototype> DamageType = "Slash";
 
-    public override PoolSettings PoolSettings => new PoolSettings
-    {
-        Connected = true,
-        Dirty = true,
-        DummyTicker = false
-    };
-
     /// <summary>
     /// Run the suicide command in the console
     /// Should successfully kill the player and ghost them
@@ -72,7 +64,12 @@ public sealed class SuicideCommandTests : GameTest
     [Test]
     public async Task TestSuicide()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            Dirty = true,
+            DummyTicker = false
+        });
         var server = pair.Server;
         var consoleHost = server.ResolveDependency<IConsoleHost>();
         var entManager = server.ResolveDependency<IEntityManager>();
@@ -107,6 +104,8 @@ public sealed class SuicideCommandTests : GameTest
                             !ghostComp.CanReturnToBody);
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 
     /// <summary>
@@ -116,7 +115,12 @@ public sealed class SuicideCommandTests : GameTest
     [Test]
     public async Task TestSuicideWhileDamaged()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            Dirty = true,
+            DummyTicker = false
+        });
         var server = pair.Server;
         var consoleHost = server.ResolveDependency<IConsoleHost>();
         var entManager = server.ResolveDependency<IEntityManager>();
@@ -162,6 +166,8 @@ public sealed class SuicideCommandTests : GameTest
                 Assert.That(damageableSystem.GetTotalDamage(player), Is.EqualTo(lethalDamageThreshold));
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 
     /// <summary>
@@ -171,7 +177,12 @@ public sealed class SuicideCommandTests : GameTest
     [Test]
     public async Task TestSuicideWhenCannotSuicide()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            Dirty = true,
+            DummyTicker = false
+        });
         var server = pair.Server;
         var consoleHost = server.ResolveDependency<IConsoleHost>();
         var entManager = server.ResolveDependency<IEntityManager>();
@@ -206,6 +217,8 @@ public sealed class SuicideCommandTests : GameTest
                             !ghostComp.CanReturnToBody);
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 
 
@@ -215,7 +228,12 @@ public sealed class SuicideCommandTests : GameTest
     [Test]
     public async Task TestSuicideByHeldItem()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            Dirty = true,
+            DummyTicker = false
+        });
         var server = pair.Server;
         var consoleHost = server.ResolveDependency<IConsoleHost>();
         var entManager = server.ResolveDependency<IEntityManager>();
@@ -274,6 +292,8 @@ public sealed class SuicideCommandTests : GameTest
                 Assert.That(damageableSystem.GetAllDamage((player, damageableComp)).DamageDict["Slash"], Is.EqualTo(lethalDamageThreshold));
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 
     /// <summary>
@@ -283,7 +303,12 @@ public sealed class SuicideCommandTests : GameTest
     [Test]
     public async Task TestSuicideByHeldItemSpreadDamage()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings
+        {
+            Connected = true,
+            Dirty = true,
+            DummyTicker = false
+        });
         var server = pair.Server;
         var consoleHost = server.ResolveDependency<IConsoleHost>();
         var entManager = server.ResolveDependency<IEntityManager>();
@@ -342,5 +367,7 @@ public sealed class SuicideCommandTests : GameTest
                 Assert.That(damageableSystem.GetAllDamage((player, damageableComp)).DamageDict["Slash"], Is.EqualTo(lethalDamageThreshold / 2));
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 }

@@ -15,7 +15,6 @@ using Robust.Shared.Physics.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 using System.Numerics;
-using Content.Server.Radiation.Systems;
 
 namespace Content.Server.Singularity.EntitySystems;
 
@@ -36,7 +35,6 @@ public sealed class WhiteHoleSystem : EntitySystem
     [Dependency] private readonly SharedPhysicsSystem _physics = default!;
     [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
     [Dependency] private readonly EntityManager _entityManager = default!;
-    [Dependency] private readonly RadiationSystem _radiation = default!;
 
     public override void Initialize()
     {
@@ -82,7 +80,7 @@ public sealed class WhiteHoleSystem : EntitySystem
                     _appearance.SetData(wholeUid, SingularityAppearanceKeys.Singularity, singularity.Level, appearance);
 
                 if (TryComp<RadiationSourceComponent>(wholeUid, out var radiationSource))
-                    _radiation.SetIntensity((wholeUid, radiationSource), singularity.Level * singularity.RadsPerLevel * WhiteHoleRadiationScale);
+                    radiationSource.Intensity = singularity.Level * singularity.RadsPerLevel * WhiteHoleRadiationScale;
 
                 if (TryComp<GravityWellComponent>(wholeUid, out var gravityWell))
                 {
@@ -163,7 +161,7 @@ public sealed class WhiteHoleSystem : EntitySystem
                 _appearance.SetData(whiteHole, SingularityAppearanceKeys.Singularity, singularity.Level, appearance);
 
             if (TryComp<RadiationSourceComponent>(whiteHole, out var radiationSource))
-                _radiation.SetIntensity((whiteHole, radiationSource), singularity.Level * singularity.RadsPerLevel * WhiteHoleRadiationScale);
+                radiationSource.Intensity = singularity.Level * singularity.RadsPerLevel * WhiteHoleRadiationScale;
 
             if (TryComp<GravityWellComponent>(whiteHole, out var gravityWell))
             {

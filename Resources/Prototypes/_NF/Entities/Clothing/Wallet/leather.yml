@@ -23,9 +23,9 @@
       visible: false
   - type: Item
     sprite: _NF/Clothing/Wallet/leather.rsi
-  - type: ToolRefinable
-    qualityNeeded: Slicing
-    refineResult:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
     - id: MaterialCloth1
       amount: 1
   - type: Appearance

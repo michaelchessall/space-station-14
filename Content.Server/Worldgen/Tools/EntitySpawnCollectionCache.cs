@@ -1,6 +1,6 @@
-﻿using System.Linq;
 using Content.Shared.Storage;
 using Robust.Shared.Random;
+using System.Linq;
 
 namespace Content.Server.Worldgen.Tools;
 

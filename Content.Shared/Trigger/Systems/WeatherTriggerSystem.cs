@@ -1,13 +1,15 @@
 using Content.Shared.Trigger.Components.Effects;
 using Content.Shared.Weather;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Shared.Trigger.Systems;
 
-public sealed partial class WeatherTriggerSystem : XOnTriggerSystem<WeatherOnTriggerComponent>
+public sealed class WeatherTriggerSystem : XOnTriggerSystem<WeatherOnTriggerComponent>
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedWeatherSystem _weather = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly SharedWeatherSystem _weather = default!;
 
     protected override void OnTrigger(Entity<WeatherOnTriggerComponent> ent, EntityUid target, ref TriggerEvent args)
     {
@@ -21,7 +23,7 @@ public sealed partial class WeatherTriggerSystem : XOnTriggerSystem<WeatherOnTri
 
         var endTime = ent.Comp.Duration == null ? null : ent.Comp.Duration + _timing.CurTime;
 
-        if (ProtoMan.Resolve(ent.Comp.Weather, out var weatherPrototype))
+        if (_prototypeManager.Resolve(ent.Comp.Weather, out var weatherPrototype))
             _weather.TrySetWeather(xform.MapID, weatherPrototype, out _, endTime);
     }
 }

@@ -1,4 +1,3 @@
-using Content.Shared.Interaction.Components;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 
@@ -83,12 +82,6 @@ public sealed partial class ItemToggleComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public SoundSpecifier? SoundFailToActivate;
-
-    /// <summary>
-    /// Does toggling this item require <see cref="ComplexInteractionComponent"/>?
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public bool RequireComplexInteract = true;
 }
 
 /// <summary>

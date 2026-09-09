@@ -49,7 +49,7 @@ namespace Content.Server._Funkystation.ReagentFires.Systems
         {
             base.Initialize();
             Subs.CVar(_cfg, ReagentFireCVars.PuddleFireDamageMultiplier, value => _puddleDamageMultiplier = value, true);
-            SubscribeLocalEvent<ContainedSolutionComponent, SolutionChangedEvent>(OnSolutionChanged);
+            SubscribeLocalEvent<SolutionComponent, SolutionChangedEvent>(OnSolutionChanged);
             SubscribeLocalEvent<TransformComponent, TileExposedEvent>(OnTileExposed);
             SubscribeLocalEvent<PuddleComponent, TileFireEvent>(OnPuddleTileFire);
             SubscribeLocalEvent<ReagentPuddleFireComponent, ComponentShutdown>(OnFireShutdown);
@@ -70,16 +70,16 @@ namespace Content.Server._Funkystation.ReagentFires.Systems
             }
         }
 
-        private void OnSolutionChanged(EntityUid uid, ContainedSolutionComponent component, ref SolutionChangedEvent args)
+        private void OnSolutionChanged(EntityUid uid, SolutionComponent component, ref SolutionChangedEvent args)
         {
-            if (!TryComp<SolutionComponent>(uid, out var solutionComp))
+            if (!TryComp<ContainedSolutionComponent>(uid, out var relation))
                 return;
 
-            var containerUid = component.Container;
+            var containerUid = relation.Container;
             if (!TryComp<PuddleComponent>(containerUid, out _))
                 return;
 
-            var solution = solutionComp.Solution;
+            var solution = component.Solution;
             var flammability = solution.GetSolutionFlammability(_prototypeManager);
             var selfOxidizing = solution.IsSolutionSelfOxidizing(_prototypeManager);
 

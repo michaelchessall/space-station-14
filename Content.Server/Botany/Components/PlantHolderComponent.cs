@@ -1,8 +1,6 @@
 using Content.Shared.Chemistry.Components;
-using Content.Shared.Tools;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 using Robust.Shared.Audio;
-using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Server.Botany.Components;
 
@@ -140,10 +138,4 @@ public sealed partial class PlantHolderComponent : Component
 
     [ViewVariables]
     public Entity<SolutionComponent>? SoilSolution = null;
-
-    /// <summary>
-    /// Tool quality that required if plant should be harvested with specified tool.
-    /// </summary>
-    [DataField]
-    public ProtoId<ToolQualityPrototype>? HarvestToolQuality = "Sawing";
 }

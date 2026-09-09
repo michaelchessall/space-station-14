@@ -4,17 +4,19 @@ using Content.Server.Station.Systems;
 using Content.Shared.Preferences;
 using Robust.Server.Containers;
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Server.Spawners.EntitySystems;
 
-public sealed partial class ContainerSpawnPointSystem : EntitySystem
+public sealed class ContainerSpawnPointSystem : EntitySystem
 {
-    [Dependency] private ContainerSystem _container = default!;
-    [Dependency] private GameTicker _gameTicker = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private StationSystem _station = default!;
-    [Dependency] private StationSpawningSystem _stationSpawning = default!;
+    [Dependency] private readonly ContainerSystem _container = default!;
+    [Dependency] private readonly GameTicker _gameTicker = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly StationSystem _station = default!;
+    [Dependency] private readonly StationSpawningSystem _stationSpawning = default!;
 
     public override void Initialize()
     {
@@ -29,7 +31,7 @@ public sealed partial class ContainerSpawnPointSystem : EntitySystem
 
         // If it's just a spawn pref check if it's for cryo (silly).
         if (args.HumanoidCharacterProfile?.SpawnPriority != SpawnPriorityPreference.Cryosleep &&
-            (!ProtoMan.Resolve(args.Job, out var jobProto) || jobProto.JobEntity == null))
+            (!_proto.Resolve(args.Job, out var jobProto) || jobProto.JobEntity == null))
         {
             //    return;
         }

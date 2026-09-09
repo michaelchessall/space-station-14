@@ -1,13 +1,11 @@
 - type: entity
   abstract: true
-  parent: MaterialBase
+  parent: BaseItem
   id: ShardCrystalBase
   name: crystal shard
   description:  A small piece of crystal.
   components:
-  - type: Tool
-    qualities:
-    - Slicing
+  - type: Sharp
   - type: Execution
     doAfterDuration: 4.0
   - type: Sprite
@@ -29,7 +27,16 @@
       types:
         Slash: 3.5
   - type: Damageable
+    damageContainer: Inorganic
     damageModifierSet: Glass
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
   - type: StaticPrice
     price: 50
 

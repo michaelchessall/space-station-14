@@ -184,7 +184,9 @@
     whitelist:
       components:
       - Hands # prevent mouse buying grenade penguin since its not telepathic
-  - type: RemoteStore
+  - type: Store
+    balance:
+      Telecrystal: 0
   - type: UserInterface
     interfaces:
       enum.StoreUiKey.Key:

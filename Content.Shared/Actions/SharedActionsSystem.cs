@@ -33,14 +33,18 @@ public abstract partial class SharedActionsSystem : EntitySystem
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfter = default!;
 
-    [Dependency] private EntityQuery<ActionComponent> _actionQuery = default!;
-    [Dependency] private EntityQuery<ActionsComponent> _actionsQuery = default!;
-    [Dependency] private EntityQuery<MindComponent> _mindQuery = default!;
+    private EntityQuery<ActionComponent> _actionQuery;
+    private EntityQuery<ActionsComponent> _actionsQuery;
+    private EntityQuery<MindComponent> _mindQuery;
 
     public override void Initialize()
     {
         base.Initialize();
         InitializeActionDoAfter();
+
+        _actionQuery = GetEntityQuery<ActionComponent>();
+        _actionsQuery = GetEntityQuery<ActionsComponent>();
+        _mindQuery = GetEntityQuery<MindComponent>();
 
         SubscribeLocalEvent<ActionComponent, MapInitEvent>(OnActionMapInit);
 
@@ -923,7 +927,7 @@ public abstract partial class SharedActionsSystem : EntitySystem
         if (GameTiming.ApplyingState)
             return;
 
-        var ev = new GetItemActionsEvent(_actionContainer, args.EquipTarget, args.Equipment, args.SlotFlags);
+        var ev = new GetItemActionsEvent(_actionContainer, args.Equipee, args.Equipment, args.SlotFlags);
         RaiseLocalEvent(args.Equipment, ev);
 
         if (ev.Actions.Count == 0)

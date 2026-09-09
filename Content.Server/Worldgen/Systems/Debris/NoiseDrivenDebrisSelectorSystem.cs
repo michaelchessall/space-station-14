@@ -1,6 +1,5 @@
 using Content.Server.Worldgen.Components.Debris;
 using Robust.Server.GameObjects;
-using Robust.Shared.Physics;
 using Robust.Shared.Random;
 
 namespace Content.Server.Worldgen.Systems.Debris;
@@ -23,7 +22,7 @@ public sealed class NoiseDrivenDebrisSelectorSystem : BaseWorldSystem
         _sawmill = _logManager.GetSawmill("world.debris.noise_debris_selector");
         // Event is forcibly ordered to always be handled after the simple selector.
         SubscribeLocalEvent<NoiseDrivenDebrisSelectorComponent, TryGetPlaceableDebrisFeatureEvent>(OnSelectDebrisKind,
-            after: new[] {typeof(DebrisFeaturePlacerSystem)});
+            after: new[] { typeof(DebrisFeaturePlacerSystem) });
     }
 
     private void OnSelectDebrisKind(EntityUid uid, NoiseDrivenDebrisSelectorComponent component,

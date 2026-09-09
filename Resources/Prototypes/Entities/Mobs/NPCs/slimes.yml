@@ -1,7 +1,7 @@
 ﻿- type: entity
   name: basic slime
   id: BaseMobAdultSlimes
-  parent: [ BaseMobSlimes, SimpleMobBase, MobCombat, BaseSlicingRefinable, MobNightVision ]
+  parent: [ BaseMobSlimes, SimpleMobBase, MobCombat ]
   abstract: true
   description: It looks so much like jelly. I wonder what it tastes like?
   components:
@@ -36,8 +36,9 @@
     tags:
     - FootstepSound
     - DoorBumpOpener
-  - type: ToolRefinable
-    refineResult:
+  - type: Butcherable
+    butcheringType: Knife
+    spawned:
     - id: FoodMeatSlime
       amount: 2
   - type: Respirator
@@ -49,6 +50,7 @@
         Asphyxiation: -1.0
     maxSaturation: 15
   - type: Damageable
+    damageContainer: Biological
     damageModifierSet: Slime
   - type: Bloodstream
     bloodReferenceSolution:

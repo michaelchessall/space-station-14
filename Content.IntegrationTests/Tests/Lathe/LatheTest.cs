@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Lathe;
 using Content.Shared.Materials;
 using Content.Shared.Prototypes;
@@ -8,16 +5,18 @@ using Content.Shared.Research.Prototypes;
 using Content.Shared.Whitelist;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests.Lathe;
 
 [TestFixture]
-public sealed class LatheTest : GameTest
+public sealed class LatheTest
 {
     [Test]
     public async Task TestLatheRecipeIngredientsFitLathe()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var mapData = await pair.CreateTestMap();
@@ -55,10 +54,10 @@ public sealed class LatheTest : GameTest
                 // Check each lathe individually
                 foreach (var latheProto in latheProtos)
                 {
-                    if (!latheProto.TryComp<LatheComponent>(out var latheComp, compFactory))
+                    if (!latheProto.TryGetComponent<LatheComponent>(out var latheComp, compFactory))
                         continue;
 
-                    if (!latheProto.TryComp<MaterialStorageComponent>(out var storageComp, compFactory))
+                    if (!latheProto.TryGetComponent<MaterialStorageComponent>(out var storageComp, compFactory))
                         continue;
 
                     // Test which material-containing entities are accepted by this lathe
@@ -80,7 +79,7 @@ public sealed class LatheTest : GameTest
                     var recipes = new HashSet<ProtoId<LatheRecipePrototype>>();
                     latheSystem.AddRecipesFromPacks(recipes, latheComp.StaticPacks);
                     latheSystem.AddRecipesFromPacks(recipes, latheComp.DynamicPacks);
-                    if (latheProto.TryComp<EmagLatheRecipesComponent>(out var emagRecipesComp, compFactory))
+                    if (latheProto.TryGetComponent<EmagLatheRecipesComponent>(out var emagRecipesComp, compFactory))
                     {
                         latheSystem.AddRecipesFromPacks(recipes, emagRecipesComp.EmagStaticPacks);
                         latheSystem.AddRecipesFromPacks(recipes, emagRecipesComp.EmagDynamicPacks);
@@ -112,12 +111,14 @@ public sealed class LatheTest : GameTest
                 }
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 
     [Test]
     public async Task AllLatheRecipesValidTest()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
 
         var server = pair.Server;
         var proto = server.ProtoMan;
@@ -130,5 +131,7 @@ public sealed class LatheTest : GameTest
                     Assert.That(recipe.ResultReagents, Is.Not.Null, $"Recipe '{recipe.ID}' has no result or result reagents.");
             }
         });
+
+        await pair.CleanReturnAsync();
     }
 }

@@ -10,10 +10,10 @@ using Robust.Shared.Player;
 namespace Content.Client.RoundEnd;
 
 [UsedImplicitly]
-public sealed partial class RoundEndSummaryUIController : UIController,
+public sealed class RoundEndSummaryUIController : UIController,
     IOnSystemLoaded<ClientGameTicker>
 {
-    [Dependency] private IInputManager _input = default!;
+    [Dependency] private readonly IInputManager _input = default!;
 
     private RoundEndSummaryWindow? _window;
 
@@ -40,7 +40,7 @@ public sealed partial class RoundEndSummaryUIController : UIController,
             return;
 
         _window = new RoundEndSummaryWindow(message.GamemodeTitle, message.RoundEndText,
-            message.RoundDuration, message.RoundId, message.AllPlayersEndInfo);
+            message.RoundDuration, message.RoundId, message.AllPlayersEndInfo, EntityManager);
     }
 
     public void OnSystemLoaded(ClientGameTicker system)

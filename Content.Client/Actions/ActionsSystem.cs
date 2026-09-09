@@ -17,21 +17,23 @@ using Robust.Shared.Serialization.Markdown;
 using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Serialization.Markdown.Sequence;
 using Robust.Shared.Serialization.Markdown.Value;
+using Robust.Shared.Timing;
 using Robust.Shared.Utility;
 using YamlDotNet.RepresentationModel;
 
 namespace Content.Client.Actions
 {
     [UsedImplicitly]
-    public sealed partial class ActionsSystem : SharedActionsSystem
+    public sealed class ActionsSystem : SharedActionsSystem
     {
         public delegate void OnActionReplaced(EntityUid actionId);
 
-        [Dependency] private SharedChargesSystem _sharedCharges = default!;
-        [Dependency] private IPlayerManager _playerManager = default!;
-        [Dependency] private IResourceManager _resources = default!;
-        [Dependency] private MetaDataSystem _metaData = default!;
-        [Dependency] private ISerializationManager _serialization = default!;
+        [Dependency] private readonly SharedChargesSystem _sharedCharges = default!;
+        [Dependency] private readonly IPlayerManager _playerManager = default!;
+        [Dependency] private readonly IPrototypeManager _proto = default!;
+        [Dependency] private readonly IResourceManager _resources = default!;
+        [Dependency] private readonly MetaDataSystem _metaData = default!;
+        [Dependency] private readonly ISerializationManager _serialization = default!;
 
         public event Action<EntityUid>? OnActionAdded;
         public event Action<EntityUid>? OnActionRemoved;
@@ -255,12 +257,12 @@ namespace Content.Client.Actions
                 else if (map.TryGet<ValueDataNode>("entity", out var entityNode))
                 {
                     var id = new EntProtoId(entityNode.Value);
-                    var proto = ProtoMan.Index(id);
+                    var proto = _proto.Index(id);
                     actionId = Spawn(MappingEntityAction);
                     SetIcon(actionId, new SpriteSpecifier.EntityPrototype(id));
                     SetEvent(actionId, new StartPlacementActionEvent()
                     {
-                        PlacementOption = proto.PlacementMode,
+                        PlacementOption = "SnapgridCenter",
                         EntityType = id
                     });
                     _metaData.SetEntityName(actionId, proto.Name);
@@ -268,7 +270,7 @@ namespace Content.Client.Actions
                 else if (map.TryGet<ValueDataNode>("tileId", out var tileNode))
                 {
                     var id = new ProtoId<ContentTileDefinition>(tileNode.Value);
-                    var proto = ProtoMan.Index(id);
+                    var proto = _proto.Index(id);
                     actionId = Spawn(MappingEntityAction);
                     if (proto.Sprite is { } sprite)
                         SetIcon(actionId, new SpriteSpecifier.Texture(sprite));

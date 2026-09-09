@@ -35,7 +35,7 @@ public sealed partial class ShuttleConsoleSystem
     private void OnBeaconFTLMessage(Entity<ShuttleConsoleComponent> ent, ref ShuttleConsoleFTLBeaconMessage args)
     {
         var beaconEnt = GetEntity(args.Beacon);
-        if (!TryComp(beaconEnt, out TransformComponent? targetXform))
+        if (!_xformQuery.TryGetComponent(beaconEnt, out var targetXform))
         {
             return;
         }
@@ -79,14 +79,14 @@ public sealed partial class ShuttleConsoleSystem
 
         while (beaconQuery.MoveNext(out var destUid, out _))
         {
-            var meta = MetaData(destUid);
+            var meta = _metaQuery.GetComponent(destUid);
             var name = meta.EntityName;
 
             if (string.IsNullOrEmpty(name))
                 name = Loc.GetString("shuttle-console-unknown");
 
             // Can't travel to same map (yet)
-            var destXform = Transform(destUid);
+            var destXform = _xformQuery.GetComponent(destUid);
             beacons ??= new List<ShuttleBeaconObject>();
             beacons.Add(new ShuttleBeaconObject(GetNetEntity(destUid), GetNetCoordinates(destXform.Coordinates), name));
         }
@@ -116,7 +116,7 @@ public sealed partial class ShuttleConsoleSystem
         if (consoleUid == null)
             return;
 
-        var shuttleUid = Transform(consoleUid.Value).GridUid;
+        var shuttleUid = _xformQuery.GetComponent(consoleUid.Value).GridUid;
 
         if (!TryComp(shuttleUid, out ShuttleComponent? shuttleComp))
             return;

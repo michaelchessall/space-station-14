@@ -13,6 +13,7 @@ using Robust.Server.Audio;
 using Robust.Server.GameObjects;
 using Robust.Shared.Audio;
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using System.Linq;
 
 namespace Content.Server.Chemistry.EntitySystems
@@ -22,22 +23,23 @@ namespace Content.Server.Chemistry.EntitySystems
     /// <seealso cref="ReagentDispenserComponent"/>
     /// </summary>
     [UsedImplicitly]
-    public sealed partial class ReagentDispenserSystem : EntitySystem
+    public sealed class ReagentDispenserSystem : EntitySystem
     {
-        [Dependency] private AudioSystem _audioSystem = default!;
-        [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
-        [Dependency] private SolutionTransferSystem _solutionTransferSystem = default!;
-        [Dependency] private ItemSlotsSystem _itemSlotsSystem = default!;
-        [Dependency] private UserInterfaceSystem _userInterfaceSystem = default!;
-        [Dependency] private OpenableSystem _openable = default!;
-        [Dependency] private HandsSystem _handsSystem = default!;
+        [Dependency] private readonly AudioSystem _audioSystem = default!;
+        [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+        [Dependency] private readonly SolutionTransferSystem _solutionTransferSystem = default!;
+        [Dependency] private readonly ItemSlotsSystem _itemSlotsSystem = default!;
+        [Dependency] private readonly UserInterfaceSystem _userInterfaceSystem = default!;
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly OpenableSystem _openable = default!;
+        [Dependency] private readonly HandsSystem _handsSystem = default!;
 
         public override void Initialize()
         {
             base.Initialize();
 
             SubscribeLocalEvent<ReagentDispenserComponent, ComponentStartup>(SubscribeUpdateUiState);
-            SubscribeLocalEvent<ReagentDispenserComponent, SolutionChangedEvent>(SubscribeUpdateUiState);
+            SubscribeLocalEvent<ReagentDispenserComponent, SolutionContainerChangedEvent>(SubscribeUpdateUiState);
             SubscribeLocalEvent<ReagentDispenserComponent, EntInsertedIntoContainerMessage>(SubscribeUpdateUiState, after: [typeof(SharedStorageSystem)]);
             SubscribeLocalEvent<ReagentDispenserComponent, EntRemovedFromContainerMessage>(SubscribeUpdateUiState, after: [typeof(SharedStorageSystem)]);
             SubscribeLocalEvent<ReagentDispenserComponent, BoundUIOpenedEvent>(SubscribeUpdateUiState);
@@ -105,7 +107,7 @@ namespace Content.Server.Chemistry.EntitySystems
                 if (_solutionContainerSystem.TryGetDrainableSolution(storedContainer, out _, out var sol))
                 {
                     quantity = sol.Volume;
-                    reagentColor = sol.GetColor(ProtoMan);
+                    reagentColor = sol.GetColor(_prototypeManager);
                 }
 
                 inventory.Add(new ReagentInventoryItem(storageLocation, reagentLabel, quantity, reagentColor));

@@ -2,13 +2,16 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.Holopad;
 
-public abstract partial class SharedHolopadSystem : EntitySystem
+public abstract class SharedHolopadSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     public bool IsHolopadControlLocked(Entity<HolopadComponent> entity, EntityUid? user = null)
     {
-        if (_timing.CurTime > entity.Comp.ControlLockoutEndTime)
+        if (entity.Comp.ControlLockoutStartTime == TimeSpan.Zero)
+            return false;
+
+        if (entity.Comp.ControlLockoutStartTime + TimeSpan.FromSeconds(entity.Comp.ControlLockoutDuration) < _timing.CurTime)
             return false;
 
         if (entity.Comp.ControlLockoutOwner == null || entity.Comp.ControlLockoutOwner == user)
@@ -19,12 +22,15 @@ public abstract partial class SharedHolopadSystem : EntitySystem
 
     public TimeSpan GetHolopadControlLockedPeriod(Entity<HolopadComponent> entity)
     {
-        return entity.Comp.ControlLockoutEndTime - _timing.CurTime;
+        return entity.Comp.ControlLockoutStartTime + TimeSpan.FromSeconds(entity.Comp.ControlLockoutDuration) - _timing.CurTime;
     }
 
     public bool IsHolopadBroadcastOnCoolDown(Entity<HolopadComponent> entity)
     {
-        if (_timing.CurTime > entity.Comp.ControlLockoutCoolDownEndTime)
+        if (entity.Comp.ControlLockoutStartTime == TimeSpan.Zero)
+            return false;
+
+        if (entity.Comp.ControlLockoutStartTime + TimeSpan.FromSeconds(entity.Comp.ControlLockoutCoolDown) < _timing.CurTime)
             return false;
 
         return true;
@@ -32,6 +38,6 @@ public abstract partial class SharedHolopadSystem : EntitySystem
 
     public TimeSpan GetHolopadBroadcastCoolDown(Entity<HolopadComponent> entity)
     {
-        return entity.Comp.ControlLockoutCoolDownEndTime - _timing.CurTime;
+        return entity.Comp.ControlLockoutStartTime + TimeSpan.FromSeconds(entity.Comp.ControlLockoutCoolDown) - _timing.CurTime;
     }
 }

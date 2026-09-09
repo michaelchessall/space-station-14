@@ -3,15 +3,17 @@ using Content.Server.GameTicking;
 using Content.Shared.CCVar;
 using Content.Shared.Holiday;
 using Robust.Shared.Configuration;
+using Robust.Shared.Prototypes;
 using System.Linq;
 
 namespace Content.Server.Holiday
 {
-    public sealed partial class HolidaySystem : EntitySystem
+    public sealed class HolidaySystem : EntitySystem
     {
-        [Dependency] private IConfigurationManager _configManager = default!;
-        [Dependency] private IChatManager _chatManager = default!;
-        [Dependency] private SharedAppearanceSystem _appearance = default!;
+        [Dependency] private readonly IConfigurationManager _configManager = default!;
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly IChatManager _chatManager = default!;
+        [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
 
         [ViewVariables]
         private readonly List<HolidayPrototype> _currentHolidays = new();
@@ -38,7 +40,7 @@ namespace Content.Server.Holiday
 
             var now = DateTime.Now;
 
-            foreach (var holiday in ProtoMan.EnumeratePrototypes<HolidayPrototype>())
+            foreach (var holiday in _prototypeManager.EnumeratePrototypes<HolidayPrototype>())
             {
                 if (holiday.ShouldCelebrate(now))
                 {
@@ -72,7 +74,7 @@ namespace Content.Server.Holiday
 
         public bool IsCurrentlyHoliday(string holiday)
         {
-            if (!ProtoMan.TryIndex(holiday, out HolidayPrototype? prototype))
+            if (!_prototypeManager.TryIndex(holiday, out HolidayPrototype? prototype))
                 return false;
 
             return _currentHolidays.Contains(prototype);

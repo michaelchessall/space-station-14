@@ -77,7 +77,7 @@ public sealed partial class WieldGunOperator : HTNOperator
             }
         }
 
-        wieldSystem.TryWield(gun.Owner, owner);
+        wieldSystem.TryWield(gun.Owner, wieldable, owner);
 
         return HTNOperatorStatus.Finished;
     }

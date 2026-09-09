@@ -26,7 +26,7 @@ public sealed partial class ChemicalFuelGeneratorAdapterComponent : Component
     public string SolutionName = "tank";
 
     /// <summary>
-    /// The solution to use.
+    /// The solution on the <see cref="SolutionContainerManagerComponent"/> to use.
     /// </summary>
     [ViewVariables]
     public Entity<SolutionComponent>? Solution = null;

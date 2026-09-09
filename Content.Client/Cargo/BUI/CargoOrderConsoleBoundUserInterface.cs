@@ -14,10 +14,9 @@ using static Robust.Client.UserInterface.Controls.BaseButton;
 
 namespace Content.Client.Cargo.BUI
 {
-    public sealed partial class CargoOrderConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : BoundUserInterface(owner, uiKey)
+    public sealed class CargoOrderConsoleBoundUserInterface : BoundUserInterface
     {
-        [Dependency] private SharedCargoSystem _cargoSystem = default!;
-        [Dependency] private IdentitySystem _identity = default!;
+        private readonly SharedCargoSystem _cargoSystem;
 
         [ViewVariables]
         private CargoConsoleMenu? _menu;
@@ -46,6 +45,11 @@ namespace Content.Client.Cargo.BUI
         [ViewVariables]
         private CargoProductPrototype? _product;
 
+        public CargoOrderConsoleBoundUserInterface(EntityUid owner, Enum uiKey) : base(owner, uiKey)
+        {
+            _cargoSystem = EntMan.System<SharedCargoSystem>();
+        }
+
         protected override void Open()
         {
             base.Open();
@@ -56,9 +60,12 @@ namespace Content.Client.Cargo.BUI
             var localPlayer = dependencies.Resolve<IPlayerManager>().LocalEntity;
             var description = new FormattedMessage();
 
-            var orderRequester = Loc.GetString("cargo-console-paper-approver-default");
+            string orderRequester;
+
             if (EntMan.EntityExists(localPlayer))
-                orderRequester = _identity.GetIdentityShortInfo(localPlayer.Value, Owner) ?? orderRequester;
+                orderRequester = Identity.Name(localPlayer.Value, EntMan);
+            else
+                orderRequester = string.Empty;
 
             _orderMenu = new CargoConsoleOrderMenu();
 
@@ -84,7 +91,6 @@ namespace Content.Client.Cargo.BUI
                 _orderMenu.Amount.Value = 1;
 
                 _orderMenu.OpenCentered();
-                _orderMenu.SetPositionLast();
             };
             _menu.OnOrderApproved += ApproveOrder;
             _menu.OnOrderCanceled += RemoveOrder;
@@ -143,11 +149,6 @@ namespace Content.Client.Cargo.BUI
             if (_menu == null)
                 return;
             _menu.ProductCatalogue = cState.Products;
-            _menu.ShuttleCapacityLabel.Text = Loc.GetString(
-                "cargo-console-menu-order-capacity-number",
-                ("count", OrderCount),
-                ("capacity", OrderCapacity)
-            );
 
             _menu?.UpdateStation(station, cState.PersonalMode, cState.Tax, cState.PossibleTrades, cState.SelectedTrade, cState.OwnedTrade);
             Populate(cState.Orders, cState);

@@ -11,15 +11,14 @@ using Robust.Shared.Configuration;
 
 namespace Content.Server.Atmos.Monitor.Systems;
 
-public sealed partial class FireAlarmSystem : EntitySystem
+public sealed class FireAlarmSystem : EntitySystem
 {
-    [Dependency] private AtmosDeviceNetworkSystem _atmosDevNet = default!;
-    [Dependency] private AtmosAlarmableSystem _atmosAlarmable = default!;
-    [Dependency] private EmagSystem _emag = default!;
-    [Dependency] private SharedInteractionSystem _interactionSystem = default!;
-    [Dependency] private AccessReaderSystem _access = default!;
-    [Dependency] private IConfigurationManager _configManager = default!;
-    [Dependency] private EntityQuery<DeviceNetworkComponent> _deviceNetworkQuery = default!;
+    [Dependency] private readonly AtmosDeviceNetworkSystem _atmosDevNet = default!;
+    [Dependency] private readonly AtmosAlarmableSystem _atmosAlarmable = default!;
+    [Dependency] private readonly EmagSystem _emag = default!;
+    [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
+    [Dependency] private readonly AccessReaderSystem _access = default!;
+    [Dependency] private readonly IConfigurationManager _configManager = default!;
 
     public override void Initialize()
     {
@@ -30,9 +29,10 @@ public sealed partial class FireAlarmSystem : EntitySystem
 
     private void OnDeviceListSync(EntityUid uid, FireAlarmComponent component, DeviceListUpdateEvent args)
     {
+        var query = GetEntityQuery<DeviceNetworkComponent>();
         foreach (var device in args.OldDevices)
         {
-            if (!_deviceNetworkQuery.TryGetComponent(device, out var deviceNet))
+            if (!query.TryGetComponent(device, out var deviceNet))
             {
                 continue;
             }

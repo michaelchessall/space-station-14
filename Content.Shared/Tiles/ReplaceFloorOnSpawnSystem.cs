@@ -1,14 +1,16 @@
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 
 namespace Content.Shared.Tiles;
 
-public sealed partial class ReplaceFloorOnSpawnSystem : EntitySystem
+public sealed class ReplaceFloorOnSpawnSystem : EntitySystem
 {
-    [Dependency] private ITileDefinitionManager _tile = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private readonly ITileDefinitionManager _tile = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -40,7 +42,7 @@ public sealed partial class ReplaceFloorOnSpawnSystem : EntitySystem
                 continue;
 
             var tileToSet = _random.Pick(ent.Comp.ReplacementTiles);
-            _map.SetTile(grid, gridComp, tile.GridIndices, new Tile(ProtoMan.Index(tileToSet).TileId));
+            _map.SetTile(grid, gridComp, tile.GridIndices, new Tile(_prototype.Index(tileToSet).TileId));
         }
     }
 }

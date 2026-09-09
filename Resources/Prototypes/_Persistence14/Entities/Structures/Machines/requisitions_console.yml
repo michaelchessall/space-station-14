@@ -1,0 +1,73 @@
+# Requisitions Console — a staff-run ordering terminal that links to nearby printing machines
+# (lathes / flatpackers) and prints a whole cart in one go. A second, access-gated tab lets an operator set
+# raw-material prices and fees. It's a computer: built from a printed computer board (see
+# _Persistence14/Entities/Objects/Devices/Circuitboards/requisitions_console_board.yml), unlocked by the
+# Tier 2 "Requisitions Logistics" research. Being a computer, it rotates while unanchored for free.
+- type: entity
+  id: MachineRequisitionsConsole
+  parent: BaseComputer
+  name: requisitions console
+  description: A staff-run ordering terminal. Links to nearby fabricators and prints a whole cart of items at once, for a price.
+  components:
+  # Built from a printed computer board via the shared Computer construction graph.
+  - type: Computer
+    board: RequisitionsConsoleCircuitboard
+  # Standard computer sprite; the "request" screen suits an ordering terminal.
+  - type: Sprite
+    sprite: Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: request
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: RequisitionsConsole
+    range: 10
+    # Fallback price used for any linked material not listed below.
+    fallbackMaterialPrice: 700
+    # Default per-sheet prices, applied automatically the first time a material becomes priceable.
+    # Derived from cargo crate costs; rounded to whole spesos since the price is a per-sheet integer.
+    defaultMaterialPrices:
+      Paper: 1        # ~1.23/sheet
+      Cardboard: 4    # ~3.67/piece
+      Steel: 15
+      Glass: 15
+      Cloth: 17       # ~16.67/piece
+      Plastic: 20
+      Brass: 30
+      Plasteel: 38
+      Silver: 86      # per bar
+      Plasma: 100
+      Gold: 108       # ~107.5/bar
+  # Lets customers hand over their own sheets to lower the bill at checkout.
+  - type: MaterialStorage
+    whitelist:
+      tags:
+      - Sheet
+      - RawMaterial
+      - Ingot
+  # Accepts a printed invoice to reload its cart; checkout/cancel eject it again.
+  - type: ItemSlots
+    slots:
+      requisitions-invoice-slot:
+        name: requisitions-invoice-slot-name
+        whitelist:
+          components:
+          - Invoice
+  # Faction-aware gating for the whole console. Empty by default => open until configured with an Access Overrider.
+  - type: AccessReader
+  - type: ActivatableUI
+    key: enum.RequisitionsConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.RequisitionsConsoleUiKey.Key:
+        type: RequisitionsConsoleBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: StaticPrice
+    price: 400
