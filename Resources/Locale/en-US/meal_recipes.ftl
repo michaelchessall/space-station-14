@@ -225,3 +225,16 @@ full_american_breakfast_recipe = full american breakfast recipe
 full_english_breakfast_recipe = full english breakfast recipe
 moproach_recipe = moproach recipe
 cotton_cake_recipe = cotton cake recipe
+
+#persistence 14
+donk_pocket_recipe = donk pocket recipe
+donk_pocket_recipe_dank = dank pocket recipe
+donk_pocket_recipe_spicy = spicy donk pocket recipe
+donk_pocket_recipe_teriyaki = teriyaki donk pocket recipe
+donk_pocket_recipe_pizza = pizza donk pocket recipe
+donk_pocket_recipe_honk = honk pocket recipe
+donk_pocket_recipe_berry = berry donk pocket recipe
+donk_pocket_recipe_stonk = stonk pocket recipe
+donk_pocket_recipe_carp = carp pocket recipe
+donk_pocket_recipe_dink = dink pocket recipe
+donk_pocket_recipe_moth = moth pocket recipe

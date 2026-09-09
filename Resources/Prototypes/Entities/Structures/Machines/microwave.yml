@@ -171,6 +171,17 @@
     providedRecipes:
     - RecipeBaguetteSword
     - RecipeThrowingCroissant
+    - RecipeDonkPocketPlain
+    - RecipeDonkPocketDank
+    - RecipeDonkPocketSpicy
+    - RecipeDonkPocketTeriyaki
+    - RecipeDonkPocketPizza
+    - RecipeDonkPocketHonk
+    - RecipeDonkPocketBerry
+    - RecipeDonkPocketCarp
+    - RecipeDonkPocketCarp
+    - RecipeDonkPocketDink
+    - RecipeDonkPocketMoth
   - type: Item
     sprite: Structures/Machines/microwave_syndie.rsi
     size: Ginormous
