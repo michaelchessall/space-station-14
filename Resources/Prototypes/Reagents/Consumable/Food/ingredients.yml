@@ -64,6 +64,10 @@
   flavor: raw-egg
   color: white
   recognizable: true
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Protein
   metabolisms:
     Digestion:
       metabolites:
@@ -78,6 +82,10 @@
   flavor: egg
   color: white
   recognizable: true
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 2
+    nutrient: Protein
   metabolisms:
     Digestion:
       metabolites:
@@ -231,11 +239,13 @@
           min: 0.1
         factor: 1
   plantMetabolism:
-  - !type:PlantAdjustNutrition
+  - !type:PlantAdjustNutrient
     amount: 0.1
-  - !type:PlantAdjustWeeds
+    nutrient: Nutrient
+  - !type:PlantAdjustNutrient
     amount: 2
-  - !type:PlantAdjustPests
+    nutrient: Pest
+  - !type:PlantAdjustWeeds
     amount: 2
 
 - type: reagent

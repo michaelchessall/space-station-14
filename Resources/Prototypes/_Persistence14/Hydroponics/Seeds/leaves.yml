@@ -1,0 +1,341 @@
+- type: seed
+  id: teaPlant
+  name: seeds-teaplant-name
+  noun: seeds-noun-seeds
+  displayName: seeds-teaplant-display-name
+  plantRsi: Objects/Specific/Hydroponics/tea_plant.rsi
+  packetPrototype: TeaPlantSeeds
+  productPrototypes:
+  - LeavesTea
+  harvestRepeat: Repeat
+  lifespan: 75
+  maturation: 5
+  production: 3
+  yield: 2
+  growthStages: 5
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    Vitamin:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 1
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: cabbage
+  name: seeds-cabbage-name
+  noun: seeds-noun-seeds
+  displayName: seeds-cabbage-display-name
+  plantRsi: Objects/Specific/Hydroponics/cabbage.rsi
+  packetPrototype: CabbageSeeds
+  productPrototypes:
+  - FoodCabbage
+  lifespan: 50
+  maturation: 7
+  production: 5
+  yield: 3
+  growthStages: 1
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+- type: seed
+  id: cannabis
+  name: seeds-cannabis-name
+  noun: seeds-noun-seeds
+  displayName: seeds-cannabis-display-name
+  plantRsi: Objects/Specific/Hydroponics/cannabis.rsi
+  packetPrototype: CannabisSeeds
+  productPrototypes:
+  - LeavesCannabis
+  mutationPrototypes:
+  - rainbowCannabis
+  harvestRepeat: Repeat
+  lifespan: 75
+  maturation: 8
+  production: 12
+  yield: 2
+  potency: 20
+  growthStages: 3
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    THC:
+      BaseAmount: 3
+      Requirements:
+        Nutrient:
+          Requirement: 3
+        Fertilizer:
+          BonusRequirement: 0.6
+          BonusAmount: 3
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: rainbowCannabis
+  name: seeds-rainbow-cannabis-name
+  noun: seeds-noun-seeds
+  displayName: seeds-rainbow-cannabis-display-name
+  plantRsi: Objects/Specific/Hydroponics/rainbow_cannabis.rsi
+  packetPrototype: RainbowCannabisSeeds
+  productPrototypes:
+  - LeavesCannabisRainbow
+  harvestRepeat: Repeat
+  lifespan: 75
+  maturation: 8
+  production: 12
+  yield: 2
+  potency: 20
+  growthStages: 3
+  waterConsumption: 0.40
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    SpaceDrugs:
+      Min: 1
+      Max: 15
+      PotencyDivisor: 10
+    Lipolicide:
+      Min: 1
+      Max: 15
+      PotencyDivisor: 10
+    MindbreakerToxin:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    Happiness:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    #   ColorfulReagent:
+    #     Min: 0
+    #     Max: 5
+    #     PotencyDivisor: 20
+    Psicodine:
+      Min: 0
+      Max: 5
+      PotencyDivisor: 33
+
+- type: seed
+  id: tobacco
+  name: seeds-tobacco-name
+  noun: seeds-noun-seeds
+  displayName: seeds-tobacco-display-name
+  plantRsi: Objects/Specific/Hydroponics/tobacco.rsi
+  packetPrototype: TobaccoSeeds
+  productPrototypes:
+  - LeavesTobacco
+  harvestRepeat: Repeat
+  lifespan: 75
+  maturation: 5
+  production: 5
+  yield: 2
+  growthStages: 3
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    Nicotine:
+      BaseAmount: 3
+      Requirements:
+        Nutrient:
+          Requirement: 3
+        Fertilizer:
+          BonusRequirement: 0.6
+          BonusAmount: 3
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+
+- type: seed
+  id: nettle
+  name: seeds-nettle-name
+  noun: seeds-noun-seeds
+  displayName: seeds-nettle-display-name
+  plantRsi: Objects/Specific/Hydroponics/nettle.rsi
+  packetPrototype: NettleSeeds
+  productPrototypes:
+  - Nettle
+  mutationPrototypes:
+  - deathNettle
+  lifespan: 25
+  maturation: 8
+  production: 6
+  yield: 2
+  growthStages: 5
+  idealLight: 8
+  baseIdealHeat: 298
+  chemicals:
+    Histamine:
+      BaseAmount: 6
+      Requirements:
+        Nutrient:
+          Requirement: 3
+        Water:
+          Requirement: 3
+        Fertilizer:
+          BonusRequirement: 0.5
+          BonusAmount: 6.5
+        CarbonDioxide:
+          BonusRequirement: 1
+          BonusAmount: 12.5
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: deathNettle
+  name: seeds-deathnettle-name
+  noun: seeds-noun-seeds
+  displayName: seeds-deathnettle-display-name
+  plantRsi: Objects/Specific/Hydroponics/death_nettle.rsi
+  packetPrototype: DeathNettleSeeds
+  plantLogImpact: High
+  harvestLogImpact: High
+  productPrototypes:
+  - DeathNettle
+  lifespan: 25
+  maturation: 8
+  production: 6
+  yield: 2
+  potency: 20
+  growthStages: 5
+  idealLight: 8
+  waterConsumption: 0.70
+  nutrientConsumption: 0.80
+  baseIdealHeat: 298
+  chemicals:
+    SulfuricAcid:
+      Min: 1
+      Max: 15
+      PotencyDivisor: 6
+      BaseAmount: 4
+    FluorosulfuricAcid:
+      Min: 1
+      Max: 15
+      PotencyDivisor: 6
+      BaseAmount: 4
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: aloe
+  name: seeds-aloe-name
+  noun: seeds-noun-seeds
+  displayName: seeds-aloe-display-name
+  plantRsi: Objects/Specific/Hydroponics/aloe.rsi
+  packetPrototype: AloeSeeds
+  productPrototypes:
+  - FoodAloe
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  potency: 10
+  growthStages: 5
+  waterConsumption: 0.60
+  chemicals:
+    Aloe:
+      Min: 1
+      Max: 10
+      PotencyDivisor: 10
+    Dermaline:
+      Min: 1
+      Max: 10
+      PotencyDivisor: 10
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency
+  id: ambrosiaVulgaris
+  name: seeds-ambrosiavulgaris-name
+  noun: seeds-noun-seeds
+  displayName: seeds-ambrosiavulgaris-display-name
+  plantRsi: Objects/Specific/Hydroponics/ambrosia_vulgaris.rsi
+  packetPrototype: AmbrosiaVulgarisSeeds
+  productPrototypes:
+  - FoodAmbrosiaVulgaris
+  mutationPrototypes:
+  - ambrosiaDeus
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  potency: 10
+  growthStages: 6
+  chemicals:
+    Nutriment:
+      Min: 1
+      Max: 2
+      PotencyDivisor: 10
+    Bicaridine:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    Kelotane:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    Vitamin:
+      Min: 1
+      Max: 2
+      PotencyDivisor: 50
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: ambrosiaDeus
+  name: seeds-ambrosiadeus-name
+  noun: seeds-noun-seeds
+  displayName: seeds-ambrosiadeus-display-name
+  plantRsi: Objects/Specific/Hydroponics/ambrosia_deus.rsi
+  packetPrototype: AmbrosiaDeusSeeds
+  productPrototypes:
+  - FoodAmbrosiaDues
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  potency: 10
+  growthStages: 6
+  waterConsumption: 0.60
+  chemicals:
+    Nutriment:
+      Min: 1
+      Max: 2
+      PotencyDivisor: 10
+    #Omnizine: # Don't kill me
+      #Min: 1
+      #Max: 3
+      #PotencyDivisor: 35
+    Nectar:
+      Min: 1
+      Max: 3
+      PotencyDivisor: 35
+    SpaceDrugs:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20

@@ -483,6 +483,12 @@ entity-effect-guidebook-plant-attribute =
     *[false] [color=green]{$amount}[/color]
     }
 
+entity-effect-guidebook-plant-nutrient =
+    { $chance ->
+        [1] Adjusts
+        *[other] adjust
+    } {$nutrient} by [color={$color}]{$amount}[/color]
+
 entity-effect-guidebook-plant-cryoxadone =
     { $chance ->
         [1] Ages back

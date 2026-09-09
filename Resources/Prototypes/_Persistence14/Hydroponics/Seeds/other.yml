@@ -1,0 +1,350 @@
+- type: seed
+  id: sugarcane
+  name: seeds-sugarcane-name
+  noun: seeds-noun-seeds
+  displayName: seeds-sugarcane-display-name
+  plantRsi: Objects/Specific/Hydroponics/sugarcane.rsi
+  packetPrototype: SugarcaneSeeds
+  productPrototypes:
+    - Sugarcane
+  mutationPrototypes:
+    - papercane
+  harvestRepeat: Repeat
+  lifespan: 60
+  maturation: 6
+  production: 6
+  yield: 3
+  growthStages: 3
+  baseIdealHeat: 298
+  chemicals:
+    Sugar:
+      BaseAmount: 5
+      Requirements:
+        Water:
+          Requirement: 2
+        Nutrient:
+          Requirement: 3
+
+- type: seed
+  id: papercane
+  name: seeds-papercane-name
+  noun: seeds-noun-seeds
+  displayName: seeds-papercane-display-name
+  plantRsi: Objects/Specific/Hydroponics/papercane.rsi
+  packetPrototype: PapercaneSeeds
+  productPrototypes:
+    - Papercane
+  harvestRepeat: Repeat
+  lifespan: 60
+  maturation: 6
+  production: 6
+  yield: 3
+  growthStages: 3
+  baseIdealHeat: 298
+  Requirements:
+    Water:
+      Requirement: 2
+    Nutrient:
+      Requirement: 3
+
+- type: seed
+  id: eggy
+  name: seeds-eggy-name
+  noun: seeds-noun-seeds
+  displayName: seeds-eggy-display-name
+  plantRsi: Objects/Specific/Hydroponics/eggy.rsi
+  packetPrototype: EggySeeds
+  productPrototypes:
+    - FoodEgg
+  harvestRepeat: Repeat
+  lifespan: 75
+  maturation: 6
+  production: 12
+  yield: 2
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    Egg:
+      BaseAmount: 6
+      Requirements:
+        Nutrient:
+          Requirement: 4
+        Water:
+          Requirement: 4
+        Fertilizer:
+          BonusRequirement: 1
+          BonusAmount: 3
+        Pest: # egg = chicken = eat bug and worm
+          BonusRequirement: 6
+          BonusAmount: 3
+
+- type: seed
+  id: soybeans
+  name: seeds-soybeans-name
+  noun: seeds-noun-seeds
+  displayName: seeds-soybeans-display-name
+  plantRsi: Objects/Specific/Hydroponics/soybeans.rsi
+  packetPrototype: SoybeanSeeds
+  productPrototypes:
+  - FoodSoybeans
+  mutationPrototypes:
+  - koibean
+  growthStages: 4
+  lifespan: 25
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 7
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Water:
+        Requirement: 1
+      Fertilizer:
+        BonusRequirement: 0.1
+        BonusAmount: 1
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: koibean
+  name: seeds-koibean-name
+  noun: seeds-noun-seeds
+  displayName: seeds-koibean-display-name
+  plantRsi: Objects/Specific/Hydroponics/koibean.rsi
+  packetPrototype: KoibeanSeeds
+  productPrototypes:
+    - FoodKoibean
+  growthStages: 4
+  lifespan: 25
+  maturation: 6
+  production: 6
+  yield: 3
+  potency: 5
+  idealLight: 7
+  nutrientConsumption: 0.40
+  chemicals:
+    Nutriment:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    CarpoToxin:
+      Min: 1
+      Max: 4
+      PotencyDivisor: 30
+
+- type: seed
+  id: cocoa
+  name: seeds-cocoa-name
+  noun: seeds-noun-seeds
+  displayName: seeds-cocoa-display-name
+  plantRsi: Objects/Specific/Hydroponics/cocoa.rsi
+  packetPrototype: CocoaSeeds
+  productPrototypes:
+    - FoodCocoaPod
+  harvestRepeat: Repeat
+  lifespan: 50
+  maturation: 6
+  production: 6
+  yield: 6
+  idealLight: 7
+  baseIdealHeat: 298
+  chemicals:
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Nutriment:
+      BaseAmount: 1
+      Water:
+        Requirement: 1
+      Fertilizer:
+        BonusRequirement: 0.1
+        BonusAmount: 1
+
+- type: seed
+  id: pea
+  name: seeds-pea-name
+  noun: seeds-noun-seeds
+  displayName: seeds-pea-display-name
+  plantRsi: Objects/Specific/Hydroponics/pea.rsi
+  packetPrototype: PeaSeeds
+  productPrototypes:
+  - FoodPeaPod
+  mutationPrototypes:
+  - laughinPea
+  lifespan: 25
+  growthStages: 3
+  maturation: 8
+  production: 6
+  yield: 3
+  idealLight: 8
+  harvestRepeat: Repeat
+  chemicals:
+    Nutriment:
+      BaseAmount: 3
+      Requirements:
+        Water:
+          Requirement: 3
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+
+- type: seed
+  id: laughinPea
+  name: seeds-laughin-pea-name
+  noun: seeds-noun-seeds
+  displayName: seeds-laughin-pea-display-name
+  plantRsi: Objects/Specific/Hydroponics/laughin_pea.rsi
+  packetPrototype: LaughinPeaSeeds
+  productPrototypes:
+  - FoodLaughinPeaPod
+  mutationPrototypes:
+  - worldPea
+  lifespan: 25
+  growthStages: 3
+  maturation: 7
+  production: 5
+  yield: 3
+  idealLight: 8
+  harvestRepeat: Repeat
+  chemicals:
+    Nutriment:
+      BaseAmount: 3
+      Requirements:
+        Water:
+          Requirement: 3
+    Sugar:
+      BaseAmount: 5
+      Requirements:
+        Water:
+          Requirement: 2
+        Nutrient:
+          Requirement: 3
+        CarbonDioxide:
+          BonusRequirement: 0.5
+          BonusAmount: 5
+    Laughter:
+      BaseAmount: 5
+      Requirements:
+        Water:
+          Requirement: 5
+        Fertilizer:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+        NitrousOxide:
+          BonusRequirement: 0.25
+          BonusAmount: 2.5
+
+- type: seed
+  id: worldPea
+  name: seeds-worldpea-name
+  noun: seeds-noun-seeds
+  displayName: seeds-worldpea-display-name
+  plantRsi: Objects/Specific/Hydroponics/world_pea.rsi
+  packetPrototype: PeaSeeds
+  productPrototypes:
+  - FoodWorldPeas
+  lifespan: 25
+  growthStages: 3
+  maturation: 20
+  production: 6
+  yield: 3
+  idealLight: 8
+  harvestRepeat: Repeat
+  chemicals:
+    Happiness: # TODO: update Happiness
+      Min: 1
+      Max: 3
+      PotencyDivisor: 25
+    Nutriment:
+      BaseAmount: 3
+      Requirements:
+        Water:
+          Requirement: 3
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+    Pax: # TODO: update Pax
+      Min: 1
+      Max: 2
+      PotencyDivisor: 50
+
+- type: seed
+  id: cotton
+  name: seeds-cotton-name
+  noun: seeds-noun-seeds
+  displayName: seeds-cotton-display-name
+  plantRsi: Objects/Specific/Hydroponics/cotton.rsi
+  packetPrototype: CottonSeeds
+  productPrototypes:
+    - CottonBol
+  mutationPrototypes:
+    - pyrotton
+  lifespan: 25
+  maturation: 8
+  production: 3
+  yield: 3
+  idealLight: 8
+  growthStages: 3
+  chemicals:
+    Fiber:
+      BaseAmount: 5
+      Requirements:
+        Water:
+          Requirement: 5
+        Fertiliser:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+        CarbonDioxide:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: pyrotton
+  name: seeds-pyrotton-name
+  noun: seeds-noun-seeds
+  displayName: seeds-pyrotton-display-name
+  plantRsi: Objects/Specific/Hydroponics/pyrotton.rsi
+  packetPrototype: PyrottonSeeds
+  productPrototypes:
+    - PyrottonBol
+  lifespan: 25
+  maturation: 8
+  production: 3
+  yield: 2
+  potency: 5
+  idealLight: 8
+  growthStages: 3
+  waterConsumption: 0.80
+  chemicals:
+    Fiber:
+      BaseAmount: 5
+      Requirements:
+        Water:
+          Requirement: 5
+        Fertiliser:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+        CarbonDioxide:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+    Phlogiston:
+      Min: 4
+      Max: 8
+      PotencyDivisor: 30

@@ -1,0 +1,13 @@
+- type: mixingCategory
+  id: DummyPlantOsmosis
+  verbText: plant-nutrient-source-verb-default-osmosis
+  icon:
+    sprite: Structures/Hydroponics/containers.rsi
+    state: hydrotray3
+
+- type: mixingCategory
+  id: DummyPlantRespiration
+  verbText: plant-nutrient-source-verb-default-respiration
+  icon:
+    sprite: Mobs/Species/Diona/organs.rsi
+    state: lungs

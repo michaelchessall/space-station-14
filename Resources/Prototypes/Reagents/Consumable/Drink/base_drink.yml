@@ -15,8 +15,9 @@
       effects:
       - !type:Extinguish
   plantMetabolism:
-  - !type:PlantAdjustWater
+  - !type:PlantAdjustNutrient
     amount: 1
+    nutrient: Water
   tileReactions:
   - !type:ExtinguishTileReaction { }
   - !type:SpillIfPuddlePresentTileReaction { }
@@ -31,10 +32,12 @@
       - !type:SatiateThirst
         factor: 2
   plantMetabolism:
-  - !type:PlantAdjustNutrition
+  - !type:PlantAdjustNutrient
     amount: 0.1
-  - !type:PlantAdjustWater
+    nutrient: Sugar
+  - !type:PlantAdjustNutrient
     amount: 0.1
+    nutrient: Water
   - !type:PlantAdjustHealth
     amount: -0.1
   footstepSound:
@@ -64,10 +67,12 @@
   - !type:FlammableTileReaction
     temperatureMultiplier: 1.35
   plantMetabolism:
-  - !type:PlantAdjustNutrition
+  - !type:PlantAdjustNutrient
     amount: 0.25
-  - !type:PlantAdjustWater
+    nutrient: Alcohol
+  - !type:PlantAdjustNutrient
     amount: 0.7
+    nutrient: Water
 
 - type: reagent
   id: BaseJuice

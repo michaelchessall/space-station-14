@@ -41,5 +41,7 @@ public sealed partial class PlantMutateChemicalsEntityEffectSystem : EntityEffec
         var potencyDivisor = 100f / seedChemQuantity.Max;
         seedChemQuantity.PotencyDivisor = (float)potencyDivisor;
         chemicals[chemicalId] = seedChemQuantity;
+
+        entity.Comp.Seed.ApplyModifiers();
     }
 }

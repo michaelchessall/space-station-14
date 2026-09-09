@@ -1,4 +1,8 @@
+using System.Linq;
+using System.Runtime.CompilerServices;
 using Content.Shared.Atmos;
+using Content.Shared.Botany;
+using Content.Shared.Climbing.Events;
 using Content.Shared.Database;
 using Content.Shared.FixedPoint;
 using Content.Shared.Random;
@@ -58,23 +62,67 @@ public partial struct SeedChemQuantity
     /// <summary>
     /// Minimum amount of chemical that is added to produce, regardless of the potency
     /// </summary>
-    [DataField("Min")] public FixedPoint2 Min = FixedPoint2.Epsilon;
+    [DataField("Min")] public FixedPoint2 Min = FixedPoint2.Epsilon; // To be removed
 
     /// <summary>
     /// Maximum amount of chemical that can be produced after taking plant potency into account.
     /// </summary>
-    [DataField("Max")] public FixedPoint2 Max;
+    [DataField("Max")] public FixedPoint2 Max; // To be removed
 
     /// <summary>
     /// When chemicals are added to produce, the potency of the seed is divided with this value. Final chemical amount is the result plus the `Min` value.
     /// Example: PotencyDivisor of 20 with seed potency of 55 results in 2.75, 55/20 = 2.75. If minimum is 1 then final result will be 3.75 of that chemical, 55/20+1 = 3.75.
     /// </summary>
-    [DataField("PotencyDivisor")] public float PotencyDivisor;
+    [DataField("PotencyDivisor")] public float PotencyDivisor; // To be removed
+
+    /// <summary>
+    /// Minimum amount of chemical that is added to produce, regardless of nutrient requirement bonuses
+    /// </summary>
+    [DataField("BaseAmount")] public FixedPoint2 BaseAmount = FixedPoint2.Epsilon;
+
+    /// <summary>
+    /// Nutrient requirements needed for the plant's produce to contain this reagent
+    /// </summary>
+    [DataField("Requirements")] public Dictionary<ProtoId<PlantNutrientPrototype>, NutrientRequirement> Requirements = new();
 
     /// <summary>
     /// Inherent chemical is one that is NOT result of mutation or crossbreeding. These chemicals are removed if species mutation is executed.
     /// </summary>
     [DataField("Inherent")] public bool Inherent = true;
+
+    [DataField("ModifyIdealHeat")] public float ModifyIdealHeat = 0;
+
+    [DataField("ModifyHeatTolerance")] public float ModifyHeatTolerance = 0;
+
+    [DataField("ModifyIdealPressure")] public float ModifyIdealPressure = 0;
+
+    [DataField("ModifyPressureTolerance")] public float ModifyPressureTolerance = 0;
+}
+
+[DataDefinition]
+public partial struct NutrientRequirement
+{
+    /// <summary>
+    /// Amount of nutrients required to meet the requirement.
+    /// </summary>
+    [DataField("Requirement")] public FixedPoint2 Requirement = FixedPoint2.Zero;
+
+    /// <summary>
+    /// Amount of extra nutrients required to get the full reagent bonus. If this is zero, the reagent bonus is always added.
+    /// </summary>
+    [DataField("BonusRequirement")] public FixedPoint2 BonusRequirement = FixedPoint2.Zero;
+
+    /// <summary>
+    /// Amount of extra reagent added to the produce when the bonus requirement is fulfilled, does nothing if the requirement is not used by a reagent.
+    /// </summary>
+    [DataField("BonusAmount")] public FixedPoint2 BonusAmount = FixedPoint2.Zero;
+}
+
+[DataDefinition]
+public partial struct NutrientInfo
+{
+    [DataField("Requirement")] public FixedPoint2 Requirement = FixedPoint2.Zero;
+    [DataField("BonusRequirement")] public FixedPoint2 BonusRequirement = FixedPoint2.Zero;
 }
 
 // TODO Make Botany ECS and give it a proper API. I removed the limited access of this class because it's egregious how many systems needed access to it due to a lack of an actual API.
@@ -86,6 +134,7 @@ public partial struct SeedChemQuantity
 [Virtual, DataDefinition]
 public partial class SeedData
 {
+
     #region Tracking
 
     /// <summary>
@@ -148,17 +197,21 @@ public partial class SeedData
     [DataField] public float NutrientConsumption = 0.75f;
 
     [DataField] public float WaterConsumption = 0.5f;
-    [DataField] public float IdealHeat = 293f;
-    [DataField] public float HeatTolerance = 10f;
+
+    [DataField] public Dictionary<ProtoId<PlantNutrientPrototype>, NutrientRequirement> Requirements = new();
+
+    [DataField] public Dictionary<ProtoId<PlantNutrientPrototype>, NutrientRequirement> TotalRequirements { get; private set; } = new();
+
+    [DataField] public float BaseIdealHeat = 293f;
+    [DataField] public float BaseHeatTolerance = 10f;
+    [DataField] public float IdealHeat { get; private set; }
+    [DataField] public float HeatTolerance { get; private set; }
     [DataField] public float IdealLight = 7f;
     [DataField] public float LightTolerance = 3f;
-    [DataField] public float ToxinsTolerance = 4f;
-
-    [DataField] public float LowPressureTolerance = 81f;
-
-    [DataField] public float HighPressureTolerance = 121f;
-
-    [DataField] public float PestTolerance = 5f;
+    [DataField] public float BaseIdealPressure = 101f;
+    [DataField] public float BasePressureTolerance = 20f;
+    [DataField] public float IdealPressure { get; private set; }
+    [DataField] public float PressureTolerance { get; private set; }
 
     [DataField] public float WeedTolerance = 5f;
 
@@ -257,6 +310,39 @@ public partial class SeedData
     [DataField]
     public LogImpact? HarvestLogImpact = null;
 
+    public void ApplyModifiers()
+    {
+        IdealHeat = BaseIdealHeat;
+        HeatTolerance = BaseHeatTolerance;
+        IdealPressure = BaseIdealPressure;
+        PressureTolerance = BasePressureTolerance;
+
+        foreach (var chemical in Chemicals.Values)
+        {
+            IdealHeat += chemical.ModifyIdealHeat;
+            HeatTolerance += chemical.ModifyHeatTolerance;
+            IdealPressure += chemical.ModifyIdealPressure;
+            PressureTolerance += chemical.ModifyPressureTolerance;
+        }
+
+        TotalRequirements.Clear();
+
+        foreach (var requirement in Requirements)
+        {
+            TotalRequirements.Add(requirement.Key, requirement.Value);
+        }
+
+        foreach (var requirement in Chemicals.SelectMany(t => t.Value.Requirements))
+        {
+            NutrientRequirement currentRequirement;
+            TotalRequirements.TryGetValue(requirement.Key, out currentRequirement);
+            currentRequirement.Requirement += requirement.Value.Requirement * Yield;
+            currentRequirement.BonusRequirement += requirement.Value.BonusRequirement * Yield;
+            TotalRequirements[requirement.Key] = currentRequirement;
+        }
+
+    }
+
     public SeedData Clone()
     {
         DebugTools.Assert(!Immutable, "There should be no need to clone an immutable seed.");
@@ -274,6 +360,12 @@ public partial class SeedData
             Chemicals = new Dictionary<string, SeedChemQuantity>(Chemicals),
             ConsumeGasses = new Dictionary<Gas, float>(ConsumeGasses),
             ExudeGasses = new Dictionary<Gas, float>(ExudeGasses),
+            Requirements = new Dictionary<ProtoId<PlantNutrientPrototype>, NutrientRequirement>(Requirements),
+
+            BaseHeatTolerance = BaseHeatTolerance,
+            BaseIdealHeat = BaseIdealHeat,
+            BaseIdealPressure = BaseIdealPressure,
+            BasePressureTolerance = BasePressureTolerance,
 
             NutrientConsumption = NutrientConsumption,
             WaterConsumption = WaterConsumption,
@@ -281,10 +373,6 @@ public partial class SeedData
             HeatTolerance = HeatTolerance,
             IdealLight = IdealLight,
             LightTolerance = LightTolerance,
-            ToxinsTolerance = ToxinsTolerance,
-            LowPressureTolerance = LowPressureTolerance,
-            HighPressureTolerance = HighPressureTolerance,
-            PestTolerance = PestTolerance,
             WeedTolerance = WeedTolerance,
 
             Endurance = Endurance,
@@ -312,6 +400,7 @@ public partial class SeedData
         };
 
         newSeed.Mutations.AddRange(Mutations);
+        newSeed.ApplyModifiers();
         return newSeed;
     }
 
@@ -331,6 +420,7 @@ public partial class SeedData
             PacketPrototype = other.PacketPrototype,
             ProductPrototypes = new List<EntProtoId>(other.ProductPrototypes),
             MutationPrototypes = new List<ProtoId<SeedPrototype>>(other.MutationPrototypes),
+            Requirements = new Dictionary<ProtoId<PlantNutrientPrototype>, NutrientRequirement>(other.Requirements),
 
             Chemicals = new Dictionary<string, SeedChemQuantity>(Chemicals),
             ConsumeGasses = new Dictionary<Gas, float>(ConsumeGasses),
@@ -342,11 +432,12 @@ public partial class SeedData
             HeatTolerance = HeatTolerance,
             IdealLight = IdealLight,
             LightTolerance = LightTolerance,
-            ToxinsTolerance = ToxinsTolerance,
-            LowPressureTolerance = LowPressureTolerance,
-            HighPressureTolerance = HighPressureTolerance,
-            PestTolerance = PestTolerance,
             WeedTolerance = WeedTolerance,
+
+            BaseHeatTolerance = other.BaseHeatTolerance,
+            BaseIdealHeat = other.BaseIdealHeat,
+            BaseIdealPressure = other.BaseIdealPressure,
+            BasePressureTolerance = other.BasePressureTolerance,
 
             Endurance = Endurance,
             Yield = Yield,
@@ -387,6 +478,8 @@ public partial class SeedData
                 newSeed.Chemicals.Remove(originalChem.Key);
             }
         }
+
+        newSeed.ApplyModifiers();
 
         return newSeed;
     }

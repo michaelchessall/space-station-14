@@ -28,22 +28,22 @@
       persists: false
       effect: !type:PlantChangeStat
         targetValue: Viable
-    - name: ChangeWaterConsumption
-      baseOdds: 0.018
-      persists: false
-      effect: !type:PlantChangeStat
-        targetValue: WaterConsumption
-        minValue: 0.3
-        maxValue: 0.9
-        steps: 5
-    - name: ChangeNutrientConsumption
-      baseOdds: 0.018
-      persists: false
-      effect: !type:PlantChangeStat
-        targetValue: NutrientConsumption
-        minValue: 0.05
-        maxValue: 1.2
-        steps: 5
+#    - name: ChangeWaterConsumption Persistence: Plant nutrient rework
+#      baseOdds: 0.018
+#      persists: false
+#      effect: !type:PlantChangeStat
+#        targetValue: WaterConsumption
+#        minValue: 0.3
+#        maxValue: 0.9
+#        steps: 5
+#    - name: ChangeNutrientConsumption
+#      baseOdds: 0.018
+#      persists: false
+#      effect: !type:PlantChangeStat
+#        targetValue: NutrientConsumption
+#        minValue: 0.05
+#        maxValue: 1.2
+#        steps: 5
     - name: ChangeIdealHeat
       baseOdds: 0.018
       persists: false
@@ -60,15 +60,15 @@
         minValue: 2
         maxValue: 25
         steps: 5
-    - name: ChangeToxinsTolerance
-      baseOdds: 0.018
-      persists: false
-      effect: !type:PlantChangeStat
-        targetValue: ToxinsTolerance
-        minValue: 1
-        maxValue: 10
-        steps: 5
-    - name: ChangeLowPressureTolerance
+#    - name: ChangeToxinsTolerance Persistence: Plant Nutrient Rework
+#      baseOdds: 0.018
+#      persists: false
+#      effect: !type:PlantChangeStat
+#        targetValue: ToxinsTolerance
+#        minValue: 1
+#        maxValue: 10
+#        steps: 5
+    - name: ChangeLowPressureTolerance # TODO: Update this
       baseOdds: 0.018
       persists: false
       effect: !type:PlantChangeStat
@@ -76,7 +76,7 @@
         minValue: 60
         maxValue: 100
         steps: 5
-    - name: ChangeHighPressureTolerance
+    - name: ChangeHighPressureTolerance # TODO: Update this
       baseOdds: 0.018
       persists: false
       effect: !type:PlantChangeStat
@@ -84,14 +84,14 @@
         minValue: 100
         maxValue: 140
         steps: 5
-    - name: ChangePestTolerance
-      baseOdds: 0.018
-      persists: false
-      effect: !type:PlantChangeStat
-        targetValue: PestTolerance
-        minValue: 0
-        maxValue: 15
-        steps: 5
+#    - name: ChangePestTolerance # Persistence: Plant Nutrient Rework
+#      baseOdds: 0.018
+#      persists: false
+#      effect: !type:PlantChangeStat
+#        targetValue: PestTolerance
+#        minValue: 0
+#        maxValue: 15
+#        steps: 5
     - name: ChangeWeedTolerance
       baseOdds: 0.018
       persists: false
@@ -140,14 +140,14 @@
         minValue: 1
         maxValue: 10
         steps: 5
-    - name: ChangePotency
-      baseOdds: 0.036
-      persists: false
-      effect: !type:PlantChangeStat
-        targetValue: Potency
-        minValue: 30
-        maxValue: 100
-        steps: 5
+#    - name: ChangePotency Persistence: Plant Nutrient Rework
+#      baseOdds: 0.036
+#      persists: false
+#      effect: !type:PlantChangeStat
+#        targetValue: Potency
+#        minValue: 30
+#        maxValue: 100
+#        steps: 5
     - name: ChangeSeedless
       baseOdds: 0.036
       persists: false
@@ -176,10 +176,10 @@
       baseOdds: 0.0145
       persists: false
       effect: !type:PlantMutateExudeGases
-    - name: ChangeConsumeGasses
-      baseOdds: 0.0036
-      persists: false
-      effect: !type:PlantMutateConsumeGases
+#    - name: ChangeConsumeGasses Persistence: Plant Nutrient Rework
+#      baseOdds: 0.0036
+#      persists: false
+#      effect: !type:PlantMutateConsumeGases
     - name: ChangeHarvest
       baseOdds: 0.036
       persists: false

@@ -23,12 +23,24 @@ plant-holder-component-plant-unhealthy-adjective = unhealthy
 plant-holder-component-dead-plant-matter-message = It's full of [color=red]dead plant matter[/color].
 plant-holder-component-weed-high-level-message = It's filled with [color=green]weeds[/color]!
 plant-holder-component-pest-high-level-message = It's filled with [color=gray]tiny worms[/color]!
-plant-holder-component-water-level-message = Water:     [color=cyan]{$waterLevel}[/color].
-plant-holder-component-nutrient-level-message = Nutrient: [color=orange]{$nutritionLevel}[/color].
+plant-holder-component-nutrient-level-message = {CAPITALIZE($name)}: [color={$color}]{$nutrientLevel}[/color]{$requirementMessage}{$bonusMessage}.
+
+plant-holder-component-nutrient-requirement-message = /{ $fulfilled ->
+        [true] [color=green]{$requiredNutrients}[/color]
+       *[false] [color=red]{$requiredNutrients}[/color]
+    }
+
+plant-holder-component-nutrient-bonus-message = -{ $fulfilled ->
+        [true] [color=green]{$bonusNutrients}[/color]
+       *[false] {$bonusNutrients}
+    }
 plant-holder-component-toxins-high-warning = The [color=red]toxicity level alert[/color] is flashing red.
 plant-holder-component-light-improper-warning = The [color=yellow]improper light level alert[/color] is blinking.
-plant-holder-component-heat-improper-warning = The [color=orange]improper temperature level alert[/color] is blinking.
-plant-holder-component-pressure-improper-warning = The [color=lightblue]improper environment pressure alert[/color] is blinking.
+plant-holder-component-heat-high-warning = The [color=orange]high temperature level alert[/color] is blinking.
+plant-holder-component-heat-low-warning = The [color=orange]low temperature level alert[/color] is blinking.
+plant-holder-component-pressure-high-warning = The [color=lightblue]high environment pressure alert[/color] is blinking.
+plant-holder-component-pressure-low-warning = The [color=lightblue]low environment pressure alert[/color] is blinking.
 plant-holder-component-gas-missing-warning = The [color=cyan]improper gas environment alert[/color] is blinking.
 plant-holder-component-early-sample-message = The plant hasn't grown enough to take a sample yet.
 plant-holder-component-ligneous-cant-harvest-message = The plant is too tough to harvest with your bare hands.
+plant-holder-component-low-nutrient-cant-harvest-message = This plant is missing nutrients required to grow its produce.

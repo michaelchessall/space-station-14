@@ -147,6 +147,10 @@
   flammability: 2 # Funky change
   boilingPoint: 78.2
   meltingPoint: -114.1
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Alcohol
   metabolisms:
     Metabolites:
       metabolismRate: 0.05
@@ -2475,6 +2479,13 @@
   metamorphicMaxFillLevels: 2
   metamorphicFillBaseName: fill-
   metamorphicChangeColor: false
+  plantMetabolism:
+    - !type:PlantAdjustNutrient
+      amount: 2
+      nutrient: Alcohol
+    - !type:PlantAdjustNutrient
+      amount: 0.25
+      nutrient: Toxin
   metabolisms:
     Digestion:
       metabolites:

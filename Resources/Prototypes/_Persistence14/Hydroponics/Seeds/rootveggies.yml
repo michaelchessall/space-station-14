@@ -1,0 +1,296 @@
+- type: seed
+  id: carrots
+  name: seeds-carrots-name
+  noun: seeds-noun-seeds
+  displayName: seeds-carrots-display-name
+  plantRsi: Objects/Specific/Hydroponics/carrot.rsi
+  packetPrototype: CarrotSeeds
+  productPrototypes:
+  - FoodCarrot
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  growthStages: 3
+  chemicals:
+    JuiceCarrot:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Nutrient:
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+    Oculine:
+      BaseAmount: 2
+      Nutrient:
+        Requirement: 0.5
+        BonusRequirement: 0.5
+        BonusAmount: 1
+      Fertilizer:
+        BonusRequirement: 0.6
+        BonusAmount: 3
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: potato
+  name: seeds-potato-name
+  noun: seeds-noun-seeds
+  displayName: seeds-potato-display-name
+  plantRsi: Objects/Specific/Hydroponics/potato.rsi
+  packetPrototype: PotatoSeeds
+  productPrototypes:
+  - FoodPotato
+  lifespan: 30
+  maturation: 10
+  production: 3
+  yield: 3
+  growthStages: 4
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: garlic
+  name: seeds-garlic-name
+  noun: seeds-noun-seeds
+  displayName: seeds-garlic-display-name
+  plantRsi: Objects/Specific/Hydroponics/garlic.rsi
+  packetPrototype: GarlicSeeds
+  productPrototypes:
+  - FoodGarlic
+  lifespan: 25
+  maturation: 8
+  production: 5
+  yield: 3
+  growthStages: 3
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 1.5
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 2
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Allicin:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 0.5
+
+- type: seed
+  id: onion
+  name: seeds-onion-name
+  noun: seeds-noun-seeds
+  displayName: seeds-onion-display-name
+  plantRsi: Objects/Specific/Hydroponics/onion.rsi
+  packetPrototype: OnionSeeds
+  productPrototypes:
+  - FoodOnion
+  mutationPrototypes:
+  - onionred
+  - bloonion
+  lifespan: 25
+  maturation: 8
+  production: 6
+  yield: 2
+  growthStages: 3
+  idealLight: 8
+  baseIdealHeat: 298
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 1.5
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 2
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Allicin:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 0.5
+
+- type: seed
+  id: onionred
+  name: seeds-onionred-name
+  noun: seeds-noun-seeds
+  displayName: seeds-onionred-display-name
+  plantRsi: Objects/Specific/Hydroponics/onion_red.rsi
+  packetPrototype: OnionRedSeeds
+  productPrototypes:
+  - FoodOnionRed
+  lifespan: 25
+  maturation: 8
+  production: 6
+  yield: 2
+  growthStages: 3
+  idealLight: 8
+  baseIdealHeat: 298
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 1.5
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 2
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Allicin:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 0.5
+
+- type: seed
+  id: bloonion
+  name: seeds-bloonion-name
+  noun: seeds-noun-seeds
+  displayName: seeds-bloonion-display-name
+  plantRsi: Objects/Specific/Hydroponics/bloonion.rsi
+  packetPrototype: BloonionSeeds
+  productPrototypes:
+  - FoodBloonion
+  lifespan: 25
+  maturation: 15
+  production: 3
+  yield: 3
+  growthStages: 4
+  chemicals:
+    Potassium: # Same requirements for all 3, to ensure all of the reagents are used in the smoke reaction.
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 1.5
+          BonusAmount: 2
+        Sugar:
+          BonusRequirement: 1
+          BonusAmount: 1
+    Phosphorus:
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 1.5
+          BonusAmount: 2
+        Sugar:
+          BonusRequirement: 1
+          BonusAmount: 1
+    Sugar:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 1.5
+          BonusAmount: 2
+        Sugar:
+          BonusRequirement: 1
+          BonusAmount: 1
+    Allicin:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 0.5
+        Nutrient:
+          BonusRequirement: 1
+          BonusAmount: 4
+        Fertilizer:
+          BonusRequirement: 0.5
+          BonusAmount: 5

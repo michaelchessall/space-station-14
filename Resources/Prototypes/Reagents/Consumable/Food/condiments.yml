@@ -146,16 +146,20 @@
   boilingPoint: 1465.0
   meltingPoint: 800.7
   plantMetabolism:
-  - !type:PlantAdjustWater
+  - !type:PlantAdjustNutrient
     amount: -3
-  - !type:PlantAdjustNutrition
+    nutrient: Water
+  - !type:PlantAdjustNutrient
     amount: -0.3
-  - !type:PlantAdjustToxins
-    amount: 8
+    nutrient: Nutrient
+  - !type:PlantAdjustNutrient
+    amount: 0.8
+    nutrient: Toxin
+  - !type:PlantAdjustNutrient
+    amount: -1
+    nutrient: Pest
   - !type:PlantAdjustWeeds
     amount: -2
-  - !type:PlantAdjustPests
-    amount: -1
   - !type:PlantAdjustHealth
     amount: -2
   metabolisms:
@@ -177,6 +181,13 @@
   viscosity: 0.55 #Start using syrup to attach your remote recievers to your microwaves!
   tileReactions:
     - !type:SpillTileReaction
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 2
+    nutrient: Sugar
+  - !type:PlantAdjustNutrient
+    amount: 2
+    nutrient: Pest
   metabolisms:
     Digestion:
       # 12 diona blood for 1 unit of syrup, this stuff better be worthwhile.

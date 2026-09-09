@@ -84,8 +84,6 @@ plant-analyzer-printout =
     {"[bullet/]"} Growth profile:
     {"    "}[bullet/] Water: [color=cyan]{$water}[/color]
     {"    "}[bullet/] Nutrition: [color=orange]{$nutrients}[/color]
-    {"    "}[bullet/] Toxins: [color=yellowgreen]{$toxins}[/color]
-    {"    "}[bullet/] Pests: [color=magenta]{$pests}[/color]
     {"    "}[bullet/] Weeds: [color=red]{$weeds}[/color]
     {"[bullet/]"} Environmental profile:
     {"    "}[bullet/] Composition: [bold]{$gasesIn}[/bold]

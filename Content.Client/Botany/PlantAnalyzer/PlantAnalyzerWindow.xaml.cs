@@ -88,38 +88,30 @@ public sealed partial class PlantAnalyzerWindow : FancyWindow
         {
             WaterLevelLabel.Text = msg.TrayData.WaterLevel.ToString("0.00");
             NutritionLevelLabel.Text = msg.TrayData.NutritionLevel.ToString("0.00");
-            ToxinsLabel.Text = msg.TrayData.Toxins.ToString("0.00");
-            PestLevelLabel.Text = msg.TrayData.PestLevel.ToString("0.00");
             WeedLevelLabel.Text = msg.TrayData.WeedLevel.ToString("0.00");
 
             // Section 3.1: Tolerances part 1.
             if (msg.TolerancesData is not null)
             {
                 GtFieldIfTolerances1.Text = ">";
-                LtFieldIfTolerances1.Text = "<";
+                LtFieldIfTolerances3.Text = "<";
 
                 WaterConsumptionLabel.Text = msg.TolerancesData.WaterConsumption.ToString("0.00");
                 NutritionConsumptionLabel.Text = msg.TolerancesData.NutrientConsumption.ToString("0.00");
                 // Technically would be "x + epsilon" for toxin and pest.
                 // But it makes no difference here since I only display two digits.
-                ToxinsResistanceLabel.Text = msg.TolerancesData.ToxinsTolerance.ToString("0.00");
-                PestResistanceLabel.Text = msg.TolerancesData.PestTolerance.ToString("0.00");
                 WeedResistanceLabel.Text = msg.TolerancesData.WeedTolerance.ToString("0.00");
             }
             else
             {
                 GtFieldIfTolerances1.Text = "";
-                LtFieldIfTolerances1.Text = "";
+                LtFieldIfTolerances3.Text = "";
 
                 WaterConsumptionLabel.Text = "";
                 NutritionConsumptionLabel.Text = "";
-                ToxinsResistanceLabel.Text = "";
-                PestResistanceLabel.Text = "";
                 WeedResistanceLabel.Text = "";
             }
             GtFieldIfTolerances2.Text = GtFieldIfTolerances1.Text;
-            LtFieldIfTolerances2.Text = LtFieldIfTolerances1.Text;
-            LtFieldIfTolerances3.Text = LtFieldIfTolerances1.Text;
 
             ContainerGrid.Visible = true;
         }

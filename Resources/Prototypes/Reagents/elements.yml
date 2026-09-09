@@ -8,6 +8,10 @@
   color: "#848789"
   boilingPoint: 2327.0
   meltingPoint: 660.0
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Aluminum
 
 - type: reagent
   id: Carbon
@@ -19,6 +23,10 @@
   color: "#22282b"
   boilingPoint: 4200.0
   meltingPoint: 3550.0
+  plantMetabolism:
+    - !type:PlantAdjustNutrient
+      amount: 1
+      nutrient: Carbon
 
 - type: reagent
   id: Chlorine
@@ -31,10 +39,12 @@
   meltingPoint: -101.5
   boilingPoint: -34.04
   plantMetabolism:
-    - !type:PlantAdjustWater
+    - !type:PlantAdjustNutrient
       amount: -0.5
-    - !type:PlantAdjustToxins
-      amount: 15
+      nutrient: Water
+    - !type:PlantAdjustNutrient
+      amount: 1.5
+      nutrient: Toxin
     - !type:PlantAdjustWeeds
       amount: -3
     - !type:PlantAdjustHealth
@@ -98,10 +108,12 @@
   boilingPoint: -188.11
   meltingPoint: -219.67
   plantMetabolism:
-    - !type:PlantAdjustWater
+    - !type:PlantAdjustNutrient
       amount: -0.5
-    - !type:PlantAdjustToxins
-      amount: 25
+      nutrient: Water
+    - !type:PlantAdjustNutrient
+      amount: 2.5
+      nutrient: Toxin
     - !type:PlantAdjustWeeds
       amount: -4
     - !type:PlantAdjustHealth
@@ -138,6 +150,10 @@
   color: "#F7C430"
   boilingPoint: 2700.0
   meltingPoint: 1064.76
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Gold
 
 - type: reagent
   id: Hydrogen
@@ -202,6 +218,10 @@
           type: [ Arachnid ]
           inverted: true
         amount: 0.4
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Iron
 
 - type: reagent
   id: Lithium
@@ -273,8 +293,9 @@
   meltingPoint: 44.2
   boilingPoint: 280.5
   plantMetabolism:
-    - !type:PlantAdjustNutrition
+    - !type:PlantAdjustNutrient
       amount: 0.1
+      nutrient: Fertilizer
 
 - type: reagent
   id: Titanium
@@ -295,8 +316,12 @@
           types:
             Poison: 0.2
   plantMetabolism:
-    - !type:PlantAdjustWater
+    - !type:PlantAdjustNutrient
+      amount: 1
+      nutrient: Titanium
+    - !type:PlantAdjustNutrient
       amount: -0.5
+      nutrient: Water
     - !type:PlantAdjustWeeds
       amount: -2
 
@@ -321,6 +346,13 @@
       - !type:AdjustReagent
         reagent: Honk
         amount: 0.25
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 0.5
+    nutrient: Clown
+  - !type:PlantAdjustNutrient
+    amount: 0.5
+    nutrient: Nutrient
 
 - type: reagent
   id: Radium
@@ -362,6 +394,10 @@
   color: "#d0d0d0"
   boilingPoint: 2212.0
   meltingPoint: 960.5
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Silver
 
 - type: reagent
   id: Tin
@@ -373,6 +409,10 @@
   color: "#c0c0c0"
   boilingPoint: 2602.0
   meltingPoint: 231.93
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Tin
 
 - type: reagent
   id: Sulfur
@@ -416,10 +456,9 @@
   plantMetabolism:
   - !type:PlantAdjustMutationLevel
     amount: 0.6
-  - !type:PlantAdjustToxins
-    amount: 4
-  - !type:PlantAdjustHealth
-    amount: -1.5
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Radiation
   - !type:PlantAdjustMutationMod
     probability: 0.2
     amount: 0.1

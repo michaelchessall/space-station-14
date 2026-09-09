@@ -71,22 +71,6 @@
                     <Label Margin="12 0 0 0" Name="GtFieldIfTolerances2" />
                     <Label HorizontalAlignment="Right" Name="NutritionConsumptionLabel" />
                     <Label Text=" · " />
-                    <Label Text="{Loc 'plant-analyzer-component-toxins'}" />
-                    <Label SetWidth="8" />
-                    <Label FontColorOverride="yellowgreen" HorizontalAlignment="Right" Name="ToxinsLabel" />
-                    <Label Text=" / " />
-                    <Label HorizontalAlignment="Right" Text="100.00" />
-                    <Label Margin="12 0 0 0" Name="LtFieldIfTolerances1" />
-                    <Label HorizontalAlignment="Right" Name="ToxinsResistanceLabel" />
-                    <Label Text=" · " />
-                    <Label Text="{Loc 'plant-analyzer-component-pests'}" />
-                    <Label SetWidth="8" />
-                    <Label FontColorOverride="magenta" HorizontalAlignment="Right" Name="PestLevelLabel" />
-                    <Label Text=" / " />
-                    <Label HorizontalAlignment="Right" Text="10.00" />
-                    <Label Margin="12 0 0 0" Name="LtFieldIfTolerances2" />
-                    <Label HorizontalAlignment="Right" Name="PestResistanceLabel" />
-                    <Label Text=" · " />
                     <Label Text="{Loc 'plant-analyzer-component-weeds'}" />
                     <Label SetWidth="8" />
                     <Label FontColorOverride="red" HorizontalAlignment="Right" Name="WeedLevelLabel" />

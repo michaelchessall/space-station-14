@@ -39,8 +39,12 @@
           types:
             Poison: 0.2
   plantMetabolism:
-    - !type:PlantAdjustWater
-      amount: 0.5
+    - !type:PlantAdjustNutrient
+      amount: 1
+      nutrient: Water
+    - !type:PlantAdjustNutrient
+      amount: 0.2
+      nutrient: Protein
   footstepSound:
     collection: FootstepBlood
     params:
@@ -110,6 +114,13 @@
         factor: 1
       - !type:SatiateThirst
         factor: 1
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 0.9
+    nutrient: Water
+  - !type:PlantAdjustNutrient
+    amount: 0.1
+    nutrient: Sugar
   footstepSound:
     collection: FootstepSlime
     params:
@@ -202,8 +213,9 @@
         amount: -1.5
   # Just in case you REALLY want to water your plants
   plantMetabolism:
-  - !type:PlantAdjustWater
+  - !type:PlantAdjustNutrient
     amount: 0.5
+    nutrient: Water
   footstepSound:
     collection: FootstepBlood
     params:
@@ -262,3 +274,7 @@
         damage:
           types:
             Cellular: 2
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 10 # I love murder
+    nutrient: Sapient

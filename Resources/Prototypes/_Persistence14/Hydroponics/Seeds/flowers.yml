@@ -1,0 +1,170 @@
+- type: seed
+  id: poppy
+  name: seeds-poppy-name
+  noun: seeds-noun-seeds
+  displayName: seeds-poppy-display-name
+  plantRsi: Objects/Specific/Hydroponics/poppy.rsi
+  packetPrototype: PoppySeeds
+  productPrototypes:
+  - FoodPoppy
+  mutationPrototypes:
+  - lily
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  growthStages: 3
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+    Bicaridine:
+      BaseAmount: 5
+      Requirements:
+        Nutriment:
+          Requirement: 5
+          BonusRequirement: 5
+          BonusAmount: 5
+        CarbonDioxide:
+          BonusRequirement: 0.5
+          BonusAmount: 5
+        Sugar:
+          BonusRequirement: 2.5
+          BonusAmount: 5
+
+- type: seed
+  id: lily
+  name: seeds-lily-name
+  noun: seeds-noun-seeds
+  displayName: seeds-lily-display-name
+  plantRsi: Objects/Specific/Hydroponics/lily.rsi
+  packetPrototype: LilySeeds
+  productPrototypes:
+  - FoodLily
+  mutationPrototypes:
+  - spacemansTrumpet
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  growthStages: 3
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+    Bicaridine:
+      BaseAmount: 5
+      Requirements:
+        Nutriment:
+          Requirement: 5
+          BonusRequirement: 5
+          BonusAmount: 5
+        CarbonDioxide:
+          BonusRequirement: 0.5
+          BonusAmount: 5
+        Sugar:
+          BonusRequirement: 2.5
+          BonusAmount: 5
+
+- type: seed
+  id: spacemansTrumpet
+  name: seeds-spacemans-trumpet-name
+  noun: seeds-noun-seeds
+  displayName: seeds-spacemans-trumpet-display-name
+  plantRsi: Objects/Specific/Hydroponics/spacemans_trumpet.rsi
+  packetPrototype: SpacemansTrumpetSeeds
+  productPrototypes:
+  - FoodSpacemansTrumpet
+  growthStages: 4
+  lifespan: 20
+  maturation: 14
+  production: 3
+  yield: 2
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer: # No CO2 requirement due to this being a space plant
+          BonusRequirement: 0.4
+          BonusAmount: 2
+    PolypyryliumOligomers:
+      BaseAmount: 5
+      ModifyIdealPressure: -101 # Space plant
+      ModifyIdealHeat: -150 # Able to survive space temperatures
+      ModifyHeatTolerance: 150
+      Requirements:
+        Sugar:
+          Requirement: 5
+        Fertilizer:
+          BonusRequirement: 2.5
+          BonusAmount: 5
+        Plasma:
+          BonusRequirement: 2.5
+          BonusAmount: 5
+
+- type: seed # TODO: Convert chemicals to the new system, remove water/nutrient Consumption
+  id: galaxythistle
+  name: seeds-galaxythistle-name
+  noun: seeds-noun-seeds
+  displayName: seeds-galaxythistle-display-name
+  plantRsi: Objects/Specific/Hydroponics/galaxythistle.rsi
+  packetPrototype: GalaxythistleSeeds
+  productPrototypes:
+  - FoodGalaxythistle
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  potency: 10
+  growthStages: 3
+  waterConsumption: 0.60
+  chemicals:
+    Stellibinin:
+      Min: 1
+      Max: 25
+      PotencyDivisor: 4
+
+- type: seed # TODO: Convert chemicals to the new system
+  id: glasstle
+  name: seeds-glasstle-name
+  noun: seeds-noun-seeds
+  displayName: seeds-glasstle-display-name
+  plantRsi: Objects/Specific/Hydroponics/glasstle.rsi
+  packetPrototype: GlasstleSeeds
+  productPrototypes:
+  - FoodGlasstle
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3 # Yield is inherited from the base plant when changing species, so this does not matter.
+  growthStages: 3
+  chemicals:
+    Razorium: # Incredibly cheap, will probably get swabbed out anyway.
+      BaseAmount: 3
+      Requirements:
+        Nutriment:
+          Requirement: 1
+          BonusRequirement: 4
+          BonusAmount: 12
+    Desoxyephedrine: # meff!!
+      Min: 1
+      Max: 10
+      PotencyDivisor: 10
+  baseIdealHeat: 1593 # Taken from the wikipedia article for glassblowing
+  baseHeatTolerance: 230
+  basePressureTolerance: 50
+  Requirements:
+    Carbon:
+      Requirement: 5

@@ -44,7 +44,7 @@
     grindableSolutionName: food
 
 # Subclasses
-
+# TODO: Change reagent contents of all produce to match post-rework values
 - type: entity
   name: wheat bushel
   description: Sigh... wheat... a-grain?
@@ -1153,8 +1153,8 @@
           Quantity: 10
         - ReagentId: Vitamin
           Quantity: 4
-        - ReagentId: DoctorsDelight
-          Quantity: 13
+        - ReagentId: Gold
+          Quantity: 10
   - type: Sprite
     sprite: Objects/Specific/Hydroponics/golden_apple.rsi
   - type: Item
@@ -1165,8 +1165,6 @@
     juiceSolution:
       reagents:
       - ReagentId: JuiceApple
-        Quantity: 10
-      - ReagentId: Gold
         Quantity: 10
   - type: Tag
     tags:

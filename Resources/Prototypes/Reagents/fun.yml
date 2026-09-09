@@ -313,6 +313,10 @@
   color: "#FF4DD2"
   slipData:
     requiredSlipSpeed: 3.5 #clown juice gotta slip
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 0.1
+    nutrient: Clown
   metabolisms:
     Bloodstream:
       effects:

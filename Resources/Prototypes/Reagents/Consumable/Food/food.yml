@@ -12,8 +12,9 @@
       effects:
       - !type:SatiateHunger
   plantMetabolism:
-  - !type:PlantAdjustNutrition
+  - !type:PlantAdjustNutrient
     amount: 1.5
+    nutrient: Nutrient
   - !type:PlantAdjustHealth
     amount: 0.75
   pricePerUnit: 2
@@ -40,8 +41,9 @@
       - !type:SatiateHunger #Numbers are balanced with this in mind + it helps limit how much healing you can get from food
   # Lets plants benefit too
   plantMetabolism:
-  - !type:PlantAdjustNutrition
+  - !type:PlantAdjustNutrient
     amount: 0.5
+    nutrient: Nutrient
   - !type:PlantAdjustHealth
     amount: 1.5
   pricePerUnit: 2.5
@@ -64,6 +66,10 @@
       - !type:ModifyBloodLevel
         amount: 1 # weaker than iron but pretty good all things considered
       - !type:SatiateHunger
+  plantMetabolism:
+    - !type:PlantAdjustNutrient
+      amount: 1
+      nutrient: Protein
   pricePerUnit: 3
 
 - type: reagent
@@ -98,12 +104,14 @@
           min: 0.1
         factor: 1
   plantMetabolism:
-  - !type:PlantAdjustNutrition
-    amount: 0.1
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Sugar
   - !type:PlantAdjustWeeds
     amount: 2
-  - !type:PlantAdjustPests
+  - !type:PlantAdjustNutrient
     amount: 2
+    nutrient: Pest
   metamorphicSprite:
     sprite: Objects/Consumable/Drinks/sugarglass.rsi
     state: icon_empty

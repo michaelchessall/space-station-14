@@ -273,10 +273,12 @@
   color: "#DFDFDF"
   recognizable: true
   plantMetabolism:
-    - !type:PlantAdjustNutrition
+    - !type:PlantAdjustNutrient
       amount: 0.1
-    - !type:PlantAdjustWater
+      nutrient: Protein
+    - !type:PlantAdjustNutrient
       amount: 0.9
+      nutrient: Water
   metabolisms:
     Digestion:
       effects:
@@ -505,8 +507,9 @@
       - !type:SatiateThirst
         factor: 3 # Slightly worse for quenching thirst than just straight water
   plantMetabolism:
-  - !type:PlantAdjustWater
-    amount: 1 # The internet tells me I should avoid watering plants with ice, but mostly because of temperature, so this value being the same as water should probably be fine?
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Water # The internet tells me I should avoid watering plants with ice, but mostly because of temperature, so this value being the same as water should probably be fine?
   metamorphicSprite:
     sprite: Objects/Consumable/Drinks/iceglass.rsi
     state: icon_empty

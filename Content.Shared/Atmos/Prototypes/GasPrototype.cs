@@ -1,4 +1,6 @@
 using Content.Shared.Chemistry.Reagent;
+using Content.Shared.Botany; // Persistence: Plant nutrient rework
+using Content.Shared.FixedPoint; // Persistence: Plant nutrient rework
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
@@ -79,6 +81,30 @@ namespace Content.Shared.Atmos.Prototypes
         /// </summary>
         [DataField("reagent", customTypeSerializer: typeof(PrototypeIdSerializer<ReagentPrototype>))]
         public string? Reagent { get; private set; } = default!;
+
+        /// <summary>
+        /// Persistence: The nutrient that this gas will turn into when absorbed by a plant.
+        /// </summary>
+        [DataField("nutrient", customTypeSerializer: typeof(PrototypeIdSerializer<PlantNutrientPrototype>))]
+        public string? Nutrient { get; private set; } = default!;
+
+        /// <summary>
+        /// Persistence: The amount of nutrient gained per mol of gas absorbed by a plant..
+        /// </summary>
+        [DataField("nutrientAmount")]
+        public FixedPoint2 NutrientAmount { get; private set; } = default!;
+
+        /// <summary>
+        /// Persistence: The maximum amount of nutrients a plant can absorb from this gas, relative to the fraction of the atmosphere that is this gas.
+        /// </summary>
+        [DataField("maxNutrient")]
+        public FixedPoint2 MaxNutrient { get; private set; } = default!;
+
+        /// <summary>
+        /// Persistence: The maximum rate, in mols per 15 seconds, that a plant can absorb this gas.
+        /// </summary>
+        [DataField("plantAbsorptionRate")]
+        public float PlantAbsorptionRate { get; private set; } = 1f; // The gas is not absorbed if it does not have an associated nutrient.
 
         [DataField("color")] public string Color { get; private set; } = string.Empty;
 

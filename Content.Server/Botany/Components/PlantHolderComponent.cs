@@ -1,5 +1,8 @@
+using Content.Shared.Botany;
 using Content.Shared.Chemistry.Components;
+using Content.Shared.FixedPoint;
 using Robust.Shared.Audio;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
 namespace Content.Server.Botany.Components;
@@ -22,7 +25,7 @@ public sealed partial class PlantHolderComponent : Component
     [DataField]
     public int LastProduce;
 
-    [DataField]
+    [DataField] // TODO: Comment out with plant nutrient rework
     public int MissingGas;
 
     /// <summary>
@@ -53,19 +56,22 @@ public sealed partial class PlantHolderComponent : Component
     [DataField]
     public bool DrawWarnings = false;
 
-    [DataField]
+    [DataField] // TODO: Comment out with plant nutrient rework
     public float WaterLevel = 100f;
 
-    [DataField]
+    [DataField] // TODO: Comment out with plant nutrient rework
     public float NutritionLevel = 100f;
 
     [DataField]
+    public Dictionary<ProtoId<PlantNutrientPrototype>, FixedPoint2> Nutrients = new();
+
+    [DataField] // TODO: Comment out with plant nutrient rework
     public float PestLevel;
 
     [DataField]
     public float WeedLevel;
 
-    [DataField]
+    [DataField] // TODO: Comment out with plant nutrient rework
     public float Toxins;
 
     [DataField]
@@ -79,6 +85,9 @@ public sealed partial class PlantHolderComponent : Component
 
     [DataField]
     public bool Harvest;
+
+    [DataField]
+    public bool HarvestAge;
 
     /// <summary>
     /// Set to true if this plant has been clipped by seed clippers. Used to prevent a single plant
@@ -109,16 +118,28 @@ public sealed partial class PlantHolderComponent : Component
     public SeedData? Seed;
 
     /// <summary>
-    /// True if the plant is losing health due to too high/low temperature.
+    /// Persistence: Plant nutrient rework, True if the plant is losing health due to too low temperature.
     /// </summary>
     [DataField]
-    public bool ImproperHeat;
+    public bool LowHeat;
 
     /// <summary>
-    /// True if the plant is losing health due to too high/low pressure.
+    /// Persistence: Plant nutrient rework, True if the plant is losing health due to too high temperature.
     /// </summary>
     [DataField]
-    public bool ImproperPressure;
+    public bool HighHeat;
+
+    /// <summary>
+    /// Persistence: Plant nutrient rework, True if the plant is losing health due to too low pressure.
+    /// </summary>
+    [DataField]
+    public bool LowPressure;
+
+    /// <summary>
+    /// Persistence: Plant nutrient rework, True if the plant is losing health due to too high pressure.
+    /// </summary>
+    [DataField]
+    public bool HighPressure;
 
     /// <summary>
     /// Not currently used.

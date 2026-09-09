@@ -1,0 +1,1259 @@
+- type: seed
+  id: banana
+  name: seeds-banana-name
+  noun: seeds-noun-seeds
+  displayName: seeds-banana-display-name
+  plantRsi: Objects/Specific/Hydroponics/banana.rsi
+  packetPrototype: BananaSeeds
+  productPrototypes:
+  - FoodBanana
+  mutationPrototypes:
+  - mimana
+  harvestRepeat: Repeat
+  lifespan: 50
+  maturation: 6
+  production: 6
+  yield: 2
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+
+- type: seed
+  id: mimana
+  name: seeds-mimana-name
+  noun: seeds-noun-seeds
+  displayName: seeds-mimana-display-name
+  plantRsi: Objects/Specific/Hydroponics/mimana.rsi
+  packetPrototype: MimanaSeeds
+  productPrototypes:
+  - FoodMimana
+  harvestRepeat: Repeat
+  lifespan: 50
+  maturation: 6
+  production: 6
+  yield: 2
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    MuteToxin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 5
+        NitrousOxide:
+          Requirement: 1
+          BonusRequirement: 4
+          BonusAmount: 4
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+
+- type: seed
+  id: lemon
+  name: seeds-lemon-name
+  noun: seeds-noun-seeds
+  displayName: seeds-lemon-display-name
+  plantRsi: Objects/Specific/Hydroponics/lemon.rsi
+  packetPrototype: LemonSeeds
+  productPrototypes:
+  - FoodLemon
+  mutationPrototypes:
+  - lemoon
+  - lime
+  - orange
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: lemoon
+  name: seeds-lemoon-name
+  noun: seeds-noun-seeds
+  displayName: seeds-lemoon-display-name
+  plantRsi: Objects/Specific/Hydroponics/lemoon.rsi
+  packetPrototype: LemoonSeeds
+  productPrototypes:
+  - FoodLemoon
+  harvestRepeat: Repeat
+  lifespan: 90
+  maturation: 8
+  production: 6
+  yield: 4
+  idealLight: 8
+  chemicals:
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Milk:
+      BaseAmount: 10
+      Requirements:
+        Water:
+          Requirement: 10
+        Protein:
+          Requirement: 1
+          BonusRequirement: 2
+          BonusAmount: 10
+
+- type: seed
+  id: lime
+  name: seeds-lime-name
+  noun: seeds-noun-seeds
+  displayName: seeds-lime-display-name
+  plantRsi: Objects/Specific/Hydroponics/lime.rsi
+  packetPrototype: LimeSeeds
+  productPrototypes:
+  - FoodLime
+  mutationPrototypes:
+  - orange
+  - lemon
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: orange
+  name: seeds-orange-name
+  noun: seeds-noun-seeds
+  displayName: seeds-orange-display-name
+  plantRsi: Objects/Specific/Hydroponics/orange.rsi
+  packetPrototype: OrangeSeeds
+  productPrototypes:
+  - FoodOrange
+  mutationPrototypes:
+  - extradimensionalOrange
+  - lemon
+  - lime
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: extradimensionalOrange
+  name: seeds-extradimensionalorange-name
+  noun: seeds-noun-seeds
+  displayName: seeds-extradimensionalorange-display-name
+  plantRsi: Objects/Specific/Hydroponics/extradimensional_orange.rsi
+  packetPrototype: ExtradimensionalOrangeSeeds
+  productPrototypes:
+  - FoodExtradimensionalOrange
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 8
+  chemicals:
+    Haloperidol:
+      BaseAmount: 1
+      Requirements:
+        Aluminum:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 2
+          BonusAmount: 2
+        Nutrient:
+          BonusRequirement: 2
+          BonusAmount: 2
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: pineapple
+  name: seeds-pineapple-name
+  noun: seeds-noun-seeds
+  displayName: seeds-pineapple-display-name
+  plantRsi: Objects/Specific/Hydroponics/pineapple.rsi
+  packetPrototype: PineappleSeeds
+  productPrototypes:
+  - FoodPineapple
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 8
+  growthStages: 3
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+    Water:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+          BonusRequirement: 3
+          BonusAmount: 3
+
+- type: seed
+  id: tomato
+  name: seeds-tomato-name
+  noun: seeds-noun-seeds
+  displayName: seeds-tomato-display-name
+  plantRsi: Objects/Specific/Hydroponics/tomato.rsi
+  packetPrototype: TomatoSeeds
+  productPrototypes:
+  - FoodTomato
+  mutationPrototypes:
+  - blueTomato
+  - bloodTomato
+  harvestRepeat: Repeat
+  lifespan: 25
+  maturation: 8
+  production: 6
+  yield: 2
+  potency: 10
+  idealLight: 8
+  baseIdealHeat: 298
+  splatPrototype: PuddleSplatter
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.6
+          BonusAmount: 3
+        CarbonDioxide:
+          BonusRequirement: 0.3
+          BonusAmount: 3
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Water:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+          BonusRequirement: 3
+          BonusAmount: 3
+
+- type: seed
+  id: blueTomato
+  name: seeds-bluetomato-name
+  noun: seeds-noun-seeds
+  displayName: seeds-bluetomato-display-name
+  plantRsi: Objects/Specific/Hydroponics/blue_tomato.rsi
+  packetPrototype: BlueTomatoSeeds
+  productPrototypes:
+  - FoodBlueTomato
+  harvestRepeat: Repeat
+  lifespan: 25
+  maturation: 8
+  production: 6
+  yield: 2
+  idealLight: 8
+  baseIdealHeat: 298
+  splatPrototype: PuddleSplatter
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    SpaceLube:
+      BaseAmount: 6
+      Requirements:
+        Water:
+          Requirement: 5
+        Nutrient:
+          Requirement: 1.5
+        Iron: # 1.5u iron > 3u fersilicite > 15u lube
+          BonusRequirement: 1.5
+          BonusAmount: 9
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: bloodTomato
+  name: seeds-bloodtomato-name
+  noun: seeds-noun-seeds
+  displayName: seeds-bloodtomato-display-name
+  plantRsi: Objects/Specific/Hydroponics/blood_tomato.rsi
+  packetPrototype: BloodTomatoSeeds
+  productPrototypes:
+  - FoodBloodTomato
+  #  mutationPrototypes:
+  #    - killerTomato # Persistence: massive performance risk & no real gameplay benefit
+  harvestRepeat: Repeat
+  lifespan: 60
+  maturation: 8
+  production: 6
+  yield: 2
+  potency: 10
+  idealLight: 8
+  baseIdealHeat: 298
+  splatPrototype: PuddleSplatter
+  chemicals:
+    Blood:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+          BonusRequirement: 2
+          BonusAmount: 2
+        Protein:
+          Requirement: 0.25
+          BonusRequirement: 0.5
+          BonusAmount: 2
+        Iron:
+          BonusRequirement: 0.2
+          BonusAmount: 5
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: killerTomato
+  name: seeds-killertomato-name
+  noun: seeds-noun-seeds
+  displayName: seeds-killertomato-display-name
+  plantRsi: Objects/Specific/Hydroponics/tomatokiller.rsi
+  plantLogImpact: High
+  harvestLogImpact: High
+  packetPrototype: KillerTomatoSeeds
+  productPrototypes:
+  - MobTomatoKiller
+  harvestRepeat: Repeat
+  lifespan: 25
+  maturation: 15
+  production: 6
+  yield: 2
+  idealLight: 8
+  baseIdealHeat: 298
+  growthStages: 2
+  splatPrototype: PuddleSplatter
+  requirements:
+    Protein:
+      Requirement: 5
+    Nutrient:
+      Requirement: 3
+  chemicals:
+    Blood:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+          BonusRequirement: 2
+          BonusAmount: 2
+        Protein:
+          Requirement: 0.25
+          BonusRequirement: 0.5
+          BonusAmount: 2
+        Iron:
+          BonusRequirement: 0.2
+          BonusAmount: 5
+    JuiceTomato:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Nutrient:
+          BonusRequirement: 0.5
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: eggplant
+  name: seeds-eggplant-name
+  noun: seeds-noun-seeds
+  displayName: seeds-eggplant-display-name
+  plantRsi: Objects/Specific/Hydroponics/eggplant.rsi
+  packetPrototype: EggplantSeeds
+  productPrototypes:
+  - FoodEggplant
+  mutationPrototypes:
+  - eggy
+  harvestRepeat: Repeat
+  lifespan: 25
+  maturation: 6
+  production: 6
+  yield: 2
+  growthStages: 3
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: apple
+  name: seeds-apple-name
+  noun: seeds-noun-seeds
+  displayName: seeds-apple-display-name
+  plantRsi: Objects/Specific/Hydroponics/apple.rsi
+  packetPrototype: AppleSeeds
+  productPrototypes:
+  - FoodApple
+  mutationPrototypes:
+    - goldenApple
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 6
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: goldenApple
+  name: seeds-goldenapple-name
+  noun: seeds-noun-seeds
+  displayName: seeds-goldenapple-display-name
+  plantRsi: Objects/Specific/Hydroponics/golden_apple.rsi
+  packetPrototype: GoldenAppleSeeds
+  productPrototypes:
+  - FoodGoldenApple
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 3
+  idealLight: 6
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Gold: # Based vaguely off of my understanding of the magnum opus (process of creating philosopher's stone) from Wikipedia.
+      BaseAmount: 10
+      Requirements:
+        Tin: # Base metal
+          Requirement: 10
+        Copper: # More expensive base metal.
+          Requirement: 5
+        Toxin: # Nigredo = Decomposition = Toxic
+          Requirement: 2
+        Acid: # Albedo = Washing away impurities. Making a nutrient that requires space cleaner seemed strange, so i used acid instead.
+          Requirement: 2
+        Hydrogen: # Citrinitas = Solar light inherent in ones being = Stars? = Hydrogen
+          Requirement: 2
+        Sapient: # Rubedo = Ego/self?
+          Requirement: 2
+
+- type: seed
+  id: chili
+  name: seeds-chili-name
+  noun: seeds-noun-seeds
+  displayName: seeds-chili-display-name
+  plantRsi: Objects/Specific/Hydroponics/chili.rsi
+  packetPrototype: ChiliSeeds
+  productPrototypes:
+  - FoodChiliPepper
+  mutationPrototypes:
+  - chilly
+  harvestRepeat: Repeat
+  lifespan: 25
+  maturation: 6
+  production: 6
+  yield: 2
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    CapsaicinOil:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Nutrient:
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.6
+          BonusAmount: 3
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.3
+          BonusAmount: 1.5
+        CarbonDioxide:
+          BonusRequirement: 0.15
+          BonusAmount: 1.5
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: chilly
+  name: seeds-chilly-name
+  noun: seeds-noun-seeds
+  displayName: seeds-chilly-display-name
+  plantRsi: Objects/Specific/Hydroponics/chilly.rsi
+  packetPrototype: ChillySeeds
+  productPrototypes:
+  - FoodChillyPepper
+  harvestRepeat: Repeat
+  lifespan: 25
+  maturation: 6
+  production: 6
+  yield: 2
+  idealLight: 9
+  baseIdealHeat: 298
+  chemicals:
+    FrostOil:
+      BaseAmount: 2
+      ModifyIdealHeat: -25
+      Requirements:
+        Water:
+          Requirement: 3
+        Nutrient:
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        Frezon:
+          BonusRequirement: 0.1
+          BonusAmount: 5
+    Nutriment:
+      BaseAmount: 2
+      Water:
+        Requirement: 2
+      Fertilizer:
+        BonusRequirement: 0.4
+        BonusAmount: 2
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: gatfruit
+  name: seeds-gatfruit-name
+  noun: seeds-noun-seeds
+  displayName: seeds-gatfruit-display-name
+  plantRsi: Objects/Specific/Hydroponics/gatfruit.rsi
+  packetPrototype: GatfruitSeeds
+  productPrototypes:
+  - FoodGatfruit
+  # mutationPrototypes:
+  #   - fakeCapfruit
+  #   - realCapfruit
+  lifespan: 65
+  maturation: 25
+  production: 25
+  yield: 1
+  potency: 10
+  growthStages: 2
+  idealLight: 6
+  chemicals:
+    Nutriment:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    Sulfur:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: fakeCapfruit
+  name: seeds-capfruit-name
+  noun: seeds-noun-seeds
+  displayName: seeds-capfruit-display-name
+  plantRsi: Objects/Specific/Hydroponics/capfruit.rsi
+  packetPrototype: FakeCapfruitSeeds
+  productPrototypes:
+  - FoodFakeCapfruit
+  lifespan: 65
+  maturation: 25
+  production: 25
+  yield: 1
+  potency: 10
+  growthStages: 2
+  idealLight: 6
+  chemicals:
+    Nutriment:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    Sulfur:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: realCapfruit
+  name: seeds-capfruit-name
+  noun: seeds-noun-seeds
+  displayName: seeds-capfruit-display-name
+  plantRsi: Objects/Specific/Hydroponics/capfruit.rsi
+  packetPrototype: RealCapfruitSeeds
+  productPrototypes:
+  - FoodRealCapfruit
+  lifespan: 65
+  maturation: 25
+  production: 25
+  yield: 1
+  potency: 10
+  growthStages: 2
+  idealLight: 6
+  chemicals:
+    Nutriment:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+    Sulfur:
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20
+
+- type: seed
+  id: grape
+  name: seeds-grape-name
+  noun: seeds-noun-seeds
+  displayName: seeds-grape-display-name
+  plantRsi: Objects/Specific/Hydroponics/grape.rsi
+  packetPrototype: GrapeSeeds
+  productPrototypes:
+  - FoodGrape
+  lifespan: 50
+  maturation: 6
+  production: 5
+  yield: 3
+  growthStages: 2
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: watermelon
+  name: seeds-watermelon-name
+  noun: seeds-noun-seeds
+  displayName: seeds-watermelon-display-name
+  plantRsi: Objects/Specific/Hydroponics/watermelon.rsi
+  packetPrototype: WatermelonSeeds
+  productPrototypes:
+  - FoodWatermelon
+  mutationPrototypes:
+  - holymelon
+  lifespan: 55
+  maturation: 12
+  production: 3
+  yield: 1
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    Water:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+          BonusRequirement: 9
+          BonusAmount: 9
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 0.5
+          BonusRequirement: 1.5
+          BonusAmount: 2
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: holymelon
+  name: seeds-holymelon-name
+  noun: seeds-noun-seeds
+  displayName: seeds-holymelon-display-name
+  plantRsi: Objects/Specific/Hydroponics/holymelon.rsi
+  packetPrototype: HolymelonSeeds
+  productPrototypes:
+  - FoodHolymelon
+  lifespan: 55
+  maturation: 12
+  production: 3
+  yield: 1
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.8
+          BonusAmount: 4
+        CarbonDioxide:
+          BonusRequirement: 0.4
+          BonusAmount: 4
+    HolyWater:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+          BonusRequirement: 3
+          BonusAmount: 3
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 0.5
+          BonusRequirement: 1.5
+          BonusAmount: 2
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: berries
+  name: seeds-berries-name
+  noun: seeds-noun-seeds
+  displayName: seeds-berries-display-name
+  plantRsi: Objects/Specific/Hydroponics/berries.rsi
+  packetPrototype: BerrySeeds
+  productPrototypes:
+  - FoodBerries
+  harvestRepeat: Repeat
+  lifespan: 50
+  maturation: 6
+  production: 6
+  yield: 4
+  idealLight: 7
+  chemicals:
+    Nutriment:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 0.3
+          BonusAmount: 1.5
+        CarbonDioxide:
+          BonusRequirement: 0.15
+          BonusAmount: 1.5
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: bungo
+  name: seeds-bungo-name
+  noun: seeds-noun-seeds
+  displayName: seeds-bungo-display-name
+  plantRsi: Objects/Specific/Hydroponics/bungo.rsi
+  packetPrototype: BungoSeeds
+  productPrototypes:
+  - FoodBungo
+  harvestRepeat: Repeat
+  lifespan: 50
+  maturation: 8
+  production: 6
+  yield: 3
+  idealLight: 8
+  baseIdealHeat: 298
+  growthStages: 4
+  chemicals:
+    Nutriment:
+      BaseAmount: 5
+      Requirements:
+        Water:
+          Requirement: 5
+        CarbonDioxide:
+          Requirement: 0.5
+          BonusRequirement: 0.5
+          BonusAmount: 5
+    Enzyme:
+      BaseAmount: 5
+      Requirements:
+        Nutrient:
+          Requirement: 5
+        Sugar:
+          BonusRequirement: 2
+          BonusAmount: 5
+
+- type: seed
+  id: pumpkin
+  name: seeds-pumpkin-name
+  noun: seeds-noun-seeds
+  displayName: seeds-pumpkin-display-name
+  plantRsi: Objects/Specific/Hydroponics/pumpkin.rsi
+  packetPrototype: PumpkinSeeds
+  productPrototypes:
+  - FoodPumpkin
+  mutationPrototypes:
+  - bluePumpkin
+  lifespan: 55
+  maturation: 10
+  production: 4
+  yield: 2
+  baseIdealHeat: 288
+  growthStages: 3
+  chemicals:
+    PumpkinFlesh:
+      BaseAmount: 2
+      Requirements:
+        Water:
+          Requirement: 2
+        Fertilizer:
+          BonusRequirement: 1.6
+          BonusAmount: 8
+        CarbonDioxide:
+          BonusRequirement: 0.8
+          BonusAmount: 8
+    Vitamin:
+      BaseAmount: 2
+      Requirements:
+        Nutrient:
+          Requirement: 1
+          BonusRequirement: 1
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed
+  id: bluePumpkin
+  name: seeds-blue-pumpkin-name
+  noun: seeds-noun-seeds
+  displayName: seeds-blue-pumpkin-display-name
+  plantRsi: Objects/Specific/Hydroponics/blue_pumpkin.rsi
+  packetPrototype: BluePumpkinSeeds
+  productPrototypes:
+  - FoodBluePumpkin
+  lifespan: 55
+  maturation: 10
+  production: 4
+  yield: 2
+  baseIdealHeat: 288
+  growthStages: 3
+  chemicals:
+    Ammonia:
+      BaseAmount: 4
+      Requirements:
+        Nutrient:
+          Requirement: 4
+          BonusRequirement: 2
+          BonusAmount: 3
+        Fertilizer:
+          BonusRequirement: 4
+          BonusAmount: 8
+    Chlorine:
+      BaseAmount: 3
+      Requirements:
+        Toxin:
+          Requirement: 3
+          BonusRequirement: 7
+          BonusAmount: 2
+    Vitamin:
+      BaseAmount: 4
+      Requirements:
+        Nutrient:
+          Requirement: 4
+          BonusRequirement: 2
+          BonusAmount: 3
+        Fertilizer:
+          BonusRequirement: 0.6
+          BonusAmount: 3
+
+- type: seed
+  id: cherry
+  name: seeds-cherry-name
+  noun: seeds-noun-seeds
+  displayName: seeds-cherry-display-name
+  plantRsi: Objects/Specific/Hydroponics/cherry.rsi
+  packetPrototype: CherrySeeds
+  productPrototypes:
+  - FoodCherry
+  harvestRepeat: Repeat
+  lifespan: 55
+  maturation: 6
+  production: 6
+  yield: 5
+  idealLight: 6
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+        CarbonDioxide:
+          BonusRequirement: 0.1
+          BonusAmount: 1
+
+- type: seed # TODO: Convert Artifexium to the new system
+  id: anomalyBerry
+  name: seeds-anomaly-berry-name
+  noun: seeds-noun-seeds
+  displayName: seeds-anomaly-berry-display-name
+  plantRsi: Objects/Specific/Hydroponics/anomaly_berry.rsi
+  packetPrototype: AnomalyBerrySeeds
+  productPrototypes:
+  - FoodAnomalyBerry
+  lifespan: 25
+  maturation: 12
+  production: 3
+  yield: 3
+  growthStages: 2
+  chemicals:
+    Artifexium:
+      Min: 1
+      Max: 1
+      PotencyDivisor: 4
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1
+    Vitamin:
+      BaseAmount: 1
+      Requirements:
+        Nutrient:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.2
+          BonusAmount: 1

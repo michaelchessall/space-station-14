@@ -8,10 +8,9 @@
   physicalDesc: reagent-physical-desc-opaque
   contrabandSeverity: Minor
   plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 10
-  - !type:PlantAdjustHealth
-    amount: -5
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Toxin
   metabolisms:
     Bloodstream:
       effects:
@@ -33,8 +32,15 @@
   boilingPoint: -127.3
   meltingPoint: -186.4
   plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 40
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Titanium
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Clown
+  - !type:PlantAdjustNutrient
+    amount: 2
+    nutrient: Plasma
   metabolisms:
     Bloodstream:
       effects:
@@ -70,10 +76,9 @@
   allowedDepartments:
   - Medical
   plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 10
-  - !type:PlantAdjustHealth
-    amount: -5
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Toxin
   metabolisms:
     Bloodstream:
       effects:
@@ -171,8 +176,9 @@
   boilingPoint: 78.2 # This isn't a real chemical...
   meltingPoint: -19.4
   plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 20
+  - !type:PlantAdjustNutrient
+    amount: 2
+    nutrient: Acid
   - !type:PlantAdjustWeeds
     amount: -4
   - !type:PlantAdjustHealth
@@ -280,12 +286,11 @@
   boilingPoint: 337.0
   meltingPoint: 10.31
   plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 10
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Acid
   - !type:PlantAdjustWeeds
     amount: -2
-  - !type:PlantAdjustHealth
-    amount: -5
   reactiveEffects:
     Acidic:
       methods: [ Touch ]
@@ -355,8 +360,9 @@
           types:
             Asphyxiation: 5
   plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 10
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Toxin
 
 - type: reagent
   id: Lexorin
@@ -384,8 +390,9 @@
   flavor: bitter
   color: "#77b58e"
   plantMetabolism:
-  - !type:PlantAdjustToxins
-    amount: 10
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Toxin
   metabolisms:
     Bloodstream:
       effects:
@@ -547,6 +554,10 @@
   physicalDesc: reagent-physical-desc-clumpy
   flavor: bitter
   color: "#FFFFE5"
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Protein
   metabolisms:
     Bloodstream:
       effects:
@@ -648,6 +659,10 @@
   physicalDesc: reagent-physical-desc-pungent
   flavor: bitter
   color: "#F2E9D2"
+  plantMetabolism:
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Clown
   metabolisms:
     Bloodstream:
       metabolismRate: 0.05
@@ -716,8 +731,9 @@
   plantMetabolism:
   - !type:PlantMutateChemicals
     randomPickBotanyReagent: EvilRandomFillSolution
-  - !type:PlantAdjustToxins
-    amount: 10
+  - !type:PlantAdjustNutrient
+    amount: 1
+    nutrient: Toxin
   metabolisms:
     Bloodstream:
       effects:

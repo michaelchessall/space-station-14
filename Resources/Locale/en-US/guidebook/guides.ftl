@@ -107,6 +107,7 @@ guide-entry-chemicals = Chemicals
 guide-entry-drinks = Drinks
 guide-entry-entities = Entity Recipes
 guide-entry-foodrecipes = Food Recipes
+guide-entry-plant-nutrients = Plant nutrients
 
 guide-entry-elements = Elements
 guide-entry-medicine = Medicine

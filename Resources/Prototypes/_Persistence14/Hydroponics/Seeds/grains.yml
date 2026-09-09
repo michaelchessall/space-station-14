@@ -1,0 +1,199 @@
+- type: seed
+  id: wheat
+  name: seeds-wheat-name
+  noun: seeds-noun-seeds
+  displayName: seeds-wheat-display-name
+  plantRsi: Objects/Specific/Hydroponics/wheat.rsi
+  packetPrototype: WheatSeeds
+  productPrototypes:
+  - WheatBushel
+  mutationPrototypes:
+  - meatwheat
+  lifespan: 25
+  maturation: 6
+  production: 3
+  yield: 3
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Flour: #Should be better than using a bio-generator to make flour.
+      BaseAmount: 5
+      Requirements:
+        Nutrient:
+          Requirement: 2.5
+        Fertilizer:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+        CarbonDioxide:
+          BonusRequirement: 0.25
+          BonusAmount: 2.5
+
+- type: seed
+  id: meatwheat
+  name: seeds-meatwheat-name
+  noun: seeds-noun-seeds
+  displayName: seeds-meatwheat-display-name
+  plantRsi: Objects/Specific/Hydroponics/meatwheat.rsi
+  packetPrototype: MeatwheatSeeds
+  productPrototypes:
+  - MeatwheatBushel
+  lifespan: 25
+  maturation: 6
+  production: 3
+  yield: 3
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    UncookedAnimalProteins: #Should be cheap to compete with bio-generated monkey cubes.
+      BaseAmount: 5
+      Requirements:
+        Water: # Meat is wetter than flour
+          Requirement: 2
+        Nutrient:
+          Requirement: 2.5
+        Fertilizer:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+        CarbonDioxide:
+          BonusRequirement: 0.25
+          BonusAmount: 2.5
+
+- type: seed
+  id: oat
+  name: seeds-oat-name
+  noun: seeds-noun-seeds
+  displayName: seeds-oat-display-name
+  plantRsi: Objects/Specific/Hydroponics/oat.rsi
+  packetPrototype: OatSeeds
+  productPrototypes:
+  - OatBushel
+  lifespan: 25
+  maturation: 6
+  production: 3
+  yield: 3
+  idealLight: 8
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Oats:
+      BaseAmount: 5
+      Requirements:
+        Nutrient:
+          Requirement: 2.5
+        Fertilizer:
+          BonusRequirement: 0.5
+          BonusAmount: 2.5
+        CarbonDioxide:
+          BonusRequirement: 0.25
+          BonusAmount: 2.5
+
+- type: seed
+  id: corn
+  name: seeds-corn-name
+  noun: seeds-noun-seeds
+  displayName: seeds-corn-display-name
+  plantRsi: Objects/Specific/Hydroponics/corn.rsi
+  packetPrototype: CornSeeds
+  productPrototypes:
+  - FoodCorn
+  lifespan: 25
+  maturation: 8
+  production: 6
+  yield: 2
+  growthStages: 3
+  idealLight: 8
+  baseIdealHeat: 298
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    CornMeal:
+      BaseAmount: 5
+      Requirements:
+        Nutrient:
+          Requirement: 2.5
+        Fertilizer:
+          BonusRequirement: 1
+          BonusAmount: 5
+        CarbonDioxide:
+          BonusRequirement: 0.5
+          BonusAmount: 5
+
+- type: seed
+  id: rice
+  name: seeds-rice-name
+  noun: seeds-noun-seeds
+  displayName: seeds-rice-display-name
+  plantRsi: Objects/Specific/Hydroponics/rice.rsi
+  packetPrototype: RiceSeeds
+  productPrototypes:
+  - RiceBushel
+  lifespan: 25
+  maturation: 6
+  production: 3
+  yield: 3
+  growthStages: 4
+  idealLight: 5
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2
+    Rice:
+      BaseAmount: 5
+      Requirements:
+        Water:
+          Requirement: 5 # Rice need a lot of water
+        Nutrient:
+          BonusRequirement: 0.5
+          BonusAmount: 1
+        Fertilizer:
+          BonusRequirement: 0.4
+          BonusAmount: 2
+        CarbonDioxide:
+          BonusRequirement: 0.2
+          BonusAmount: 2

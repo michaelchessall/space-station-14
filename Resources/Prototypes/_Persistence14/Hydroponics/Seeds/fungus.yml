@@ -1,0 +1,128 @@
+- type: seed
+  id: towercap
+  name: seeds-towercap-name
+  noun: seeds-noun-spores
+  displayName: seeds-towercap-display-name
+  plantRsi: Objects/Specific/Hydroponics/towercap.rsi
+  packetPrototype: TowercapSeeds
+  productPrototypes:
+  - Log
+  lifespan: 80
+  maturation: 15
+  ligneous: true
+  production: 3
+  yield: 5
+  growthStages: 3
+  requirements:
+    Nutrient:
+      Requirement: 10
+    Water:
+      Requirement: 10
+  lightTolerance: 6
+  baseIdealHeat: 288
+
+- type: seed
+  id: steelcap
+  name: seeds-steelcap-name
+  noun: seeds-noun-spores
+  displayName: seeds-steelcap-display-name
+  plantRsi: Objects/Specific/Hydroponics/steelcap.rsi
+  packetPrototype: SteelcapSeeds
+  productPrototypes:
+  - SteelLog
+  lifespan: 80
+  maturation: 15
+  ligneous: true
+  production: 1
+  yield: 1
+  growthStages: 3
+  requirements:
+    Aluminum:
+      Requirement: 5
+    Carbon:
+      Requirement: 1
+  lightTolerance: 6
+  baseIdealHeat: 425
+  baseHeatTolerance: 425 # Incredibly high heat tolerance, but using it comes with extra nutrient requirements.
+
+- type: seed
+  id: chanterelle
+  name: seeds-chanterelle-name
+  noun: seeds-noun-spores
+  displayName: seeds-chanterelle-display-name
+  plantRsi: Objects/Specific/Hydroponics/chanterelle.rsi
+  packetPrototype: ChanterelleSeeds
+  productPrototypes:
+  - FoodMushroom
+  lifespan: 35
+  maturation: 10
+  production: 7
+  yield: 5
+  growthStages: 3
+  lightTolerance: 6
+  baseIdealHeat: 288
+  chemicals:
+    Nutriment:
+      BaseAmount: 1
+      Requirements:
+        Water:
+          Requirement: 1
+        Fertilizer:
+          BonusRequirement: 0.3
+          BonusAmount: 1.5
+        CarbonDioxide:
+          BonusRequirement: 0.15
+          BonusAmount: 1.5
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: lingzhi
+  name: seeds-lingzhi-name
+  noun: seeds-noun-spores
+  displayName: seeds-lingzhi-display-name
+  plantRsi: Objects/Specific/Hydroponics/lingzhi.rsi
+  packetPrototype: LingzhiSeeds
+  productPrototypes:
+  - FoodLingzhi
+  lifespan: 25
+  maturation: 10
+  production: 3
+  yield: 3
+  potency: 10
+  growthStages: 3
+  waterConsumption: 0.60
+  chemicals:
+    Ultravasculine:
+      Min: 1
+      Max: 20
+      PotencyDivisor: 5
+    Epinephrine:
+      Min: 1
+      Max: 20
+      PotencyDivisor: 5
+
+- type: seed # TODO: Convert chemicals to the new system, remove potency, remove water/nutrient Consumption
+  id: flyAmanita
+  name: seeds-flyamanita-name
+  noun: seeds-noun-spores
+  displayName: seeds-flyamanita-display-name
+  plantRsi: Objects/Specific/Hydroponics/fly_amanita.rsi
+  packetPrototype: FlyAmanitaSeeds
+  productPrototypes:
+  - FoodFlyAmanita
+  lifespan: 25
+  maturation: 12
+  production: 3
+  yield: 3
+  potency: 10
+  growthStages: 2
+  waterConsumption: 0.60
+  nutrientConsumption: 0.50
+  chemicals:
+    Amatoxin:
+      Min: 1
+      Max: 10
+      PotencyDivisor: 12
+    Nutriment: ## yumby :)
+      Min: 1
+      Max: 5
+      PotencyDivisor: 20

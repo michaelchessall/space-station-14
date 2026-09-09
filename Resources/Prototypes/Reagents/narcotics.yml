@@ -219,8 +219,9 @@
   color: "#808080"
   physicalDesc: reagent-physical-desc-crystalline
   plantMetabolism:
-  - !type:PlantAdjustNutrition
+  - !type:PlantAdjustNutrient
     amount: -5
+    nutrient: Nutrient
   - !type:PlantAdjustHealth
     amount: -1
   metabolisms:
