@@ -136,10 +136,10 @@
   - type: Clothing
     sprite: _Persistence14/Clothing/Head/Helmets/Hardsuits/donksuit.rsi
   - type: PointLight
-    radius: 5
+    radius: 6
     color: "#ffc065"
   - type: PressureProtection
-    highPressureMultiplier: 0.60
+    highPressureMultiplier: 0.72
     lowPressureMultiplier: 1000
   - type: Tag
     tags:

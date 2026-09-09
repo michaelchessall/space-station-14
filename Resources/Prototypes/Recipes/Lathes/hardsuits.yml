@@ -56,6 +56,17 @@
     Silver: 300
     Gold: 300
 
+- type: latheRecipe
+  parent: BaseHardsuitRecipe
+  id: Donknautsuit
+  result: ClothingOuterHardsuitDonk
+  materials:
+    Plasteel: 1500
+    Durathread: 1000
+    Glass: 500
+    Silver: 300
+    Gold: 300
+
 # Tier 2 (Atmos, Engi, Medical, Mining)
 
 - type: latheRecipe
