@@ -27,3 +27,19 @@
         reagents:
         - ReagentId: Algesiprol
           Quantity: 30
+
+- type: entity
+  id: ChemistryBottleAmoxla
+  suffix: Amoxla
+  parent: BaseChemistryBottleFilled
+  components:
+  - type: Label
+    currentLabel: Amoxla
+  - type: SolutionContainerManager
+    solutions:
+      drink:
+        maxVol: 30
+        reagents:
+        - ReagentId: Amoxla
+          Quantity: 30
+

@@ -15,17 +15,20 @@
     enum.HumanoidVisualLayers.Head:
       limit: 3
       required: false
-    enum.HumanoidVisualLayers.HeadTop:
+    enum.HumanoidVisualLayers.HeadSide:
       limit: 1
       required: true
-      default: [ AvaliEar ]
+      default: [ AvaliEarsBase ]
+    enum.HumanoidVisualLayers.HeadTop:
+      limit: 1
+      required: false
     enum.HumanoidVisualLayers.SnoutCover:
       limit: 3
       required: false
     enum.HumanoidVisualLayers.Tail:
-      limit: 1
+      limit: 3
       required: true
-      default: [ AvaliTail ]
+      default: [ AvaliTailBase ]
     enum.HumanoidVisualLayers.LArm:
       limit: 2
       required: false
@@ -321,7 +324,7 @@
 
 - type: entity
   parent: [ OrganAvaliVisual, OrganBaseEyes, OrganAvaliInternal ]
-  id: OrganAvaliEyes
+  id: OrganAvaliEyes # Needs sprites
 
 - type: entity
   parent: [ OrganBaseTongue, OrganAvaliInternal ]
@@ -329,7 +332,7 @@
 
 - type: entity
   parent: [ OrganBaseAppendix, OrganAvaliInternal ]
-  id: OrganAvaliAppendix
+  id: OrganAvaliAppendix # Needs sprites
 
 - type: entity
   parent: [ OrganBaseEars, OrganAvaliInternal ]
@@ -349,7 +352,7 @@
 
 - type: entity
   parent: [ OrganBaseLiver, OrganAvaliInternal, OrganAvaliMetabolizer ]
-  id: OrganAvaliLiver
+  id: OrganAvaliLiver # Needs sprites
 
 - type: entity
   parent: [ OrganBaseKidneys, OrganAvaliInternal, OrganAvaliMetabolizer ]

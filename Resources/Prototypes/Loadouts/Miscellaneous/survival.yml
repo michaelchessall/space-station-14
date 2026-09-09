@@ -277,12 +277,13 @@
 # Avali evaporate extremely quickly if they don't have a suit on - Persistance14
 
 - type: loadout
-  id: LoadoutFireSuit
+  id: LoadoutAvaliHeatProtection
   effects:
   - !type:GroupLoadoutEffect
     proto: EffectSpeciesAvali
   equipment:
-    outerClothing: ClothingOuterSuitFire
+    outerClothing: ClothingOuterWinterColorYellow
+    suitstorage: CoolingUnit
 
 # Breath Tool On Face
 - type: loadout

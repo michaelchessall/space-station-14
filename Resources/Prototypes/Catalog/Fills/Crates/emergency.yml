@@ -19,7 +19,7 @@
   parent: CrateGenericSteel
   id: CrateEmergencyFire
   name: firefighting crate
-  description: Only you can prevent station fires. Partner up with two firefighter suits, gas masks, flashlights, large oxygen tanks, extinguishers, and hardhats!
+  description: Only you can prevent station fires. Partner up with two firefighter suits, gas masks, flashlights, large oxygen tanks, extinguishers, Cooling Units, and hardhats!
   components:
   - type: EntityTableContainerFill
     containers:
@@ -35,6 +35,8 @@
           amount: 2
         - id: ClothingOuterSuitFire
           amount: 2
+        - id: CoolingUnit
+          amount: 2
         - id: OxygenTankFilled
           amount: 2
 
@@ -42,7 +44,7 @@
   parent: CrateInternals
   id: CrateEmergencyInternals
   name: internals crate
-  description: Master your life energy and control your breathing with three breath masks, three gas masks, three emergency EVA suits, three oxygen tanks, and three nitrogen tanks.
+  description: Master your life energy and control your breathing with three breath masks, three gas masks, three emergency EVA suits, three oxygen tanks, 3 Cooling Units, and three nitrogen tanks.
   components:
   - type: EntityTableContainerFill
     containers:
@@ -58,12 +60,15 @@
           amount: 3
         - id: ClothingOuterSuitEmergency
           amount: 3
+        - id: CoolingUnit
+          amount: 3
+
 
 - type: entity
   parent: CrateInternals
   id: CrateEmergencyInternalsLarge
   name: internals crate (large)
-  description: Master your life energy and control your breathing with six breath masks, six gas masks, six emergency EVA suits, six oxygen tanks, and six nitrogen tanks.
+  description: Master your life energy and control your breathing with six breath masks, six gas masks, six emergency EVA suits, five oxygen tanks, one cooling unit, and six nitrogen tanks.
   components:
   - type: EntityTableContainerFill
     containers:
@@ -74,11 +79,13 @@
         - id: ClothingMaskBreath
           amount: 6
         - id: OxygenTankFilled
-          amount: 6
+          amount: 5
         - id: NitrogenTankFilled
           amount: 6
         - id: ClothingOuterSuitEmergency
           amount: 6
+        - id: CoolingUnit
+          amount: 1
 
 - type: entity
   parent: CrateInternals

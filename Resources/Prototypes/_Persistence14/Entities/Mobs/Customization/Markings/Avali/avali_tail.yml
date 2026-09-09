@@ -1,9 +1,0 @@
-
-- type: marking
-  id: AvaliTail
-  bodyPart: Tail
-  groupWhitelist: [ Avali ]
-  sprites:
-    - sprite: _Starlight/Mobs/Customization/Avali/avali_parts.rsi
-      state: tail_avalibase
-
