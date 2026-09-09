@@ -225,7 +225,6 @@
     amount: -1
   metabolisms:
     Bloodstream:
-      metabolismRate: 0.5
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
@@ -301,12 +300,11 @@
   color: "#ffff00"
   metabolisms:
     Bloodstream:
-      metabolismRate: 0.5
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
         type: Add
-        time: 7.5
+        time: 7.5 #upped from 5 to 7.5 for persistence 14
 
 # Probably replace this one with sleeping chem when putting someone in a comatose state is easier
 - type: reagent
@@ -471,12 +469,11 @@
   color: "#EE35FF"
   metabolisms:
     Bloodstream:
-      metabolismRate: 0.5
       effects:
       - !type:Emote
         emote: Laugh
         showInChat: true
-        probability: 0.25
+        probability: 0.1
         conditions:
         - !type:ReagentCondition
           reagent: Happiness
@@ -484,7 +481,7 @@
       - !type:Emote
         emote: Whistle
         showInChat: true
-        probability: 0.25
+        probability: 0.1
         conditions:
         - !type:ReagentCondition
           reagent: Happiness
@@ -492,7 +489,7 @@
       - !type:Emote
         emote: Crying
         showInChat: true
-        probability: 0.25
+        probability: 0.1
         conditions:
         - !type:ReagentCondition
           reagent: Happiness
