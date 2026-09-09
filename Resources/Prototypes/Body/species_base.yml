@@ -269,6 +269,7 @@
   abstract: true
   parent:
   - BaseMob
+  - SimpleMobBase
   - MobCombat
   - MobDamageable
   - MobPolymorphable
