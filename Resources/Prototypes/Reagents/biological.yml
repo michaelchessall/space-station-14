@@ -57,6 +57,7 @@
   recognizable: true
   physicalDesc: reagent-physical-desc-slimy
 
+#Persistence 14 start - bnnuy
 - type: reagent
   parent: Blood
   id: SynthBlood
@@ -67,6 +68,7 @@
   color: "#3dffc8"
   recognizable: true
   physicalDesc: reagent-physical-desc-slimy
+#Persistence 14 end - bnnuy
 
 - type: reagent
   id: Slime
