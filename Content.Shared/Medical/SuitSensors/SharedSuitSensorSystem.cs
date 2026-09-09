@@ -25,24 +25,24 @@ using System.Numerics;
 
 namespace Content.Shared.Medical.SuitSensors;
 
-public abstract partial class SharedSuitSensorSystem : EntitySystem
+public abstract class SharedSuitSensorSystem : EntitySystem
 {
-    [Dependency] private SharedStationSystem _stationSystem = default!;
-    [Dependency] private MobStateSystem _mobStateSystem = default!;
-    [Dependency] private SharedPopupSystem _popupSystem = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private MobThresholdSystem _mobThresholdSystem = default!;
-    [Dependency] private SharedInteractionSystem _interactionSystem = default!;
-    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private ActionBlockerSystem _actionBlocker = default!;
-    [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private SharedIdCardSystem _idCardSystem = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private DamageableSystem _damageable = default!;
+    [Dependency] private readonly SharedStationSystem _stationSystem = default!;
+    [Dependency] private readonly MobStateSystem _mobStateSystem = default!;
+    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
+    [Dependency] private readonly MobThresholdSystem _mobThresholdSystem = default!;
+    [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
+    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly SharedIdCardSystem _idCardSystem = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly DamageableSystem _damageable = default!;
 
-    [Dependency] private EntityQuery<SuitSensorComponent> _sensorQuery = default!;
-
+    private EntityQuery<SuitSensorComponent> _sensorQuery;
     public override void Initialize()
     {
         base.Initialize();
@@ -58,6 +58,8 @@ public abstract partial class SharedSuitSensorSystem : EntitySystem
         SubscribeLocalEvent<SuitSensorComponent, EntGotInsertedIntoContainerMessage>(OnInsert);
         SubscribeLocalEvent<SuitSensorComponent, EntGotRemovedFromContainerMessage>(OnRemove);
         SubscribeLocalEvent<SuitSensorComponent, SuitSensorChangeDoAfterEvent>(OnSuitSensorDoAfter);
+
+        _sensorQuery = GetEntityQuery<SuitSensorComponent>();
     }
 
     /// <summary>
@@ -154,28 +156,31 @@ public abstract partial class SharedSuitSensorSystem : EntitySystem
         ent.Comp.ControlsLocked = ent.Comp.PreviousControlsLocked;
     }
 
-    /// <summary>
-    /// Localize the SuitSensor status and push to the examination tooltip.
-    /// </summary>
-    /// <param name="ent">Entity with a <see cref="SuitSensorComponent"/> under examination.</param>
-    /// <param name="args"><see cref="ExaminedEvent"/> arguments,
-    /// used to determine range and retrieve the active mode.</param>
-    /// <exception cref="InvalidOperationException">Invalid mode was provided.</exception>
     private void OnExamine(Entity<SuitSensorComponent> ent, ref ExaminedEvent args)
     {
         if (!args.IsInDetailsRange)
             return;
 
-        var locId = ent.Comp.Mode switch
+        string msg;
+        switch (ent.Comp.Mode)
         {
-            SuitSensorMode.SensorOff => "suit-sensor-examine-off",
-            SuitSensorMode.SensorBinary => "suit-sensor-examine-binary",
-            SuitSensorMode.SensorVitals => "suit-sensor-examine-vitals",
-            SuitSensorMode.SensorCords => "suit-sensor-examine-cords",
-            _ => throw new InvalidOperationException($"Unknown {nameof(SuitSensorMode)}: {ent.Comp.Mode}"),
-        };
+            case SuitSensorMode.SensorOff:
+                msg = "suit-sensor-examine-off";
+                break;
+            case SuitSensorMode.SensorBinary:
+                msg = "suit-sensor-examine-binary";
+                break;
+            case SuitSensorMode.SensorVitals:
+                msg = "suit-sensor-examine-vitals";
+                break;
+            case SuitSensorMode.SensorCords:
+                msg = "suit-sensor-examine-cords";
+                break;
+            default:
+                return;
+        }
 
-        args.PushMarkup(Loc.GetString(locId));
+        args.PushMarkup(Loc.GetString(msg));
     }
 
     private void OnVerb(Entity<SuitSensorComponent> ent, ref GetVerbsEvent<Verb> args)
@@ -222,19 +227,11 @@ public abstract partial class SharedSuitSensorSystem : EntitySystem
         Dirty(ent);
     }
 
-    /// <summary>
-    /// Create a verb for viewing and changing suit sensor behavior.
-    /// </summary>
-    /// <param name="ent">Entity with a <see cref="SuitSensorComponent"/> to be verbed.</param>
-    /// <param name="userUid">Actor requesting the verb, used to identify if a foreign actor is requesting a verb.</param>
-    /// <param name="mode">Current mode of the suit sensor.</param>
-    /// <returns>A created <see cref="Verb"/> that will attempt to change to a specific mode.</returns>
     private Verb CreateVerb(Entity<SuitSensorComponent> ent, EntityUid userUid, SuitSensorMode mode)
     {
         return new Verb()
         {
             Text = GetModeName(mode),
-            Message = GetModeDescription(mode),
             Disabled = ent.Comp.Mode == mode,
             Priority = -(int)mode, // sort them in descending order
             Category = VerbCategory.SetSensor,
@@ -242,42 +239,28 @@ public abstract partial class SharedSuitSensorSystem : EntitySystem
         };
     }
 
-    /// <summary>
-    /// Gets the localized name of a suit sensor mode.
-    /// </summary>
-    /// <param name="mode">The <see cref="SuitSensorMode"/> requiring a name string.</param>
-    /// <returns>A localized string containing the name of the suit sensor mode.</returns>
-    /// <exception cref="InvalidOperationException">Invalid mode was provided.</exception>
     public string GetModeName(SuitSensorMode mode)
     {
-        var locId = mode switch
+        string name;
+        switch (mode)
         {
-            SuitSensorMode.SensorOff => "suit-sensor-mode-off",
-            SuitSensorMode.SensorBinary => "suit-sensor-mode-binary",
-            SuitSensorMode.SensorVitals => "suit-sensor-mode-vitals",
-            SuitSensorMode.SensorCords => "suit-sensor-mode-cords",
-            _ => throw new InvalidOperationException($"Unknown {nameof(SuitSensorMode)}: {mode}"),
-        };
-        return Loc.GetString(locId);
-    }
+            case SuitSensorMode.SensorOff:
+                name = "suit-sensor-mode-off";
+                break;
+            case SuitSensorMode.SensorBinary:
+                name = "suit-sensor-mode-binary";
+                break;
+            case SuitSensorMode.SensorVitals:
+                name = "suit-sensor-mode-vitals";
+                break;
+            case SuitSensorMode.SensorCords:
+                name = "suit-sensor-mode-cords";
+                break;
+            default:
+                return "";
+        }
 
-    /// <summary>
-    /// Gets the localized description of a suit sensor mode.
-    /// </summary>
-    /// <param name="mode">The <see cref="SuitSensorMode"/> requiring a description.</param>
-    /// <returns>A localized string containing the description of the suit sensor mode.</returns>
-    /// <exception cref="InvalidOperationException">Invalid mode was provided.</exception>
-    public string GetModeDescription(SuitSensorMode mode)
-    {
-        var locId = mode switch
-        {
-            SuitSensorMode.SensorOff => "suit-sensor-description-off",
-            SuitSensorMode.SensorBinary => "suit-sensor-description-binary",
-            SuitSensorMode.SensorVitals => "suit-sensor-description-vitals",
-            SuitSensorMode.SensorCords => "suit-sensor-description-cords",
-            _ => throw new InvalidOperationException($"Unknown {nameof(SuitSensorMode)}: {mode}"),
-        };
-        return Loc.GetString(locId);
+        return Loc.GetString(name);
     }
 
     /// <summary>
@@ -384,7 +367,7 @@ public abstract partial class SharedSuitSensorSystem : EntitySystem
             userJobIcon = card.Comp.JobIcon;
 
             foreach (var department in card.Comp.JobDepartments)
-                userJobDepartments.Add(Loc.GetString(ProtoMan.Index(department).Name));
+                userJobDepartments.Add(Loc.GetString(_proto.Index(department).Name));
         }
 
         // get health mob state
@@ -417,17 +400,18 @@ public abstract partial class SharedSuitSensorSystem : EntitySystem
                 status.TotalDamage = totalDamage;
                 status.TotalDamageThreshold = totalDamageThreshold;
                 EntityCoordinates coordinates;
+                var xformQuery = GetEntityQuery<TransformComponent>();
 
                 if (transform.GridUid != null)
                 {
                     coordinates = new EntityCoordinates(transform.GridUid.Value,
-                        Vector2.Transform(_transform.GetWorldPosition(transform),
-                            _transform.GetInvWorldMatrix(transform.GridUid.Value)));
+                        Vector2.Transform(_transform.GetWorldPosition(transform, xformQuery),
+                            _transform.GetInvWorldMatrix(xformQuery.GetComponent(transform.GridUid.Value), xformQuery)));
                 }
                 else if (transform.MapUid != null)
                 {
                     coordinates = new EntityCoordinates(transform.MapUid.Value,
-                        _transform.GetWorldPosition(transform));
+                        _transform.GetWorldPosition(transform, xformQuery));
                 }
                 else
                 {

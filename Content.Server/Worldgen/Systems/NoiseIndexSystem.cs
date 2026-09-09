@@ -1,8 +1,9 @@
-﻿using System.Numerics;
 using Content.Server.Worldgen.Components;
 using Content.Server.Worldgen.Prototypes;
+using Content.Shared.CCVar;
+using Robust.Shared.Configuration;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Random;
+using System.Numerics;
 
 namespace Content.Server.Worldgen.Systems;
 
@@ -12,7 +13,8 @@ namespace Content.Server.Worldgen.Systems;
 public sealed class NoiseIndexSystem : EntitySystem
 {
     [Dependency] private readonly IPrototypeManager _prototype = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
+
+    [Dependency] private readonly IConfigurationManager _configurationManager = default!;
 
     /// <summary>
     ///     Gets a particular noise channel from the index on the given entity.
@@ -22,11 +24,12 @@ public sealed class NoiseIndexSystem : EntitySystem
     /// <returns>An initialized noise generator</returns>
     public NoiseGenerator Get(EntityUid holder, string protoId)
     {
+
         var idx = EnsureComp<NoiseIndexComponent>(holder);
         if (idx.Generators.TryGetValue(protoId, out var generator))
             return generator;
         var proto = _prototype.Index<NoiseChannelPrototype>(protoId);
-        var gen = new NoiseGenerator(proto, _random.Next());
+        var gen = new NoiseGenerator(proto, _configurationManager.GetCVar(CCVars.WorldgenSeed));
         idx.Generators[protoId] = gen;
         return gen;
     }

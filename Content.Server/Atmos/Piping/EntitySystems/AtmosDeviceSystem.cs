@@ -9,10 +9,10 @@ using System.Linq;
 namespace Content.Server.Atmos.Piping.EntitySystems
 {
     [UsedImplicitly]
-    public sealed partial class AtmosDeviceSystem : EntitySystem
+    public sealed class AtmosDeviceSystem : EntitySystem
     {
-        [Dependency] private IGameTiming _gameTiming = default!;
-        [Dependency] private AtmosphereSystem _atmosphereSystem = default!;
+        [Dependency] private readonly IGameTiming _gameTiming = default!;
+        [Dependency] private readonly AtmosphereSystem _atmosphereSystem = default!;
 
         private float _timer;
 
@@ -113,12 +113,6 @@ namespace Content.Server.Atmos.Piping.EntitySystems
 
         private void OnDeviceParentChanged(Entity<AtmosDeviceComponent> ent, ref EntParentChangedMessage args)
         {
-            // Event is raised when a map is loaded in. Since this event mutates comp.Enabled,
-            // it will overwrite whatever saved value it had
-            // (so devices saved as enabled will just be disabled).
-            if (args.OldParent is null)
-                return;
-
             RejoinAtmosphere(ent);
         }
 

@@ -4,9 +4,9 @@ using Content.Shared.Actions;
 
 namespace Content.Server.NPC.Systems;
 
-public sealed partial class NPCUseActionOnTargetSystem : EntitySystem
+public sealed class NPCUseActionOnTargetSystem : EntitySystem
 {
-    [Dependency] private SharedActionsSystem _actions = default!;
+    [Dependency] private readonly SharedActionsSystem _actions = default!;
 
     /// <inheritdoc/>
     public override void Initialize()

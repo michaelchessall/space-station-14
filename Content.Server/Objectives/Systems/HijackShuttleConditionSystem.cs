@@ -12,15 +12,12 @@ using Robust.Shared.Player;
 
 namespace Content.Server.Objectives.Systems;
 
-public sealed partial class HijackShuttleConditionSystem : EntitySystem
+public sealed class HijackShuttleConditionSystem : EntitySystem
 {
-    [Dependency] private EmergencyShuttleSystem _emergencyShuttle = default!;
-    [Dependency] private SharedMindSystem _mind = default!;
-    [Dependency] private SharedRoleSystem _role = default!;
-    [Dependency] private MobStateSystem _mobState = default!;
-
-    [Dependency] private EntityQuery<HumanoidProfileComponent> _humanoidsQuery = default!;
-    [Dependency] private EntityQuery<CuffableComponent> _cuffableQuery = default!;
+    [Dependency] private readonly EmergencyShuttleSystem _emergencyShuttle = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
+    [Dependency] private readonly SharedRoleSystem _role = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
 
     public override void Initialize()
     {
@@ -64,6 +61,9 @@ public sealed partial class HijackShuttleConditionSystem : EntitySystem
     private bool IsShuttleHijacked(EntityUid shuttleGridId, EntityUid mindId)
     {
         var gridPlayers = Filter.BroadcastGrid(shuttleGridId).Recipients;
+        var humanoids = GetEntityQuery<HumanoidProfileComponent>();
+        var cuffable = GetEntityQuery<CuffableComponent>();
+        EntityQuery<MobStateComponent>();
 
         var agentOnShuttle = false;
         foreach (var player in gridPlayers)
@@ -78,7 +78,7 @@ public sealed partial class HijackShuttleConditionSystem : EntitySystem
                 continue;
             }
 
-            var isHumanoid = _humanoidsQuery.HasComponent(player.AttachedEntity.Value);
+            var isHumanoid = humanoids.HasComponent(player.AttachedEntity.Value);
             if (!isHumanoid) // Only humanoids count as enemies
                 continue;
 
@@ -91,7 +91,7 @@ public sealed partial class HijackShuttleConditionSystem : EntitySystem
                 continue;
 
             var isPersonCuffed =
-                _cuffableQuery.TryGetComponent(player.AttachedEntity.Value, out var cuffed)
+                cuffable.TryGetComponent(player.AttachedEntity.Value, out var cuffed)
                 && cuffed.CuffedHandCount > 0;
             if (isPersonCuffed) // Allow handcuffed
                 continue;

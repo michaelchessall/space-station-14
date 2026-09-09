@@ -6,9 +6,9 @@ using Robust.Shared.Configuration;
 
 namespace Content.Client.Communications.UI
 {
-    public sealed partial class CommunicationsConsoleBoundUserInterface : BoundUserInterface
+    public sealed class CommunicationsConsoleBoundUserInterface : BoundUserInterface
     {
-        [Dependency] private IConfigurationManager _cfg = default!;
+        [Dependency] private readonly IConfigurationManager _cfg = default!;
 
         [ViewVariables]
         private CommunicationsConsoleMenu? _menu;

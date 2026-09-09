@@ -11,17 +11,17 @@ namespace Content.Server.Stack
     /// This is a good example for learning how to code in an ECS manner.
     /// </summary>
     [UsedImplicitly]
-    public sealed partial class StackSystem : SharedStackSystem
+    public sealed class StackSystem : SharedStackSystem
     {
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+
         #region Spawning
 
         /// <summary>
         /// Spawns a new entity and moves an amount to it from the stack.
         /// Moves nothing if amount is greater than ent's stack count.
         /// </summary>
-        /// <param name="ent">Entity to split in a new stack.</param>
-        /// <param name="amount">How much to move to the new entity.</param>
-        /// <param name="spawnPosition">Where to spawn the new stack</param>
+        /// <param name="amount"> How much to move to the new entity. </param>
         /// <returns>Null if StackComponent doesn't resolve, or amount to move is greater than ent has available.</returns>
         [PublicAPI]
         public EntityUid? Split(Entity<StackComponent?> ent, int amount, EntityCoordinates spawnPosition)
@@ -33,7 +33,7 @@ namespace Content.Server.Stack
             if (!TryUse(ent, amount))
                 return null;
 
-            if (!ProtoMan.Resolve(ent.Comp.StackTypeId, out var stackType))
+            if (!_prototypeManager.Resolve(ent.Comp.StackTypeId, out var stackType))
                 return null;
 
             // Set the output parameter in the event instance to the newly split stack.
@@ -71,7 +71,7 @@ namespace Content.Server.Stack
         [PublicAPI]
         public EntityUid SpawnAtPosition(int count, ProtoId<StackPrototype> id, EntityCoordinates spawnPosition)
         {
-            var proto = ProtoMan.Index(id);
+            var proto = _prototypeManager.Index(id);
             return SpawnAtPosition(count, proto, spawnPosition);
         }
 
@@ -143,7 +143,7 @@ namespace Content.Server.Stack
                                                        int amount,
                                                        EntityCoordinates spawnPosition)
         {
-            var stackProto = ProtoMan.Index(stackId);
+            var stackProto = _prototypeManager.Index(stackId);
             return SpawnMultipleAtPosition(stackProto.Spawn,
                                             CalculateSpawns(stackProto, amount),
                                             spawnPosition);
@@ -165,7 +165,7 @@ namespace Content.Server.Stack
         [PublicAPI]
         public EntityUid SpawnNextToOrDrop(int amount, ProtoId<StackPrototype> id, EntityUid source)
         {
-            var proto = ProtoMan.Index(id);
+            var proto = _prototypeManager.Index(id);
             return SpawnNextToOrDrop(amount, proto, source);
         }
 
@@ -232,7 +232,7 @@ namespace Content.Server.Stack
                                                          int amount,
                                                          EntityUid target)
         {
-            var stackProto = ProtoMan.Index(stackId);
+            var stackProto = _prototypeManager.Index(stackId);
             return SpawnMultipleNextToOrDrop(stackProto.Spawn,
                                              CalculateSpawns(stackProto, amount),
                                              target);

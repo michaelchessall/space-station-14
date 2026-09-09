@@ -2,12 +2,14 @@ using Content.Client.Implants.UI;
 using Content.Client.Items;
 using Content.Shared.Implants;
 using Content.Shared.Implants.Components;
+using Robust.Shared.Prototypes;
 
 namespace Content.Client.Implants;
 
-public sealed partial class ImplanterSystem : SharedImplanterSystem
+public sealed class ImplanterSystem : SharedImplanterSystem
 {
-    [Dependency] private SharedUserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _uiSystem = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
 
     public override void Initialize()
     {
@@ -17,18 +19,22 @@ public sealed partial class ImplanterSystem : SharedImplanterSystem
         Subs.ItemStatus<ImplanterComponent>(ent => new ImplanterStatusControl(ent));
     }
 
-    private void OnHandleImplanterState(Entity<ImplanterComponent> ent, ref AfterAutoHandleStateEvent args)
+    private void OnHandleImplanterState(EntityUid uid, ImplanterComponent component, ref AfterAutoHandleStateEvent args)
     {
-        UpdateUi(ent);
-    }
-
-    protected override void UpdateUi(Entity<ImplanterComponent> ent)
-    {
-        if (_uiSystem.TryGetOpenUi(ent.Owner, DeimplantUiKey.Key, out var bui))
+        if (_uiSystem.TryGetOpenUi<DeimplantBoundUserInterface>(uid, DeimplantUiKey.Key, out var bui))
         {
-            bui.Update();
+            // TODO: Don't use protoId for deimplanting
+            // and especially not raw strings!
+            Dictionary<string, string> implants = new();
+            foreach (var implant in component.DeimplantWhitelist)
+            {
+                if (_proto.Resolve(implant, out var proto))
+                    implants.Add(proto.ID, proto.Name);
+            }
+
+            bui.UpdateState(implants, component.DeimplantChosen);
         }
 
-        ent.Comp.UiUpdateNeeded = true;
+        component.UiUpdateNeeded = true;
     }
 }

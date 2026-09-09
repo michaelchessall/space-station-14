@@ -3,8 +3,9 @@ using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Physics.Collision.Shapes;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
-namespace Content.Shared.Blocking.Components;
+namespace Content.Shared.Blocking;
 
 /// <summary>
 /// This component goes on an item that you want to use to block
@@ -12,11 +13,6 @@ namespace Content.Shared.Blocking.Components;
 [RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
 public sealed partial class BlockingComponent : Component
 {
-    /// <summary>
-    /// The ID for the fixture that's dynamically created when blocking
-    /// </summary>
-    public const string BlockFixtureId = "blocking-active";
-
     /// <summary>
     /// The entity that's blocking
     /// </summary>
@@ -30,6 +26,11 @@ public sealed partial class BlockingComponent : Component
     public bool IsBlocking;
 
     /// <summary>
+    /// The ID for the fixture that's dynamically created when blocking
+    /// </summary>
+    public const string BlockFixtureID = "blocking-active";
+
+    /// <summary>
     /// The shape of the blocking fixture that will be dynamically spawned
     /// </summary>
     [DataField]
@@ -38,15 +39,14 @@ public sealed partial class BlockingComponent : Component
     /// <summary>
     /// The damage modifer to use while passively blocking
     /// </summary>
-    [DataField(required: true)]
-    public DamageModifierSet PassiveBlockModifier = default!;
+    [DataField("passiveBlockModifier", required: true)]
+    public DamageModifierSet PassiveBlockDamageModifer = default!;
 
     /// <summary>
-    /// Optional damage modifier to use while actively blocking.
-    /// If this is null, shield will use the PassiveBlockModifier instead.
+    /// The damage modifier to use while actively blocking.
     /// </summary>
-    [DataField]
-    public DamageModifierSet? ActiveBlockModifier;
+    [DataField("activeBlockModifier", required: true)]
+    public DamageModifierSet ActiveBlockDamageModifier = default!;
 
     [DataField]
     public EntProtoId BlockingToggleAction = "ActionToggleBlock";

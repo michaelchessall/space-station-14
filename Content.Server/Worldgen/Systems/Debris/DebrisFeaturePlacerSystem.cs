@@ -1,5 +1,3 @@
-using System.Linq;
-using System.Numerics;
 using Content.Server.Worldgen.Components;
 using Content.Server.Worldgen.Components.Debris;
 using Content.Server.Worldgen.Tools;
@@ -9,20 +7,22 @@ using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using System.Linq;
+using System.Numerics;
 
 namespace Content.Server.Worldgen.Systems.Debris;
 
 /// <summary>
 ///     This handles placing debris within the world evenly with rng, primarily for structures like asteroid fields.
 /// </summary>
-public sealed partial class DebrisFeaturePlacerSystem : BaseWorldSystem
+public sealed class DebrisFeaturePlacerSystem : BaseWorldSystem
 {
-    [Dependency] private NoiseIndexSystem _noiseIndex = default!;
-    [Dependency] private PoissonDiskSampler _sampler = default!;
-    [Dependency] private TransformSystem _xformSys = default!;
-    [Dependency] private ILogManager _logManager = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private SharedMapSystem _map = default!;
+    [Dependency] private readonly NoiseIndexSystem _noiseIndex = default!;
+    [Dependency] private readonly PoissonDiskSampler _sampler = default!;
+    [Dependency] private readonly TransformSystem _xformSys = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
 
     private ISawmill _sawmill = default!;
 
@@ -94,6 +94,10 @@ public sealed partial class DebrisFeaturePlacerSystem : BaseWorldSystem
     private void OnChunkUnloaded(EntityUid uid, DebrisFeaturePlacerControllerComponent component,
         ref WorldChunkUnloadedEvent args)
     {
+        // Remove all debris
+        foreach (var debris in component.OwnedDebris)
+            QueueDel(debris.Value);
+
         component.DoSpawns = true;
     }
 
@@ -235,7 +239,7 @@ public sealed partial class DebrisFeaturePlacerSystem : BaseWorldSystem
     private bool HasCollisions(MapId mapId, Box2 point)
     {
         _mapGrids.Clear();
-        _map.FindGridsIntersecting(mapId, point, ref _mapGrids);
+        _mapManager.FindGridsIntersecting(mapId, point, ref _mapGrids);
         return _mapGrids.Count > 0;
     }
 
@@ -244,7 +248,7 @@ public sealed partial class DebrisFeaturePlacerSystem : BaseWorldSystem
     /// </summary>
     private List<Vector2> GeneratePointsInChunk(EntityUid chunk, float density, Vector2 coords, EntityUid map)
     {
-        var offs = (int) ((WorldGen.ChunkSize - WorldGen.ChunkSize / 8.0f) / 2.0f);
+        var offs = (int)((WorldGen.ChunkSize - WorldGen.ChunkSize / 8.0f) / 2.0f);
         var topLeft = new Vector2(-offs, -offs);
         var lowerRight = new Vector2(offs, offs);
         var enumerator = _sampler.SampleRectangle(topLeft, lowerRight, density);

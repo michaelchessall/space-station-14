@@ -7,9 +7,9 @@ using System.Linq;
 
 namespace Content.Client.Salvage.UI;
 
-public sealed partial class SalvageMagnetBoundUserInterface : BoundUserInterface
+public sealed class SalvageMagnetBoundUserInterface : BoundUserInterface
 {
-    [Dependency] private IEntityManager _entManager = default!;
+    [Dependency] private readonly IEntityManager _entManager = default!;
 
     private OfferingWindow? _window;
 

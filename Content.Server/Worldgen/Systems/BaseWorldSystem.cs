@@ -1,6 +1,6 @@
-using System.Numerics;
 using Content.Server.Worldgen.Components;
 using JetBrains.Annotations;
+using System.Numerics;
 
 namespace Content.Server.Worldgen.Systems;
 

@@ -104,7 +104,6 @@
   - type: Electrified
     enabled: false
     usesApcPower: true
-    onActivateInWorld: true
   - type: WiresPanel
   - type: WiresPanelSecurity
   - type: Wires
@@ -143,9 +142,8 @@
     resistance: 3
   - type: Occluder
   - type: Damageable
-    damageModifierSet: StrongMetallic
-  - type: Injurable
     damageContainer: StructuralInorganic
+    damageModifierSet: StrongMetallic
   - type: RCDDeconstructable
     cost: 6
     delay: 8

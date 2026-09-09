@@ -1,22 +1,17 @@
-using Content.Shared.Damage.Components;
-using Content.Shared.Item.ItemToggle.Components;
-using Content.Shared.Power.Components;
+using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 
 namespace Content.Shared.Stunnable;
 
-/// <summary>
-/// Component used for stun batons.
-/// Works in combination with <see cref="StaminaDamageOnHitComponent"/>, <see cref="BatteryComponent"/> and <see cref="ItemToggleComponent"/>
-/// to make the entity require battery charge to deal stamina damage to someone while it is toggled on and used as a weapon.
-/// </summary>
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
-[Access(typeof(StunbatonSystem))]
+[RegisterComponent, NetworkedComponent]
+[AutoGenerateComponentState]
+[Access(typeof(SharedStunbatonSystem))]
 public sealed partial class StunbatonComponent : Component
 {
-    /// <summary>
-    /// The charge required per hit.
-    /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField("energyPerUse"), ViewVariables(VVAccess.ReadWrite)]
+    [AutoNetworkedField]
     public float EnergyPerUse = 350;
+
+    [DataField("sparksSound")]
+    public SoundSpecifier SparksSound = new SoundCollectionSpecifier("sparks");
 }

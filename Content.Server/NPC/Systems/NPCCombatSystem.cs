@@ -5,7 +5,6 @@ using Robust.Shared.Audio.Systems;
 using Robust.Shared.Map;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
-using Content.Shared._Persistence14.PersistentIdentifier;
 
 namespace Content.Server.NPC.Systems;
 
@@ -14,16 +13,17 @@ namespace Content.Server.NPC.Systems;
 /// </summary>
 public sealed partial class NPCCombatSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private GunSystem _gun = default!;
-    [Dependency] private InteractionSystem _interaction = default!;
-    [Dependency] private SharedAudioSystem _audio = default!;
-    [Dependency] private NPCSteeringSystem _steering = default!;
-    [Dependency] private SharedMapSystem _map = default!;
-    [Dependency] private SharedMeleeWeaponSystem _melee = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
-    [Dependency] private PersistentIdentifierSystem _pid = default!;
+    [Dependency] private readonly Content.Shared._Persistence14.PersistentIdentifier.PersistentIdentifierSystem _pid = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IMapManager _mapManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly GunSystem _gun = default!;
+    [Dependency] private readonly InteractionSystem _interaction = default!;
+    [Dependency] private readonly SharedAudioSystem _audio = default!;
+    [Dependency] private readonly NPCSteeringSystem _steering = default!;
+    [Dependency] private readonly SharedMapSystem _map = default!;
+    [Dependency] private readonly SharedMeleeWeaponSystem _melee = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     /// <summary>
     /// If disabled we'll move into range but not attack.

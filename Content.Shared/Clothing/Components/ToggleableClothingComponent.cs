@@ -19,7 +19,7 @@ public sealed partial class ToggleableClothingComponent : Component
     ///     Action used to toggle the clothing on or off.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public EntProtoId? Action;
+    public EntProtoId Action = "ActionToggleSuitPiece";
 
     [DataField, AutoNetworkedField]
     public EntityUid? ActionEntity;
@@ -28,7 +28,7 @@ public sealed partial class ToggleableClothingComponent : Component
     ///     Default clothing entity prototype to spawn into the clothing container.
     /// </summary>
     [DataField(required: true), AutoNetworkedField]
-    public EntProtoId ClothingPrototype;
+    public EntProtoId ClothingPrototype = default!;
 
     /// <summary>
     ///     The inventory slot that the clothing is equipped to.
@@ -69,5 +69,5 @@ public sealed partial class ToggleableClothingComponent : Component
     ///     Text shown in the toggle-clothing verb. Defaults to using the name of the <see cref="ActionEntity"/> action.
     /// </summary>
     [DataField, AutoNetworkedField]
-    public LocId VerbText = "toggle-clothing-verb-default";
+    public string? VerbText;
 }

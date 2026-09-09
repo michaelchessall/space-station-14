@@ -19,17 +19,18 @@ using Robust.Shared.Utility;
 
 namespace Content.Client.UserInterface.Systems.Guidebook;
 
-public sealed partial class GuidebookUIController : UIController, IOnStateEntered<LobbyState>, IOnStateEntered<GameplayState>, IOnStateExited<LobbyState>, IOnStateExited<GameplayState>, IOnSystemChanged<GuidebookSystem>
+public sealed class GuidebookUIController : UIController, IOnStateEntered<LobbyState>, IOnStateEntered<GameplayState>, IOnStateExited<LobbyState>, IOnStateExited<GameplayState>, IOnSystemChanged<GuidebookSystem>
 {
     [UISystemDependency] private readonly GuidebookSystem _guidebookSystem = default!;
-    [Dependency] private IPrototypeManager _prototypeManager = default!;
-    [Dependency] private IConfigurationManager _configuration = default!;
-    [Dependency] private JobRequirementsManager _jobRequirements = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IConfigurationManager _configuration = default!;
+    [Dependency] private readonly JobRequirementsManager _jobRequirements = default!;
 
     private const int PlaytimeOpenGuidebook = 60;
 
     private GuidebookWindow? _guideWindow;
     private MenuButton? GuidebookButton => UIManager.GetActiveUIWidgetOrNull<MenuBar.Widgets.GameTopMenuBar>()?.GuidebookButton;
+    private ProtoId<GuideEntryPrototype>? _lastEntry;
 
     public void OnStateEntered(LobbyState state)
     {
@@ -144,6 +145,7 @@ public sealed partial class GuidebookUIController : UIController, IOnStateEntere
         if (_guideWindow != null)
         {
             _guideWindow.ReturnContainer.Visible = false;
+            _lastEntry = _guideWindow.LastEntry;
         }
     }
 
@@ -195,23 +197,20 @@ public sealed partial class GuidebookUIController : UIController, IOnStateEntere
 
         if (selected == null)
         {
-            if (_guideWindow.Selected is { } lastEntry && guides.ContainsKey(lastEntry))
+            if (_lastEntry is { } lastEntry && guides.ContainsKey(lastEntry))
             {
-                selected = lastEntry;
+                selected = _lastEntry;
             }
             else
             {
                 selected = _configuration.GetCVar(CCVars.DefaultGuide);
             }
         }
-        var changed = _guideWindow.UpdateGuides(guides, rootEntries, forceRoot, selected);
+        _guideWindow.UpdateGuides(guides, rootEntries, forceRoot, selected);
 
         // Expand up to depth-2.
-        if (changed)
-        {
-            _guideWindow.Tree.SetAllExpanded(false);
-            _guideWindow.Tree.SetAllExpanded(true, 1);
-        }
+        _guideWindow.Tree.SetAllExpanded(false);
+        _guideWindow.Tree.SetAllExpanded(true, 1);
 
         _guideWindow.OpenCenteredRight();
     }

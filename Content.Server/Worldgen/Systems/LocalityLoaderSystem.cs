@@ -1,5 +1,6 @@
-﻿using Content.Server.Worldgen.Components;
+using Content.Server.Worldgen.Components;
 using Robust.Server.GameObjects;
+using Robust.Shared.Timing;
 
 namespace Content.Server.Worldgen.Systems;
 
@@ -10,45 +11,64 @@ public sealed class LocalityLoaderSystem : BaseWorldSystem
 {
     [Dependency] private readonly TransformSystem _xformSys = default!;
 
+    /// <summary>
+    /// Max amount of LocalityLoaders to check per tick
+    /// </summary>
+    private const uint MaxChecksPerTick = 50;
+    private readonly Queue<Entity<LocalityLoaderComponent, TransformComponent>> _pendingLocs = new();
+
     /// <inheritdoc />
     public override void Update(float frameTime)
     {
-        var e = EntityQueryEnumerator<LocalityLoaderComponent, TransformComponent>();
+        if (_pendingLocs.Count == 0)
+        {
+            var loadedEnum = EntityQueryEnumerator<LocalityLoaderComponent, TransformComponent>();
+            while (loadedEnum.MoveNext(out var uid, out var loadedChunkComp, out var chunk))
+                _pendingLocs.Enqueue((uid, loadedChunkComp, chunk));
+            return; // Enqueue only as this is already quite expensive.
+        }
+
         var loadedQuery = GetEntityQuery<LoadedChunkComponent>();
         var xformQuery = GetEntityQuery<TransformComponent>();
         var controllerQuery = GetEntityQuery<WorldControllerComponent>();
 
-        while (e.MoveNext(out var uid, out var loadable, out var xform))
+        var iterations = 0u;
+        while (iterations < MaxChecksPerTick && _pendingLocs.TryDequeue(out var ent))
         {
-            if (!controllerQuery.TryGetComponent(xform.MapUid, out var controller))
+            iterations++;
+            if (Exists(ent) && !TerminatingOrDeleted(ent) && !ent.Comp1.Deleted)
             {
-                RaiseLocalEvent(uid, new LocalStructureLoadedEvent());
-                RemCompDeferred<LocalityLoaderComponent>(uid);
-                continue;
-            }
-
-            var coords = GetChunkCoords(uid, xform);
-            var done = false;
-            for (var i = -1; i < 2 && !done; i++)
-            {
-                for (var j = -1; j < 2 && !done; j++)
+                ent.Deconstruct(out var uid, out var loadable, out var xform);
+                if (!controllerQuery.TryGetComponent(xform.MapUid, out var controller))
                 {
-                    var chunk = GetOrCreateChunk(coords + (i, j), xform.MapUid!.Value, controller);
-                    if (!loadedQuery.TryGetComponent(chunk, out var loaded) || loaded.Loaders is null)
-                        continue;
+                    RaiseLocalEvent(uid, new LocalStructureLoadedEvent());
+                    RemCompDeferred<LocalityLoaderComponent>(uid);
+                    continue;
+                }
 
-                    foreach (var loader in loaded.Loaders)
+                var coords = GetChunkCoords(uid, xform);
+                var done = false;
+                for (var i = -1; i < 2 && !done; i++)
+                {
+                    for (var j = -1; j < 2 && !done; j++)
                     {
-                        if (!xformQuery.TryGetComponent(loader, out var loaderXform))
+                        var chunk = GetOrCreateChunk(coords + (i, j), xform.MapUid!.Value, controller);
+                        if (!loadedQuery.TryGetComponent(chunk, out var loaded) || loaded.Loaders is null)
                             continue;
 
-                        if ((_xformSys.GetWorldPosition(loaderXform) - _xformSys.GetWorldPosition(xform)).Length() > loadable.LoadingDistance)
-                            continue;
+                        foreach (var loader in loaded.Loaders)
+                        {
+                            if (!xformQuery.TryGetComponent(loader, out var loaderXform))
+                                continue;
 
-                        RaiseLocalEvent(uid, new LocalStructureLoadedEvent());
-                        RemCompDeferred<LocalityLoaderComponent>(uid);
-                        done = true;
-                        break;
+                            if ((_xformSys.GetWorldPosition(loaderXform) - _xformSys.GetWorldPosition(xform)).IsLongerThan(loadable.LoadingDistance))
+                                continue;
+
+                            RaiseLocalEvent(uid, new LocalStructureLoadedEvent());
+                            RemCompDeferred<LocalityLoaderComponent>(uid);
+                            done = true;
+                            break;
+                        }
                     }
                 }
             }

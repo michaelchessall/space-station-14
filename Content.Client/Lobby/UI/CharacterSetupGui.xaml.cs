@@ -21,11 +21,11 @@ namespace Content.Client.Lobby.UI
     [GenerateTypedNameReferences]
     public sealed partial class CharacterSetupGui : Control
     {
-        [Dependency] private IClientPreferencesManager _preferencesManager = default!;
-        [Dependency] private IPrototypeManager _protomanager = default!;
-        [Dependency] private IResourceCache _resourceCache = default!;
-        [Dependency] private IConfigurationManager _cfg = default!;
-        [Dependency] private ISharedPlayerManager _playerManager = default!;
+        [Dependency] private readonly IClientPreferencesManager _preferencesManager = default!;
+        [Dependency] private readonly IPrototypeManager _protomanager = default!;
+        [Dependency] private readonly IResourceCache _resourceCache = default!;
+        [Dependency] private readonly IConfigurationManager _cfg = default!;
+        [Dependency] private readonly ISharedPlayerManager _playerManager = default!;
 
 
         public event Action<int>? SelectCharacter;
@@ -53,7 +53,7 @@ namespace Content.Client.Lobby.UI
 
             //_createNewCharacterButton.OnPressed += args =>
             //{
-            //    _preferencesManager.CreateCharacter(HumanoidCharacterProfile.Random().WithJobFromCvar(_cfg));
+            //    _preferencesManager.CreateCharacter(HumanoidCharacterProfile.Random());
             //    ReloadCharacterPickers();
             //    args.Event.Handle();
             //};
@@ -64,7 +64,6 @@ namespace Content.Client.Lobby.UI
             StatsButton.OnPressed += _ => new PlaytimeStatsWindow().OpenCentered();
 
             _cfg.OnValueChanged(CCVars.SeeOwnNotes, p => AdminRemarksButton.Visible = p, true);
-            _cfg.OnValueChanged(CCVars.GameMaxCharacterSlots, _ => ReloadCharacterPickers());
         }
 
         /// <summary>
@@ -81,8 +80,6 @@ namespace Content.Client.Lobby.UI
             {
                 return;
             }
-
-            var maxCharactersSlots = _cfg.GetCVar(CCVars.GameMaxCharacterSlots);
 
             //_createNewCharacterButton.ToolTip =
             //    Loc.GetString("character-setup-gui-create-new-character-button-tooltip",

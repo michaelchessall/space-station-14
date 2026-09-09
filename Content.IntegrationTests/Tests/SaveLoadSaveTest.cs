@@ -1,6 +1,3 @@
-using System.IO;
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.CCVar;
 using Robust.Shared.Configuration;
 using Robust.Shared.ContentPack;
@@ -10,6 +7,8 @@ using Robust.Shared.Map;
 using Robust.Shared.Map.Events;
 using Robust.Shared.Serialization.Markdown.Mapping;
 using Robust.Shared.Utility;
+using System.IO;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests
 {
@@ -17,16 +16,17 @@ namespace Content.IntegrationTests.Tests
     ///     Tests that a grid's yaml does not change when saved consecutively.
     /// </summary>
     [TestFixture]
-    public sealed class SaveLoadSaveTest : GameTest
+    public sealed class SaveLoadSaveTest
     {
         [Test]
         public async Task CreateSaveLoadSaveGrid()
         {
-            var pair = Pair;
+            await using var pair = await PoolManager.GetServerClient();
             var server = pair.Server;
             var entManager = server.ResolveDependency<IEntityManager>();
             var mapLoader = entManager.System<MapLoaderSystem>();
             var mapSystem = entManager.System<SharedMapSystem>();
+            var mapManager = server.ResolveDependency<IMapManager>();
             var cfg = server.ResolveDependency<IConfigurationManager>();
             Assert.That(cfg.GetCVar(CCVars.GridFill), Is.False);
 
@@ -39,7 +39,7 @@ namespace Content.IntegrationTests.Tests
             await server.WaitPost(() =>
             {
                 mapSystem.CreateMap(out var mapId0);
-                var grid0 = mapSystem.CreateGridEntity(mapId0);
+                var grid0 = mapManager.CreateGridEntity(mapId0);
                 entManager.RunMapInit(grid0.Owner, entManager.GetComponent<MetaDataComponent>(grid0));
                 Assert.That(mapLoader.TrySaveGrid(grid0.Owner, rp1));
                 mapSystem.CreateMap(out var mapId1);
@@ -85,9 +85,10 @@ namespace Content.IntegrationTests.Tests
                 }
             });
             testSystem.Enabled = false;
+            await pair.CleanReturnAsync();
         }
 
-        private new const string TestMap = "Maps/bagel.yml";
+        private const string TestMap = "Maps/bagel.yml";
 
         /// <summary>
         ///     Loads the default map, runs it for 5 ticks, then assert that it did not change.
@@ -95,7 +96,7 @@ namespace Content.IntegrationTests.Tests
         [Test]
         public async Task LoadSaveTicksSaveBagel()
         {
-            var pair = Pair;
+            await using var pair = await PoolManager.GetServerClient();
             var server = pair.Server;
             var mapLoader = server.ResolveDependency<IEntitySystemManager>().GetEntitySystem<MapLoaderSystem>();
             var mapSys = server.System<SharedMapSystem>();
@@ -166,6 +167,7 @@ namespace Content.IntegrationTests.Tests
 
             testSystem.Enabled = false;
             await server.WaitPost(() => mapSys.DeleteMap(mapId));
+            await pair.CleanReturnAsync();
         }
 
         /// <summary>
@@ -181,7 +183,7 @@ namespace Content.IntegrationTests.Tests
         [Test]
         public async Task LoadTickLoadBagel()
         {
-            var pair = Pair;
+            await using var pair = await PoolManager.GetServerClient();
             var server = pair.Server;
 
             var mapLoader = server.System<MapLoaderSystem>();
@@ -239,6 +241,7 @@ namespace Content.IntegrationTests.Tests
             testSystem.Enabled = false;
             await server.WaitPost(() => mapSys.DeleteMap(mapId1));
             await server.WaitPost(() => mapSys.DeleteMap(mapId2));
+            await pair.CleanReturnAsync();
         }
 
         /// <summary>

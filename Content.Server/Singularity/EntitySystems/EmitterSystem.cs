@@ -28,16 +28,16 @@ using Timer = Robust.Shared.Timing.Timer;
 
 namespace Content.Server.Singularity.EntitySystems
 {
-    public sealed partial class EmitterSystem : SharedEmitterSystem
+    public sealed class EmitterSystem : SharedEmitterSystem
     {
-        [Dependency] private IRobustRandom _random = default!;
-        [Dependency] private IAdminLogManager _adminLogger = default!;
-        [Dependency] private SharedAppearanceSystem _appearance = default!;
-        [Dependency] private SharedPopupSystem _popup = default!;
-        [Dependency] private ProjectileSystem _projectile = default!;
-        [Dependency] private GunSystem _gun = default!;
-        [Dependency] private RadioSystem _radio = default!;
-        [Dependency] private NavMapSystem _navMap = default!;
+        [Dependency] private readonly IRobustRandom _random = default!;
+        [Dependency] private readonly IAdminLogManager _adminLogger = default!;
+        [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+        [Dependency] private readonly SharedPopupSystem _popup = default!;
+        [Dependency] private readonly ProjectileSystem _projectile = default!;
+        [Dependency] private readonly GunSystem _gun = default!;
+        [Dependency] private readonly RadioSystem _radio = default!;
+        [Dependency] private readonly NavMapSystem _navMap = default!;
 
         private readonly HashSet<EntityUid> _pendingEmitterReinitialization = new();
 
@@ -50,7 +50,7 @@ namespace Content.Server.Singularity.EntitySystems
             SubscribeLocalEvent<EmitterComponent, ActivateInWorldEvent>(OnActivate);
             SubscribeLocalEvent<EmitterComponent, AnchorStateChangedEvent>(OnAnchorStateChanged);
             SubscribeLocalEvent<EmitterComponent, SignalReceivedEvent>(OnSignalReceived);
-            SubscribeLocalEvent<EmitterComponent, DestructionEventArgs>(OnDestruction);
+            SubscribeLocalEvent<EmitterComponent, DestructionAttemptEvent>(OnDestructionAttempted);
             SubscribeLocalEvent<EmitterComponent, MachineDeconstructedEvent>(OnDeconstructed); // you shouldn't be able to deconstruct locked emitters but out of scope to fix
             SubscribeLocalEvent<EmitterComponent, LockToggledEvent>(OnLockToggled);
             SubscribeLocalEvent<EmitterComponent, MapInitEvent>(OnMapInit);
@@ -359,9 +359,11 @@ namespace Content.Server.Singularity.EntitySystems
             }
         }
 
-        private void OnDestruction(Entity<EmitterComponent> ent, ref DestructionEventArgs args)
+        private void OnDestructionAttempted(Entity<EmitterComponent> ent, ref DestructionAttemptEvent args)
         {
-            // Engineering needs to know if an emitter is destroyed so they can replace it before the engine looses.
+            // warn engineering their containment engine needs IMMEDIATE repairs
+            // this doesn't change much for natural loosing through emitter destruction given any meteor warning serves the same purpose
+            // can also be used to scare engineering though given it broadcasts its location you need a renamed station beacon to really scare them
             AlertRadio(ent, ent.Comp.LocDestroyed);
         }
 

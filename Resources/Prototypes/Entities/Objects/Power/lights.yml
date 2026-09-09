@@ -14,7 +14,6 @@
         state: normal
   - type: LightBulb
   - type: Damageable
-  - type: Injurable
     damageContainer: Inorganic
   - type: DamageOnLand
     damage:
@@ -26,6 +25,12 @@
         Blunt: 5
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors: #excess damage (nuke?). avoid computational cost of spawning entities.
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 5
@@ -76,6 +81,12 @@
     bulb: Tube
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors: #excess damage (nuke?). avoid computational cost of spawning entities.
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 5

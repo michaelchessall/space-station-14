@@ -27,7 +27,7 @@ using System.Numerics;
 
 namespace Content.Shared.Storage.EntitySystems;
 
-public abstract partial class SharedEntityStorageSystem : EntitySystem
+public abstract class SharedEntityStorageSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
@@ -111,8 +111,7 @@ public abstract partial class SharedEntityStorageSystem : EntitySystem
 
     private void OnRelayMovement(EntityUid uid, EntityStorageComponent component, ref ContainerRelayMovementEntityEvent args)
     {
-        if (!component.Contents.Contains(args.Entity) &&
-            !HasComp<HandsComponent>(args.Entity))
+        if (!HasComp<HandsComponent>(args.Entity))
             return;
 
         if (!_actionBlocker.CanMove(args.Entity))
@@ -221,76 +220,76 @@ public abstract partial class SharedEntityStorageSystem : EntitySystem
         }
     }
 
-    public void OpenStorage(Entity<EntityStorageComponent?> target, EntityUid? user = null)
+    public void OpenStorage(EntityUid uid, EntityStorageComponent? component = null)
     {
-        if (!Resolve(target, ref target.Comp))
+        if (!Resolve(uid, ref component))
             return;
 
-        if (target.Comp.Open)
+        if (component.Open)
             return;
 
-        var beforeev = new StorageBeforeOpenEvent(user);
-        RaiseLocalEvent(target, ref beforeev);
-        target.Comp.Open = true;
-        Dirty(target);
-        EmptyContents(target, target.Comp);
-        ModifyComponents(target, target.Comp);
-        _audio.PlayLocal(target.Comp.OpenSound, target, user);
-        ReleaseGas(target, target.Comp);
-        var afterev = new StorageAfterOpenEvent(user);
-        RaiseLocalEvent(target, ref afterev);
+        var beforeev = new StorageBeforeOpenEvent();
+        RaiseLocalEvent(uid, ref beforeev);
+        component.Open = true;
+        Dirty(uid, component);
+        EmptyContents(uid, component);
+        ModifyComponents(uid, component);
+        if (_net.IsClient && _timing.IsFirstTimePredicted)
+            _audio.PlayPvs(component.OpenSound, uid);
+        ReleaseGas(uid, component);
+        var afterev = new StorageAfterOpenEvent();
+        RaiseLocalEvent(uid, ref afterev);
     }
 
-    public void CloseStorage(Entity<EntityStorageComponent?> target, EntityUid? user = null)
+    public void CloseStorage(EntityUid uid, EntityStorageComponent? component = null)
     {
-        if (!Resolve(target, ref target.Comp))
+        if (!Resolve(uid, ref component))
             return;
 
-        if (!target.Comp.Open)
+        if (!component.Open)
             return;
 
         // Prevent the container from closing if it is queued for deletion. This is so that the container-emptying
         // behaviour of DestructionEventArgs is respected. This exists because malicious players were using
         // destructible boxes to delete entities by having two players simultaneously destroy and close the box in
         // the same tick.
-        if (EntityManager.IsQueuedForDeletion(target))
+        if (EntityManager.IsQueuedForDeletion(uid))
             return;
 
-        target.Comp.Open = false;
-        Dirty(target);
+        component.Open = false;
+        Dirty(uid, component);
 
         var entities = _lookup.GetEntitiesInRange(
-            new EntityCoordinates(target, target.Comp.EnteringOffset),
-            target.Comp.EnteringRange,
+            new EntityCoordinates(uid, component.EnteringOffset),
+            component.EnteringRange,
             LookupFlags.Approximate | LookupFlags.Dynamic | LookupFlags.Sundries
         );
 
         // Don't insert the container into itself.
-        entities.Remove(target);
+        entities.Remove(uid);
 
-        var ev = new StorageBeforeCloseEvent(user, entities, []);
-        RaiseLocalEvent(target, ref ev);
+        var ev = new StorageBeforeCloseEvent(entities, []);
+        RaiseLocalEvent(uid, ref ev);
 
         foreach (var entity in ev.Contents)
         {
-            if (!ev.BypassChecks.Contains(entity) && !CanInsert(entity, target, target.Comp))
+            if (!ev.BypassChecks.Contains(entity) && !CanInsert(entity, uid, component))
                 continue;
 
-            if (!AddToContents(entity, target, target.Comp))
+            if (!AddToContents(entity, uid, component))
                 continue;
 
-            if (target.Comp.Contents.ContainedEntities.Count >= target.Comp.Capacity)
+            if (component.Contents.ContainedEntities.Count >= component.Capacity)
                 break;
         }
 
-        if (LifeStage(target) >= EntityLifeStage.MapInitialized) // stop mappers from serializing air in locker
-            TakeGas(target, target.Comp);
+        TakeGas(uid, component);
+        ModifyComponents(uid, component);
+        if (_net.IsClient && _timing.IsFirstTimePredicted)
+            _audio.PlayPvs(component.CloseSound, uid);
 
-        ModifyComponents(target, target.Comp);
-        _audio.PlayLocal(target.Comp.CloseSound, target, user);
-
-        var afterev = new StorageAfterCloseEvent(user);
-        RaiseLocalEvent(target, ref afterev);
+        var afterev = new StorageAfterCloseEvent();
+        RaiseLocalEvent(uid, ref afterev);
     }
 
     public bool Insert(EntityUid toInsert, EntityUid container, EntityStorageComponent? component = null)
@@ -374,8 +373,12 @@ public abstract partial class SharedEntityStorageSystem : EntitySystem
         if (containerAttemptEvent.Cancelled)
             return false;
 
-        // Check the whitelist/blacklist.
-        return _whitelistSystem.CheckBoth(toInsert, component.Blacklist, component.Whitelist);
+        // Consult the whitelist. The whitelist ignores the default assumption about how entity storage works.
+        if (component.Whitelist != null)
+            return _whitelistSystem.IsValid(component.Whitelist, toInsert);
+
+        // The inserted entity must be a mob or an item.
+        return HasComp<MobStateComponent>(toInsert) || HasComp<ItemComponent>(toInsert);
     }
 
     public bool TryOpenStorage(EntityUid user, EntityUid target, bool silent = false)
@@ -383,7 +386,7 @@ public abstract partial class SharedEntityStorageSystem : EntitySystem
         if (!CanOpen(user, target, silent))
             return false;
 
-        OpenStorage(target, user);
+        OpenStorage(target);
         return true;
     }
 
@@ -394,7 +397,7 @@ public abstract partial class SharedEntityStorageSystem : EntitySystem
             return false;
         }
 
-        CloseStorage(target, user);
+        CloseStorage(target);
         return true;
     }
 
@@ -411,8 +414,7 @@ public abstract partial class SharedEntityStorageSystem : EntitySystem
         if (!Resolve(target, ref component))
             return false;
 
-        if (!component.Contents.Contains(user) &&
-            !HasComp<HandsComponent>(user))
+        if (!HasComp<HandsComponent>(user))
             return false;
 
         if (_weldable.IsWelded(target))

@@ -13,6 +13,8 @@ namespace Content.Shared.Examine
             base.Initialize();
 
             SubscribeLocalEvent<GroupExamineComponent, GetVerbsEvent<ExamineVerb>>(OnGroupExamineVerb);
+
+            _ghostQuery = GetEntityQuery<GhostComponent>();
         }
 
         /// <summary>
@@ -79,9 +81,6 @@ namespace Content.Shared.Examine
             SendExamineTooltip(user, target, message, getVerbs: false, centerAtCursor: false);
         }
 
-        /// <summary>
-        /// Build a formatted message from a list of examine entries to be displayed in an examine window.
-        /// </summary>
         /// <returns>A FormattedMessage based on all <paramref name="entries"/>, sorted.</returns>
         public static FormattedMessage GetFormattedMessageFromExamineEntries(List<ExamineEntry> entries)
         {

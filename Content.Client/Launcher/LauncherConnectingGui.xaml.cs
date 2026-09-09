@@ -154,7 +154,7 @@ namespace Content.Client.Launcher
             var tip = tipList[randomIndex];
             LoginTip.SetMessage(Loc.GetString(tip));
 
-            LoginTipTitle.Text = Loc.GetString("connecting-window-tip", ("numberTip", randomIndex + 1));
+            LoginTipTitle.Text = Loc.GetString("connecting-window-tip", ("numberTip", randomIndex));
         }
 
         protected override void FrameUpdate(FrameEventArgs args)

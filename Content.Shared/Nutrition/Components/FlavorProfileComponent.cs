@@ -1,5 +1,4 @@
 using Robust.Shared.GameStates;
-using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Nutrition.Components;
 
@@ -10,7 +9,7 @@ public sealed partial class FlavorProfileComponent : Component
     ///     Localized string containing the base flavor of this entity.
     /// </summary>
     [DataField]
-    public HashSet<ProtoId<FlavorPrototype>> Flavors { get; private set; } = new();
+    public HashSet<string> Flavors { get; private set; } = new();
 
     /// <summary>
     ///     Reagent IDs to ignore when processing this flavor profile. Defaults to nutriment.

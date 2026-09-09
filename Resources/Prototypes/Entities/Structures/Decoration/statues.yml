@@ -67,11 +67,16 @@
     noRot: true
     drawdepth: Mobs
   - type: Damageable
-    damageModifierSet: Rock
-  - type: Injurable
     damageContainer: StructuralInorganic
+    damageModifierSet: Rock
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 150 # Overkill
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 100

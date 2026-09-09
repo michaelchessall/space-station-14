@@ -1,4 +1,4 @@
-﻿using Content.Server.Worldgen.Systems;
+using Content.Server.Worldgen.Systems;
 
 namespace Content.Server.Worldgen.Components;
 
@@ -12,7 +12,8 @@ public sealed partial class WorldLoaderComponent : Component
     /// <summary>
     ///     The radius in which the loader loads the world.
     /// </summary>
-    [ViewVariables(VVAccess.ReadWrite)] [DataField("radius")]
+    [ViewVariables(VVAccess.ReadWrite)]
+    [DataField("radius")]
     public int Radius = 128;
 }
 

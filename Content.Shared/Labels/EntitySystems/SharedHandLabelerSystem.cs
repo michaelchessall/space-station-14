@@ -13,16 +13,16 @@ using Robust.Shared.Network;
 
 namespace Content.Shared.Labels.EntitySystems;
 
-public abstract partial class SharedHandLabelerSystem : EntitySystem
+public abstract class SharedHandLabelerSystem : EntitySystem
 {
-    [Dependency] protected SharedUserInterfaceSystem UserInterfaceSystem = default!;
-    [Dependency] private SharedPopupSystem _popupSystem = default!;
-    [Dependency] private LabelSystem _labelSystem = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private INetManager _netManager = default!;
-    [Dependency] private EntityWhitelistSystem _whitelistSystem = default!;
-    [Dependency] private AccessReaderSystem _accessReader = default!;
-    [Dependency] private MetaDataSystem _metadataSystem = default!;
+    [Dependency] protected readonly SharedUserInterfaceSystem UserInterfaceSystem = default!;
+    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
+    [Dependency] private readonly LabelSystem _labelSystem = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly INetManager _netManager = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private readonly AccessReaderSystem _accessReader = default!;
+    [Dependency] private readonly MetaDataSystem _metadataSystem = default!;
 
     public override void Initialize()
     {
@@ -71,23 +71,51 @@ public abstract partial class SharedHandLabelerSystem : EntitySystem
             return;
         }
 
-        _labelSystem.Label(target, ent.Comp.AssignedLabel);
+        if (_netManager.IsServer)
+            _labelSystem.Label(target, ent.Comp.AssignedLabel);
 
-        _popupSystem.PopupEntity(Loc.GetString("hand-labeler-successfully-applied"), user, user);
+        _popupSystem.PopupClient(Loc.GetString("hand-labeler-successfully-applied"), user, user);
+    }
+
+    private void Labeling(EntityUid uid, EntityUid target, EntityUid user, HandLabelerComponent handLabeler)
+    {
+        string? result;
+#pragma warning disable RA0030 // Consider using the non-generic variant of this method
+        if (TryComp<DoorComponent>(target, out var door) && door != null && TryComp<MetaDataComponent>(target, out var meta) && meta != null && meta.EntityPrototype != null)
+        {
+            if (!_accessReader.IsAllowed(user, target))
+                return;
+
+            if (handLabeler.AssignedLabel == string.Empty)
+            {
+                if (_netManager.IsServer)
+                    _metadataSystem.SetEntityName(target, meta.EntityPrototype.Name);
+                result = Loc.GetString("hand-labeler-successfully-removed");
+            }
+            else
+            {
+                if (_netManager.IsServer)
+                    _metadataSystem.SetEntityName(target, handLabeler.AssignedLabel);
+                result = Loc.GetString("hand-labeler-successfully-applied");
+            }
+        }
+        else
+        {
+            AddLabelTo((uid, handLabeler), user, target);
+        }
+#pragma warning restore RA0030 // Consider using the non-generic variant of this method
 
         // Log labeling
         _adminLogger.Add(LogType.Action, LogImpact.Low,
-            $"{ToPrettyString(user):user} labeled {ToPrettyString(target):target} with {ToPrettyString(ent.Owner):labeler}");
+            $"{ToPrettyString(user):user} labeled {ToPrettyString(target):target} with {ToPrettyString(uid):labeler}");
     }
 
     private void RemoveLabelFrom(EntityUid uid, EntityUid user, EntityUid target)
     {
-        if (!_labelSystem.HasLabel(target))
-            return;
+        if (_netManager.IsServer)
+            _labelSystem.Label(target, null);
 
-        _labelSystem.Label(target, null);
-
-        _popupSystem.PopupEntity(Loc.GetString("hand-labeler-successfully-removed"), user, user);
+        _popupSystem.PopupClient(Loc.GetString("hand-labeler-successfully-removed"), user, user);
 
         // Log labeling
         _adminLogger.Add(LogType.Action, LogImpact.Low,
@@ -101,7 +129,6 @@ public abstract partial class SharedHandLabelerSystem : EntitySystem
 
         var user = args.User;   // can't use ref parameter in lambdas
 
-        // Don't add the Label verb if the labeler's text is blank.
         if (ent.Comp.AssignedLabel != string.Empty)
         {
             var labelVerb = new UtilityVerb()
@@ -116,22 +143,18 @@ public abstract partial class SharedHandLabelerSystem : EntitySystem
             args.Verbs.Add(labelVerb);
         }
 
-        // Add the Remove Label verb whether or not the labeler's text is blank,
-        // but only if the target is already labeled.
-        if (_labelSystem.HasLabel(target))
+        // add the unlabel verb to the menu even when the labeler has text
+        var unLabelVerb = new UtilityVerb()
         {
-            var unLabelVerb = new UtilityVerb()
+            Act = () =>
             {
-                Act = () =>
-                {
-                    RemoveLabelFrom(ent, user, target);
-                },
-                Text = Loc.GetString("hand-labeler-remove-label-text"),
-                Priority = -1,
-            };
+                RemoveLabelFrom(ent, user, target);
+            },
+            Text = Loc.GetString("hand-labeler-remove-label-text"),
+            Priority = -1,
+        };
 
-            args.Verbs.Add(unLabelVerb);
-        }
+        args.Verbs.Add(unLabelVerb);
     }
 
     private void AfterInteractOn(Entity<HandLabelerComponent> ent, ref AfterInteractEvent args)

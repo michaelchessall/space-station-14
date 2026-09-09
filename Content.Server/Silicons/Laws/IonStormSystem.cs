@@ -11,12 +11,13 @@ using System.Linq;
 
 namespace Content.Server.Silicons.Laws;
 
-public sealed partial class IonStormSystem : EntitySystem
+public sealed class IonStormSystem : EntitySystem
 {
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private SiliconLawSystem _siliconLaw = default!;
-    [Dependency] private IRobustRandom _robustRandom = default!;
-    [Dependency] private IonLawSystem _ionLaw = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly SiliconLawSystem _siliconLaw = default!;
+    [Dependency] private readonly IRobustRandom _robustRandom = default!;
+    [Dependency] private readonly IonLawSystem _ionLaw = default!;
 
     /// <summary>
     /// Randomly alters the laws of an individual silicon.
@@ -35,7 +36,7 @@ public sealed partial class IonStormSystem : EntitySystem
         // try to swap it out with a random lawset
         if (_robustRandom.Prob(target.RandomLawsetChance))
         {
-            var lawsets = ProtoMan.Index<WeightedRandomPrototype>(target.RandomLawsets);
+            var lawsets = _proto.Index<WeightedRandomPrototype>(target.RandomLawsets);
             var lawset = lawsets.Pick(_robustRandom);
             laws = _siliconLaw.GetLawset(lawset);
         }

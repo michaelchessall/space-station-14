@@ -10,10 +10,12 @@ namespace Content.Shared.Xenoarchaeology.Artifact;
 
 public abstract partial class SharedXenoArtifactSystem
 {
-    [Dependency] private EntityQuery<XenoArtifactUnlockingComponent> _unlockingQuery = default!;
+    private EntityQuery<XenoArtifactUnlockingComponent> _unlockingQuery;
 
     private void InitializeUnlock()
     {
+        _unlockingQuery = GetEntityQuery<XenoArtifactUnlockingComponent>();
+
         SubscribeLocalEvent<XenoArtifactUnlockingComponent, MapInitEvent>(OnUnlockingStarted);
     }
 

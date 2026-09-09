@@ -15,16 +15,17 @@ using System.Globalization;
 
 namespace Content.Shared.Access.Systems;
 
-public abstract partial class SharedIdCardSystem : EntitySystem
+public abstract class SharedIdCardSystem : EntitySystem
 {
-    [Dependency] private IConfigurationManager _cfgManager = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private IGameTiming _timing = default!;
-    [Dependency] private SharedAccessSystem _access = default!;
-    [Dependency] private SharedHandsSystem _hands = default!;
-    [Dependency] private InventorySystem _inventorySystem = default!;
-    [Dependency] private MetaDataSystem _metaSystem = default!;
-    [Dependency] private SharedJobStatusSystem _jobStatus = default!;
+    [Dependency] private readonly IConfigurationManager _cfgManager = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly SharedAccessSystem _access = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly InventorySystem _inventorySystem = default!;
+    [Dependency] private readonly MetaDataSystem _metaSystem = default!;
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly SharedJobStatusSystem _jobStatus = default!;
 
     // CCVar.
     private int _maxNameLength;
@@ -65,13 +66,18 @@ public abstract partial class SharedIdCardSystem : EntitySystem
     private void OnTryGetIdentityShortInfo(TryGetIdentityShortInfoEvent ev)
     {
         if (ev.Handled)
-            return;
-
-        if (TryFindIdCard(ev.Target, out var idCard) && !(ev.RequestForAccessLogging && idCard.Comp.BypassLogging))
         {
-            ev.Title = ExtractFullTitle(idCard);
-            ev.Handled = true;
+            return;
         }
+
+        string? title = null;
+        if (TryFindIdCard(ev.ForActor, out var idCard) && !(ev.RequestForAccessLogging && idCard.Comp.BypassLogging))
+        {
+            title = ExtractFullTitle(idCard);
+        }
+
+        ev.Title = title;
+        ev.Handled = true;
     }
 
     private void OnHandleState(Entity<IdCardComponent> ent, ref AfterAutoHandleStateEvent args)
@@ -199,7 +205,7 @@ public abstract partial class SharedIdCardSystem : EntitySystem
             return false;
 
         id.JobDepartments.Clear();
-        foreach (var department in ProtoMan.EnumeratePrototypes<DepartmentPrototype>())
+        foreach (var department in _prototypeManager.EnumeratePrototypes<DepartmentPrototype>())
         {
             if (department.Roles.Contains(job.ID))
                 id.JobDepartments.Add(department.ID);
@@ -318,7 +324,6 @@ public abstract partial class SharedIdCardSystem : EntitySystem
 
         _access.TrySetTags(ent, ent.Comp.ExpiredAccess);
         ent.Comp.Expired = true;
-        ent.Comp.Permanent = false;
         Dirty(ent);
     }
 

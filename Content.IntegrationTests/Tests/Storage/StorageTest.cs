@@ -1,7 +1,4 @@
 #nullable enable
-using System.Collections.Generic;
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Containers;
 using Content.Shared.Item;
 using Content.Shared.Prototypes;
@@ -10,10 +7,12 @@ using Content.Shared.Storage.Components;
 using Content.Shared.Storage.EntitySystems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests.Storage;
 
-public sealed class StorageTest : GameTest
+public sealed class StorageTest
 {
     /// <summary>
     /// Can an item store more than itself weighs.
@@ -22,12 +21,11 @@ public sealed class StorageTest : GameTest
     [Test]
     public async Task StorageSizeArbitrageTest()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var protoManager = server.ResolveDependency<IPrototypeManager>();
         var entMan = server.ResolveDependency<IEntityManager>();
-        var compFact = server.ResolveDependency<IComponentFactory>();
 
         var itemSys = entMan.System<SharedItemSystem>();
 
@@ -35,10 +33,10 @@ public sealed class StorageTest : GameTest
         {
             foreach (var proto in protoManager.EnumeratePrototypes<EntityPrototype>())
             {
-                if (!proto.TryComp<StorageComponent>(out var storage, compFact) ||
+                if (!proto.TryGetComponent<StorageComponent>("Storage", out var storage) ||
                     storage.Whitelist != null ||
                     storage.MaxItemSize == null ||
-                    !proto.TryComp<ItemComponent>(out var item, compFact))
+                    !proto.TryGetComponent<ItemComponent>("Item", out var item))
                     continue;
 
                 Assert.That(itemSys.GetSizePrototype(storage.MaxItemSize.Value).Weight,
@@ -46,16 +44,16 @@ public sealed class StorageTest : GameTest
                     $"Found storage arbitrage on {proto.ID}");
             }
         });
+        await pair.CleanReturnAsync();
     }
 
     [Test]
     public async Task TestStorageFillPrototypes()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var protoManager = server.ResolveDependency<IPrototypeManager>();
-        var compFact = server.ResolveDependency<IComponentFactory>();
 
         await server.WaitAssertion(() =>
         {
@@ -63,7 +61,7 @@ public sealed class StorageTest : GameTest
             {
                 foreach (var proto in protoManager.EnumeratePrototypes<EntityPrototype>())
                 {
-                    if (!proto.TryComp<StorageFillComponent>(out var storage, compFact))
+                    if (!proto.TryGetComponent<StorageFillComponent>("StorageFill", out var storage))
                         continue;
 
                     foreach (var entry in storage.Contents)
@@ -74,12 +72,13 @@ public sealed class StorageTest : GameTest
                 }
             });
         });
+        await pair.CleanReturnAsync();
     }
 
     [Test]
     public async Task TestSufficientSpaceForFill()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var entMan = server.ResolveDependency<IEntityManager>();
@@ -104,14 +103,14 @@ public sealed class StorageTest : GameTest
                 var size = 0;
                 await server.WaitAssertion(() =>
                 {
-                    if (!proto.TryComp(out storage, compFact))
+                    if (!proto.TryGetComponent("Storage", out storage))
                     {
                         Assert.Fail($"Entity {proto.ID} has storage-fill without a storage component!");
                         return;
                     }
 
-                    proto.TryComp(out item, compFact);
-                    size = GetFillSize(fill, false, protoMan, compFact, itemSys);
+                    proto.TryGetComponent("Item", out item);
+                    size = GetFillSize(fill, false, protoMan, itemSys);
                 });
 
                 if (storage == null)
@@ -148,7 +147,7 @@ public sealed class StorageTest : GameTest
                     ItemComponent? entryItem = null;
                     await server.WaitPost(() =>
                     {
-                        fillItem.TryComp(out entryItem, compFact);
+                        fillItem.TryGetComponent("Item", out entryItem);
                     });
 
                     if (entryItem == null)
@@ -160,12 +159,14 @@ public sealed class StorageTest : GameTest
                 }
             }
         });
+
+        await pair.CleanReturnAsync();
     }
 
     [Test]
     public async Task TestSufficientSpaceForEntityStorageFill()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var entMan = server.ResolveDependency<IEntityManager>();
@@ -182,20 +183,21 @@ public sealed class StorageTest : GameTest
 
             await server.WaitAssertion(() =>
             {
-                if (!proto.TryComp(out EntityStorageComponent? entStorage, compFact))
+                if (!proto.TryGetComponent("EntityStorage", out EntityStorageComponent? entStorage))
                     Assert.Fail($"Entity {proto.ID} has storage-fill without a storage component!");
 
                 if (entStorage == null)
                     return;
 
-                var size = GetFillSize(fill, true, protoMan, compFact, itemSys);
+                var size = GetFillSize(fill, true, protoMan, itemSys);
                 Assert.That(size, Is.LessThanOrEqualTo(entStorage.Capacity),
                     $"{proto.ID} storage fill is too large.");
             });
         }
+        await pair.CleanReturnAsync();
     }
 
-    private int GetEntrySize(EntitySpawnEntry entry, bool getCount, IPrototypeManager protoMan, IComponentFactory compFact, SharedItemSystem itemSystem)
+    private int GetEntrySize(EntitySpawnEntry entry, bool getCount, IPrototypeManager protoMan, SharedItemSystem itemSystem)
     {
         if (entry.PrototypeId == null)
             return 0;
@@ -210,20 +212,20 @@ public sealed class StorageTest : GameTest
             return entry.Amount;
 
 
-        if (proto.TryComp<ItemComponent>(out var item, compFact))
+        if (proto.TryGetComponent<ItemComponent>("Item", out var item))
             return itemSystem.GetItemShape(item).GetArea() * entry.Amount;
 
         Assert.Fail($"Prototype is missing item comp: {entry.PrototypeId}");
         return 0;
     }
 
-    private int GetFillSize(StorageFillComponent fill, bool getCount, IPrototypeManager protoMan, IComponentFactory compFact, SharedItemSystem itemSystem)
+    private int GetFillSize(StorageFillComponent fill, bool getCount, IPrototypeManager protoMan, SharedItemSystem itemSystem)
     {
         var totalSize = 0;
         var groups = new Dictionary<string, int>();
         foreach (var entry in fill.Contents)
         {
-            var size = GetEntrySize(entry, getCount, protoMan, compFact, itemSystem);
+            var size = GetEntrySize(entry, getCount, protoMan, itemSystem);
 
             if (entry.GroupId == null)
                 totalSize += size;
@@ -240,21 +242,22 @@ public sealed class StorageTest : GameTest
     [Test]
     public async Task NoMultipleContainerFillsTest()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var compFact = pair.Server.ResolveDependency<IComponentFactory>();
 
         Assert.Multiple(() =>
         {
             foreach (var (proto, fill) in pair.GetPrototypesWithComponent<EntityTableContainerFillComponent>())
             {
-                Assert.That(!proto.HasComp<StorageFillComponent>(compFact), $"Prototype {proto.ID} has both {nameof(EntityTableContainerFillComponent)} and {nameof(StorageFillComponent)}.");
-                Assert.That(!proto.HasComp<ContainerFillComponent>(compFact), $"Prototype {proto.ID} has both {nameof(EntityTableContainerFillComponent)} and {nameof(ContainerFillComponent)}.");
+                Assert.That(!proto.HasComponent<StorageFillComponent>(compFact), $"Prototype {proto.ID} has both {nameof(EntityTableContainerFillComponent)} and {nameof(StorageFillComponent)}.");
+                Assert.That(!proto.HasComponent<ContainerFillComponent>(compFact), $"Prototype {proto.ID} has both {nameof(EntityTableContainerFillComponent)} and {nameof(ContainerFillComponent)}.");
             }
 
             foreach (var (proto, fill) in pair.GetPrototypesWithComponent<ContainerFillComponent>())
             {
-                Assert.That(!proto.HasComp<StorageFillComponent>(compFact), $"Prototype {proto.ID} has both {nameof(ContainerFillComponent)} and {nameof(StorageFillComponent)}.");
+                Assert.That(!proto.HasComponent<StorageFillComponent>(compFact), $"Prototype {proto.ID} has both {nameof(ContainerFillComponent)} and {nameof(StorageFillComponent)}.");
             }
         });
+        await pair.CleanReturnAsync();
     }
 }

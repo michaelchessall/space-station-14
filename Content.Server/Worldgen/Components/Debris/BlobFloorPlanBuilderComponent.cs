@@ -1,4 +1,4 @@
-﻿using Content.Server.Worldgen.Systems.Debris;
+using Content.Server.Worldgen.Systems.Debris;
 using Content.Shared.Maps;
 using Robust.Shared.Prototypes;
 
@@ -25,7 +25,7 @@ public sealed partial class BlobFloorPlanBuilderComponent : Component
     ///     The tiles to be used for the floor plan.
     /// </summary>
     [DataField(required: true)]
-    public List<ProtoId<ContentTileDefinition>> FloorTileset { get; private set;  } = default!;
+    public List<ProtoId<ContentTileDefinition>> FloorTileset { get; private set; } = default!;
 
     /// <summary>
     ///     The number of floor tiles to place when drawing the asteroid layout.

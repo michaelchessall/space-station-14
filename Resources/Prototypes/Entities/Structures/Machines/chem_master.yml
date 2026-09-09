@@ -90,8 +90,11 @@
           tags:
           - Bottle
           - PillCanister
-  - type: Solution # Chemmaster is special in how it interacts with reagents. For now.
-    id: buffer
+  - type: SolutionContainerManager
+    solutions:
+      buffer:
+        canReact: false
+        maxVol: MaxValue
   - type: DumpableSolution
     solution: buffer
     unlimited: true
@@ -99,4 +102,3 @@
     guides:
     - Chemicals
     - Chemist
-  - type: AmbientMusicMarkerMedical

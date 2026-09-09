@@ -20,9 +20,8 @@
     bodyType: Static
   - type: Transform
     anchored: true
-  - type: Injurable
-    damageContainer: StructuralInorganic
   - type: Damageable
+    damageContainer: StructuralInorganic
     damageModifierSet: Wood
   - type: RCDDeconstructable
     cost: 2

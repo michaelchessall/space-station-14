@@ -41,6 +41,12 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
+        damage: 600
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
         damage: 300
       behaviors:
       - !type:DoActsBehavior
@@ -66,7 +72,7 @@
     range: 5
     enabled: false
     sound:
-      collection: ServerFans
+      path: /Audio/Ambience/Objects/server_fans.ogg
   - type: GuideHelp
     guides:
     - Science
@@ -108,6 +114,12 @@
           False: {visible: false}
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 400
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 200

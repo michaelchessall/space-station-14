@@ -1,6 +1,3 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Content.IntegrationTests;
 using Content.IntegrationTests.Pair;
@@ -18,6 +15,8 @@ using Robust.Shared.Map;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Content.Benchmarks;
 
@@ -70,7 +69,7 @@ public class DestructibleBenchmark
     {
         ProgramShared.PathOffset = "../../../../";
         PoolManager.Startup();
-        _pair = await PoolManager.GetServerClient(testContext: new ExternalTestContext("Benchmark", StreamWriter.Null));
+        _pair = await PoolManager.GetServerClient();
         var server = _pair.Server;
 
         _entMan = server.ResolveDependency<IEntityManager>();

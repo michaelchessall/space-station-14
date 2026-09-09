@@ -309,7 +309,7 @@ public sealed partial class NPCSteeringSystem
                         var obstaclePos = ourMap.Position + direction.Normalized();
                         var box = Box2.FromTwoPoints(ourMap.Position, obstaclePos);
                         var grids = new List<Entity<MapGridComponent>>();
-                        _mapSystem.FindGridsIntersecting(ourMap.MapId, box, ref grids);
+                        _mapManager.FindGridsIntersecting(ourMap.MapId, box, ref grids);
 
                         foreach (var foundGrid in grids)
                         {

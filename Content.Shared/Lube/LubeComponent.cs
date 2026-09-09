@@ -2,52 +2,46 @@ using Content.Shared.Chemistry.Reagent;
 using Content.Shared.FixedPoint;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
-using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype;
 
 namespace Content.Shared.Lube;
 
-/// <summary>
-/// Used by lube bottles to apply <see cref="LubedComponent"/> to an item.
-/// </summary>
-[RegisterComponent, NetworkedComponent, AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent]
 public sealed partial class LubeComponent : Component
 {
-    [DataField, AutoNetworkedField]
+    [DataField("squeeze")]
     public SoundSpecifier Squeeze = new SoundPathSpecifier("/Audio/Items/squeezebottle.ogg");
 
     /// <summary>
-    /// Solution on the entity that contains the lube.
+    /// Solution on the entity that contains the glue.
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField("solution")]
     public string Solution = "drink";
 
     /// <summary>
-    /// Reagent that will be used as lube.
+    /// Reagent that will be used as glue.
     /// </summary>
-    [DataField, AutoNetworkedField]
-    public ProtoId<ReagentPrototype> Reagent = "SpaceLube";
+    [DataField("reagent", customTypeSerializer: typeof(PrototypeIdSerializer<ReagentPrototype>))]
+    public string Reagent = "SpaceLube";
 
     /// <summary>
     /// Reagent consumption per use.
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField("consumption"), ViewVariables(VVAccess.ReadWrite)]
     public FixedPoint2 Consumption = FixedPoint2.New(3);
 
     /// <summary>
     /// Min slips per unit
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField("minSlips"), ViewVariables(VVAccess.ReadWrite)]
     public int MinSlips = 1;
 
     /// <summary>
     /// Max slips per unit
     /// </summary>
-    [DataField, AutoNetworkedField]
+    [DataField("maxSlips"), ViewVariables(VVAccess.ReadWrite)]
     public int MaxSlips = 6;
 
-    /// <summary>
-    /// The velocity the lubed item will be thrown at.
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public float SlipStrength = 10.0f;
+    [DataField("slipStrength"), ViewVariables(VVAccess.ReadWrite)]
+    public int SlipStrength = 10;
 }

@@ -1,4 +1,3 @@
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Contraband;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
@@ -6,12 +5,12 @@ using Robust.Shared.Prototypes;
 namespace Content.IntegrationTests.Tests;
 
 [TestFixture]
-public sealed class ContrabandTest : GameTest
+public sealed class ContrabandTest
 {
     [Test]
     public async Task EntityShowDepartmentsAndJobs()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var client = pair.Client;
         var protoMan = client.ResolveDependency<IPrototypeManager>();
         var componentFactory = client.ResolveDependency<IComponentFactory>();
@@ -25,7 +24,7 @@ public sealed class ContrabandTest : GameTest
                     if (proto.Abstract || pair.IsTestPrototype(proto))
                         continue;
 
-                    if (!proto.TryComp<ContrabandComponent>(out var contraband, componentFactory))
+                    if (!proto.TryGetComponent<ContrabandComponent>(out var contraband, componentFactory))
                         continue;
 
                     if (!protoMan.TryIndex(contraband.Severity, out var severity))
@@ -42,5 +41,7 @@ public sealed class ContrabandTest : GameTest
                 }
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 }

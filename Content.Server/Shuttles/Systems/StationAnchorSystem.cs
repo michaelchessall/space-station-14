@@ -2,16 +2,15 @@ using Content.Server.Cargo.Components;
 using Content.Server.Popups;
 using Content.Server.Power.EntitySystems;
 using Content.Server.Shuttles.Components;
-using Content.Shared.Cargo.Components;
 using Content.Shared.Construction.Components;
 using Content.Shared.Popups;
 
 namespace Content.Server.Shuttles.Systems;
 
-public sealed partial class StationAnchorSystem : EntitySystem
+public sealed class StationAnchorSystem : EntitySystem
 {
-    [Dependency] private ShuttleSystem _shuttleSystem = default!;
-    [Dependency] private PopupSystem _popupSystem = default!;
+    [Dependency] private readonly ShuttleSystem _shuttleSystem = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
 
     public override void Initialize()
     {

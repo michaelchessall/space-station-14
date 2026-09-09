@@ -8,9 +8,10 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Access.Systems;
 
-public abstract partial class SharedJobStatusSystem : EntitySystem
+public abstract class SharedJobStatusSystem : EntitySystem
 {
-    [Dependency] private AccessReaderSystem _accessReader = default!;
+    [Dependency] private readonly AccessReaderSystem _accessReader = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
 
     private static readonly ProtoId<JobIconPrototype> JobIconForNoId = "JobIconNoId";
 
@@ -58,7 +59,7 @@ public abstract partial class SharedJobStatusSystem : EntitySystem
         }
 
         ent.Comp.JobStatusIcon = iconId;
-        ent.Comp.IsCrew = ProtoMan.Index(iconId).IsCrewJob;
+        ent.Comp.IsCrew = _prototype.Index(iconId).IsCrewJob;
         Dirty(ent);
     }
 }

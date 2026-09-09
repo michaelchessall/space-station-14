@@ -6,13 +6,13 @@
   - type: Objective
     # difficulty isn't used since all objectives are picked
     difficulty: 1.5
-    issuer: SpiderClan
+    issuer: objective-issuer-spiderclan
   - type: RoleRequirement
     roles:
     - NinjaRole
 
 - type: entity
-  parent: [BaseNinjaObjective, BaseCounterObjective]
+  parent: BaseNinjaObjective
   id: DoorjackObjective
   components:
   - type: Objective
@@ -51,12 +51,10 @@
       sprite: Objects/Weapons/Bombs/spidercharge.rsi
       state: icon
   - type: SpiderChargeCondition
-    whitelist:
-      tags:
-      - NinjaBombingTarget
     blacklist:
       tags:
-      - NinjaBombingTargetBlacklist
+      - GhostOnlyWarp
+      - NinjaBombingTargetBlocker
 
 - type: entity
   parent: [BaseNinjaObjective, BaseSurviveObjective]

@@ -1,6 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
-using Robust.Shared.CPUJob.JobQueues.Queues;
 using Content.Server.Decals;
 using Content.Server.GameTicking.Events;
 using Content.Shared.CCVar;
@@ -11,6 +8,7 @@ using Content.Shared.Physics;
 using Content.Shared.Procedural;
 using Robust.Shared.Configuration;
 using Robust.Shared.Console;
+using Robust.Shared.CPUJob.JobQueues.Queues;
 using Robust.Shared.EntitySerialization;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.Map;
@@ -18,23 +16,26 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Content.Server.Procedural;
 
 public sealed partial class DungeonSystem : SharedDungeonSystem
 {
-    [Dependency] private IConfigurationManager _configManager = default!;
-    [Dependency] private IConsoleHost _console = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private ITileDefinitionManager _tileDefManager = default!;
-    [Dependency] private AnchorableSystem _anchorable = default!;
-    [Dependency] private DecalSystem _decals = default!;
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private TileSystem _tile = default!;
-    [Dependency] private TurfSystem _turf = default!;
-    [Dependency] private MapLoaderSystem _loader = default!;
-    [Dependency] private SharedMapSystem _maps = default!;
-    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private readonly IConfigurationManager _configManager = default!;
+    [Dependency] private readonly IConsoleHost _console = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly ITileDefinitionManager _tileDefManager = default!;
+    [Dependency] private readonly AnchorableSystem _anchorable = default!;
+    [Dependency] private readonly DecalSystem _decals = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly TileSystem _tile = default!;
+    [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly MapLoaderSystem _loader = default!;
+    [Dependency] private readonly SharedMapSystem _maps = default!;
+    [Dependency] private readonly SharedTransformSystem _transform = default!;
 
     private readonly List<(Vector2i, Tile)> _tiles = new();
 
@@ -94,7 +95,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             return;
 
         // Force all templates to be setup.
-        foreach (var room in ProtoMan.EnumeratePrototypes<DungeonRoomPrototype>())
+        foreach (var room in _prototype.EnumeratePrototypes<DungeonRoomPrototype>())
         {
             GetOrCreateTemplate(room);
         }
@@ -200,7 +201,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             Log,
             DungeonJobTime,
             EntityManager,
-            ProtoMan,
+            _prototype,
             _tileDefManager,
             _anchorable,
             _decals,
@@ -233,7 +234,7 @@ public sealed partial class DungeonSystem : SharedDungeonSystem
             Log,
             DungeonJobTime,
             EntityManager,
-            ProtoMan,
+            _prototype,
             _tileDefManager,
             _anchorable,
             _decals,

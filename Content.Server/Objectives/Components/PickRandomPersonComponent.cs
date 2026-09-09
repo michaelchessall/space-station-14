@@ -1,6 +1,5 @@
 using Content.Server.Objectives.Systems;
-using Content.Shared.EntityConditions;
-using Content.Shared.Objectives.Systems;
+using Content.Shared.Mind.Filters;
 
 namespace Content.Server.Objectives.Components;
 
@@ -20,10 +19,8 @@ public sealed partial class PickRandomPersonComponent : Component
     public IMindPool Pool = new AliveHumansPool();
 
     /// <summary>
-    /// EntityConditions to apply to <see cref="Pool"/>.
-    /// If these conditions pass the mind is valid.
+    /// Filters to apply to <see cref="Pool"/>.
     /// </summary>
     [DataField]
-    [AlwaysPushInheritance]
-    public EntityCondition[] Conditions;
+    public List<MindFilter> Filters = new();
 }

@@ -14,8 +14,8 @@ namespace Content.Server.Teleportation;
 /// </summary>
 public sealed partial class TeleportLocationsSystem : SharedTeleportLocationsSystem
 {
-    [Dependency] private ChatSystem _chat = default!;
-    [Dependency] private EntityWhitelistSystem _whitelist = default!;
+    [Dependency] private readonly ChatSystem _chat = default!;
+    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
 
     public override void Initialize()
     {
@@ -59,15 +59,9 @@ public sealed partial class TeleportLocationsSystem : SharedTeleportLocationsSys
 
         var allEnts = AllEntityQuery<WarpPointComponent>();
 
-        // Selecting suitable entities with the warpPoint component using whitelist
         while (allEnts.MoveNext(out var warpEnt, out var warpPointComp))
         {
-
-            if (string.IsNullOrWhiteSpace(warpPointComp.Location))
-                continue;
-
-            if (!_whitelist.CheckBoth(warpEnt, ent.Comp.Blacklist, ent.Comp.Whitelist))
-
+            if (_whitelist.IsWhitelistPass(warpPointComp.Blacklist, warpEnt) || string.IsNullOrWhiteSpace(warpPointComp.Location))
                 continue;
 
             ent.Comp.AvailableWarps.Add(new TeleportPoint(warpPointComp.Location, GetNetEntity(warpEnt)));

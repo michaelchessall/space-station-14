@@ -12,20 +12,29 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Content.Shared.Weather;
 
-public abstract partial class SharedWeatherSystem : EntitySystem
+public abstract class SharedWeatherSystem : EntitySystem
 {
-    [Dependency] protected IGameTiming Timing = default!;
-    [Dependency] protected SharedAudioSystem Audio = default!;
-    [Dependency] private ITileDefinitionManager _tileDefManager = default!;
-    [Dependency] private SharedMapSystem _mapSystem = default!;
-    [Dependency] private SharedRoofSystem _roof = default!;
-    [Dependency] private StatusEffectsSystem _statusEffects = default!;
+    [Dependency] protected readonly IGameTiming Timing = default!;
+    [Dependency] protected readonly IPrototypeManager ProtoMan = default!;
+    [Dependency] protected readonly SharedAudioSystem Audio = default!;
+    [Dependency] private readonly ITileDefinitionManager _tileDefManager = default!;
+    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
+    [Dependency] private readonly SharedRoofSystem _roof = default!;
+    [Dependency] private readonly StatusEffectsSystem _statusEffects = default!;
 
-    [Dependency] private EntityQuery<BlockWeatherComponent> _blockQuery = default!;
-    [Dependency] private EntityQuery<WeatherStatusEffectComponent> _weatherQuery = default!;
+    private EntityQuery<BlockWeatherComponent> _blockQuery;
+    private EntityQuery<WeatherStatusEffectComponent> _weatherQuery;
 
     public static readonly TimeSpan StartupTime = TimeSpan.FromSeconds(15);
     public static readonly TimeSpan ShutdownTime = TimeSpan.FromSeconds(15);
+
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        _blockQuery = GetEntityQuery<BlockWeatherComponent>();
+        _weatherQuery = GetEntityQuery<WeatherStatusEffectComponent>();
+    }
 
     public bool CanWeatherAffect(Entity<MapGridComponent?, RoofComponent?> ent, TileRef tileRef)
     {

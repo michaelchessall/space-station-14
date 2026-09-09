@@ -1,4 +1,4 @@
-﻿using Content.Server.Worldgen.Prototypes;
+using Content.Server.Worldgen.Prototypes;
 using Content.Server.Worldgen.Systems.Biomes;
 using Robust.Shared.Prototypes;
 

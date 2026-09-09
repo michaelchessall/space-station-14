@@ -13,10 +13,10 @@ namespace Content.Server.Administration.UI
     ///     Admin Eui for displaying and editing the reagents in a solution.
     /// </summary>
     [UsedImplicitly]
-    public sealed partial class EditSolutionsEui : BaseEui
+    public sealed class EditSolutionsEui : BaseEui
     {
-        [Dependency] private IEntityManager _entityManager = default!;
-        [Dependency] private IGameTiming _gameTiming = default!;
+        [Dependency] private readonly IEntityManager _entityManager = default!;
+        [Dependency] private readonly IGameTiming _gameTiming = default!;
         private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
         public readonly EntityUid Target;
 
@@ -41,15 +41,21 @@ namespace Content.Server.Administration.UI
 
         public override EuiStateBase GetNewState()
         {
-            List<(string Name, NetEntity Solution)>? netSolutions = new();
+            List<(string Name, NetEntity Solution)>? netSolutions;
 
-            foreach (var (name, solution) in _solutionContainerSystem.EnumerateSolutions(Target))
+            if (_entityManager.TryGetComponent(Target, out SolutionContainerManagerComponent? container) && container.Containers.Count > 0)
             {
-                if (name is null || !_entityManager.TryGetNetEntity(solution, out var netSolution))
-                    continue;
+                netSolutions = new();
+                foreach (var (name, solution) in _solutionContainerSystem.EnumerateSolutions((Target, container)))
+                {
+                    if (name is null || !_entityManager.TryGetNetEntity(solution, out var netSolution))
+                        continue;
 
-                netSolutions.Add((name, netSolution.Value));
+                    netSolutions.Add((name, netSolution.Value));
+                }
             }
+            else
+                netSolutions = null;
 
             return new EditSolutionsEuiState(_entityManager.GetNetEntity(Target), netSolutions, _gameTiming.CurTick);
         }

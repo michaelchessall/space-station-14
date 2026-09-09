@@ -9,14 +9,12 @@ using System.Linq;
 
 namespace Content.Shared.Anomaly.Effects;
 
-public abstract partial class SharedGravityAnomalySystem : EntitySystem
+public abstract class SharedGravityAnomalySystem : EntitySystem
 {
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private ThrowingSystem _throwing = default!;
-    [Dependency] private SharedTransformSystem _xform = default!;
-    [Dependency] private SharedMapSystem _mapSystem = default!;
-
-    [Dependency] private EntityQuery<PhysicsComponent> _physQuery = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly ThrowingSystem _throwing = default!;
+    [Dependency] private readonly SharedTransformSystem _xform = default!;
+    [Dependency] private readonly SharedMapSystem _mapSystem = default!;
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -31,15 +29,17 @@ public abstract partial class SharedGravityAnomalySystem : EntitySystem
         var range = component.MaxThrowRange * args.Severity * args.PowerModifier;
         var strength = component.MaxThrowStrength * args.Severity * args.PowerModifier;
         var lookup = _lookup.GetEntitiesInRange(uid, range, LookupFlags.Dynamic | LookupFlags.Sundries);
-        var worldPos = _xform.GetWorldPosition(xform);
+        var xformQuery = GetEntityQuery<TransformComponent>();
+        var worldPos = _xform.GetWorldPosition(xform, xformQuery);
+        var physQuery = GetEntityQuery<PhysicsComponent>();
 
         foreach (var ent in lookup)
         {
-            if (_physQuery.TryGetComponent(ent, out var phys)
+            if (physQuery.TryGetComponent(ent, out var phys)
                 && (phys.CollisionMask & (int)CollisionGroup.GhostImpassable) != 0)
                 continue;
 
-            var foo = _xform.GetWorldPosition(ent) - worldPos;
+            var foo = _xform.GetWorldPosition(ent, xformQuery) - worldPos;
             _throwing.TryThrow(ent, foo * 10, strength, uid, 0);
         }
     }
@@ -63,14 +63,16 @@ public abstract partial class SharedGravityAnomalySystem : EntitySystem
         var range = component.MaxThrowRange * 2 * args.PowerModifier;
         var strength = component.MaxThrowStrength * 2 * args.PowerModifier;
         var lookup = _lookup.GetEntitiesInRange(uid, range, LookupFlags.Dynamic | LookupFlags.Sundries);
+        var xformQuery = GetEntityQuery<TransformComponent>();
+        var physQuery = GetEntityQuery<PhysicsComponent>();
 
         foreach (var ent in lookup)
         {
-            if (_physQuery.TryGetComponent(ent, out var phys)
+            if (physQuery.TryGetComponent(ent, out var phys)
                 && (phys.CollisionMask & (int)CollisionGroup.GhostImpassable) != 0)
                 continue;
 
-            var foo = _xform.GetWorldPosition(ent) - worldPos;
+            var foo = _xform.GetWorldPosition(ent, xformQuery) - worldPos;
             _throwing.TryThrow(ent, foo * 5, strength, uid, 0);
         }
     }

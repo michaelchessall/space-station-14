@@ -107,7 +107,8 @@ public enum WinType : byte
     /// </summary>
     OpsMajor,
     /// <summary>
-    ///     Operative minor win. At least one nukie survived, and the disk was left behind.
+    ///     Minor win. All nukies were alive at the end of the round.
+    ///     Alternatively, some nukies were alive, but the disk was left behind.
     /// </summary>
     OpsMinor,
     /// <summary>

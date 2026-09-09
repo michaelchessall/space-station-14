@@ -41,9 +41,6 @@
       reagents:
       - ReagentId: SpaceCleaner
         Quantity: 30
-  - type: Tag
-    tags:
-    - CleanerGrenade
 
 - type: entity
   parent: SmokeGrenade

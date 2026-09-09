@@ -5,7 +5,6 @@ using Content.Shared.Physics;
 using Content.Shared.Procedural;
 using Content.Shared.Procedural.DungeonLayers;
 using Robust.Shared.Collections;
-using Robust.Shared.Random;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -17,7 +16,7 @@ public sealed partial class DungeonJob
         EntityTableDunGen gen,
         List<Dungeon> dungeons,
         HashSet<Vector2i> reservedTiles,
-        IRobustRandom random)
+        Random random)
     {
         var count = random.Next(gen.MinCount, gen.MaxCount + 1);
         var npcs = _entManager.System<NPCSystem>();
@@ -37,7 +36,7 @@ public sealed partial class DungeonJob
                 if (!ValidateResume())
                     return;
 
-                if (reservedTiles.Contains(tile) && !gen.IgnoreReserved)
+                if (reservedTiles.Contains(tile))
                     continue;
 
                 if (!_anchorable.TileFree((_gridUid, _grid),

@@ -1,18 +1,17 @@
-using System.Collections.Generic;
-using System.Numerics;
-using Content.IntegrationTests.Fixtures;
 using Content.Server.Shuttles.Systems;
+using Content.Tests;
 using Robust.Shared.EntitySerialization.Systems;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.Utility;
-
+using System.Collections.Generic;
+using System.Numerics;
 
 namespace Content.IntegrationTests.Tests.Shuttle;
 
-public sealed class DockTest : GameTest
+public sealed class DockTest : ContentUnitTest
 {
     private static IEnumerable<object[]> TestSource()
     {
@@ -25,12 +24,13 @@ public sealed class DockTest : GameTest
     [TestCaseSource(nameof(TestSource))]
     public async Task TestDockingConfig(Vector2 dock1Pos, Vector2 dock2Pos, Angle dock1Angle, Angle dock2Angle, bool result)
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var map = await pair.CreateTestMap();
 
         var entManager = server.ResolveDependency<IEntityManager>();
+        var mapManager = server.ResolveDependency<IMapManager>();
         var dockingSystem = entManager.System<DockingSystem>();
         var mapSystem = entManager.System<SharedMapSystem>();
         var xformSystem = entManager.System<SharedTransformSystem>();
@@ -40,8 +40,8 @@ public sealed class DockTest : GameTest
         await server.WaitAssertion(() =>
         {
             entManager.DeleteEntity(map.Grid);
-            var grid1 = mapSystem.CreateGridEntity(mapId);
-            var grid2 = mapSystem.CreateGridEntity(mapId);
+            var grid1 = mapManager.CreateGridEntity(mapId);
+            var grid2 = mapManager.CreateGridEntity(mapId);
             var grid1Ent = grid1.Owner;
             var grid2Ent = grid2.Owner;
             var grid2Offset = new Vector2(50f, 50f);
@@ -81,12 +81,14 @@ public sealed class DockTest : GameTest
 
             Assert.That(result, Is.EqualTo(config != null));
         });
+
+        await pair.CleanReturnAsync();
     }
 
     [Test]
     public async Task TestPlanetDock()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var map = await pair.CreateTestMap();
@@ -122,5 +124,7 @@ public sealed class DockTest : GameTest
             var dockingConfig = dockingSystem.GetDockingConfig(shuttle, map.MapUid);
             Assert.That(dockingConfig, Is.Not.EqualTo(null));
         });
+
+        await pair.CleanReturnAsync();
     }
 }

@@ -17,13 +17,13 @@ using static Content.Shared.Administration.Logs.AdminLogsEuiMsg;
 
 namespace Content.Server.Administration.Logs;
 
-public sealed partial class AdminLogsEui : BaseEui
+public sealed class AdminLogsEui : BaseEui
 {
-    [Dependency] private IAdminLogManager _adminLogs = default!;
-    [Dependency] private IAdminManager _adminManager = default!;
-    [Dependency] private ILogManager _logManager = default!;
-    [Dependency] private IConfigurationManager _configuration = default!;
-    [Dependency] private IEntityManager _e = default!;
+    [Dependency] private readonly IAdminLogManager _adminLogs = default!;
+    [Dependency] private readonly IAdminManager _adminManager = default!;
+    [Dependency] private readonly ILogManager _logManager = default!;
+    [Dependency] private readonly IConfigurationManager _configuration = default!;
+    [Dependency] private readonly IEntityManager _e = default!;
 
     private readonly ISawmill _sawmill;
 
@@ -129,56 +129,52 @@ public sealed partial class AdminLogsEui : BaseEui
                     var roundId = _filter.Round ??= CurrentRoundId;
                     await LoadFromDb(roundId);
 
-                    SendLogs(true, _filter);
+                    SendLogs(true);
                     break;
                 }
             case NextLogsRequest:
                 {
                     _sawmill.Info($"Admin log next batch request from admin with id {Player.UserId.UserId} and name {Player.Name}");
 
-                    SendLogs(false, _filter);
+                    SendLogs(false);
                     break;
                 }
         }
     }
 
-    public void SetLogFilter(string? search = null, List<Guid>? players = null, bool invertTypes = false, HashSet<LogType>? types = null)
+    public void SetLogFilter(string? search = null, bool invertTypes = false, HashSet<LogType>? types = null)
     {
         var message = new SetLogFilter(
             search,
-            players,
             invertTypes,
             types);
 
         SendMessage(message);
     }
 
-    private async void SendLogs(bool replace, LogFilter filter)
+    private async void SendLogs(bool replace)
     {
         var stopwatch = new Stopwatch();
         stopwatch.Start();
 
-        var logs = await Task.Run(async () => await _adminLogs.All(filter, _adminLogListPool.Get),
-            filter.CancellationToken);
+        var logs = await Task.Run(async () => await _adminLogs.All(_filter, _adminLogListPool.Get),
+            _filter.CancellationToken);
 
         if (logs.Count > 0)
         {
-            filter.LogsSent += logs.Count;
+            _filter.LogsSent += logs.Count;
 
-            var largestId = filter.DateOrder switch
+            var largestId = _filter.DateOrder switch
             {
                 DateOrder.Ascending => 0,
                 DateOrder.Descending => ^1,
-                _ => throw new ArgumentOutOfRangeException(nameof(filter.DateOrder), filter.DateOrder, null)
+                _ => throw new ArgumentOutOfRangeException(nameof(_filter.DateOrder), _filter.DateOrder, null)
             };
 
-            filter.LastLogId = logs[largestId].Id;
+            _filter.LastLogId = logs[largestId].Id;
         }
 
-        var message = new NewLogs(logs, replace, logs.Count >= filter.Limit);
-
-        if (filter.CancellationToken.IsCancellationRequested)
-            return;
+        var message = new NewLogs(logs, replace, logs.Count >= _filter.Limit);
 
         SendMessage(message);
 

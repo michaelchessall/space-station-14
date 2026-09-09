@@ -1,22 +1,12 @@
 using Content.Shared.Construction.Conditions;
 using Content.Shared.Whitelist;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array;
 
 namespace Content.Shared.Construction.Prototypes;
 
 [Prototype]
-public sealed partial class ConstructionPrototype : IPrototype, IInheritingPrototype
+public sealed partial class ConstructionPrototype : IPrototype
 {
-    [IdDataField]
-    public string ID { get; private set; } = default!;
-
-    [ParentDataField(typeof(AbstractPrototypeIdArraySerializer<ConstructionPrototype>))]
-    public string[]? Parents { get; private set; }
-
-    [AbstractDataField, NeverPushInheritance]
-    public bool Abstract { get; private set; }
-
     [DataField("conditions")] private List<IConstructionCondition> _conditions = new();
 
     /// <summary>
@@ -56,8 +46,8 @@ public sealed partial class ConstructionPrototype : IPrototype, IInheritingProto
     /// <summary>
     ///     The starting <see cref="ConstructionGraphNode"/> this construction will start at.
     /// </summary>
-    [DataField]
-    public string StartNode { get; private set; } = "start";
+    [DataField(required: true)]
+    public string StartNode { get; private set; } = default!;
 
     /// <summary>
     ///     If you can start building or complete steps on impassable terrain.
@@ -75,6 +65,10 @@ public sealed partial class ConstructionPrototype : IPrototype, IInheritingProto
     [DataField] public string Category { get; private set; } = string.Empty;
 
     [DataField("objectType")] public ConstructionType Type { get; private set; } = ConstructionType.Structure;
+
+    [ViewVariables]
+    [IdDataField]
+    public string ID { get; private set; } = default!;
 
     [DataField]
     public string PlacementMode = "PlaceFree";

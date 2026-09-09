@@ -6,7 +6,7 @@
   - type: Objective
     # required but not used
     difficulty: 1
-    issuer: Paradox
+    issuer: objective-issuer-paradox
   - type: RoleRequirement
     roles:
     - ParadoxCloneRole

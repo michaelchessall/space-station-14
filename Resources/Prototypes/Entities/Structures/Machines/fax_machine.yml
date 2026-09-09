@@ -9,12 +9,6 @@
     drawdepth: SmallObjects
     layers:
     - state: icon
-    - state: idle
-      map: [ "faxEyes" ]
-    - state: printing
-      map: [ "printing" ]
-      visible: false
-    - state: 
       map: [ "enum.FaxMachineVisuals.VisualState" ]
   - type: Icon
     sprite: Structures/Machines/fax_machine.rsi
@@ -60,16 +54,13 @@
   - type: GenericVisualizer
     visuals:
       enum.PowerDeviceVisuals.Powered:
-        faxEyes:
-          True: { visible: true }
-          False: { visible: false }
-      enum.FaxMachineVisuals.VisualState:
-        printing:
-          Printing: { visible: true }
-          Normal: { visible: false }
         enum.FaxMachineVisuals.VisualState:
-          Inserting: { visible: true }
-          Normal: { visible: false }
+          True: { state: idle }
+          False: { state: icon }
+      enum.FaxMachineVisuals.VisualState:
+        enum.FaxMachineVisuals.VisualState:
+          Printing: { state: printing }
+          Normal: {state: idle}
   - type: ItemSlots
   - type: ContainerContainer
     containers:
@@ -89,16 +80,10 @@
   suffix: CentCom
   components:
   - type: Sprite
-    layers:      
-    - state: icon
-      color: "#bfe3ff"
-    - state: idle
-      map: [ "faxEyes" ]
-    - state: printing
-      map: [ "printing" ]
-      visible: false
-    - state: 
-      map: [ "enum.FaxMachineVisuals.VisualState" ]
+    layers:
+      - state: icon
+        map: [ "base" ]
+        color: "#bfe3ff"
   - type: FaxMachine
     name: "Central Command"
     notifyAdmins: true
@@ -110,16 +95,10 @@
   suffix: Syndicate
   components:
   - type: Sprite
-    layers:      
-    - state: icon
-      color: "#a3a3a3"
-    - state: idle
-      map: [ "faxEyes" ]
-    - state: printing
-      map: [ "printing" ]
-      visible: false
-    - state: 
-      map: [ "enum.FaxMachineVisuals.VisualState" ]
+    layers:
+      - state: icon
+        map: [ "base" ]
+        color: "#a3a3a3"
   - type: FaxMachine
     name: "ERR*?*%!"
     responsePings: false

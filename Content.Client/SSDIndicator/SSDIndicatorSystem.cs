@@ -3,18 +3,21 @@ using Content.Shared.Mind.Components;
 using Content.Shared.Mobs.Systems;
 using Content.Shared.NPC;
 using Content.Shared.SSDIndicator;
+using Content.Shared.StatusIcon;
 using Content.Shared.StatusIcon.Components;
 using Robust.Shared.Configuration;
+using Robust.Shared.Prototypes;
 
 namespace Content.Client.SSDIndicator;
 
 /// <summary>
 ///     Handles displaying SSD indicator as status icon
 /// </summary>
-public sealed partial class SSDIndicatorSystem : EntitySystem
+public sealed class SSDIndicatorSystem : EntitySystem
 {
-    [Dependency] private IConfigurationManager _cfg = default!;
-    [Dependency] private MobStateSystem _mobState = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly IConfigurationManager _cfg = default!;
+    [Dependency] private readonly MobStateSystem _mobState = default!;
 
     public override void Initialize()
     {
@@ -33,8 +36,8 @@ public sealed partial class SSDIndicatorSystem : EntitySystem
         {
             // Persistence: Support for SSD command
             args.StatusIcons.Add(component.ManualSSD
-                ? ProtoMan.Index(component.ManualIcon)
-                : ProtoMan.Index(component.Icon));
+                ? _prototype.Index(component.ManualIcon)
+                : _prototype.Index(component.Icon));
         }
     }
 }

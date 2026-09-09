@@ -13,17 +13,20 @@ namespace Content.Server.Anomaly.Effects;
 ///
 
 /// <see cref="InjectionAnomalyComponent"/>
-public sealed partial class InjectionAnomalySystem : EntitySystem
+public sealed class InjectionAnomalySystem : EntitySystem
 {
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private SharedSolutionContainerSystem _solutionContainer = default!;
-    [Dependency] private TransformSystem _transform = default!;
-    [Dependency] private EntityQuery<InjectableSolutionComponent> _injectableQuery = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainer = default!;
+    [Dependency] private readonly TransformSystem _transform = default!;
+
+    private EntityQuery<InjectableSolutionComponent> _injectableQuery;
 
     public override void Initialize()
     {
         SubscribeLocalEvent<InjectionAnomalyComponent, AnomalyPulseEvent>(OnPulse);
         SubscribeLocalEvent<InjectionAnomalyComponent, AnomalySupercriticalEvent>(OnSupercritical, before: new[] { typeof(SharedSolutionContainerSystem) });
+
+        _injectableQuery = GetEntityQuery<InjectableSolutionComponent>();
     }
 
     private void OnPulse(Entity<InjectionAnomalyComponent> entity, ref AnomalyPulseEvent args)
@@ -42,7 +45,8 @@ public sealed partial class InjectionAnomalySystem : EntitySystem
             return;
 
         //We get all the entity in the radius into which the reagent will be injected.
-        var xform = Transform(entity);
+        var xformQuery = GetEntityQuery<TransformComponent>();
+        var xform = xformQuery.GetComponent(entity);
         var allEnts = _lookup.GetEntitiesInRange<InjectableSolutionComponent>(_transform.GetMapCoordinates(entity, xform: xform), injectRadius)
             .Select(x => x.Owner).ToList();
 

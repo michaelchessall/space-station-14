@@ -6,8 +6,10 @@ using Robust.Shared.Prototypes;
 namespace Content.Server.Armor;
 
 /// <inheritdoc/>
-public sealed partial class ArmorSystem : SharedArmorSystem
+public sealed class ArmorSystem : SharedArmorSystem
 {
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -19,13 +21,13 @@ public sealed partial class ArmorSystem : SharedArmorSystem
     {
         foreach (var modifier in component.Modifiers.Coefficients)
         {
-            var damageType = ProtoMan.Index<DamageTypePrototype>(modifier.Key);
+            var damageType = _protoManager.Index<DamageTypePrototype>(modifier.Key);
             args.Price += component.PriceMultiplier * damageType.ArmorPriceCoefficient * 100 * (1 - modifier.Value);
         }
 
         foreach (var modifier in component.Modifiers.FlatReduction)
         {
-            var damageType = ProtoMan.Index<DamageTypePrototype>(modifier.Key);
+            var damageType = _protoManager.Index<DamageTypePrototype>(modifier.Key);
             args.Price += component.PriceMultiplier * damageType.ArmorPriceFlat * modifier.Value;
         }
     }

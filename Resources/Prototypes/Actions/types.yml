@@ -62,8 +62,7 @@
     icon: Interface/Actions/scream.png
     checkCanInteract: false
   - type: InstantAction
-    event: !type:EmoteActionEvent
-      emote: Scream
+    event: !type:ScreamActionEvent
 
 - type: entity
   parent: BaseMentalAction
@@ -109,7 +108,6 @@
   name: Activate Microbomb
   description: Activates your internal microbomb, completely destroying you and your equipment
   components:
-  - type: DangerousAction
   - type: Action
     itemIconStyle: BigAction
     priority: -20
@@ -433,20 +431,6 @@
     itemIconStyle: BigAction
 
 - type: entity
-  parent: BaseAction
-  id: ActionToggleNightVision
-  name: Toggle night vision
-  description: Toggles the night vision on and off.
-  components:
-  - type: Action
-    useDelay: 2
-    icon:
-      sprite: Interface/Actions/night_vision.rsi
-      state: icon
-  - type: InstantAction
-    event: !type:ToggleNightVisionEvent {}
-
-- type: entity
   parent: ActionToggleWagging
   id: ActionToggleWaggingVulpkanin
   components:
@@ -469,17 +453,6 @@
       state: icon
   - type: InstantAction
     event: !type:GravityJumpEvent {}
-
-- type: entity
-  parent: ActionGravityJump
-  id: ActionJumpBoost
-  name: Jump boost
-  components:
-  - type: Action
-    useDelay: 16
-    icon:
-      sprite: Interface/Actions/actions_borg.rsi
-      state: xenoborg-jump-module
 
 - type: entity
   parent: BaseAction

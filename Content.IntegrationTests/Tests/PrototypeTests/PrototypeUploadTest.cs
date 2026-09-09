@@ -1,4 +1,3 @@
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Tag;
 using Robust.Client.Upload.Commands;
 using Robust.Shared.GameObjects;
@@ -7,7 +6,7 @@ using Robust.Shared.Upload;
 
 namespace Content.IntegrationTests.Tests.PrototypeTests;
 
-public sealed class PrototypeUploadTest : GameTest
+public sealed class PrototypeUploadTest
 {
     public const string IdA = "UploadTestPrototype";
     public const string IdB = $"{IdA}NoParent";
@@ -37,7 +36,7 @@ public sealed class PrototypeUploadTest : GameTest
     [TestOf(typeof(LoadPrototypeCommand))]
     public async Task TestFileUpload()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient(new PoolSettings { Connected = true });
         var sCompFact = pair.Server.ResolveDependency<IComponentFactory>();
         var cCompFact = pair.Client.ResolveDependency<IComponentFactory>();
 
@@ -69,16 +68,18 @@ public sealed class PrototypeUploadTest : GameTest
 
         await pair.Server.WaitPost(() =>
         {
-            Assert.That(sProtoA!.TryComp<TagComponent>(out _, sCompFact), Is.True);
-            Assert.That(sProtoB!.TryComp<TagComponent>(out _, sCompFact), Is.False);
-            Assert.That(sProtoD!.TryComp<TagComponent>(out _, sCompFact), Is.True);
+            Assert.That(sProtoA!.TryGetComponent<TagComponent>(out _, sCompFact), Is.True);
+            Assert.That(sProtoB!.TryGetComponent<TagComponent>(out _, sCompFact), Is.False);
+            Assert.That(sProtoD!.TryGetComponent<TagComponent>(out _, sCompFact), Is.True);
         });
 
         await pair.Client.WaitPost(() =>
         {
-            Assert.That(cProtoA!.TryComp<TagComponent>(out _, cCompFact), Is.True);
-            Assert.That(cProtoB!.TryComp<TagComponent>(out _, cCompFact), Is.False);
-            Assert.That(cProtoD!.TryComp<TagComponent>(out _, cCompFact), Is.True);
+            Assert.That(cProtoA!.TryGetComponent<TagComponent>(out _, cCompFact), Is.True);
+            Assert.That(cProtoB!.TryGetComponent<TagComponent>(out _, cCompFact), Is.False);
+            Assert.That(cProtoD!.TryGetComponent<TagComponent>(out _, cCompFact), Is.True);
         });
+
+        await pair.CleanReturnAsync();
     }
 }

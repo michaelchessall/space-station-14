@@ -1,19 +1,18 @@
-using System.Collections.Generic;
-using Content.IntegrationTests.Fixtures;
 using Content.Server.NPC.HTN;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
+using System.Collections.Generic;
 
 namespace Content.IntegrationTests.Tests.NPC;
 
 [TestFixture]
-public sealed class NPCTest : GameTest
+public sealed class NPCTest
 {
     [Test]
     public async Task CompoundRecursion()
     {
-        var pool = Pair;
+        var pool = await PoolManager.GetServerClient();
         var server = pool.Server;
 
         await server.WaitIdleAsync();
@@ -31,6 +30,8 @@ public sealed class NPCTest : GameTest
                 counts.Clear();
             }
         });
+
+        await pool.CleanReturnAsync();
     }
 
     private static void Count(HTNCompoundPrototype compound, Dictionary<string, int> counts, HTNSystem htnSystem, IPrototypeManager protoManager)

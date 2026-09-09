@@ -2,9 +2,9 @@ using Content.Shared.Random;
 
 namespace Content.Server.Coordinates;
 
-public sealed partial class SpawnRandomOffsetSystem : EntitySystem
+public sealed class SpawnRandomOffsetSystem : EntitySystem
 {
-    [Dependency] private RandomHelperSystem _randomHelper = default!;
+    [Dependency] private readonly RandomHelperSystem _randomHelper = default!;
 
     public override void Initialize()
     {

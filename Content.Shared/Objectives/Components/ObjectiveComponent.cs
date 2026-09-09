@@ -1,6 +1,4 @@
 using Content.Shared.Mind;
-using Content.Shared.Objectives;
-using Content.Shared.Objectives.Prototypes;
 using Content.Shared.Objectives.Systems;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
@@ -23,8 +21,11 @@ public sealed partial class ObjectiveComponent : Component
     /// <summary>
     /// Organisation that issued this objective, used for grouping and as a header above common objectives.
     /// </summary>
-    [DataField(required: true)]
-    public ProtoId<ObjectiveIssuerPrototype> Issuer = "Unknown";
+    [DataField("issuer", required: true)]
+    private LocId Issuer { get; set; }
+
+    [ViewVariables(VVAccess.ReadOnly)]
+    public string LocIssuer => Loc.GetString(Issuer);
 
     /// <summary>
     /// Unique objectives can only have 1 per prototype id.

@@ -19,9 +19,9 @@ using Robust.Shared.Random;
 
 namespace Content.Server.ImmovableRod;
 
-public sealed partial class ImmovableRodSystem : EntitySystem
+public sealed class ImmovableRodSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
 
     [Dependency] private readonly GibbingSystem _gibbing = default!;
     [Dependency] private readonly PopupSystem _popup = default!;

@@ -3,16 +3,11 @@ using Robust.Shared.Serialization;
 
 namespace Content.Shared.Atmos.Components;
 
-[RegisterComponent, NetworkedComponent]
+[NetworkedComponent]
 [AutoGenerateComponentState]
+[RegisterComponent]
 public sealed partial class GasMinerComponent : Component
 {
-    /// <summary>
-    /// If it should show the examine text
-    /// </summary>
-    [DataField, AutoNetworkedField]
-    public bool ShowExamineText = true;
-
     /// <summary>
     ///     Operational state of the miner.
     /// </summary>

@@ -2,13 +2,15 @@ using Content.Shared.Body;
 using Content.Shared.StatusIcon.Components;
 using Content.Shared.Zombies;
 using Robust.Client.GameObjects;
+using Robust.Shared.Prototypes;
 using System.Linq;
 
 namespace Content.Client.Zombies;
 
-public sealed partial class ZombieSystem : SharedZombieSystem
+public sealed class ZombieSystem : SharedZombieSystem
 {
-    [Dependency] private SpriteSystem _sprite = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly SpriteSystem _sprite = default!;
 
     public override void Initialize()
     {
@@ -21,7 +23,7 @@ public sealed partial class ZombieSystem : SharedZombieSystem
 
     private void GetZombieIcon(Entity<ZombieComponent> ent, ref GetStatusIconsEvent args)
     {
-        var iconPrototype = ProtoMan.Index(ent.Comp.StatusIcon);
+        var iconPrototype = _prototype.Index(ent.Comp.StatusIcon);
         args.StatusIcons.Add(iconPrototype);
     }
 
@@ -30,7 +32,7 @@ public sealed partial class ZombieSystem : SharedZombieSystem
         if (HasComp<ZombieComponent>(ent))
             return;
 
-        var iconPrototype = ProtoMan.Index(ent.Comp.StatusIcon);
+        var iconPrototype = _prototype.Index(ent.Comp.StatusIcon);
         args.StatusIcons.Add(iconPrototype);
     }
 

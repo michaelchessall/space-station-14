@@ -10,11 +10,12 @@ using System.Collections.Immutable;
 
 namespace Content.Server.Players.JobWhitelist;
 
-public sealed partial class JobWhitelistSystem : EntitySystem
+public sealed class JobWhitelistSystem : EntitySystem
 {
-    [Dependency] private IConfigurationManager _config = default!;
-    [Dependency] private JobWhitelistManager _manager = default!;
-    [Dependency] private IPlayerManager _player = default!;
+    [Dependency] private readonly IConfigurationManager _config = default!;
+    [Dependency] private readonly JobWhitelistManager _manager = default!;
+    [Dependency] private readonly IPlayerManager _player = default!;
+    [Dependency] private readonly IPrototypeManager _prototypes = default!;
 
     private ImmutableArray<ProtoId<JobPrototype>> _whitelistedJobs = [];
 
@@ -78,7 +79,7 @@ public sealed partial class JobWhitelistSystem : EntitySystem
     private void CacheJobs()
     {
         var builder = ImmutableArray.CreateBuilder<ProtoId<JobPrototype>>();
-        foreach (var job in ProtoMan.EnumeratePrototypes<JobPrototype>())
+        foreach (var job in _prototypes.EnumeratePrototypes<JobPrototype>())
         {
             if (job.Whitelisted)
                 builder.Add(job.ID);

@@ -12,13 +12,14 @@ namespace Content.Shared.Silicons.Borgs;
 /// Implements borg type switching.
 /// </summary>
 /// <seealso cref="BorgSwitchableTypeComponent"/>
-public abstract partial class SharedBorgSwitchableTypeSystem : EntitySystem
+public abstract class SharedBorgSwitchableTypeSystem : EntitySystem
 {
     // TODO: Allow borgs to be reset to default configuration.
 
-    [Dependency] private SharedActionsSystem _actionsSystem = default!;
-    [Dependency] private SharedUserInterfaceSystem _userInterface = default!;
-    [Dependency] private InteractionPopupSystem _interactionPopup = default!;
+    [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;
+    [Dependency] private readonly SharedUserInterfaceSystem _userInterface = default!;
+    [Dependency] protected readonly IPrototypeManager Prototypes = default!;
+    [Dependency] private readonly InteractionPopupSystem _interactionPopup = default!;
 
     public static readonly EntProtoId ActionId = "ActionSelectBorgType";
 
@@ -72,7 +73,7 @@ public abstract partial class SharedBorgSwitchableTypeSystem : EntitySystem
         if (ent.Comp.SelectedBorgType != null)
             return;
 
-        if (!ProtoMan.HasIndex(args.Prototype))
+        if (!Prototypes.HasIndex(args.Prototype))
             return;
 
         SelectBorgModule(ent, args.Prototype);
@@ -99,7 +100,7 @@ public abstract partial class SharedBorgSwitchableTypeSystem : EntitySystem
 
     protected void UpdateEntityAppearance(Entity<BorgSwitchableTypeComponent> entity)
     {
-        if (!ProtoMan.Resolve(entity.Comp.SelectedBorgType, out var proto))
+        if (!Prototypes.Resolve(entity.Comp.SelectedBorgType, out var proto))
             return;
 
         UpdateEntityAppearance(entity, proto);

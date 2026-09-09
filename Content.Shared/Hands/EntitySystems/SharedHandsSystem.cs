@@ -17,15 +17,15 @@ namespace Content.Shared.Hands.EntitySystems;
 
 public abstract partial class SharedHandsSystem
 {
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private ActionBlockerSystem _actionBlocker = default!;
-    [Dependency] protected SharedContainerSystem ContainerSystem = default!;
-    [Dependency] private SharedInteractionSystem _interactionSystem = default!;
-    [Dependency] private InventorySystem _inventory = default!;
-    [Dependency] private SharedStorageSystem _storage = default!;
-    [Dependency] protected SharedTransformSystem TransformSystem = default!;
-    [Dependency] private SharedVirtualItemSystem _virtualSystem = default!;
-    [Dependency] private EntityWhitelistSystem _entityWhitelist = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private readonly ActionBlockerSystem _actionBlocker = default!;
+    [Dependency] protected readonly SharedContainerSystem ContainerSystem = default!;
+    [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!;
+    [Dependency] private readonly SharedStorageSystem _storage = default!;
+    [Dependency] protected readonly SharedTransformSystem TransformSystem = default!;
+    [Dependency] private readonly SharedVirtualItemSystem _virtualSystem = default!;
+    [Dependency] private readonly EntityWhitelistSystem _entityWhitelist = default!;
 
     public event Action<Entity<HandsComponent>, string, HandLocation>? OnPlayerAddHand;
     public event Action<Entity<HandsComponent>, string>? OnPlayerRemoveHand;
@@ -115,11 +115,11 @@ public abstract partial class SharedHandsSystem
 
         TryDrop(ent, handName, null, false);
 
-        if (ContainerSystem.TryGetContainer(ent, handName, out var container))
-            ContainerSystem.ShutdownContainer(container);
-
         if (!ent.Comp.Hands.Remove(handName))
             return;
+
+        if (ContainerSystem.TryGetContainer(ent, handName, out var container))
+            ContainerSystem.ShutdownContainer(container);
 
         ent.Comp.SortedHands.Remove(handName);
         if (ent.Comp.ActiveHandId == handName)
@@ -342,27 +342,6 @@ public abstract partial class SharedHandsSystem
         return true;
     }
 
-    /// <summary>
-    ///     Cycles the currently active hand.
-    /// </summary>
-    public void SwapHands(Entity<HandsComponent?> ent, bool checkActionBlocker = false, bool reverse = false)
-    {
-        if (!Resolve(ent, ref ent.Comp))
-            return;
-
-        if (checkActionBlocker && !_actionBlocker.CanInteract(ent.Owner, null))
-            return;
-
-        if (ent.Comp.ActiveHandId == null || ent.Comp.Hands.Count < 2)
-            return;
-
-        var currentIndex = ent.Comp.SortedHands.IndexOf(ent.Comp.ActiveHandId);
-        var newActiveIndex = (currentIndex + (reverse ? -1 : 1) + ent.Comp.Hands.Count) % ent.Comp.Hands.Count;
-        var nextHand = ent.Comp.SortedHands[newActiveIndex];
-
-        TrySetActiveHand(ent, nextHand);
-    }
-
     public bool IsHolding(Entity<HandsComponent?> entity, [NotNullWhen(true)] EntityUid? item)
     {
         return IsHolding(entity, item, out _);
@@ -410,27 +389,18 @@ public abstract partial class SharedHandsSystem
     }
 
     /// <summary>
-    /// Retrieves the item currently held in the specified hand of an entity.
+    /// Gets the item currently held in the entity's specified hand. Returns null if no hands are present or there is no item.
     /// </summary>
-    /// <param name="ent">The entity whose hands are being checked.</param>
-    /// <param name="handId">The ID of the specific hand to check.</param>
-    /// <param name="hideVirtualItems">If true, treats hands holding virtual items as if they are empty.</param>
-    /// <returns>The UID of the held item, or null if the hand is empty, the hand ID is invalid, or the entity has no hands.</returns>
-    public EntityUid? GetHeldItem(Entity<HandsComponent?> ent, string? handId, bool hideVirtualItems = false)
+    public EntityUid? GetHeldItem(Entity<HandsComponent?> ent, string? handId)
     {
-        TryGetHeldItem(ent, handId, out var held, hideVirtualItems);
+        TryGetHeldItem(ent, handId, out var held);
         return held;
     }
 
     /// <summary>
-    /// Attempts to retrieve the item currently held in the specified hand of an entity.
+    /// Gets the item currently held in the entity's specified hand. Returns false if no hands are present or there is no item.
     /// </summary>
-    /// <param name="ent">The entity whose hands are being checked.</param>
-    /// <param name="handId">The ID of the specific hand to check.</param>
-    /// <param name="held">Outputs the UID of the held item, if one is found.</param>
-    /// <param name="hideVirtualItems">If true, ignores virtual items and returns false if only a virtual item is present.</param>
-    /// <returns>True if a valid item is found in the hand; otherwise, false.</returns>
-    public bool TryGetHeldItem(Entity<HandsComponent?> ent, string? handId, [NotNullWhen(true)] out EntityUid? held, bool hideVirtualItems = false)
+    public bool TryGetHeldItem(Entity<HandsComponent?> ent, string? handId, [NotNullWhen(true)] out EntityUid? held)
     {
         held = null;
         if (!Resolve(ent, ref ent.Comp, false))
@@ -444,10 +414,6 @@ public abstract partial class SharedHandsSystem
             return false;
 
         held = container.ContainedEntities.FirstOrNull();
-
-        if (hideVirtualItems && HasComp<VirtualItemComponent>(held))
-            held = null;
-
         return held != null;
     }
 

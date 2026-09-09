@@ -1,4 +1,3 @@
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Components;
 using Content.Shared.Damage.Prototypes;
@@ -13,7 +12,7 @@ namespace Content.IntegrationTests.Tests.Damageable
     [TestFixture]
     [TestOf(typeof(DamageableComponent))]
     [TestOf(typeof(DamageableSystem))]
-    public sealed class DamageableTest : GameTest
+    public sealed class DamageableTest
     {
         private const string TestDamageableEntityId = "TestDamageableEntityId";
         private const string TestGroup1 = "TestGroup1";
@@ -90,17 +89,17 @@ namespace Content.IntegrationTests.Tests.Damageable
   name: {TestDamageableEntityId}
   components:
   - type: Damageable
-  - type: Injurable
     damageContainer: testDamageContainer
 ";
 
         [Test]
         public async Task TestDamageableComponents()
         {
-            var pair = Pair;
+            await using var pair = await PoolManager.GetServerClient();
             var server = pair.Server;
 
             var sEntityManager = server.ResolveDependency<IEntityManager>();
+            var sMapManager = server.ResolveDependency<IMapManager>();
             var sPrototypeManager = server.ResolveDependency<IPrototypeManager>();
             var sEntitySystemManager = server.ResolveDependency<IEntitySystemManager>();
 
@@ -255,6 +254,7 @@ namespace Content.IntegrationTests.Tests.Damageable
                 sDamageableSystem.ChangeDamage(uid, new DamageSpecifier(group3, -100));
                 Assert.That(sDamageableSystem.GetTotalDamage(ent), Is.EqualTo(FixedPoint2.Zero));
             });
+            await pair.CleanReturnAsync();
         }
     }
 }

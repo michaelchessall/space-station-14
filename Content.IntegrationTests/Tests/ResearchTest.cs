@@ -1,20 +1,19 @@
-using System.Collections.Generic;
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Lathe;
 using Content.Shared.Research.Prototypes;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Content.IntegrationTests.Tests;
 
 [TestFixture]
-public sealed class ResearchTest : GameTest
+public sealed class ResearchTest
 {
     [Test]
     public async Task DisciplineValidTierPrerequesitesTest()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var protoManager = server.ResolveDependency<IPrototypeManager>();
@@ -43,12 +42,14 @@ public sealed class ResearchTest : GameTest
                 }
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 
     [Test]
     public async Task AllTechPrintableTest()
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var entMan = server.ResolveDependency<IEntityManager>();
@@ -69,12 +70,12 @@ public sealed class ResearchTest : GameTest
                 if (pair.IsTestPrototype(proto))
                     continue;
 
-                if (!proto.TryComp<LatheComponent>(out var lathe, compFact))
+                if (!proto.TryGetComponent<LatheComponent>(out var lathe, compFact))
                     continue;
 
                 latheSys.AddRecipesFromPacks(latheTechs, lathe.DynamicPacks);
 
-                if (proto.TryComp<EmagLatheRecipesComponent>(out var emag, compFact))
+                if (proto.TryGetComponent<EmagLatheRecipesComponent>(out var emag, compFact))
                     latheSys.AddRecipesFromPacks(latheTechs, emag.EmagDynamicPacks);
             }
 
@@ -98,5 +99,7 @@ public sealed class ResearchTest : GameTest
                 }
             });
         });
+
+        await pair.CleanReturnAsync();
     }
 }

@@ -19,7 +19,7 @@ using Robust.Shared.Audio.Systems;
 
 namespace Content.Shared.Medical.Healing;
 
-public sealed partial class HealingSystem : EntitySystem
+public sealed class HealingSystem : EntitySystem
 {
     [Dependency] private readonly SharedAudioSystem _audio = default!;
     [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
@@ -51,12 +51,9 @@ public sealed partial class HealingSystem : EntitySystem
         if (!TryComp(args.Used, out HealingComponent? healing))
             return;
 
-        if (!TryComp<InjurableComponent>(target, out var injurable))
-            return;
-
         if (healing.DamageContainers is not null &&
-            injurable.DamageContainer is not null &&
-            !healing.DamageContainers.Contains(injurable.DamageContainer.Value))
+            target.Comp.DamageContainerID is not null &&
+            !healing.DamageContainers.Contains(target.Comp.DamageContainerID.Value))
         {
             return;
         }
@@ -183,12 +180,9 @@ public sealed partial class HealingSystem : EntitySystem
         if (!Resolve(target, ref target.Comp, false))
             return false;
 
-        if (!TryComp<InjurableComponent>(target, out var injurable))
-            return false;
-
         if (healing.Comp.DamageContainers is not null &&
-            injurable.DamageContainer is not null &&
-            !healing.Comp.DamageContainers.Contains(injurable.DamageContainer.Value))
+            target.Comp.DamageContainerID is not null &&
+            !healing.Comp.DamageContainers.Contains(target.Comp.DamageContainerID.Value))
         {
             return false;
         }

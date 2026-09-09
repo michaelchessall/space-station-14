@@ -1,16 +1,15 @@
 using Content.Server.Objectives.Components;
 using Content.Server.Shuttles.Systems;
-using Content.Shared.Cuffs;
+using Content.Shared.Cuffs.Components;
 using Content.Shared.Mind;
 using Content.Shared.Objectives.Components;
 
 namespace Content.Server.Objectives.Systems;
 
-public sealed partial class EscapeShuttleConditionSystem : EntitySystem
+public sealed class EscapeShuttleConditionSystem : EntitySystem
 {
-    [Dependency] private EmergencyShuttleSystem _emergencyShuttle = default!;
-    [Dependency] private SharedCuffableSystem _cuffable = default!;
-    [Dependency] private SharedMindSystem _mind = default!;
+    [Dependency] private readonly EmergencyShuttleSystem _emergencyShuttle = default!;
+    [Dependency] private readonly SharedMindSystem _mind = default!;
 
     public override void Initialize()
     {
@@ -32,7 +31,7 @@ public sealed partial class EscapeShuttleConditionSystem : EntitySystem
 
         // You're not escaping if you're restrained!
         // Granting 50% as to allow for partial completion of the objective.
-        if (_cuffable.IsCuffed(mind.OwnedEntity.Value))
+        if (TryComp<CuffableComponent>(mind.OwnedEntity, out var cuffed) && cuffed.CuffedHandCount > 0)
             return _emergencyShuttle.IsTargetEscaping(mind.OwnedEntity.Value) ? 0.5f : 0f;
 
         // Any emergency shuttle counts for this objective, but not pods.

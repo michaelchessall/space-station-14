@@ -1,18 +1,18 @@
-using System.Text;
-using Content.Shared.Drunk;
-using Content.Shared.Speech.Components;
+using Content.Server.Speech.Components;
+using Content.Shared.Speech;
 using Content.Shared.Speech.EntitySystems;
 using Content.Shared.StatusEffectNew;
 using Robust.Shared.Random;
 using Robust.Shared.Timing;
+using System.Text;
 
 namespace Content.Server.Speech.EntitySystems;
 
-public sealed partial class SlurredSystem : SharedSlurredSystem
+public sealed class SlurredSystem : SharedSlurredSystem
 {
-    [Dependency] private StatusEffectsSystem _status = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly StatusEffectsSystem _status = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
 
     /// <summary>
     /// Divisor applied to total seconds used to get the odds of slurred speech occuring.
@@ -23,6 +23,13 @@ public sealed partial class SlurredSystem : SharedSlurredSystem
     /// Minimum amount of time on the slurred accent for it to start taking effect.
     /// </summary>
     private const float SlurredThreshold = 80f;
+
+    public override void Initialize()
+    {
+        SubscribeLocalEvent<SlurredAccentComponent, AccentGetEvent>(OnAccent);
+
+        SubscribeLocalEvent<SlurredAccentComponent, StatusEffectRelayedEvent<AccentGetEvent>>(OnAccentRelayed);
+    }
 
     /// <summary>
     ///     Slur chance scales with the time remaining on any status effect with the SlurredAccentComponent.
@@ -39,10 +46,21 @@ public sealed partial class SlurredSystem : SharedSlurredSystem
         return Math.Clamp(magic / SlurredModifier, 0f, 1f);
     }
 
-    protected override string AccentuateInternal(EntityUid uid, SlurredAccentComponent comp, string message)
+    private void OnAccent(Entity<SlurredAccentComponent> entity, ref AccentGetEvent args)
+    {
+        GetAccent(entity, ref args);
+    }
+
+    private void OnAccentRelayed(Entity<SlurredAccentComponent> entity, ref StatusEffectRelayedEvent<AccentGetEvent> args)
+    {
+        var ev = args.Args;
+        GetAccent(args.Args.Entity, ref ev);
+    }
+
+    private void GetAccent(EntityUid uid, ref AccentGetEvent args)
     {
         var scale = GetProbabilityScale(uid);
-        return Accentuate(message, scale);
+        args.Message = Accentuate(args.Message, scale);
     }
 
     private string Accentuate(string message, float scale)

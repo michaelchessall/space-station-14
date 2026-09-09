@@ -39,19 +39,19 @@ public abstract class SharedStainSystem : EntitySystem
         SubscribeLocalEvent<StainableComponent, InventoryRelayedEvent<SpilledOnEvent>>(OnSpilledOn);
         SubscribeLocalEvent<StainableComponent, GetVerbsEvent<Verb>>(OnGetVerbs);
         SubscribeLocalEvent<StainableComponent, WringStainDoAfterEvent>(OnWring);
-        SubscribeLocalEvent<StainableComponent, SolutionChangedEvent>(OnSolutionChanged);
+        SubscribeLocalEvent<StainableComponent, SolutionContainerChangedEvent>(OnSolutionChanged);
     }
 
-    private void OnSolutionChanged(Entity<StainableComponent> ent, ref SolutionChangedEvent args)
+    private void OnSolutionChanged(Entity<StainableComponent> ent, ref SolutionContainerChangedEvent args)
     {
-        if (args.Solution.Comp.Id == ent.Comp.SolutionName)
+        if (args.SolutionId == ent.Comp.SolutionName)
             UpdateVisuals(ent);
     }
 
     private void OnMapInit(Entity<StainableComponent> ent, ref MapInitEvent args)
     {
         if (_solution.TryGetSolution(ent.Owner, ent.Comp.SolutionName, out var sol))
-            _solution.SetCanReact(sol.Value, false);
+            sol.Value.Comp.Solution.CanReact = false;
     }
 
     private void OnSpilledOn(Entity<StainableComponent> ent, ref InventoryRelayedEvent<SpilledOnEvent> args)

@@ -12,8 +12,9 @@ using Robust.Shared.Random;
 
 namespace Content.Server.Audio.Jukebox;
 
-public sealed partial class JukeboxSystem : SharedJukeboxSystem
+public sealed class JukeboxSystem : SharedJukeboxSystem
 {
+    [Dependency] private readonly IPrototypeManager _protoManager = default!;
     [Dependency] private readonly AppearanceSystem _appearanceSystem = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
 
@@ -213,7 +214,7 @@ public sealed partial class JukeboxSystem : SharedJukeboxSystem
 
             var selectedSong = ent.Comp.SelectedSongId;
             if (string.IsNullOrEmpty(selectedSong) ||
-                !ProtoMan.Resolve(selectedSong, out var jukeboxProto))
+                !_protoManager.Resolve(selectedSong, out var jukeboxProto))
             {
                 return false;
             }
@@ -280,7 +281,7 @@ public sealed partial class JukeboxSystem : SharedJukeboxSystem
 
     public void QueueSong(Entity<JukeboxComponent?> ent, ProtoId<JukeboxPrototype> song)
     {
-        if (!Resolve(ent, ref ent.Comp) || !ProtoMan.HasIndex(song))
+        if (!Resolve(ent, ref ent.Comp) || !_protoManager.HasIndex(song))
             return;
 
         ent.Comp.Queue.Add(song);

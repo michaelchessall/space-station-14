@@ -1,10 +1,9 @@
-using Content.IntegrationTests.Fixtures;
 using Content.IntegrationTests.Utility;
 using Content.Shared.Mobs.Components;
 
 namespace Content.IntegrationTests.Tests.Damageable;
 
-public sealed class MobThresholdsTest : GameTest
+public sealed class MobThresholdsTest
 {
     private static string[] _entitiesWithThresholds = GameDataScrounger.EntitiesWithComponent("MobThresholds");
 
@@ -14,7 +13,7 @@ public sealed class MobThresholdsTest : GameTest
     [Description("Ensures every entity with mob thresholds has valid mob state configuration corresponding to some AlertPrototype.")]
     public async Task ValidateMobThresholds(string protoKey)
     {
-        var pair = Pair;
+        await using var pair = await PoolManager.GetServerClient();
         var server = pair.Server;
 
         var protoMan = server.ProtoMan;
@@ -33,5 +32,7 @@ public sealed class MobThresholdsTest : GameTest
                 Assert.That(alertStates, Does.Contain(state), $"{proto.ID} does not have an alert state for mob state {state}");
             }
         });
+
+        await pair.CleanReturnAsync();
     }
 }

@@ -16,7 +16,7 @@ namespace Content.Shared.Bed.Cryostorage;
 /// <summary>
 /// This handles <see cref="CryostorageComponent"/>
 /// </summary>
-public abstract partial class SharedCryostorageSystem : EntitySystem
+public abstract class SharedCryostorageSystem : EntitySystem
 {
     [Dependency] private readonly IConfigurationManager _configuration = default!;
     [Dependency] private readonly ISharedPlayerManager _player = default!;

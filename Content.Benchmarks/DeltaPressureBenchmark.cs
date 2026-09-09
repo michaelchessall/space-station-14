@@ -1,5 +1,3 @@
-using System.IO;
-using System.Threading.Tasks;
 using BenchmarkDotNet.Attributes;
 using Content.IntegrationTests;
 using Content.IntegrationTests.Pair;
@@ -16,6 +14,7 @@ using Robust.Shared.Map.Components;
 using Robust.Shared.Maths;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using System.Threading.Tasks;
 
 namespace Content.Benchmarks;
 
@@ -32,7 +31,7 @@ public class DeltaPressureBenchmark
     /// <summary>
     /// Number of entities (windows, really) to spawn with a <see cref="DeltaPressureComponent"/>.
     /// </summary>
-    [Params(100, 1000, 5000, 10000)]
+    [Params(1, 10, 100, 1000, 5000, 10000, 50000, 100000)]
     public int EntityCount;
 
     /// <summary>
@@ -69,7 +68,7 @@ public class DeltaPressureBenchmark
     {
         ProgramShared.PathOffset = "../../../../";
         PoolManager.Startup();
-        _pair = await PoolManager.GetServerClient(testContext: new ExternalTestContext("Benchmark", StreamWriter.Null));
+        _pair = await PoolManager.GetServerClient();
         var server = _pair.Server;
 
         var mapdata = await _pair.CreateTestMap();

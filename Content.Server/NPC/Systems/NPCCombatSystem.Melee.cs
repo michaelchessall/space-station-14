@@ -2,6 +2,7 @@ using Content.Server.NPC.Components;
 using Content.Shared.CombatMode;
 using Content.Shared.NPC;
 using Robust.Shared.Map;
+using Robust.Shared.Physics.Components;
 using Robust.Shared.Random;
 using System.Numerics;
 
@@ -37,22 +38,25 @@ public sealed partial class NPCCombatSystem
 
     private void UpdateMelee(float frameTime)
     {
+        var combatQuery = GetEntityQuery<CombatModeComponent>();
+        var xformQuery = GetEntityQuery<TransformComponent>();
+        var physicsQuery = GetEntityQuery<PhysicsComponent>();
         var curTime = _timing.CurTime;
         var query = EntityQueryEnumerator<NPCMeleeCombatComponent, ActiveNPCComponent>();
 
         while (query.MoveNext(out var uid, out var comp, out _))
         {
-            if (!_combatQuery.TryGetComponent(uid, out var combat) || !combat.IsInCombatMode)
+            if (!combatQuery.TryGetComponent(uid, out var combat) || !combat.IsInCombatMode)
             {
                 RemComp<NPCMeleeCombatComponent>(uid);
                 continue;
             }
 
-            Attack(uid, comp, curTime);
+            Attack(uid, comp, curTime, physicsQuery, xformQuery);
         }
     }
 
-    private void Attack(EntityUid uid, NPCMeleeCombatComponent component, TimeSpan curTime)
+    private void Attack(EntityUid uid, NPCMeleeCombatComponent component, TimeSpan curTime, EntityQuery<PhysicsComponent> physicsQuery, EntityQuery<TransformComponent> xformQuery)
     {
         component.Status = CombatStatus.Normal;
 
@@ -62,8 +66,8 @@ public sealed partial class NPCCombatSystem
             return;
         }
 
-        if (!TryComp(uid, out TransformComponent? xform) ||
-            !TryComp(component.Target, out TransformComponent? targetXform))
+        if (!xformQuery.TryGetComponent(uid, out var xform) ||
+            !xformQuery.TryGetComponent(component.Target, out var targetXform))
         {
             component.Status = CombatStatus.TargetUnreachable;
             return;
@@ -101,7 +105,7 @@ public sealed partial class NPCCombatSystem
             return;
 
         if (_random.Prob(component.MissChance) &&
-            _physicsQuery.TryGetComponent(component.Target, out var targetPhysics) &&
+            physicsQuery.TryGetComponent(component.Target, out var targetPhysics) &&
             targetPhysics.LinearVelocity.LengthSquared() != 0f)
         {
             _melee.AttemptLightAttackMiss(uid, weaponUid, weapon, targetXform.Coordinates.Offset(_random.NextVector2(0.5f)));

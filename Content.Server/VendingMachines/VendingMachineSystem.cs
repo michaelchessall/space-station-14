@@ -15,11 +15,11 @@ using System.Numerics;
 
 namespace Content.Server.VendingMachines
 {
-    public sealed partial class VendingMachineSystem : SharedVendingMachineSystem
+    public sealed class VendingMachineSystem : SharedVendingMachineSystem
     {
-        [Dependency] private IRobustRandom _random = default!;
-        [Dependency] private PricingSystem _pricing = default!;
-        [Dependency] private ThrowingSystem _throwingSystem = default!;
+        [Dependency] private readonly IRobustRandom _random = default!;
+        [Dependency] private readonly PricingSystem _pricing = default!;
+        [Dependency] private readonly ThrowingSystem _throwingSystem = default!;
 
         private const float WallVendEjectDistanceFromWall = 1f;
 
@@ -43,7 +43,7 @@ namespace Content.Server.VendingMachines
 
             foreach (var entry in component.Inventory.Values)
             {
-                if (!ProtoMan.TryIndex<EntityPrototype>(entry.ID, out var proto))
+                if (!PrototypeManager.TryIndex<EntityPrototype>(entry.ID, out var proto))
                 {
                     Log.Error($"Unable to find entity prototype {entry.ID} on {ToPrettyString(uid)} vending.");
                     continue;
@@ -224,11 +224,11 @@ namespace Content.Server.VendingMachines
             {
                 double total = 0;
 
-                if (ProtoMan.TryIndex(vendingInventory, out VendingMachineInventoryPrototype? inventoryPrototype))
+                if (PrototypeManager.TryIndex(vendingInventory, out VendingMachineInventoryPrototype? inventoryPrototype))
                 {
                     foreach (var (item, amount) in inventoryPrototype.StartingInventory)
                     {
-                        if (ProtoMan.TryIndex(item, out EntityPrototype? entity))
+                        if (PrototypeManager.TryIndex(item, out EntityPrototype? entity))
                             total += _pricing.GetEstimatedPrice(entity) * amount;
                     }
                 }

@@ -37,16 +37,13 @@ public sealed class SharedGasSpecificHeatsTest
         {
             Connected = true,
         };
-        _pair = await PoolManager.GetServerClient(poolSettings, new NUnitTestContextWrap(TestContext.CurrentContext, TestContext.Out));
+        _pair = await PoolManager.GetServerClient(poolSettings);
 
         _sEntMan = Server.ResolveDependency<IEntityManager>();
         _cEntMan = Client.ResolveDependency<IEntityManager>();
 
         _sAtmos = _sEntMan.System<Content.Server.Atmos.EntitySystems.AtmosphereSystem>();
         _cAtmos = _cEntMan.System<AtmosphereSystem>();
-
-        // ensure that client and server atmos are fully inited otherwise arrays might not agree
-        await _pair.ReallyBeIdle(1);
     }
 
     [TearDown]
@@ -65,12 +62,12 @@ public sealed class SharedGasSpecificHeatsTest
         var clientSpecificHeats = Array.Empty<float>();
         await Server.WaitPost(delegate
         {
-            serverSpecificHeats = _sAtmos.GasMolarHeatCapacities;
+            serverSpecificHeats = _sAtmos.GasSpecificHeats;
         });
 
         await Client.WaitPost(delegate
         {
-            clientSpecificHeats = _cAtmos.GasMolarHeatCapacities;
+            clientSpecificHeats = _cAtmos.GasSpecificHeats;
         });
 
         Assert.That(serverSpecificHeats,

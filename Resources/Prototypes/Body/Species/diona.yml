@@ -35,7 +35,6 @@
 - type: entity
   parent: BaseSpeciesAppearance
   id: AppearanceDiona
-  categories: [ HideSpawnMenu ]
   name: diona appearance
   components:
   - type: Inventory
@@ -93,6 +92,7 @@
       Burn:
         sprite: Mobs/Effects/burn_damage.rsi
   - type: Butcherable
+    butcheringType: Spike
     spawned:
       - id: FoodMeatPlant
         amount: 5
@@ -100,7 +100,7 @@
     bloodReferenceSolution:
       reagents:
       - ReagentId: Sap
-        Quantity: 600
+        Quantity: 300
   - type: Reactive
     groups:
       Flammable: [ Touch ]
@@ -153,7 +153,10 @@
     speechVerb: Plant
     allowedEmotes: ['Chirp']
   - type: Vocal
-    emoteSounds: UnisexDiona
+    sounds:
+      Male: UnisexDiona
+      Female: UnisexDiona
+      Unsexed: UnisexDiona
   - type: TypingIndicator
     proto: diona
   - type: BodyEmotes
@@ -169,7 +172,7 @@
   - type: Rootable
 
 - type: entity
-  parent: OrganBaseOrganic
+  parent: OrganBase
   id: OrganDiona
   abstract: true
   suffix: Diona

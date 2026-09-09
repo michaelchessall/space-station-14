@@ -13,8 +13,10 @@ using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Damage.Systems;
 
-public abstract partial class SharedGodmodeSystem : EntitySystem
+public abstract class SharedGodmodeSystem : EntitySystem
 {
+    [Dependency] private readonly IPrototypeManager _protoMan = default!;
+
     public override void Initialize()
     {
         base.Initialize();
@@ -61,7 +63,7 @@ public abstract partial class SharedGodmodeSystem : EntitySystem
 
     private void OnBeforeStatusEffect(EntityUid uid, GodmodeComponent component, ref BeforeStatusEffectAddedEvent args)
     {
-        if (ProtoMan.Index(args.Effect).HasComp<RejuvenateRemovedStatusEffectComponent>(Factory))
+        if (_protoMan.Index(args.Effect).HasComponent<RejuvenateRemovedStatusEffectComponent>(Factory))
             args.Cancelled = true;
     }
 

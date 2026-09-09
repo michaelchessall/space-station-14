@@ -2,7 +2,7 @@
 - type: entity
   name: burrower
   id: MobXeno
-  parent: [ SimpleSpaceMobBase, MobNightVision ]
+  parent: SimpleSpaceMobBase
   description: They mostly come at night. Mostly.
   components:
   - type: Insulated
@@ -70,7 +70,7 @@
     bloodReferenceSolution:
       reagents:
       - ReagentId: FluorosulfuricAcid
-        Quantity: 1300
+        Quantity: 650
   - type: MeleeWeapon
     altDisarm: false
     angle: 0
@@ -90,6 +90,7 @@
         Base: dead
   - type: Puller
   - type: Butcherable
+    butcheringType: Spike
     spawned:
     - id: FoodMeatXeno
       amount: 5
@@ -307,6 +308,7 @@
     sprite: Mobs/Aliens/Xenos/rouny.rsi
     offset: 0,0.6
   - type: Butcherable
+    butcheringType: Spike
     spawned:
     - id: FoodMeatRouny
       amount: 3
@@ -360,7 +362,7 @@
 
 - type: entity
   name: space adder
-  parent: [SimpleSpaceMobBase, BaseSlicingRefinable]
+  parent: SimpleSpaceMobBase
   id: MobPurpleSnake
   description: A menacing purple snake from Kepler-283c.
   components:
@@ -378,8 +380,8 @@
         Base: dead_purple_snake
       Dead:
         Base: dead_purple_snake
-  - type: ToolRefinable
-    refineResult:
+  - type: Butcherable
+    spawned:
     - id: FoodMeatSnake
       amount: 4
   - type: Grammar
@@ -401,9 +403,12 @@
     damage:
       types:
         Piercing: 5
-  - type: SolutionManager
+  - type: SolutionContainerManager
     solutions:
-    - SolutionVenomPurpleSnake
+      melee:
+        reagents:
+        - ReagentId: Toxin
+          Quantity: 50
   - type: MeleeChemicalInjector
     solution: melee
   - type: Fixtures
@@ -426,19 +431,8 @@
     - FootstepSound
 
 - type: entity
-  parent: [SolutionWeapon, SolutionTiny]
-  id: SolutionVenomPurpleSnake
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Toxin
-        Quantity: 30
-
-- type: entity
   name: space adder
-  parent: [MobPurpleSnake, BaseSlicingRefinable]
+  parent: MobPurpleSnake
   id: MobSmallPurpleSnake
   suffix: small
   description: A smaller version of the menacing purple snake from Kepler-283c.
@@ -457,8 +451,8 @@
         Base: dead_small_purple_snake
       Dead:
         Base: dead_small_purple_snake
-  - type: ToolRefinable
-    refineResult:
+  - type: Butcherable
+    spawned:
     - id: FoodMeatSnake
       amount: 2
   - type: SolutionTransfer
@@ -504,7 +498,7 @@
     bloodReferenceSolution:
       reagents:
       - ReagentId: FluorosulfuricAcid
-        Quantity: 600
+        Quantity: 300
   - type: MeleeWeapon
     altDisarm: false
     angle: 0
@@ -524,6 +518,7 @@
         Base: dead
   - type: Puller
   - type: Butcherable
+    butcheringType: Spike
     spawned:
     - id: FoodMeatXeno
       amount: 5
@@ -570,23 +565,15 @@
   - type: Tag
     tags:
     - CannotSuicide
-  - type: SolutionManager # Being hit speeds you up so you can escape
+  - type: SolutionContainerManager # Being hit speeds you up so you can escape
     solutions:
-    - SolutionVenomDale
+      bite:
+        reagents:
+        - ReagentId: Stimulants
+          Quantity: 50
+        - ReagentId: TranexamicAcid
+          Quantity: 50
   - type: MeleeChemicalInjector
     transferAmount: 1
-    solution: melee
+    solution: bite
     pierceArmor: true
-
-- type: entity
-  parent: [SolutionWeapon, SolutionNormal]
-  id: SolutionVenomDale
-  categories: [ HideSpawnMenu ]
-  components:
-  - type: Solution
-    solution:
-      reagents:
-      - ReagentId: Stimulants
-        Quantity: 50
-      - ReagentId: TranexamicAcid
-        Quantity: 50

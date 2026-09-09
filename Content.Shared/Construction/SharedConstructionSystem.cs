@@ -6,10 +6,12 @@ using static Content.Shared.Interaction.SharedInteractionSystem;
 
 namespace Content.Shared.Construction
 {
-    public abstract partial class SharedConstructionSystem : EntitySystem
+    public abstract class SharedConstructionSystem : EntitySystem
     {
-        [Dependency] private SharedMapSystem _map = default!;
-        [Dependency] protected SharedTransformSystem TransformSystem = default!;
+        [Dependency] private readonly IMapManager _mapManager = default!;
+        [Dependency] private readonly SharedMapSystem _map = default!;
+        [Dependency] protected readonly IPrototypeManager PrototypeManager = default!;
+        [Dependency] protected readonly SharedTransformSystem TransformSystem = default!;
 
         /// <summary>
         ///     Get predicate for construction obstruction checks.
@@ -19,7 +21,7 @@ namespace Content.Shared.Construction
             if (!canBuildInImpassable)
                 return null;
 
-            if (!_map.TryFindGridAt(coords, out var gridUid, out var grid))
+            if (!_mapManager.TryFindGridAt(coords, out var gridUid, out var grid))
                 return null;
 
             var ignored = _map.GetAnchoredEntities((gridUid, grid), coords).ToHashSet();
@@ -31,7 +33,7 @@ namespace Content.Shared.Construction
             if (info.ExamineName is not null)
                 return Loc.GetString(info.ExamineName.Value);
 
-            return ProtoMan.Index(info.DefaultPrototype).Name;
+            return PrototypeManager.Index(info.DefaultPrototype).Name;
         }
     }
 }

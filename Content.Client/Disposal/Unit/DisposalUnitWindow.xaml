@@ -5,7 +5,8 @@
             SetSize="300 160"
             Resizable="False">
     <BoxContainer Orientation="Vertical" Margin="10">
-        <BoxContainer Orientation="Horizontal" SeparationOverride="4">
+        <BoxContainer Orientation="Horizontal"
+                      SeparationOverride="4">
             <Label Text="{Loc 'ui-disposal-unit-label-state'}" />
             <Label Name="UnitState" Access="Public"
                    Text="{Loc 'ui-disposal-unit-label-status'}" />
@@ -15,7 +16,6 @@
                       SeparationOverride="4">
             <Label Text="{Loc 'ui-disposal-unit-label-pressure'}" />
             <disposal:PressureBar Name="PressureBar"
-                         Access="Public"
                          MinSize="190 20"
                          HorizontalAlignment="Right"
                          MinValue="0"
@@ -35,10 +35,9 @@
                     Text="{Loc 'ui-disposal-unit-button-eject'}"
                     StyleClasses="OpenBoth" />
             <Button Name="Power"
-                    Access="Public"
-                    Text="{Loc 'ui-disposal-unit-button-power'}"
-                    StyleClasses="OpenLeft"
-                    ToggleMode="True" />
+                         Access="Public"
+                         Text="{Loc 'ui-disposal-unit-button-power'}"
+                         StyleClasses="OpenLeft" />
         </BoxContainer>
     </BoxContainer>
 </controls:FancyWindow>

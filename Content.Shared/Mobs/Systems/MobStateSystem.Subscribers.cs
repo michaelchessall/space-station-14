@@ -17,8 +17,7 @@ using Content.Shared.Speech;
 using Content.Shared.Standing;
 using Content.Shared.Strip.Components;
 using Content.Shared.Throwing;
-using Content.Shared.Tools.Systems;
-using Content.Shared.Movement.Pulling.Components;
+using Content.Shared.Movement.Pulling.Components; // funky
 
 namespace Content.Shared.Mobs.Systems;
 
@@ -47,7 +46,6 @@ public partial class MobStateSystem
         SubscribeLocalEvent<MobStateComponent, CombatModeShouldHandInteractEvent>(OnCombatModeShouldHandInteract);
         SubscribeLocalEvent<MobStateComponent, AttemptPacifiedAttackEvent>(OnAttemptPacifiedAttack);
         SubscribeLocalEvent<MobStateComponent, DamageModifyEvent>(OnDamageModify);
-        SubscribeLocalEvent<MobStateComponent, AttemptToolRefineEvent>(OnAttemptToolRefine);
         SubscribeLocalEvent<MobStateComponent, ComponentStartup>(OnCompInit);
 
         SubscribeLocalEvent<MobStateComponent, UnbuckleAttemptEvent>(OnUnbuckleAttempt);
@@ -130,11 +128,11 @@ public partial class MobStateSystem
             case MobState.Critical:
             case MobState.SoftCritical: // funky
             case MobState.HardCritical: // funky
-                {
-                    Down(target);
-                    _appearance.SetData(target, MobStateVisuals.State, MobState.Critical);
-                    break;
-                }
+            {
+                Down(target);
+                _appearance.SetData(target, MobStateVisuals.State, MobState.Critical);
+                break;
+            }
             case MobState.Dead:
                 {
                     EnsureComp<CollisionWakeComponent>(target);
@@ -151,14 +149,6 @@ public partial class MobStateSystem
                 {
                     throw new NotImplementedException();
                 }
-        }
-    }
-
-    private void OnAttemptToolRefine(Entity<MobStateComponent> ent, ref AttemptToolRefineEvent args)
-    {
-        if (!IsDead(ent, ent))
-        {
-            args = args with { IsCancelled = true, BlockCause = Loc.GetString("refined-slice-verb-target-isnt-dead") };
         }
     }
 
@@ -211,14 +201,14 @@ public partial class MobStateSystem
     private void OnEquipAttempt(EntityUid target, MobStateComponent component, IsEquippingAttemptEvent args)
     {
         // is this a self-equip, or are they being stripped?
-        if (args.User == target)
+        if (args.Equipee == target)
             CheckAct(target, component, args);
     }
 
     private void OnUnequipAttempt(EntityUid target, MobStateComponent component, IsUnequippingAttemptEvent args)
     {
         // is this a self-equip, or are they being stripped?
-        if (args.User == target)
+        if (args.Unequipee == target)
             CheckAct(target, component, args);
     }
 

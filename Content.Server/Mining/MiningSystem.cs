@@ -11,9 +11,10 @@ namespace Content.Server.Mining;
 /// <summary>
 /// This handles creating ores when the entity is destroyed.
 /// </summary>
-public sealed partial class MiningSystem : EntitySystem
+public sealed class MiningSystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _random = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
 
     /// <inheritdoc/>
     public override void Initialize()
@@ -28,7 +29,7 @@ public sealed partial class MiningSystem : EntitySystem
         if (component.CurrentOre == null)
             return;
 
-        var proto = ProtoMan.Index<OrePrototype>(component.CurrentOre);
+        var proto = _proto.Index<OrePrototype>(component.CurrentOre);
 
         if (proto.OreEntity == null)
             return;
@@ -46,6 +47,6 @@ public sealed partial class MiningSystem : EntitySystem
         if (component.CurrentOre != null || component.OreRarityPrototypeId == null || !_random.Prob(component.OreChance))
             return;
 
-        component.CurrentOre = ProtoMan.Index<WeightedRandomOrePrototype>(component.OreRarityPrototypeId).Pick(_random);
+        component.CurrentOre = _proto.Index<WeightedRandomOrePrototype>(component.OreRarityPrototypeId).Pick(_random);
     }
 }

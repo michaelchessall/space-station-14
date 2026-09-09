@@ -16,24 +16,20 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Content.Shared.Tools.Systems;
-using Content.Shared.Tools;
 
 namespace Content.Server.Botany.Systems;
 
 public sealed partial class BotanySystem : EntitySystem
 {
-    [Dependency] private IRobustRandom _robustRandom = default!;
-    [Dependency] private AppearanceSystem _appearance = default!;
-    [Dependency] private PopupSystem _popupSystem = default!;
-    [Dependency] private SharedHandsSystem _hands = default!;
-    [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
-    [Dependency] private MetaDataSystem _metaData = default!;
-    [Dependency] private RandomHelperSystem _randomHelper = default!;
-    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private SharedToolSystem _tools = default!;
-
-    private static readonly ProtoId<ToolQualityPrototype> HarvestTool = "Slicing";
+    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private readonly IRobustRandom _robustRandom = default!;
+    [Dependency] private readonly AppearanceSystem _appearance = default!;
+    [Dependency] private readonly PopupSystem _popupSystem = default!;
+    [Dependency] private readonly SharedHandsSystem _hands = default!;
+    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private readonly RandomHelperSystem _randomHelper = default!;
+    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
 
     public override void Initialize()
     {
@@ -52,7 +48,7 @@ public sealed partial class BotanySystem : EntitySystem
         }
 
         if (comp.SeedId != null
-            && ProtoMan.TryIndex(comp.SeedId, out SeedPrototype? protoSeed))
+            && _prototypeManager.TryIndex(comp.SeedId, out SeedPrototype? protoSeed))
         {
             seed = protoSeed;
             return true;
@@ -71,7 +67,7 @@ public sealed partial class BotanySystem : EntitySystem
         }
 
         if (comp.SeedId != null
-            && ProtoMan.TryIndex(comp.SeedId, out SeedPrototype? protoSeed))
+            && _prototypeManager.TryIndex(comp.SeedId, out SeedPrototype? protoSeed))
         {
             seed = protoSeed;
             return true;
@@ -188,7 +184,7 @@ public sealed partial class BotanySystem : EntitySystem
 
     public bool CanHarvest(SeedData proto, EntityUid? held = null)
     {
-        return !proto.Ligneous || proto.Ligneous && held != null && _tools.HasQuality(held.Value, HarvestTool);
+        return !proto.Ligneous || proto.Ligneous && held != null && HasComp<SharpComponent>(held);
     }
 
     public static int CalculateTotalYield(int yield, int yieldMod)

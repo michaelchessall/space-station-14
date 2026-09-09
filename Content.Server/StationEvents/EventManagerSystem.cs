@@ -12,14 +12,15 @@ using System.Linq;
 
 namespace Content.Server.StationEvents;
 
-public sealed partial class EventManagerSystem : EntitySystem
+public sealed class EventManagerSystem : EntitySystem
 {
-    [Dependency] private IConfigurationManager _configurationManager = default!;
-    [Dependency] private IPlayerManager _playerManager = default!;
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private EntityTableSystem _entityTable = default!;
-    [Dependency] public GameTicker GameTicker = default!;
-    [Dependency] private RoundEndSystem _roundEnd = default!;
+    [Dependency] private readonly IConfigurationManager _configurationManager = default!;
+    [Dependency] private readonly IPlayerManager _playerManager = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly IPrototypeManager _prototype = default!;
+    [Dependency] private readonly EntityTableSystem _entityTable = default!;
+    [Dependency] public readonly GameTicker GameTicker = default!;
+    [Dependency] private readonly RoundEndSystem _roundEnd = default!;
 
     public bool EventsEnabled { get; private set; }
     private void SetEnabled(bool value) => EventsEnabled = value;
@@ -61,7 +62,7 @@ public sealed partial class EventManagerSystem : EntitySystem
             return;
         }
 
-        if (!ProtoMan.Resolve(randomLimitedEvent, out _))
+        if (!_prototype.Resolve(randomLimitedEvent, out _))
         {
             Log.Warning("A requested event is not available!");
             return;
@@ -111,13 +112,13 @@ public sealed partial class EventManagerSystem : EntitySystem
 
         foreach (var (eventId, prob) in selectedEvents)
         {
-            if (!ProtoMan.Resolve(eventId, out var eventproto))
+            if (!_prototype.Resolve(eventId, out var eventproto))
                 continue;
 
             if (eventproto.Abstract)
                 continue;
 
-            if (!eventproto.TryComp<StationEventComponent>(out var stationEvent, EntityManager.ComponentFactory))
+            if (!eventproto.TryGetComponent<StationEventComponent>(out var stationEvent, EntityManager.ComponentFactory))
                 continue;
 
             if (!CanRun(eventproto, stationEvent, playerCount.Value, currentTime.Value))
@@ -162,10 +163,7 @@ public sealed partial class EventManagerSystem : EntitySystem
 
         foreach (var eventid in selectedEvents)
         {
-            if (GameTicker.IsIgnored(eventid))
-                continue;
-
-            if (!ProtoMan.Resolve(eventid, out var eventproto))
+            if (!_prototype.Resolve(eventid, out var eventproto))
             {
                 Log.Warning("An event ID has no prototype index!");
                 continue;
@@ -177,7 +175,7 @@ public sealed partial class EventManagerSystem : EntitySystem
             if (eventproto.Abstract)
                 continue;
 
-            if (!eventproto.TryComp<StationEventComponent>(out var stationEvent, EntityManager.ComponentFactory))
+            if (!eventproto.TryGetComponent<StationEventComponent>(out var stationEvent, EntityManager.ComponentFactory))
                 continue;
 
             if (!CanRun(eventproto, stationEvent, playerCount.Value, currentTime.Value))
@@ -280,12 +278,12 @@ public sealed partial class EventManagerSystem : EntitySystem
     private Dictionary<EntityPrototype, StationEventComponent> GetAllEvents()
     {
         var allEvents = new Dictionary<EntityPrototype, StationEventComponent>();
-        foreach (var prototype in ProtoMan.EnumeratePrototypes<EntityPrototype>())
+        foreach (var prototype in _prototype.EnumeratePrototypes<EntityPrototype>())
         {
             if (prototype.Abstract)
                 continue;
 
-            if (!prototype.TryComp<StationEventComponent>(out var stationEvent, EntityManager.ComponentFactory))
+            if (!prototype.TryGetComponent<StationEventComponent>(out var stationEvent, EntityManager.ComponentFactory))
                 continue;
 
             allEvents.Add(prototype, stationEvent);

@@ -25,9 +25,8 @@
   - type: Sprite
     drawdepth: Objects
   - type: Damageable
-    damageModifierSet: Electronic
-  - type: Injurable
     damageContainer: StructuralInorganic
+    damageModifierSet: Electronic
   - type: Destructible
     thresholds:
     - trigger:
@@ -79,6 +78,12 @@
     state: broken
   - type: Destructible
     thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
     - trigger:
         !type:DamageTrigger
         damage: 50

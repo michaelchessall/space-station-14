@@ -8,9 +8,9 @@ using System.Numerics;
 
 namespace Content.Client.NPC;
 
-public sealed partial class NPCSteeringSystem : SharedNPCSteeringSystem
+public sealed class NPCSteeringSystem : SharedNPCSteeringSystem
 {
-    [Dependency] private IOverlayManager _overlay = default!;
+    [Dependency] private readonly IOverlayManager _overlay = default!;
 
     public bool DebugEnabled
     {

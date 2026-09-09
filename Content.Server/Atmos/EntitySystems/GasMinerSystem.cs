@@ -8,10 +8,10 @@ using System.Diagnostics.CodeAnalysis;
 namespace Content.Server.Atmos.EntitySystems;
 
 [UsedImplicitly]
-public sealed partial class GasMinerSystem : SharedGasMinerSystem
+public sealed class GasMinerSystem : SharedGasMinerSystem
 {
-    [Dependency] private AtmosphereSystem _atmosphereSystem = default!;
-    [Dependency] private TransformSystem _transformSystem = default!;
+    [Dependency] private readonly AtmosphereSystem _atmosphereSystem = default!;
+    [Dependency] private readonly TransformSystem _transformSystem = default!;
 
     public override void Initialize()
     {
@@ -26,7 +26,7 @@ public sealed partial class GasMinerSystem : SharedGasMinerSystem
         var oldState = miner.MinerState;
         float toSpawn;
 
-        if (!GetValidEnvironment(ent, out var environment))
+        if (!GetValidEnvironment(ent, out var environment) || !Transform(ent).Anchored)
         {
             miner.MinerState = GasMinerState.Disabled;
         }

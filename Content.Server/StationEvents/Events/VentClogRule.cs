@@ -14,9 +14,9 @@ using System.Linq;
 namespace Content.Server.StationEvents.Events;
 
 [UsedImplicitly]
-public sealed partial class VentClogRule : StationEventSystem<VentClogRuleComponent>
+public sealed class VentClogRule : StationEventSystem<VentClogRuleComponent>
 {
-    [Dependency] private SmokeSystem _smoke = default!;
+    [Dependency] private readonly SmokeSystem _smoke = default!;
 
     protected override void Started(EntityUid uid, VentClogRuleComponent component, GameRuleComponent gameRule, GameRuleStartedEvent args)
     {
@@ -26,7 +26,7 @@ public sealed partial class VentClogRule : StationEventSystem<VentClogRuleCompon
             return;
 
         // TODO: "safe random" for chems. Right now this includes admin chemicals.
-        var allReagents = ProtoMan.EnumeratePrototypes<ReagentPrototype>()
+        var allReagents = PrototypeManager.EnumeratePrototypes<ReagentPrototype>()
             .Where(x => !x.Abstract)
             .Select(x => new ProtoId<ReagentPrototype>(x.ID)).ToList();
 

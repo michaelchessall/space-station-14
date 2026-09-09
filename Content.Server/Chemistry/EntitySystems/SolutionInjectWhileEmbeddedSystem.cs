@@ -8,7 +8,7 @@ namespace Content.Server.Chemistry.EntitySystems;
 /// <summary>
 /// System for handling injecting into an entity while a projectile is embedded.
 /// </summary>
-public sealed partial class SolutionInjectWhileEmbeddedSystem : EntitySystem
+public sealed class SolutionInjectWhileEmbeddedSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _gameTiming = default!;
 

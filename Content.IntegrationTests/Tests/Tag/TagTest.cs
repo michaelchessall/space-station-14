@@ -1,6 +1,4 @@
 #nullable enable
-using System.Collections.Generic;
-using Content.IntegrationTests.Fixtures;
 using Content.Shared.Tag;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
@@ -12,7 +10,7 @@ namespace Content.IntegrationTests.Tests.Tag
 {
     [TestFixture]
     [TestOf(typeof(TagComponent))]
-    public sealed class TagTest : GameTest
+    public sealed class TagTest
     {
         private const string TagEntityId = "TagTestDummy";
 
@@ -46,7 +44,7 @@ namespace Content.IntegrationTests.Tests.Tag
         [Test]
         public async Task TagComponentTest()
         {
-            var pair = Pair;
+            await using var pair = await PoolManager.GetServerClient();
             var server = pair.Server;
 
             var sEntityManager = server.ResolveDependency<IEntityManager>();
@@ -297,6 +295,7 @@ namespace Content.IntegrationTests.Tests.Tag
                 Assert.Throws<DebugAssertException>(() => { tagSystem.AddTags(sTagEntity, new HashSet<ProtoId<TagPrototype>> { UnregisteredTag }); });
 #endif
             });
+            await pair.CleanReturnAsync();
         }
     }
 }

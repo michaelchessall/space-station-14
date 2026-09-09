@@ -10,15 +10,24 @@ namespace Content.Server.Xenoarchaeology.Artifact.XAE;
 /// <summary>
 /// System for xeno artifact activation effect that flickers light on and off.
 /// </summary>
-public sealed partial class XAELightFlickerSystem : BaseXAESystem<XAELightFlickerComponent>
+public sealed class XAELightFlickerSystem : BaseXAESystem<XAELightFlickerComponent>
 {
-    [Dependency] private IRobustRandom _random = default!;
-    [Dependency] private EntityLookupSystem _lookup = default!;
-    [Dependency] private GhostSystem _ghost = default!;
-    [Dependency] private EntityQuery<PoweredLightComponent> _poweredLightsQuery = default!;
+    [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly EntityLookupSystem _lookup = default!;
+    [Dependency] private readonly GhostSystem _ghost = default!;
+
+    private EntityQuery<PoweredLightComponent> _lights;
 
     /// <summary> Pre-allocated and re-used collection.</summary>
     private readonly HashSet<EntityUid> _entities = new();
+
+    /// <inheritdoc />
+    public override void Initialize()
+    {
+        base.Initialize();
+
+        _lights = GetEntityQuery<PoweredLightComponent>();
+    }
 
     /// <inheritdoc />
     protected override void OnActivated(Entity<XAELightFlickerComponent> ent, ref XenoArtifactNodeActivatedEvent args)
@@ -27,7 +36,7 @@ public sealed partial class XAELightFlickerSystem : BaseXAESystem<XAELightFlicke
         _lookup.GetEntitiesInRange(ent.Owner, ent.Comp.Radius, _entities, LookupFlags.StaticSundries);
         foreach (var light in _entities)
         {
-            if (!_poweredLightsQuery.HasComponent(light))
+            if (!_lights.HasComponent(light))
                 continue;
 
             if (!_random.Prob(ent.Comp.FlickerChance))

@@ -1,4 +1,5 @@
 using Robust.Shared.Containers;
+using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
 
 namespace Content.Shared.Containers;
@@ -6,9 +7,10 @@ namespace Content.Shared.Containers;
 /// <summary>
 /// Applies / removes an entity prototype from a child entity when it's inserted into a container.
 /// </summary>
-public sealed partial class ContainerCompSystem : EntitySystem
+public sealed class ContainerCompSystem : EntitySystem
 {
-    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private readonly IGameTiming _timing = default!;
+    [Dependency] private readonly IPrototypeManager _proto = default!;
 
     public override void Initialize()
     {
@@ -22,7 +24,7 @@ public sealed partial class ContainerCompSystem : EntitySystem
         if (args.Container.ID != ent.Comp.Container || _timing.ApplyingState)
             return;
 
-        if (ProtoMan.Resolve(ent.Comp.Proto, out var entProto))
+        if (_proto.Resolve(ent.Comp.Proto, out var entProto))
         {
             EntityManager.RemoveComponents(args.Entity, entProto.Components);
         }
@@ -33,7 +35,7 @@ public sealed partial class ContainerCompSystem : EntitySystem
         if (args.Container.ID != ent.Comp.Container || _timing.ApplyingState)
             return;
 
-        if (ProtoMan.Resolve(ent.Comp.Proto, out var entProto))
+        if (_proto.Resolve(ent.Comp.Proto, out var entProto))
         {
             EntityManager.AddComponents(args.Entity, entProto.Components);
         }

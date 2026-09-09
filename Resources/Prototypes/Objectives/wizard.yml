@@ -6,7 +6,7 @@
   - type: Objective
     # required but not used
     difficulty: 1
-    issuer: SpaceWizardsFederation
+    issuer: objective-issuer-swf
   - type: RoleRequirement
     roles:
     - WizardRole

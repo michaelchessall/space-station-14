@@ -106,9 +106,8 @@
         node: machineFrame
       - !type:DoActsBehavior
         acts: ["Destruction"]
-  - type: Injurable
-    damageContainer: StructuralInorganic
   - type: Damageable
+    damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong
   - type: EmptyOnMachineDeconstruct
     containers:

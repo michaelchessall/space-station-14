@@ -1,5 +1,3 @@
-using System.Linq;
-using Content.IntegrationTests.Fixtures;
 using Content.Server.Destructible.Thresholds.Behaviors;
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
@@ -7,16 +5,17 @@ using Content.Shared.Damage.Systems;
 using Content.Shared.Destructible.Thresholds;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Prototypes;
+using System.Linq;
 using static Content.IntegrationTests.Tests.Destructible.DestructibleTestPrototypes;
 
 namespace Content.IntegrationTests.Tests.Destructible
 {
-    public sealed class DestructibleDestructionTest : GameTest
+    public sealed class DestructibleDestructionTest
     {
         [Test]
         public async Task Test()
         {
-            var pair = Pair;
+            await using var pair = await PoolManager.GetServerClient();
             var server = pair.Server;
 
             var testMap = await pair.CreateTestMap();
@@ -90,6 +89,7 @@ namespace Content.IntegrationTests.Tests.Destructible
 
                 Assert.That(found, Is.True, $"Unable to find {SpawnedEntityId} nearby for destructible test; found {entitiesInRange.Count} entities.");
             });
+            await pair.CleanReturnAsync();
         }
     }
 }
