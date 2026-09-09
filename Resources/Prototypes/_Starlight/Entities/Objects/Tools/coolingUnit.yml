@@ -32,6 +32,7 @@
       soundActivate: /Audio/Items/flashlight_on.ogg
       soundDeactivate: /Audio/Items/flashlight_on.ogg
     - type: CoolingUnit
+      maxCooling: 5 # Make it so they don't survive extreme heat with it on. This allows Avali to survive a flash-temp increase to 400K. - Nullnominal (Persistance14)
     - type: ToggleableVisuals
       spriteLayer: power
     - type: PowerCellSlot
