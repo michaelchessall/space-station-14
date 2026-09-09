@@ -2689,7 +2689,7 @@
     FoodBerries: 1
 
 - type: microwaveMealRecipe
-  id: RecipeDonkPocketCarp
+  id: RecipeDonkPocketStonk
   name: donk_pocket_recipe_stonk
   result: FoodDonkpocketStonk
   secretRecipe: true
