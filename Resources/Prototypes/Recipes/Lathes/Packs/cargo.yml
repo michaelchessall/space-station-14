@@ -12,7 +12,7 @@
   id: CargoBoardsStatic
   recipes:
   - OreProcessorMachineCircuitboard
-  - SalvageMagnetMachineCircuitboard
+  # - SalvageMagnetMachineCircuitboard Persistence14: Removed in place of magnet POIs
   - RecyclerMachineCircuitboard
   - CargoBountyComputerCircuitboard
   - SalvageJobBoardComputerCircuitboard
