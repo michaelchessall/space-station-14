@@ -1,0 +1,185 @@
+- type: entity
+  id: PipeInterchangeBase
+  abstract: true
+  placement: 
+    mode: SnapgridCenter
+  name: pipe interchange
+  description: A simple angled pipe that allows for switching between pipe layers with ease.
+  components:
+  - type: Visibility
+    layer: 1
+  - type: Item
+    size: Normal
+  - type: Transform
+    anchored: true
+  - type: InteractionOutline
+  - type: Clickable
+  - type: SubFloorHide
+  - type: CollideOnAnchor
+  - type: Anchorable
+  - type: Rotatable
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger: # for nukes
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+    - trigger: # regular damage trigger (replace with broken pipe)
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -8
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          GasPipeBroken:
+            min: 1
+            max: 1
+        offset: 0
+      - !type:DoActsBehavior
+        acts: ["Breakage"]
+  - type: Sprite
+    sprite: _Persistence14/Structures/Piping/pipe-interchange.rsi
+    drawdepth: ThinPipe
+    visible: false
+  - type: Appearance
+  - type: PipeAppearance
+  - type: PipeColorVisuals
+  - type: NodeContainer
+  - type: PipeRestrictOverlap
+  - type: AtmosUnsafeUnanchor
+  - type: AtmosPipeColor
+  - type: AtmosMonitoringConsoleDevice
+  - type: AtmosPipeLayers
+    pipeLayersLocked: true
+  - type: Tag
+    tags:
+    - Pipe
+  - type: Physics
+    canCollide: false
+    bodyType: static
+  - type: StaticPrice
+    price: 14
+  - type: GasPipeManifold
+    inlets:
+    - south
+    outlets:
+    - north
+  - type: Construction
+    node: complete
+
+- type: entity
+  id: PipeInterchangeSecondaryTertiary
+  parent: PipeInterchangeBase
+  suffix: 2-3
+  components:
+  - type: Sprite
+    layers:
+    - state: pipe-interchange-2-3
+      map: [ "enum.PipeVisualLayers.Pipe" ]
+  - type: NodeContainer
+    nodes: 
+      south:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: South
+        pipeLayer: 1
+        volume: 50
+        mode: TrueVisual
+      north:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: North
+        pipeLayer: 2
+        volume: 50
+        mode: TrueVisual
+  - type: Construction
+    graph: PipeInterchangeSecondaryTertiary
+
+- type: entity
+  id: PipeInterchangeSecondaryTertiaryFlipped
+  parent: PipeInterchangeBase
+  suffix: 2-3, Flipped
+  components:
+  - type: Sprite
+    layers:
+    - state: pipe-interchange-2-3-flipped
+      map: [ "enum.PipeVisualLayers.Pipe" ]
+  - type: NodeContainer
+    nodes: 
+      south:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: South
+        pipeLayer: 2
+        volume: 50
+        mode: TrueVisual
+      north:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: North
+        pipeLayer: 1
+        volume: 50
+        mode: TrueVisual
+  - type: Construction
+    graph: PipeInterchangeSecondaryTertiaryFlipped
+
+- type: entity
+  id: PipeInterchangePrimarySecondary
+  parent: PipeInterchangeBase
+  suffix: 1-2
+  components:
+  - type: Sprite
+    layers:
+    - state: pipe-interchange-1-2
+      map: [ "enum.PipeVisualLayers.Pipe" ]
+  - type: NodeContainer
+    nodes: 
+      south:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: South
+        pipeLayer: 0
+        volume: 50
+      north:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: North
+        pipeLayer: 1
+        volume: 50
+  - type: Construction
+    graph: PipeInterchangePrimarySecondary
+
+- type: entity
+  id: PipeInterchangePrimaryTertiary
+  parent: PipeInterchangeBase
+  suffix: 1-3
+  components:
+  - type: Sprite
+    layers:
+    - state: pipe-interchange-1-3
+      map: [ "enum.PipeVisualLayers.Pipe" ]
+  - type: NodeContainer
+    nodes: 
+      south:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: South
+        pipeLayer: 0
+        volume: 50
+      north:
+        !type:PipeNode
+        nodeGroupID: Pipe
+        pipeDirection: North
+        pipeLayer: 2
+        volume: 50
+  - type: Construction
+    graph: PipeInterchangePrimaryTertiary

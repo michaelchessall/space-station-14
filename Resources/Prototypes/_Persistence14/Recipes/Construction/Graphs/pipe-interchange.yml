@@ -1,0 +1,115 @@
+- type: constructionGraph
+  id: PipeInterchangePrimarySecondary
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DeleteEntity
+    edges:
+    - to: complete
+      steps:
+      - material: Steel
+        amount: 1
+        doAfter: 1
+  
+  - node: complete
+    entity: PipeInterchangePrimarySecondary
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 1
+      steps:
+      - tool: Welding
+        doAfter: 1
+
+- type: constructionGraph
+  id: PipeInterchangePrimaryTertiary
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DeleteEntity
+    edges:
+    - to: complete
+      steps:
+      - material: Steel
+        amount: 1
+        doAfter: 1
+  
+  - node: complete
+    entity: PipeInterchangePrimaryTertiary
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 1
+      steps:
+      - tool: Welding
+        doAfter: 1
+
+- type: constructionGraph
+  id: PipeInterchangeSecondaryTertiary
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DeleteEntity
+    edges:
+    - to: complete
+      steps:
+      - material: Steel
+        amount: 1
+        doAfter: 1
+  
+  - node: complete
+    entity: PipeInterchangeSecondaryTertiary
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 1
+      steps:
+      - tool: Welding
+        doAfter: 1
+
+- type: constructionGraph
+  id: PipeInterchangeSecondaryTertiaryFlipped
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DeleteEntity
+    edges:
+    - to: complete
+      steps:
+      - material: Steel
+        amount: 1
+        doAfter: 1
+  
+  - node: complete
+    entity: PipeInterchangeSecondaryTertiaryFlipped
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 1
+      steps:
+      - tool: Welding
+        doAfter: 1

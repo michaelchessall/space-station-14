@@ -1,3 +1,4 @@
+using Content.Shared.Atmos.Components;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.Atmos
@@ -70,6 +71,15 @@ namespace Content.Shared.Atmos
         }
     }
 
+    public enum PipeLayerRotationMode
+    {
+        // Default behaviour. Pipe layers remain unchanged during rotations.
+        Stable,
+
+        // Pipe layers follow the symmetry of rotation, inverting secondary/tertiary when rotated 90° or 180°
+        TrueVisual
+    }
+
     public static class PipeDirectionHelpers
     {
         public const int PipeDirections = 4;
@@ -78,6 +88,8 @@ namespace Content.Shared.Atmos
         ///     Includes the Up and Down directions.
         /// </summary>
         public const int AllPipeDirections = 6;
+
+
 
         public static bool HasDirection(this PipeDirection pipeDirection, PipeDirection other)
         {
@@ -165,6 +177,26 @@ namespace Content.Shared.Atmos
                 newPipeDir |= angle.GetCardinalDir().ToPipeDirection();
             }
             return newPipeDir;
+        }
+
+        public static AtmosPipeLayer RotatePipeLayer(this AtmosPipeLayer pipeLayer, Angle diff, PipeLayerRotationMode mode)
+        {
+            if (mode == PipeLayerRotationMode.Stable)
+                return pipeLayer;
+
+            var degrees = diff.Degrees % 360;
+            if (degrees < 0) degrees += 360;
+
+            var invert = MathHelper.CloseTo(degrees, 270f) || MathHelper.CloseTo(degrees, 180f);
+            if (!invert)
+                return pipeLayer;
+
+            return pipeLayer switch
+            {
+                AtmosPipeLayer.Secondary => AtmosPipeLayer.Tertiary,
+                AtmosPipeLayer.Tertiary => AtmosPipeLayer.Secondary,
+                _ => pipeLayer
+            };
         }
     }
 }
