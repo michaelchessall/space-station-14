@@ -11,8 +11,6 @@ Space Station 14 Persistence is a fork of Space Station 14.
 
 </div>
 
-
-
 ## License
 
 All code for the content repository is licensed under the [MIT license](https://github.com/space-wizards/space-station-14/blob/master/LICENSE.TXT).  
@@ -24,4 +22,6 @@ Most assets are licensed under [CC-BY-SA 3.0](https://creativecommons.org/licens
 
 ## Contributions
 
-All contributions must follow our [contribution policy](rules-contributing.md)
+All contributions must follow our [Contribution Policy](docs/rules-contributing.md)
+
+If you're taking a look and wondering how our GitHub page is structured, check out [Persistence 14 GitHub Structure](docs/github-guidelines.md)

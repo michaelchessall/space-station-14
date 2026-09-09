@@ -1,0 +1,1 @@
+tiles-lattice-reinforced = reinforced lattice

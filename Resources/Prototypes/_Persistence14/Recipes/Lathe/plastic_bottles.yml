@@ -1,0 +1,41 @@
+- type: latheRecipe
+  id: BasePlasticBottle
+  abstract: true
+  completetime: 3
+  categories:
+  - PlasticBottles
+  materials:
+   Plastic: 100
+
+- type: latheRecipe
+  id: LRTinyPlasticBottle
+  parent: BasePlasticBottle
+  result: TinyPlasticBottle
+  materials:
+    Plastic: 50
+
+- type: latheRecipe
+  id: LRSmallPlasticBottle
+  parent: BasePlasticBottle
+  result: SmallPlasticBottle
+
+- type: latheRecipe
+  id: LRPlasticBottle
+  parent: BasePlasticBottle
+  result: PlasticBottle
+  materials:
+    Plastic: 200
+
+- type: latheRecipe
+  id: LRLargePlasticBottle
+  parent: BasePlasticBottle
+  result: LargePlasticBottle
+  materials:
+    Plastic: 350
+
+- type: latheRecipe
+  id: LRWaterJug
+  parent: BasePlasticBottle
+  result: WaterJug
+  materials:
+    Plastic: 600

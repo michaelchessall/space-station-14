@@ -97,3 +97,13 @@
   cost: 6000
   category: cargoproduct-category-name-science
   group: market
+  
+- type: cargoProduct
+  id: RNDKit
+  icon:
+    sprite: Structures/Machines/server.rsi
+    state: server
+  product: CrateRNDKit
+  cost: 10500
+  category: cargoproduct-category-name-science
+  group: market2

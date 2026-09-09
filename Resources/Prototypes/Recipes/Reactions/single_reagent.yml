@@ -58,3 +58,25 @@
       amount: 1
   products:
     Holywater: 1
+
+# Persistence: Make ice reagent obtainable
+- type: reaction
+  id: WatertoIce
+  impact: Low
+  maxTemp: 273.15
+  reactants:
+    Water:
+      amount: 1
+  products:
+    Ice: 1
+
+# Persistence: Inverse of WaterToIce
+- type: reaction
+  id: IceToWater
+  impact: Low
+  minTemp: 273.15
+  reactants:
+    Ice:
+      amount: 1
+  products:
+    Water: 1

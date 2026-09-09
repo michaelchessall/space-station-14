@@ -1,0 +1,152 @@
+<Document>
+  #Text Colors
+
+  This is quick cheat sheet for the colors that SS14 natively supports by name.
+
+  Transparent = [color=transparent]Transperent[/color] \n
+  Alice Blue = [color=aliceblue]AliceBlue[/color] \n
+  Antique White = [color=antiquewhite]AntiqueWhite[/color] \n
+  Aqua = [color=aqua]Aqua[/color] \n
+  Aquamarine = [color=aquamarine]Aquamarine[/color] \n
+  Azure = [color=azure]Azure[/color] \n
+  Beige = [color=beige]Beige[/color] \n
+  Better Violet = [color=betterviolet]BetterViolet[/color] \n
+  Bisque = [color=bisque]Bisque[/color] \n
+  Black = [color=black]Black[/color] \n
+  Blanched Almond = [color=blanchedalmond]BlanchedAlmond[/color] \n
+  Blue = [color=blue]Blue[/color] \n
+  Blue Violet = [color=blueviolet]BlueViolet[/color] \n
+  Brown = [color=brown]Brown[/color] \n
+  Burly Wood = [color=burlywood]BurlyWood[/color] \n
+  Cadet Blue = [color=cadetblue]CadetBlue[/color] \n
+  Chartreuse = [color=chartreuse]Chartreuse[/color] \n
+  Chocolate = [color=chocolate]Chocolate[/color] \n
+  Coral = [color=coral]Coral[/color] \n
+  Conrnflower Blue = [color=cornflowerblue]CornflowerBlue[/color] \n
+  Cornsilk = [color=cornsilk]Cornsilk[/color] \n
+  Crimson = [color=crimson]Crimson[/color] \n
+  Cyan = [color=cyan]Cyan[/color] \n
+  Dark Blue = [color=darkblue]DarkBlue[/color] \n
+  Dark Cyan = [color=darkcyan]DarkCyan[/color] \n
+  Dark Goldenrod = [color=darkgoldenrod]DarkGoldenrod[/color] \n
+  Dark Gray = [color=darkgray]DarkGray[/color] \n
+  Dark Green = [color=darkgreen]DarkGreen[/color] \n
+  Dark Khaki = [color=darkkhaki]DarkKhaki[/color] \n
+  Dark Magenta = [color=darkmagenta]DarkMagenta[/color] \n
+  Dark Olive Green = [color=darkolivegreen]DarkOliveGreen[/color] \n
+  Dark Orange = [color=darkorange]DarkOrange[/color] \n
+  Dark Orchid = [color=darkorchid]DarkOrchid[/color] \n
+  Dark Red = [color=darkred]DarkRed[/color] \n
+  Dark Salmon = [color=darksalmon]DarkSalmon[/color] \n
+  Dark Sea Green = [color=Darkseagreen]DarkSeaGreen[/color] \n
+  Dark Slate Blue = [color=darkslateblue]DarkSlateBlue[/color] \n
+  Dark Slate Gray = [color=darkslategray]DarkSlateGray[/color] \n
+  Dark Turquoise = [color=darkturquoise]DarkTurquoise[/color] \n
+  Dark Violet = [color=darkviolet]DarkViolet[/color] \n
+  Deep Pink = [color=deeppink]DeepPink[/color] \n
+  Deep Sky Blue = [color=deepskyblue]DeepSkyBlue[/color] \n
+  Dim Gray = [color=dimgray]DimGray[/color] \n
+  Dodger Blue = [color=dodgerblue]DodgerBlue[/color] \n
+  Firebrick = [color=firebrick]Firebrick[/color] \n
+  Floral White = [color=floralwhite]FloralWhite[/color] \n
+  Forest Green = [color=forestgreen]ForestGreen[/color] \n
+  Fuchsia = [color=fuchsia]Fuchsia[/color] \n
+  Gainsboro = [color=gainsboro]Gainsboro[/color] \n
+  Ghost White = [color=GhostWhite]GhostWhite[/color] \n
+  Gold = [color=gold]Gold[/color] \n
+  Goldenrod = [color=goldenrod]Goldenrod[/color] \n
+  Gray = [color=gray]Gray[/color] \n
+  Green = [color=green]Green[/color] \n
+  Green Yellow = [color=Greenyellow]GreenYellow[/color] \n
+  Honeydew = [color=honeydew]Honeydew[/color] \n
+  Hot Pink = [color=hotpink]HotPink[/color] \n
+  Indian Red = [color=indianred]IndianRed[/color] \n
+  Indigo = [color=indigo]Indigo[/color] \n
+  Ivory = [color=ivory]Ivory[/color] \n
+  Khaki = [color=khaki]Khaki[/color] \n
+  Lavender = [color=lavender]Lavender[/color] \n
+  Lavender Blush = [color=lavenderblush]LavenderBlush[/color] \n
+  Lawn Green = [color=lawngreen]LawnGreen[/color] \n
+  Lemon Chiffon = [color=lemonchiffon]LemonChiffon[/color] \n
+  Light Blue = [color=lightblue]LightBlue[/color] \n
+  Light Coral = [color=lightcoral]LightCoral[/color] \n
+  Light Cyan = [color=lightcyan]LightCyan[/color] \n
+  Light Goldenrod Yellow = [color=lightgoldenrodyellow]LightGoldenrodYellow[/color] \n
+  Light Green = [color=lightgreen]LightGreen[/color] \n
+  Light Gray = [color=lightgray]LightGray[/color] \n
+  Light Pink = [color=lightpink]LightPink[/color] \n
+  Light Salmon = [color=lightsalmon]LightSalmon[/color] \n
+  Light Sea Green = [color=lightseagreen]LightSeaGreen[/color] \n
+  Light Sky Blue = [color=lightskyblue]LightSkyBlue[/color] \n
+  Light Slate Gray = [color=lightslategray]LightSlateGray[/color] \n
+  Light Steel Blue = [color=lightsteelblue]LightSteelBlue[/color] \n
+  Light Yellow = [color=lightyellow]LightYellow[/color] \n
+  Lime = [color=lime]Lime[/color] \n
+  Lime Green = [color=limegreen]LimeGreen[/color] \n
+  Linen = [color=linen]Linen[/color] \n
+  Magenta = [color=magenta]Magenta[/color] \n
+  Maroon = [color=maroon]Maroon[/color] \n
+  Medium Aquamarine = [color=mediumaquamarine]MediumAquamarine[/color] \n
+  Medium Blue = [color=mediumblue]MediumBlue[/color] \n
+  Medium Orchid = [color=mediumorchid]MediumOrchid[/color] \n
+  Medium Purple = [color=mediumpurple]MediumPurple[/color] \n
+  Medium Sea Green = [color=mediumseagreen]MediumSeaGreen[/color] \n
+  Medium Slate Blue = [color=mediumslateblue]MediumSlateBlue[/color] \n
+  Medium Spring Green = [color=mediumspringgreen]MediumSpringGreen[/color] \n
+  Medium Turquoise = [color=mediumturquoise]MediumTurquoise[/color] \n
+  Medium Violet Red = [color=mediumvioletred]MediumVioletRed[/color] \n
+  Midnight Blue = [color=midnightblue]MidnightBlue[/color] \n
+  Mint Cream = [color=mintcream]MintCream[/color] \n
+  Misty Rose = [color=mistyrose]MistyRose[/color] \n
+  Moccasin = [color=moccasin]Moccasin[/color] \n
+  Navajo White = [color=navajowhite]NavajoWhite[/color] \n
+  Navy = [color=navy]Navy[/color] \n
+  Old Lace = [color=oldlace]OldLace[/color] \n
+  Olive = [color=olive]Olive[/color] \n
+  Olive Drab = [color=olivedrab]OliveDrab[/color] \n
+  Orange = [color=orange]Orange[/color] \n
+  Orange Red = [color=orangered]OrangeRed[/color] \n
+  Orchid = [color=orchid]Orchid[/color] \n
+  Pale Goldenrod = [color=palegoldenrod]PaleGoldenrod[/color] \n
+  Pale Green = [color=palegreen]PaleGreen[/color] \n
+  Pale Turquoise = [color=paleturquoise]PaleTurquoise[/color] \n
+  Pale Violet Red = [color=palevioletred]PaleVioletRed[/color] \n
+  Papaya Whip = [color=papayawhip]PapayaWhip[/color] \n
+  Peach Puff = [color=peachpuff]PeachPuff[/color] \n
+  Peru = [color=peru]Peru[/color] \n
+  Pink = [color=pink]Pink[/color] \n
+  Plum = [color=plum]Plum[/color] \n
+  Powder Blue = [color=powderblue]PowderBlue[/color] \n
+  Purple = [color=purple]Purple[/color] \n
+  Red = [color=red]Red[/color] \n
+  Rosy Brown = [color=rosybrown]RosyBrown[/color] \n
+  Royal Blue = [color=royalblue]RoyalBlue[/color] \n
+  Ruber = [color=ruber]Ruber[/color] \n
+  Saddle Brown = [color=saddlebrown]SaddleBrown[/color] \n
+  Salmon = [color=salmon]Salmon[/color] \n
+  Sandy Brown = [color=sandybrown]SandyBrown[/color] \n
+  Sea Blue = [color=seablue]SeaBlue[/color] \n
+  Sea Green = [color=seagreen]SeaGreen[/color] \n
+  Sea Shell = [color=seashell]SeaShell[/color] \n
+  Sienna = [color=sienna]Sienna[/color] \n
+  Silver = [color=silver]Silver[/color] \n
+  Sky Blue = [color=skyblue]SkyBlue[/color] \n
+  Slate Blue = [color=slateblue]SlateBlue[/color] \n
+  Slate Gray = [color=slategray]SlateGray[/color] \n
+  Snow = [color=snow]Snow[/color] \n
+  Spring Green = [color=springgreen]SpringGreen[/color] \n
+  Steel Blue = [color=steelblue]SteelBlue[/color] \n
+  Tan = [color=tan]Tan[/color] \n
+  Teal = [color=teal]Teal[/color] \n
+  Thistle = [color=thistle]Thistle[/color] \n
+  Tomato = [color=tomato]Tomato[/color] \n
+  Turquoise = [color=turquoise]Turquoise[/color] \n
+  Violet = [color=violet]Violet[/color] \n
+  Vivid Gamboge = [color=vividgamboge]VividGamboge[/color] \n
+  Wheat = [color=wheat]Wheat[/color] \n
+  White = [color=white]White[/color] \n
+  White Smoke = [color=whitesmoke]WhiteSmoke[/color] \n
+  Yellow = [color=yellow]Yellow[/color] \n
+  Yellow Green = [color=yellowgreen]YellowGreen[/color] \n
+
+</Document>

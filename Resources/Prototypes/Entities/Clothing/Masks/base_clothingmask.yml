@@ -11,6 +11,19 @@
     slots: [mask]
   - type: StaticPrice
     price: 10
+  - type: Appearance # Funky: Footprints & Stains
+  - type: SolutionContainerManager # Funky: Footprints & Stains
+    solutions:
+      stain:
+        maxVol: 5
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      mask:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: maskblood
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: maskbloodicon
 
 - type: entity
   abstract: true
@@ -53,6 +66,8 @@
         reagents:
         - ReagentId: Fiber
           Quantity: 10
+      stain: # Funky: Footprints & Stains
+        maxVol: 5
   - type: Tag
     tags:
     - ClothMade

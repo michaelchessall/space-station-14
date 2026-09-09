@@ -1,0 +1,66 @@
+### Persistence 14 Unique Healing ###
+
+# Necrospray
+- type: entity
+  name: necrospray
+  description: A regenerative spray used to repair damage on the dead. Has virtually no use on the living.
+  parent: BaseHealingItem
+  id: Necrospray
+  suffix: Full
+  components:
+    - type: Tag
+      tags: [Ointment, Brutepack]
+    - type: Sprite
+      sprite: _Persistence14/Objects/Specific/Medical/necrospray.rsi
+      state: necrospray
+      scale: 0.75, 0.75
+    - type: Item
+      size: Small
+      sprite: _Persistence14/Objects/Specific/Medical/necrospray.rsi
+      inhandVisuals:
+        left:
+          - state: necrospray-inhand-left
+        right:
+          - state: necrospray-inhand-right
+      heldPrefix: necrospray
+    - type: Healing
+      damageContainers:
+      - Biological
+      damage:
+        types: 
+          Blunt: -5
+          Slash: -5
+          Piercing: -5
+          Heat: -5
+          Cold: -5
+          Shock: -5
+          Caustic: -5
+      conditions:
+        - !type:DamageThreshold
+          min: 180
+      # Idea behind the sound is that you're installing the cap onto an unused can and breaching it
+      healingBeginSound: 
+        path: "/Audio/Items/canopen.ogg"
+        params:
+          volume: 0.75
+          variation: 0.125
+      healingEndSound: 
+        path: "/Audio/Effects/spray3.ogg"
+        params:
+          volume: 1
+          variation: 0.125
+    - type: Stack
+      stackType: Necrospray
+      count: 10
+    - type: StaticPrice
+      price: 0
+    - type: StackPrice
+      price: 0
+# Single stack
+- type: entity
+  id: Necrospray1
+  parent: Necrospray
+  suffix: Single
+  components:
+    - type: Stack
+      count: 1

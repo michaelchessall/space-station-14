@@ -1,0 +1,22 @@
+{
+    "version": 1,
+	"license": "CC-BY-SA-3.0",
+	"copyright": "necrospray.png by PositivelyDizzy on Github, necrospray-inhand-left.png and necrospray-inhand-right.png by SilverSS14 on YouTube",
+    "size": {
+		"x": 32,
+		"y": 32
+    },
+    "states": [
+        {
+            "name": "necrospray"
+        },
+        {
+            "name": "necrospray-inhand-left",
+            "directions": 4
+        },
+        {
+            "name": "necrospray-inhand-right",
+            "directions": 4
+        }
+    ]
+}

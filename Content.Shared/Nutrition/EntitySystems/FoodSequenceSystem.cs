@@ -6,6 +6,7 @@ using Content.Shared.Nutrition.Prototypes;
 using Content.Shared.Popups;
 using Content.Shared.Storage.Components;
 using Content.Shared.Tag;
+using Content.Shared._Persistence14.Nutrition;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Numerics;
@@ -105,14 +106,14 @@ public sealed class FoodSequenceSystem : SharedFoodSequenceSystem
         MergeTags(start, result);
     }
 
-    private bool TryAddFoodElement(Entity<FoodSequenceStartPointComponent> start, Entity<FoodSequenceElementComponent, EdibleComponent?> element, EntityUid? user = null)
+    private bool TryAddFoodElement(Entity<FoodSequenceStartPointComponent> start, Entity<FoodSequenceElementComponent, EdibleComponent?, InedibleFoodSequenceElementComponent?> element, EntityUid? user = null) // Persistence 14: InedibleFoodSequenceElementComponent added
     {
-        // we can't add a live mouse to a burger.
-        if (!Resolve(element, ref element.Comp2, false))
-            return false;
-
-        if (element.Comp2.RequireDead && _mobState.IsAlive(element))
-            return false;
+        // we can't add a live mouse to a burger. Modified in persistence 14 to not return false if there's no EdibleComponent
+        if (Resolve(element, ref element.Comp2, false))
+        {
+            if (element.Comp2.RequireDead && _mobState.IsAlive(element))
+                return false;
+        }
 
         //looking for a suitable FoodSequence prototype
         if (!element.Comp1.Entries.TryGetValue(start.Comp.Key, out var elementProto))
@@ -154,6 +155,7 @@ public sealed class FoodSequenceSystem : SharedFoodSequenceSystem
 
         UpdateFoodName(start);
         MergeFoodSolutions(start.Owner, element.Owner);
+        MergeInedibleFoodSolutions(start.Owner, element.Owner); // Persistence
         MergeFlavorProfiles(start, element);
         MergeTrash(start.Owner, element.Owner);
         MergeTags(start, element);
@@ -222,6 +224,24 @@ public sealed class FoodSequenceSystem : SharedFoodSequenceSystem
 
         startSolution.MaxVolume += elementSolution.MaxVolume;
         _solutionContainer.TryAddSolution(startSolutionEntity.Value, elementSolution);
+    }
+
+    private void MergeInedibleFoodSolutions(Entity<EdibleComponent?> start, Entity<InedibleFoodSequenceElementComponent?> element) // Persistence 14
+    {
+        if (!Resolve(start, ref start.Comp, false))
+            return;
+
+        if (!Resolve(element, ref element.Comp, false))
+            return;
+
+        if (!_solutionContainer.TryGetSolution(start.Owner, start.Comp.Solution, out var startSolutionEntity, out var startSolution))
+            return;
+
+        startSolution.MaxVolume += element.Comp.Volume;
+        foreach (var reagentQuantity in element.Comp.Contents)
+        {
+            startSolution.AddReagent(reagentQuantity);
+        }
     }
 
     private void MergeFlavorProfiles(EntityUid start, EntityUid element)

@@ -1,109 +1,89 @@
 - type: cargoBounty
   id: BountyOxygen
-  reward: 0.55 # 9900
+  reward: 9900
   description: bounty-description-artifact
-  gasId: Oxygen
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-oxygen
-    amount: 18000
+  condition:
+    gas: Oxygen
+    quantity: 18000
 
 - type: cargoBounty
   id: BountyNitrogen
-  reward: 0.5
+  reward: 10000
   description: bounty-description-artifact
-  gasId: Nitrogen
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-nitrogen
-    amount: 20000
+  condition:
+    gas: Nitrogen
+    quantity: 20000
 
 - type: cargoBounty
   id: BountyHydrogen
-  reward: 0.75
+  reward: 9750
   description: bounty-description-artifact
-  gasId: Hydrogen
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-hydrogen
-    amount: 13000
+  condition:
+    gas: Hydrogen
+    quantity: 13000
 
 - type: cargoBounty
   id: BountyPlasmaGas
-  reward: 0.75
+  reward: 9750
   description: bounty-description-artifact
-  gasId: Plasma
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-plasmagas
-    amount: 13000
+  condition:
+    gas: Plasma
+    quantity: 13000
 
 - type: cargoBounty
   id: BountyChlorine
-  reward: 2.25
+  reward: 10125
   description: bounty-description-artifact
-  gasId: Chlorine
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-chlorine
-    amount: 4500
+  condition:
+    gas: Chlorine
+    quantity: 4500
 
 - type: cargoBounty
   id: BountyFluorine
-  reward: 2.5
+  reward: 10000
   description: bounty-description-artifact
-  gasId: Fluorine
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-fluorine
-    amount: 4000
+  condition:
+    gas: Fluorine
+    quantity: 4000
 
 - type: cargoBounty
   id: BountyTritium
-  reward: 5
+  reward: 10000
   description: bounty-description-artifact
-  gasId: Tritium
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-tritium
-    amount: 2000
+  condition:
+    gas: Tritium
+    quantity: 2000
 
 - type: cargoBounty
   id: BountyFrezon
-  reward: 10
+  reward: 10000
   description: bounty-description-artifact
-  gasId: Frezon
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-frezon
-    amount: 1000
+  condition:
+    gas: Frezon
+    quantity: 1000
 
 - type: cargoBounty
   id: BountyMethane
-  reward: 2.8
+  reward: 9800
   description: bounty-description-artifact
-  gasId: Methane
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-methane
-    amount: 3500
+  condition:
+    gas: Methane
+    quantity: 3500
 
 - type: cargoBounty
   id: BountyChlorineTrifluoride
-  reward: 12.5
+  reward: 10625
   description: bounty-description-artifact
-  gasId: ChlorineTrifluoride
   group: GasBounty
-  bountyType: PayPerGas
-  entries:
-  - name: bounty-item-chlorinetrifluoride
-    amount: 850
+  condition:
+    gas: ChlorineTrifluoride
+    quantity: 850

@@ -1,0 +1,9 @@
+- type: latheRecipe
+  parent: BaseMaskRecipe
+  id: ClothingMaskGas
+  result: ClothingMaskGas
+
+- type: latheRecipe
+  parent: BaseMaskRecipe
+  id: ClothingMaskBreath
+  result: ClothingMaskBreath

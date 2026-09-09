@@ -491,6 +491,30 @@
       Manipulator: 3
       Cable: 5
 
+# Start Persistence: make atmos fans into machines
+- type: entity
+  id: AtmosDeviceFanTinyMachineCircuitBoard
+  parent: BaseMachineCircuitboard
+  name: tiny fan machine board
+  description: A machine printed circuit board for a tiny fan.
+  components:
+  - type: Sprite
+    state: engineering
+  - type: MachineBoard
+    prototype: AtmosDeviceFanTiny
+
+- type: entity
+  id: AtmosDeviceFanDirectionalMachineCircuitBoard
+  parent: BaseMachineCircuitboard
+  name: directional fan machine board
+  description: A machine printed circuit board for a directional fan.
+  components:
+  - type: Sprite
+    state: engineering
+  - type: MachineBoard
+    prototype: AtmosDeviceFanDirectional
+# End Persistence
+
 - type: entity
   id: CloningPodMachineCircuitboard
   parent: BaseMachineCircuitboard

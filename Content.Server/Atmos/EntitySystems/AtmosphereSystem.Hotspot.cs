@@ -1,4 +1,5 @@
 using Content.Server.Decals;
+using Content.Server._Funkystation.Atmos.Events; // Funky
 using Content.Shared.Atmos;
 using Content.Shared.Atmos.Components;
 using Content.Shared.Atmos.Reactions;
@@ -202,7 +203,12 @@ public sealed partial class AtmosphereSystem
         if (tile.Air == null)
             return;
 
-        if (!IsMixtureOxidizer(tile.Air))
+        // Funky start
+        var ev = new TileExposedEvent(tile.GridIndices, exposedTemperature, exposedVolume, sparkSourceUid);
+        RaiseLocalEvent(gridAtmosphere.Owner, ref ev);
+        var oxygen = tile.Air.GetMoles(Gas.Oxygen);
+
+        if (oxygen < 0.5f) // Funky end
             return;
 
         var isFlammable = IsMixtureFuel(tile.Air);

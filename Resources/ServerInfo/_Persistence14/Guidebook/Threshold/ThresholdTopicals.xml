@@ -1,0 +1,32 @@
+<Document>
+# Topicals
+
+  \n
+    Topicals are most people's first choice for treating wounds on the field... But their use is much more limited in the Threshold.
+
+## Basic Topicals
+
+      <Box>
+        <GuideEntityEmbed Entity="Brutepack" Caption="Bruise Pack"/>
+        <GuideEntityEmbed Entity="Ointment" Caption="Ointment"/>
+        <GuideEntityEmbed Entity="Gauze" Caption="Gauze"/>
+      </Box>
+
+      [bold]Bruise Packs[/bold] and [bold]Ointment[/bold] only work when the [color=crimson]Total Damage[/color] is [color=burlywood]at most [color=khaki]40[/color][/color]. \n
+      A [bold]Roll of Gauze[/bold] will only heal a very small amount of [color=lightpink]Slash[/color] and [color=lightpink]Pierce[/color] but will [color=burlywood]stop bleeding[/color] and can be applied independently of the [color=crimson]Total Damage[/color].
+  \n
+
+
+## Advanced Topicals
+
+      <Box>
+        <GuideEntityEmbed Entity="MedicatedSuture" Caption="Medicated Suture"/>
+        <GuideEntityEmbed Entity="RegenerativeMesh" Caption="Regenerative Mesh"/>
+        <GuideEntityEmbed Entity="Necrospray" Scale="2.7" Caption="Necrospray"/>
+      </Box>
+
+      [bold]Medicated Sutures[/bold] and [bold]Regenerative Mesh[/bold] will only work when the [color=crimson]Total Damage[/color] is [color=burlywood]at least [color=khaki]90[/color][/color]. \n
+    [bold]Necrospray[/bold] can be used to heal both [color=lightcoral]Brute[/color] and [color=lightcoral]Burn[/color] so long as the [color=crimson]Total Damage[/color] is [color=burlywood]at least [color=khaki]180[/color][/color], it is mostly meant for dead people.
+  \n
+
+</Document>

@@ -287,3 +287,20 @@
     Silver: 400
     Gold: 50 # A bit of gold for the gold ornaments on it!
   unlockUses: 4
+
+#RCM14 IV
+- type: latheRecipe
+  id: CMBloodPack
+  result: CMBloodPack
+  completetime: 1
+  materials:
+    Plastic: 5
+
+- type: latheRecipe
+  id: CMIV
+  result: CMIV
+  completetime: 1
+  materials:
+    Plastic: 5
+    Steel: 10
+    Glass: 2

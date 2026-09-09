@@ -1,0 +1,15 @@
+# another one.
+
+- type: entity
+  parent: ToteBase
+  id: BoxRNDCircuitboards
+  name: rnd starter kit tote
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase: !type:AllSelector
+        children:
+        - id: ResearchAndDevelopmentServerMachineCircuitboard
+        - id: ArtifactAnalyzerMachineCircuitboard
+        - id: ResearchComputerCircuitboard
+        - id: AnalysisComputerCircuitboard

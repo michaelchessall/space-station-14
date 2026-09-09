@@ -13,6 +13,8 @@
       collection: bottleCloseSounds
   - type: FitsInDispenser
     solution: drink
+  - type: BountySolution
+    solution: drink
   - type: ExaminableSolution
     exactVolume: true # It's a chemistry tool
   - type: Tag

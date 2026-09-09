@@ -227,6 +227,11 @@
   id: HotplateMachineCircuitboard
   result: HotplateMachineCircuitboard
 
+- type: latheRecipe # Persistence
+  parent: [ BaseCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: ColdplateMachineCircuitboard
+  result: ColdplateMachineCircuitboard
+
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
   id: ElectrolysisUnitMachineCircuitboard

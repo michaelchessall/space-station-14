@@ -5,6 +5,7 @@
 
   Gasses have certain properties that make them useful for different tasks.
   Atmospherics can also synthesize exotic gasses from other gasses, which can be used for special purposes.
+  Additionally, any gas may be produced by a plant with the correct mutations.
 
   ## Oxygen
   <Box>
@@ -115,8 +116,58 @@
   <Box>
     <GuideEntityEmbed Entity="AmmoniaCanister" Caption=""/>
   </Box>
-  A gas produced by the decomposition of bodies.
+  A gas produced by the decomposition of bodies. If inhaled, causes poisoning and vomiting.
 
   Can be condensed to create ammonia, which can be used to make space cleaner.
+
+  ## Methane
+  <Box>
+    <GuideEntityEmbed Entity="MethaneCanister" Caption=""/>
+  </Box>
+
+  A poisonous, flammable, orange-brown gas.
+  Burns begin at 100C and scales linearly to 1370C. Consumes oxygen and produces carbon dioxide and water vapour in a ratio of 1:2:1:2 (CH4:O2:CO2:H2O). Releases 3.5x as much energy as plasma per mole of gas.
+
+  Can be synthesised by mixing carbon dioxide and hydrogen in a ratio of 1:4, as long as the temperature is less than 600K and pressure is above 2MPa.
+
+  ## Hydrogen
+  <Box>
+    <GuideEntityEmbed Entity="HydrogenCanister" Caption=""/>
+  </Box>
+  A flammable, slightly poisonous, colourless gas.
+  Burns begin at 100C and scales linearly to 1370C. Consumes oxygen and produces water vapour in a ratio of 2:1:2(H2:O2:H2O). Releases ~1.75x as much energy as plasma per mole of gas.
+
+  ## Chlorine
+  <Box>
+    <GuideEntityEmbed Entity="ChlorineCanister" Caption=""/>
+  </Box>
+  A poisonous yellow gas. Limited usage outside of chemistry.
+
+  ## Fluorine
+  <Box>
+    <GuideEntityEmbed Entity="FluorineCanister" Caption=""/>
+  </Box>
+  A poisonous yellow-green gas. Causes chemical burns when inhaled.
+
+  ## Chlorine Trifluoride
+  <Box>
+    <GuideEntityEmbed Entity="ChlorineTrifluorideCanister" Caption=""/>
+  </Box>
+  A red gas that should be avoided.
+
+  <!-- couldnt find a better way to make an indented quote block, sorry -->
+
+  <Table Columns="3">
+  <Box> [color=transparent] a [/color] </Box>
+  <Box HorizontalAlignment="Center"> [color=lightgray] It is, of course, extremely toxic, but that's the least of the problem. It is hypergolic with every known fuel, and so rapidly hypergolic that no ignition delay has ever been measured. It is also hypergolic with such things as cloth, wood, and test engineers, not to mention asbestos, sand, and water—with which it reacts explosively. It can be kept in some of the ordinary structural metals—steel, copper, aluminum, etc.—because of the formation of a thin film of insoluble metal fluoride that protects the bulk of the metal, just as the invisible coat of oxide on aluminium keeps it from burning up in the atmosphere. If, however, this coat is melted or scrubbed off, and has no chance to reform, the operator is confronted with the problem of coping with a metal-fluorine fire. For dealing with this situation, I have always recommended a good pair of running shoes. [/color] </Box>
+  <Box> [color=transparent] a [/color] </Box>
+  </Table>
+  [italic] John D. Clark (1972, Ignition! An Informal History of Liquid Rocket Propellants) [/italic]
+
+  Material science has advanced in the last two and a half centuries, but ClF3 is still extremely dangerous. Notable advances include walls and clothes that do not react, though you are not your clothes and still burn unless all skin is completely covered by a hardsuit.
+
+  Fires involving ClF3 do not use oxygen, and instead react with any of tritium, water vapor, hydrogen, ammonia, methane and plasma. They reach maximum burn rate at 300C, which is much lower than other flammable gases. If tritium is in the fire, it burns much more violently and also produces radiation. It produces chlorine and fluorine regardless of what it's burning with, and may produce nitrrogen, carbon dioxide or hydrogen depending on other gasses in the mix. Most burns release 2.5x the amount of energy compared to plasma, with tritium instead releasing 12.5x.
+
+  The first step for producing it is to reconsider. After that, source chlorine and fluorine in the ratio 1:3:2 (Cl2:F2:ClF3), and mix at or above 250C. Releases approximately the same amount of heat as a plasfire (per mole ClF3 formed/plasma burnt).
 
 </Document>

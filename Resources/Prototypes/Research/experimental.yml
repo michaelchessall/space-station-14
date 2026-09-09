@@ -43,7 +43,7 @@
   - AnalysisComputerCircuitboard
   - ArtifactAnalyzerMachineCircuitboard
   - ResearchComputerCircuitboard
-  - ResearchAndDevelopmentServerMachineCircuitboard
+#  - ResearchAndDevelopmentServerMachineCircuitboard # Disabling this because of the RNDkit being added.
 
 - type: technology
   id: AlternativeResearch

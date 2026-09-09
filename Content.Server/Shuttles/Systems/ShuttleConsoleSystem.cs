@@ -289,7 +289,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
         if (shuttleGridUid != null && entity != null)
         {
             navState = GetNavState(entity.Value, dockState.Docks);
-            mapState = GetMapState(shuttleGridUid.Value);
+            mapState = GetMapState(shuttleGridUid.Value, entity.Value);
         }
         else
         {
@@ -554,15 +554,21 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     /// <summary>
     /// Specific to a particular shuttle.
     /// </summary>
-    public ShuttleMapInterfaceState GetMapState(Entity<FTLComponent?> shuttle)
+    public ShuttleMapInterfaceState GetMapState(Entity<FTLComponent?> shuttle, Entity<ShuttleConsoleComponent?> console)
     {
         FTLState ftlState = FTLState.Available;
         StartEndTime stateDuration = default;
+        Vector2? waypoint = null;
 
         if (Resolve(shuttle, ref shuttle.Comp, false) && shuttle.Comp.LifeStage < ComponentLifeStage.Stopped)
         {
             ftlState = shuttle.Comp.State;
             stateDuration = _shuttle.GetStateTime(shuttle.Comp);
+        }
+
+        if (Resolve(console, ref console.Comp, false))
+        {
+            waypoint = console.Comp.Waypoint;
         }
 
         List<ShuttleBeaconObject>? beacons = null;
@@ -575,7 +581,8 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
             stateDuration,
             beacons ?? new List<ShuttleBeaconObject>(),
             exclusions ?? new List<ShuttleExclusionObject>(),
-            _sectorWeather.GetHazardWeatherSnapshot());
+            _sectorWeather.GetHazardWeatherSnapshot(),
+            waypoint);
     }
 
     private void OnDampingMessage(Entity<ShuttleConsoleComponent> ent, ref ShuttleConsoleDampingMessage args)

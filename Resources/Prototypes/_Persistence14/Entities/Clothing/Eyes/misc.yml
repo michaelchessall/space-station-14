@@ -1,0 +1,12 @@
+# FlashImmunity to fit the theming of the religion in question, perhaps? Still a WIP
+- type: entity
+  parent: ClothingEyesBase
+  id: ClothingEyesThresPriest
+  name: threshold's embrace blindfold circlet
+  description: WIP
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Eyes/Misc/threshpriest.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/Eyes/Misc/threshpriest.rsi
+  - type: FlashImmunity

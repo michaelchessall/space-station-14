@@ -1,3 +1,5 @@
+using System.Numerics; // Funky: Footprints & Stains
+using Content.Shared._Funkystation.Footprints; // Funky: Footprints & Stains
 using Content.Shared.Chemistry.Components;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.FixedPoint;
@@ -356,6 +358,8 @@ public abstract class SharedAbsorbentSystem : EntitySystem
         localPos = userXform.LocalRotation.RotateVec(localPos);
 
         _melee.DoLunge(user, absorbEnt, Angle.Zero, localPos, null);
+
+        RaiseLocalEvent(target, new FootprintCleanEvent()); // Funky: Footprints & Stains
 
         return true;
     }

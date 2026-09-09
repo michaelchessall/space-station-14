@@ -10,6 +10,7 @@
   baseTurf: Lattice
   baseWhitelist:
     - TrainLattice
+    - ReinforcedLattice
 
 - type: tile
   id: Plating

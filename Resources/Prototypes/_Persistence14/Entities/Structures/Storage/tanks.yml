@@ -1,0 +1,34 @@
+- type: entity
+  id: GenericTankHighCapacity
+  parent: [StorageTankBig, GenericTank]
+  name: high-capacity storage tank
+  description: A highly pressurized storage tank made to hold gargantuan amounts of water.
+  components:
+  - type: StaticPrice
+    price: 2000
+  - type: Sprite
+    sprite: Structures/Storage/tanks.rsi
+    layers:
+    - state: highgenerictank-1
+    - state: highwatertank-2-1
+      map: ["enum.SolutionContainerLayers.Fill"]
+      visible: false
+  - type: Appearance
+  - type: SolutionContainerVisuals
+    maxFillLevels: 7
+    fillBaseName: highwatertank-2-
+  - type: SolutionContainerManager
+    solutions:
+      tank:
+        maxVol: 10000
+  #   It's pressurized...
+  - type: ExaminableSolution
+    solution: tank
+  - type: ReagentTank
+    transferAmount: 100
+  - type: Icon
+    sprite: Structures/Storage/tanks.rsi
+    state: "highgenerictank-1"
+  - type: Construction
+    graph: GenericHighCapacityTankGraph
+    node: generictankhigh

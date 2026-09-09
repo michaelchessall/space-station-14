@@ -1,11 +1,14 @@
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using Content.Server.Construction;
 using Content.Server.Lathe;
 using Content.Server.Materials;
 using Content.Shared._Persistence14.Requisitions;
 using Content.Shared.Construction.Components;
+using Content.Shared.Containers.ItemSlots;
 using Content.Shared.Hands.EntitySystems;
+using Content.Shared.IdentityManagement;
 using Content.Shared.Invoices.Components;
 using Content.Shared.Lathe;
 using Content.Shared.Materials;
@@ -13,6 +16,7 @@ using Content.Shared.Materials.OreSilo;
 using Content.Shared.Popups;
 using Content.Shared.Power;
 using Content.Shared.Research.Prototypes;
+using Content.Shared.SmartFridge;
 using Content.Shared.Station;
 using Content.Shared.Station.Components;
 using Content.Shared.UserInterface;
@@ -23,7 +27,6 @@ using Robust.Shared.Timing;
 
 namespace Content.Server._Persistence14.Requisitions;
 
-/// <inheritdoc/>
 public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
 {
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
@@ -37,8 +40,13 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
     [Dependency] private readonly SharedContainerSystem _container = default!;
     [Dependency] private readonly SharedStationSystem _station = default!;
     [Dependency] private readonly MetaDataSystem _metaData = default!;
+    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
 
     private EntityQuery<LatheComponent> _latheQuery;
+    private EntityQuery<SmartFridgeComponent> _fridgeQuery;
+
+    // While set, UpdateUi does nothing; a checkout sets it and pushes state once at the end.
+    private bool _suppressUi;
 
     public override void Initialize()
     {
@@ -47,17 +55,21 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         SubscribeLocalEvent<RequisitionsConsoleComponent, ActivatableUIOpenAttemptEvent>(OnOpenAttempt);
         SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionCheckoutMessage>(OnCheckout);
         SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionCancelMessage>(OnCancel);
+        SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionPreviewInvoiceMessage>(OnPreviewInvoice);
         SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionEjectFlatpacksMessage>(OnEjectFlatpacks);
         SubscribeLocalEvent<RequisitionsConsoleComponent, MaterialAmountChangedEvent>(OnMaterialChanged);
+        SubscribeLocalEvent<RequisitionsConsoleComponent, EntInsertedIntoContainerMessage>(OnEntInserted);
+        SubscribeLocalEvent<RequisitionsConsoleComponent, EntRemovedFromContainerMessage>(OnEntRemoved);
         SubscribeLocalEvent<RequisitionsLatheJobComponent, LatheItemProducedEvent>(OnLatheItemProduced);
         // Run after the lathe's own power handler so its abort/refund has already returned materials to it.
         SubscribeLocalEvent<RequisitionsLatheJobComponent, PowerChangedEvent>(OnJobLathePowerChanged, after: new[] { typeof(LatheSystem) });
         SubscribeLocalEvent<RequisitionsLatheJobComponent, ComponentShutdown>(OnJobLatheShutdown);
 
         _latheQuery = GetEntityQuery<LatheComponent>();
+        _fridgeQuery = GetEntityQuery<SmartFridgeComponent>();
     }
 
-    /// <summary>The whole console is access-restricted: unauthorised players can't even open it.</summary>
+    // The whole console is access-restricted: unauthorised players can't even open it.
     private void OnOpenAttempt(Entity<RequisitionsConsoleComponent> ent, ref ActivatableUIOpenAttemptEvent args)
     {
         if (args.Cancelled || HasConfigAccess(ent, args.User))
@@ -68,10 +80,17 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
             _popup.PopupEntity(Loc.GetString("requisitions-access-denied"), ent.Owner, args.User);
     }
 
-    /// <summary>Materials inserted/removed (e.g. a customer contributing sheets) — refresh the open UI live.</summary>
+    // Materials inserted/removed (e.g. a customer contributing sheets) — refresh the open UI live. This
+    // reuses the cached lathe catalogue (only the cheap stock/contributed figures actually change here).
     private void OnMaterialChanged(Entity<RequisitionsConsoleComponent> ent, ref MaterialAmountChangedEvent args)
     {
         UpdateUi(ent);
+    }
+
+    // Server drops its cached lathe catalogue whenever the linked machine set changes.
+    protected override void OnCatalogueSourcesChanged(Entity<RequisitionsConsoleComponent> ent)
+    {
+        ent.Comp.LatheCatalogueCache = null;
     }
 
     #region Checkout
@@ -90,32 +109,53 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
             return;
         }
 
+        // Suppress UI pushes for the duration of the checkout; push once at the end.
+        _suppressUi = true;
+        try
+        {
         // Inserted sheets the customer is contributing: they discount the bill and physically feed the print.
         var pool = _materialStorage.GetStoredMaterials(ent.Owner, localOnly: true)
             .ToDictionary(kv => kv.Key.Id, kv => kv.Value);
 
         var invoiceMode = args.PrintInvoice;
         var detailedInvoice = ent.Comp.DetailedInvoice;
-        var runningCost = 0;
+        var inv = new InvoiceAccum();
         var producedAny = false;
         var anyFailed = false;
-
-        // Invoice body accumulation (only populated when printing an invoice).
-        var itemsBody = new StringBuilder();
-        var invoiceFees = new Dictionary<string, (string Name, bool Percent, int Rate, int Count, int Total)>();
-        var invoiceMats = new Dictionary<string, (int Raw, int Covered, int Billed)>();
-        var invoiceMatBilled = 0;
-        var invoiceMatWorth = 0;
 
         foreach (var item in args.Items)
         {
             // A single bad line must never abort the whole order.
             try
             {
-                if (!Proto.TryIndex<LatheRecipePrototype>(item.RecipeId, out var recipe))
+                // Fridge items aren't printed — the requested units are simply ejected from the linked fridge.
+                if (item.Source == RequisitionItemSource.Fridge)
+                {
+                    var fname = item.Id;
+                    var fqty = Math.Max(1, item.Quantity);
+                    var ejected = EjectFridgeItems(ent, fname, fqty);
+                    if (ejected <= 0)
+                    {
+                        if (invoiceMode)
+                            AppendInvoiceFailure(inv.Items, fname, Loc.GetString("requisitions-fail-out-of-stock"));
+                        anyFailed = true;
+                        continue;
+                    }
+                    if (ejected < fqty)
+                        anyFailed = true;
+
+                    var fprice = ent.Comp.FridgeItemPrices.GetValueOrDefault(fname, ent.Comp.FridgeFallbackPrice);
+                    BillLine(ent.Comp, inv, invoiceMode, detailedInvoice, item.Id, fname,
+                        RequisitionItemSource.Fridge, flatpack: false, perUnit: null, fridgeUnitPrice: fprice,
+                        queued: ejected, qty: fqty, coverUsed: null);
+                    producedAny = true;
+                    continue;
+                }
+
+                if (!Proto.TryIndex<LatheRecipePrototype>(item.Id, out var recipe))
                 {
                     if (invoiceMode)
-                        AppendInvoiceFailure(itemsBody, item.RecipeId, Loc.GetString("requisitions-fail-unknown"));
+                        AppendInvoiceFailure(inv.Items, item.Id, Loc.GetString("requisitions-fail-unknown"));
                     anyFailed = true;
                     continue;
                 }
@@ -141,7 +181,7 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
                 if (queued <= 0)
                 {
                     if (invoiceMode)
-                        AppendInvoiceFailure(itemsBody, Lathe.GetRecipeName(recipe), failReason ?? Loc.GetString("requisitions-fail-no-materials"));
+                        AppendInvoiceFailure(inv.Items, Lathe.GetRecipeName(recipe), failReason ?? Loc.GetString("requisitions-fail-no-materials"));
                     anyFailed = true;
                     continue;
                 }
@@ -149,74 +189,16 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
                 if (queued < qty)
                     anyFailed = true; // only part of this line could be produced
 
-                // Bill for the units that actually queued: their material need, minus the customer's contribution
-                // that was applied to them, plus fees on the units' full material worth.
-                var itemCost = 0;
-                var worth = 0;
-                var matLines = new List<(string Mat, int Raw, int Covered, int Billed)>();
-                foreach (var (mat, need) in perUnit)
-                {
-                    var raw = need * queued;
-                    var covered = coverUsed.GetValueOrDefault(mat);
-                    var billed = SheetCost(ent.Comp, mat, raw - covered);
-                    itemCost += billed;
-                    worth += SheetCost(ent.Comp, mat, raw);
-                    matLines.Add((mat, raw, covered, billed));
-                }
-
-                var feeLines = new List<(RequisitionFee Fee, int Amount)>();
-                foreach (var fee in FeesFor(ent.Comp, item.RecipeId, flatpack))
-                {
-                    var amt = fee.AmountFor(worth, queued);
-                    itemCost += amt;
-                    feeLines.Add((fee, amt));
-                }
-
-                runningCost += itemCost;
+                BillLine(ent.Comp, inv, invoiceMode, detailedInvoice, item.Id, Lathe.GetRecipeName(recipe),
+                    RequisitionItemSource.Lathe, flatpack: flatpack, perUnit: perUnit, fridgeUnitPrice: 0,
+                    queued: queued, qty: qty, coverUsed: coverUsed);
                 producedAny = true;
-
-                // Build this item's invoice section as we go. Every item gets its "name — cost" line; the
-                // per-material and per-fee breakdown (and the totals it feeds) is only built for a detailed invoice.
-                if (invoiceMode)
-                {
-                    var name = Lathe.GetRecipeName(recipe);
-                    var label = queued < qty ? $"{name} (×{queued} of {qty})" : name;
-                    itemsBody.Append($"[bold][color=#9a6a12]{label}[/color][/bold]   ${itemCost}\n");
-
-                    if (detailedInvoice)
-                    {
-                        foreach (var (mat, raw, covered, billed) in matLines)
-                        {
-                            invoiceMatBilled += billed;
-                            invoiceMatWorth += SheetCost(ent.Comp, mat, raw);
-                            var disc = covered > 0 ? $"  (−{SheetLabelServer(mat, covered)})" : "";
-                            itemsBody.Append($"    {SheetLabelServer(mat, raw)}{disc}   ${billed}\n");
-
-                            // Aggregate for the per-material totals list.
-                            var prevMat = invoiceMats.GetValueOrDefault(mat);
-                            invoiceMats[mat] = (prevMat.Raw + raw, prevMat.Covered + covered, prevMat.Billed + billed);
-                        }
-                        foreach (var (fee, amt) in feeLines)
-                        {
-                            var rate = fee.Type == RequisitionFeeType.Percent ? $"{fee.Price}%" : $"${fee.Price}";
-                            itemsBody.Append($"    {fee.Name} ({rate})   ${amt}\n");
-                            var prev = invoiceFees.GetValueOrDefault(fee.Id);
-                            invoiceFees[fee.Id] = (fee.Name, fee.Type == RequisitionFeeType.Percent, fee.Price, prev.Count + queued, prev.Total + amt);
-                        }
-                        itemsBody.Append('\n');
-                    }
-                    else
-                    {
-                        // Trimmed invoice: still separate each item with a blank line, like the failure lines do.
-                        itemsBody.Append('\n');
-                    }
-                }
             }
             catch (Exception e)
             {
-                Log.Error($"[Requisitions] checkout of '{item.RecipeId}' threw, continuing with the rest: {e}");
+                Log.Error($"[Requisitions] checkout of '{item.Id}' threw, continuing with the rest: {e}");
                 if (invoiceMode)
-                    AppendInvoiceFailure(itemsBody, item.RecipeId, Loc.GetString("requisitions-fail-error"));
+                    AppendInvoiceFailure(inv.Items, item.Id, Loc.GetString("requisitions-fail-error"));
                 anyFailed = true;
             }
         }
@@ -236,21 +218,193 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         if (invoiceMode)
         {
             // The operator can set a manual final price; otherwise bill the computed cost of what actually printed.
-            var invoiceTotal = args.OverridePrice is { } ov ? Math.Max(0, ov) : runningCost;
-            var body = BuildInvoiceBody(args.InvoiceTitle, itemsBody, invoiceMats, invoiceFees, invoiceMatBilled, invoiceMatWorth, invoiceTotal, detailedInvoice);
+            var invoiceTotal = args.OverridePrice is { } ov ? Math.Max(0, ov) : inv.RunningCost;
+            var body = BuildInvoiceBody(args.InvoiceTitle, inv.Items, inv.Mats, inv.Fees, inv.MatBilled, inv.MatWorth, invoiceTotal, detailedInvoice);
             SpawnInvoice(ent, args.Actor, args.InvoiceTitle, invoiceTotal, body);
         }
+
+        // A slotted invoice (if any) was used to place this order — eject it now. A freshly printed invoice
+        // above is a separate entity and unaffected.
+        EjectSlottedInvoice(ent, args.Actor);
 
         _popup.PopupEntity(
             Loc.GetString(anyFailed ? "requisitions-checkout-partial" : "requisitions-checkout-done"),
             ent.Owner, args.Actor);
+        }
+        finally
+        {
+            _suppressUi = false;
+        }
 
         UpdateUi(ent, args.Actor);
     }
 
-    /// <summary>Assembles the invoice body markup. A detailed invoice has a header, per-item detail, then a totals
-    /// section (per-material list, material-cost summary, fees, grand total). A non-detailed one is just the title,
-    /// one "name — cost" line per item (plus any failures), and the grand total.</summary>
+    // Prints the invoice this cart would produce, without dispatching any prints or ejecting anything.
+    // Every requested unit is treated as producible and the customer's contributed sheets are ignored, so the
+    // quote reflects the full cart. The resulting paper can be slotted back to reload the cart.
+    private void OnPreviewInvoice(Entity<RequisitionsConsoleComponent> ent, ref RequisitionPreviewInvoiceMessage args)
+    {
+        RefreshLinkState(ent);
+
+        if (args.Items.Count == 0)
+            return;
+
+        var detailedInvoice = ent.Comp.DetailedInvoice;
+        var inv = new InvoiceAccum();
+        var anyFailed = false;
+
+        foreach (var item in args.Items)
+        {
+            try
+            {
+                if (item.Source == RequisitionItemSource.Fridge)
+                {
+                    var fname = item.Id;
+                    var fqty = Math.Max(1, item.Quantity);
+                    var fprice = ent.Comp.FridgeItemPrices.GetValueOrDefault(fname, ent.Comp.FridgeFallbackPrice);
+                    BillLine(ent.Comp, inv, invoiceMode: true, detailedInvoice, item.Id, fname,
+                        RequisitionItemSource.Fridge, flatpack: false, perUnit: null, fridgeUnitPrice: fprice,
+                        queued: fqty, qty: fqty, coverUsed: null);
+                    continue;
+                }
+
+                if (!Proto.TryIndex<LatheRecipePrototype>(item.Id, out var recipe))
+                {
+                    AppendInvoiceFailure(inv.Items, item.Id, Loc.GetString("requisitions-fail-unknown"));
+                    anyFailed = true;
+                    continue;
+                }
+
+                var qty = Math.Max(1, item.Quantity);
+                var flatpack = item.Flatpack && ent.Comp.FlatpackerLinked && IsFlatpackable(recipe);
+                var mult = flatpack ? ent.Comp.FlatpackMaterialMultiplier : 1f;
+
+                var perUnit = new Dictionary<string, int>();
+                foreach (var (mat, baseAmount) in recipe.Materials)
+                    perUnit[mat.Id] = (int) MathF.Ceiling(baseAmount * mult);
+
+                BillLine(ent.Comp, inv, invoiceMode: true, detailedInvoice, item.Id, Lathe.GetRecipeName(recipe),
+                    RequisitionItemSource.Lathe, flatpack: flatpack, perUnit: perUnit, fridgeUnitPrice: 0,
+                    queued: qty, qty: qty, coverUsed: null);
+            }
+            catch (Exception e)
+            {
+                Log.Error($"[Requisitions] invoice preview of '{item.Id}' threw, continuing: {e}");
+                AppendInvoiceFailure(inv.Items, item.Id, Loc.GetString("requisitions-fail-error"));
+                anyFailed = true;
+            }
+        }
+
+        var invoiceTotal = args.OverridePrice is { } ov ? Math.Max(0, ov) : inv.RunningCost;
+        var body = BuildInvoiceBody(args.InvoiceTitle, inv.Items, inv.Mats, inv.Fees, inv.MatBilled, inv.MatWorth, invoiceTotal, detailedInvoice);
+        SpawnInvoice(ent, args.Actor, args.InvoiceTitle, invoiceTotal, body);
+
+        _popup.PopupEntity(Loc.GetString(anyFailed ? "requisitions-preview-partial" : "requisitions-preview-done"), ent.Owner, args.Actor);
+    }
+
+    // Accumulators for building an invoice's body and running totals across all its lines.
+    private sealed class InvoiceAccum
+    {
+        public readonly StringBuilder Items = new();
+        public readonly Dictionary<string, (int Raw, int Covered, int Billed)> Mats = new();
+        public readonly Dictionary<string, (string Name, bool Percent, int Rate, int Count, int Total)> Fees = new();
+        public int MatBilled;
+        public int MatWorth;
+        public int RunningCost;
+    }
+
+    // Costs queued units of one line — a lathe recipe (material-priced) or a fridge item
+    // (manually priced, no materials) — adding to inv's running total and, when
+    // invoiceMode, appending its invoice section. coverUsed is the
+    // customer's contributed materials applied to this line (null for a fridge item or a preview quote).
+    private void BillLine(RequisitionsConsoleComponent comp, InvoiceAccum inv, bool invoiceMode, bool detailed,
+        string id, string name, RequisitionItemSource source, bool flatpack,
+        Dictionary<string, int>? perUnit, int fridgeUnitPrice, int queued, int qty, Dictionary<string, int>? coverUsed)
+    {
+        var itemCost = 0;
+        var worth = 0;
+        var matLines = new List<(string Mat, int Raw, int Covered, int Billed)>();
+
+        if (source == RequisitionItemSource.Fridge)
+        {
+            // Fridge items have no material breakdown; their whole worth is the manual unit price.
+            worth = fridgeUnitPrice * queued;
+            itemCost = worth;
+        }
+        else if (perUnit != null)
+        {
+            foreach (var (mat, need) in perUnit)
+            {
+                var raw = need * queued;
+                var covered = coverUsed?.GetValueOrDefault(mat) ?? 0;
+                var billed = SheetCost(comp, mat, raw - covered);
+                itemCost += billed;
+                worth += SheetCost(comp, mat, raw);
+                matLines.Add((mat, raw, covered, billed));
+            }
+        }
+
+        var fees = FeesFor(comp, id, source, flatpack);
+        var feeLines = new List<(RequisitionFee Fee, int Amount)>();
+        foreach (var fee in fees)
+        {
+            var amt = fee.AmountFor(worth, queued);
+            itemCost += amt;
+            feeLines.Add((fee, amt));
+        }
+
+        inv.RunningCost += itemCost;
+
+        if (!invoiceMode)
+            return;
+
+        // The item header line is shared by detailed and trimmed invoices; the marker on the label is what makes
+        // a printed invoice re-parseable back into a cart (see TryParseInvoiceCart).
+        var label = InvoiceItemLabel(name, queued, qty, flatpack);
+        inv.Items.Append($"[bold][color=#9a6a12]{label}[/color][/bold]   ${itemCost}\n");
+
+        if (detailed)
+        {
+            foreach (var (mat, raw, covered, billed) in matLines)
+            {
+                inv.MatBilled += billed;
+                inv.MatWorth += SheetCost(comp, mat, raw);
+                var disc = covered > 0 ? $"  (−{SheetLabelServer(mat, covered)})" : "";
+                inv.Items.Append($"    {SheetLabelServer(mat, raw)}{disc}   ${billed}\n");
+                var prevMat = inv.Mats.GetValueOrDefault(mat);
+                inv.Mats[mat] = (prevMat.Raw + raw, prevMat.Covered + covered, prevMat.Billed + billed);
+            }
+            foreach (var (fee, amt) in feeLines)
+            {
+                var rate = fee.Type == RequisitionFeeType.Percent ? $"{fee.Price}%" : $"${fee.Price}";
+                inv.Items.Append($"    {fee.Name} ({rate})   ${amt}\n");
+                var prev = inv.Fees.GetValueOrDefault(fee.Id);
+                inv.Fees[fee.Id] = (fee.Name, fee.Type == RequisitionFeeType.Percent, fee.Price, prev.Count + queued, prev.Total + amt);
+            }
+            inv.Items.Append('\n');
+        }
+        else
+        {
+            // Trimmed invoice: still separate each item with a blank line, like the failure lines do.
+            inv.Items.Append('\n');
+        }
+    }
+
+    // An invoice item label: display name, an explicit count when more than one, and a "(Flatpacked)" marker.
+    // TryParseInvoiceCart reads this format back.
+    private static string InvoiceItemLabel(string name, int queued, int qty, bool flatpack)
+    {
+        var flat = flatpack ? " (Flatpacked)" : "";
+        if (queued < qty)
+            return $"{name} (×{queued} of {qty}){flat}";
+        if (queued > 1)
+            return $"{name} (×{queued}){flat}";
+        return $"{name}{flat}";
+    }
+
+    // Assembles the invoice body markup. A detailed invoice has a header, per-item detail, then a totals
+    // section (per-material list, material-cost summary, fees, grand total). A non-detailed one is just the title,
+    // one "name — cost" line per item (plus any failures), and the grand total.
     private string BuildInvoiceBody(string title, StringBuilder items,
         Dictionary<string, (int Raw, int Covered, int Billed)> mats,
         Dictionary<string, (string Name, bool Percent, int Rate, int Count, int Total)> fees,
@@ -300,14 +454,14 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         return sb.ToString();
     }
 
-    /// <summary>Appends a bold-red "failed" line (with a reason) for an item the order couldn't fulfil.</summary>
+    // Appends a bold-red "failed" line (with a reason) for an item the order couldn't fulfil.
     private void AppendInvoiceFailure(StringBuilder body, string name, string reason)
     {
         body.Append($"[bold][color=#b32020]{name} — {Loc.GetString("requisitions-invoice-failed")}[/color][/bold]\n");
         body.Append($"    [color=#b32020]{reason}[/color]\n\n");
     }
 
-    /// <summary>Spawns a payable invoice item targeted at the faction the console is tagged to and hands it over.</summary>
+    // Spawns a payable invoice item targeted at the faction the console is tagged to and hands it over.
     private void SpawnInvoice(Entity<RequisitionsConsoleComponent> console, EntityUid actor, string title, int cost, string body)
     {
         var invoice = Spawn("Invoice", Transform(console).Coordinates);
@@ -334,6 +488,139 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         _hands.PickupOrDrop(actor, invoice);
     }
 
+    #region Fridge dispensing
+
+    // Ejects up to count entities named itemName from the linked smart
+    // fridges into the world, spreading across fridges. Returns how many were actually ejected; the fridge's own
+    // container hooks keep its entry/stock bookkeeping in sync.
+    private int EjectFridgeItems(Entity<RequisitionsConsoleComponent> ent, string itemName, int count)
+    {
+        var ejected = 0;
+        foreach (var machine in ent.Comp.LinkedMachines)
+        {
+            if (ejected >= count)
+                break;
+            if (!_fridgeQuery.TryComp(machine, out var fridge))
+                continue;
+            if (!fridge.ContainedEntries.TryGetValue(new SmartFridgeEntry(itemName), out var nets))
+                continue;
+
+            // Snapshot before removing: TryRemoveFromContainer fires the fridge's own removal hook, which mutates
+            // this very set.
+            foreach (var net in nets.ToList())
+            {
+                if (ejected >= count)
+                    break;
+                if (_container.TryRemoveFromContainer(GetEntity(net)))
+                    ejected++;
+            }
+        }
+
+        return ejected;
+    }
+
+    #endregion
+
+    #region Invoice slot (load cart from a slotted invoice)
+
+    private void OnEntInserted(Entity<RequisitionsConsoleComponent> ent, ref EntInsertedIntoContainerMessage args)
+    {
+        if (args.Container.ID != RequisitionsConsoleComponent.InvoiceSlotId)
+            return;
+
+        // Parse the slotted invoice into a cart. On failure, leave the cart untouched and show a popup.
+        if (TryComp<InvoiceComponent>(args.Entity, out var invoice)
+            && TryParseInvoiceCart(ent, invoice.InvoiceReason, out var cart))
+        {
+            ent.Comp.LoadedOrder = cart;
+            ent.Comp.LoadedOrderPrice = invoice.InvoiceCost;
+            ent.Comp.LoadedOrderToken++;
+        }
+        else
+        {
+            _popup.PopupEntity(Loc.GetString("requisitions-invoice-unreadable"), ent.Owner);
+        }
+
+        UpdateUi(ent);
+    }
+
+    private void OnEntRemoved(Entity<RequisitionsConsoleComponent> ent, ref EntRemovedFromContainerMessage args)
+    {
+        if (args.Container.ID != RequisitionsConsoleComponent.InvoiceSlotId)
+            return;
+
+        ent.Comp.LoadedOrder = new();
+        UpdateUi(ent);
+    }
+
+    // Ejects the invoice sitting in the console's invoice slot (if any) into the actor's hands.
+    private void EjectSlottedInvoice(Entity<RequisitionsConsoleComponent> ent, EntityUid user)
+    {
+        _itemSlots.TryEject(ent.Owner, RequisitionsConsoleComponent.InvoiceSlotId, user, out _);
+    }
+
+    // Whether an invoice is currently sitting in the console's invoice slot.
+    private bool HasSlottedInvoice(EntityUid console)
+    {
+        return _itemSlots.TryGetSlot(console, RequisitionsConsoleComponent.InvoiceSlotId, out var slot)
+               && slot.ContainerSlot?.ContainedEntity != null;
+    }
+
+    // Matches an invoice item header line, e.g. "[bold][color=#9a6a12]Steel (×2) (Flatpacked)[/color][/bold]   $120".
+    private static readonly Regex InvoiceItemLine =
+        new(@"^\[bold\]\[color=#9a6a12\](?<label>.*?)\[/color\]\[/bold\]\s+\$-?\d+\s*$", RegexOptions.Compiled);
+    private static readonly Regex InvoiceQty =
+        new(@"\(×(?<n>\d+)(?: of \d+)?\)$", RegexOptions.Compiled);
+
+    // Reconstructs a cart from a printed invoice body by matching each item line's display name against the
+    // current catalogue. Unmatched lines are skipped. Returns true if any line was recovered.
+    private bool TryParseInvoiceCart(Entity<RequisitionsConsoleComponent> ent, string body, out List<RequisitionCartItem> cart)
+    {
+        cart = new();
+        if (string.IsNullOrWhiteSpace(body))
+            return false;
+
+        // Best-effort: match each printed item line's display name back to a current catalogue entry to recover its
+        // id + source. Unmatched lines are skipped.
+        var byName = new Dictionary<string, RequisitionCatalogueEntry>(StringComparer.OrdinalIgnoreCase);
+        foreach (var entry in BuildCatalogue(ent))
+            byName.TryAdd(entry.Name, entry);
+
+        foreach (var lineRaw in body.Split('\n'))
+        {
+            var m = InvoiceItemLine.Match(lineRaw.Trim());
+            if (!m.Success)
+                continue;
+
+            var label = m.Groups["label"].Value;
+
+            // Peel markers off the label right-to-left: "(Flatpacked)" then "(×n[ of m])".
+            var flatpack = false;
+            if (label.EndsWith("(Flatpacked)", StringComparison.Ordinal))
+            {
+                flatpack = true;
+                label = label[..^"(Flatpacked)".Length].TrimEnd();
+            }
+
+            var qty = 1;
+            var qm = InvoiceQty.Match(label);
+            if (qm.Success)
+            {
+                qty = int.Parse(qm.Groups["n"].Value);
+                label = label[..qm.Index].TrimEnd();
+            }
+
+            if (!byName.TryGetValue(label, out var entry))
+                continue; // unknown item — skip
+
+            cart.Add(new RequisitionCartItem { Id = entry.Id, Source = entry.Source, Quantity = qty, Flatpack = flatpack });
+        }
+
+        return cart.Count > 0;
+    }
+
+    #endregion
+
     private string SheetLabelServer(string matId, int rawAmount)
     {
         if (!Proto.TryIndex<MaterialPrototype>(matId, out var m))
@@ -347,20 +634,27 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         return $"{MathF.Round(rawAmount / (float) volume, 2)} {Loc.GetString(m.Name)} {Loc.GetString(m.Unit)}";
     }
 
-    /// <summary>
-    /// Queues up to <paramref name="qty"/> units of the recipe, one at a time, across the linked lathes that can
-    /// print it — so an order spreads over machines and a machine that runs out of materials falls through to
-    /// another. Returns how many units were <b>actually</b> queued (a machine can accept fewer than requested),
-    /// and accumulates the customer's contribution that was applied into <paramref name="coverUsed"/>. Only the
-    /// queued units get billed, so a unit that can't be produced never reaches the invoice.
-    /// </summary>
+    // Queues up to qty units of the recipe, one at a time, across the linked lathes that can
+    // print it — so an order spreads over machines and a machine that runs out of materials falls through to
+    // another. Returns how many units were actually queued (a machine can accept fewer than requested),
+    // and accumulates the customer's contribution that was applied into coverUsed. Only the
+    // queued units get billed, so a unit that can't be produced never reaches the invoice.
     private int TryDispatchLathe(Entity<RequisitionsConsoleComponent> ent, LatheRecipePrototype recipe, int qty,
         Dictionary<string, int> perUnit, Dictionary<string, int> pool, Dictionary<string, int> coverUsed,
         out string? reason, EntityUid? flatpacker = null)
     {
         reason = null;
         var queued = 0;
-        var hadCandidate = false;
+
+        // The lathes that can print this recipe (resolved once for the whole line).
+        var capable = new List<EntityUid>();
+        foreach (var machine in ent.Comp.LinkedMachines)
+        {
+            if (_latheQuery.TryComp(machine, out var lathe) && _lathe.GetAvailableRecipes(machine, lathe).ContainsKey(recipe.ID))
+                capable.Add(machine);
+        }
+
+        var hadCandidate = capable.Count > 0;
 
         for (var u = 0; u < qty; u++)
         {
@@ -374,16 +668,9 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
             }
 
             var placed = false;
-            foreach (var machine in ent.Comp.LinkedMachines)
+            foreach (var machine in capable)
             {
-                if (!_latheQuery.TryComp(machine, out var lathe))
-                    continue;
-
-                if (!_lathe.GetAvailableRecipes(machine, lathe).ContainsKey(recipe.ID))
-                    continue;
-
-                hadCandidate = true;
-                MoveCover(ent.Owner, machine, unitCover, into: true);
+                var applied = MoveCover(ent.Owner, machine, unitCover, into: true);
 
                 if (_lathe.TryAddToQueue(machine, recipe, 1))
                 {
@@ -398,12 +685,12 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
                     {
                         Recipe = recipe.ID,
                         Console = ent.Owner,
-                        Cover = unitCover.Count > 0 ? new Dictionary<string, int>(unitCover) : null,
+                        Cover = applied.Count > 0 ? new Dictionary<string, int>(applied) : null,
                         Flatpacker = flatpacker,
                     });
 
-                    // Spend this unit's contribution and remember it for billing.
-                    foreach (var (mat, c) in unitCover)
+                    // Spend and bill only the contribution that actually moved into the machine.
+                    foreach (var (mat, c) in applied)
                     {
                         pool[mat] = pool.GetValueOrDefault(mat) - c;
                         coverUsed[mat] = coverUsed.GetValueOrDefault(mat) + c;
@@ -415,26 +702,23 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
                     break;
                 }
 
-                MoveCover(ent.Owner, machine, unitCover, into: false); // revert and try the next machine
+                MoveCover(ent.Owner, machine, applied, into: false); // revert exactly what moved, try the next machine
             }
 
             if (!placed)
                 break; // no linked machine could take another unit — stop here
         }
 
-        if (queued > 0)
-            UpdateUi(ent);
-        else
+        // No per-unit UpdateUi here — OnCheckout pushes once at the end (and it is suppressed during dispatch).
+        if (queued <= 0)
             reason = Loc.GetString(hadCandidate ? "requisitions-fail-no-materials" : "requisitions-fail-no-machine");
 
         return queued;
     }
 
-    /// <summary>
-    /// Prints boards on a lathe like any other item; a transfer job on the lathe moves each finished board into a
-    /// flatpacker once it's done printing. See <see cref="OnLatheItemProduced"/>. Returns the number of units
-    /// actually queued.
-    /// </summary>
+    // Prints boards on a lathe like any other item; a transfer job on the lathe moves each finished board into a
+    // flatpacker once it's done printing. See OnLatheItemProduced. Returns the number of units
+    // actually queued.
     private int TryDispatchFlatpack(Entity<RequisitionsConsoleComponent> ent, LatheRecipePrototype recipe, int qty,
         Dictionary<string, int> perUnit, Dictionary<string, int> pool, Dictionary<string, int> coverUsed, out string? reason)
     {
@@ -463,28 +747,43 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         return TryDispatchLathe(ent, recipe, qty, perUnit, pool, coverUsed, out reason, flatpacker);
     }
 
-    /// <summary>Moves the covered contribution between the console and a target machine (into it, or back out).</summary>
-    private void MoveCover(EntityUid console, EntityUid machine, Dictionary<string, int> cover, bool into)
+    // Moves the covered contribution between the console and a target machine. For into it moves only as much
+    // as the machine can hold; for the revert it moves back what was passed in. Returns the amount actually
+    // moved per material, which is what the caller bills and refunds.
+    private Dictionary<string, int> MoveCover(EntityUid console, EntityUid machine, Dictionary<string, int> cover, bool into)
     {
+        var applied = new Dictionary<string, int>();
         foreach (var (mat, c) in cover)
         {
             if (c <= 0)
                 continue;
 
-            var sign = into ? 1 : -1;
-            _materialStorage.TryChangeMaterialAmount(console, mat, sign * -c, localOnly: true);
-            _materialStorage.TryChangeMaterialAmount(machine, mat, sign * c);
+            if (into)
+            {
+                if (!_materialStorage.CanChangeMaterialAmount(machine, mat, c))
+                    continue; // machine can't hold it — leave the sheets in the customer's pool, bill normally
+
+                _materialStorage.TryChangeMaterialAmount(console, mat, -c, localOnly: true);
+                _materialStorage.TryChangeMaterialAmount(machine, mat, c);
+            }
+            else
+            {
+                _materialStorage.TryChangeMaterialAmount(machine, mat, -c);
+                _materialStorage.TryChangeMaterialAmount(console, mat, c, localOnly: true);
+            }
+
+            applied[mat] = c;
         }
+
+        return applied;
     }
 
     #endregion
 
     #region Flatpack transfer
 
-    /// <summary>
-    /// A requisition item finished printing: mark one job done. Flatpack boards are moved into the console's
-    /// internal storage (from where they're fed to a flatpacker); everything else is delivered at the lathe.
-    /// </summary>
+    // A requisition item finished printing: mark one job done. Flatpack boards are moved into the console's
+    // internal storage (from where they're fed to a flatpacker); everything else is delivered at the lathe.
     private void OnLatheItemProduced(Entity<RequisitionsLatheJobComponent> ent, ref LatheItemProducedEvent args)
     {
         var recipeId = args.Recipe.ID;
@@ -502,8 +801,9 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         if (!TryComp<RequisitionsConsoleComponent>(job.Console, out var console))
             return; // console gone: a non-flatpack item just stays at the lathe
 
-        // This print no longer counts as in-progress.
+        // Drop the in-progress count and invalidate the lathe catalogue (its remaining-print count changed).
         console.OutstandingJobs = Math.Max(0, console.OutstandingJobs - 1);
+        console.LatheCatalogueCache = null;
 
         // Flatpack items: move the actual printed board into the console's internal storage and try to feed a
         // flatpacker from it. Storing the real board (rather than a proto in memory) means nothing is lost if
@@ -521,10 +821,8 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         UpdateUi((job.Console, console));
     }
 
-    /// <summary>
-    /// The lathe lost power and aborts its in-progress print, which our per-item dispatch does not resume. Return
-    /// each outstanding job's contributed materials to the customer and clear the console's in-progress count.
-    /// </summary>
+    // The lathe lost power and aborts its in-progress print, which our per-item dispatch does not resume. Return
+    // each outstanding job's contributed materials to the customer and clear the console's in-progress count.
     private void OnJobLathePowerChanged(Entity<RequisitionsLatheJobComponent> ent, ref PowerChangedEvent args)
     {
         if (args.Powered)
@@ -535,17 +833,15 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         RemCompDeferred<RequisitionsLatheJobComponent>(ent);
     }
 
-    /// <summary>The lathe (and its jobs) are being deleted mid-print — release whatever's still outstanding.</summary>
+    // The lathe (and its jobs) are being deleted mid-print — release whatever's still outstanding.
     private void OnJobLatheShutdown(Entity<RequisitionsLatheJobComponent> ent, ref ComponentShutdown args)
     {
         ReleaseJobs(ent);
         ent.Comp.Jobs.Clear();
     }
 
-    /// <summary>
-    /// For every outstanding job on a lathe, returns the customer's contributed materials (the aborted lathe was
-    /// handed them back) and clears the console's in-progress count so it doesn't stay locked.
-    /// </summary>
+    // For every outstanding job on a lathe, returns the customer's contributed materials (the aborted lathe was
+    // handed them back) and clears the console's in-progress count so it doesn't stay locked.
     private void ReleaseJobs(Entity<RequisitionsLatheJobComponent> ent)
     {
         foreach (var job in ent.Comp.Jobs)
@@ -572,10 +868,8 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         }
     }
 
-    /// <summary>
-    /// Feeds one stored board from the console's internal storage into an idle linked flatpacker. No spawning or
-    /// deleting: the real board is reparented into the flatpacker, or left in storage to retry later.
-    /// </summary>
+    // Feeds one stored board from the console's internal storage into an idle linked flatpacker. No spawning or
+    // deleting: the real board is reparented into the flatpacker, or left in storage to retry later.
     private void TryFeedFlatpackers(Entity<RequisitionsConsoleComponent> console)
     {
         if (_timing.CurTime < console.Comp.NextFlatpackTry)
@@ -610,7 +904,7 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
     private readonly HashSet<EntityUid> _pendingStartSet = new();
     private TimeSpan _nextStart;
 
-    /// <summary>Queues a lathe to be kicked into production, spaced out from other starts (see <see cref="Update"/>).</summary>
+    // Queues a lathe to be kicked into production, spaced out from other starts (see Update).
     private void ScheduleStart(EntityUid lathe)
     {
         if (_pendingStartSet.Add(lathe))
@@ -623,7 +917,7 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
 
         var now = _timing.CurTime;
 
-        // Start at most one queued lathe every StartStagger seconds so a big order that involvs different lathes
+        // Start at most one queued lathe every StartStagger seconds so a big order that involves different lathes
         // doesn't flip every machine into its high-power working state on the same tick and brown out the APC.
         if (_pendingStarts.Count > 0 && now >= _nextStart)
         {
@@ -636,30 +930,34 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
 
         var query = EntityQueryEnumerator<RequisitionsConsoleComponent>();
         while (query.MoveNext(out var uid, out var comp))
+        {
+            // Skip idle consoles: only bother when there is actually a board waiting to be flatpacked.
+            if (!_container.TryGetContainer(uid, comp.FlatpackStorageId, out var store) || store.ContainedEntities.Count == 0)
+                continue;
+
             TryFeedFlatpackers((uid, comp));
+        }
     }
 
-    /// <summary>Price of a raw material amount, charged per sheet.</summary>
+    // Price of a raw material amount, charged per sheet. Uses the shared costing math so the server bill
+    // matches the client preview exactly.
     private int SheetCost(RequisitionsConsoleComponent comp, string materialId, int rawAmount)
     {
         if (rawAmount <= 0 || !Proto.TryIndex<MaterialPrototype>(materialId, out var mat))
             return 0;
 
-        var volume = _materialStorage.GetSheetVolume(mat);
-        if (volume <= 0)
-            volume = 1;
-
-        return (int) MathF.Round(rawAmount / (float) volume * GetPrice(comp, materialId));
+        return RequisitionCosting.SheetCost(rawAmount, _materialStorage.GetSheetVolume(mat), GetPrice(comp, materialId));
     }
 
-    /// <summary>The customer changed their mind — return the sheets they inserted toward this order.</summary>
+    // The customer changed their mind — return the sheets they inserted, and eject any slotted invoice.
     private void OnCancel(Entity<RequisitionsConsoleComponent> ent, ref RequisitionCancelMessage args)
     {
         _materialStorage.EjectAllMaterial(ent.Owner);
+        EjectSlottedInvoice(ent, args.Actor);
         UpdateUi(ent, args.Actor);
     }
 
-    /// <summary>Ejects boards stuck in the internal flatpack storage back into the world (access-gated).</summary>
+    // Ejects boards stuck in the internal flatpack storage back into the world (access-gated).
     private void OnEjectFlatpacks(Entity<RequisitionsConsoleComponent> ent, ref RequisitionEjectFlatpacksMessage args)
     {
         if (!HasConfigAccess(ent, args.Actor))
@@ -680,6 +978,9 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
 
     protected override void UpdateUi(Entity<RequisitionsConsoleComponent> ent, EntityUid? actor = null)
     {
+        if (_suppressUi)
+            return;
+
         if (!_ui.IsUiOpen(ent.Owner, RequisitionsConsoleUiKey.Key))
             return;
 
@@ -689,25 +990,38 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
             Stock = BuildStock(ent),
             Contributed = _materialStorage.GetStoredMaterials(ent.Owner, localOnly: true).ToDictionary(kv => kv.Key.Id, kv => kv.Value),
             MaterialPrices = ent.Comp.MaterialPrices.ToDictionary(kv => kv.Key.Id, kv => kv.Value),
-            MaterialNames = BuildMaterialNames(ent),
+            MaterialFallbackPrice = ent.Comp.FallbackMaterialPrice,
             Fees = ent.Comp.Fees,
             FlatpackerLinked = ent.Comp.FlatpackerLinked,
             FlatpackMultiplier = ent.Comp.FlatpackMaterialMultiplier,
-            // A shared BUI state can't be tailored per-viewer, so the config tab shows if any current viewer is
-            // authorised. Every config action is still re-checked server-side regardless.
-            HasConfigAccess = _ui.GetActors(ent.Owner, RequisitionsConsoleUiKey.Key).Any(a => HasConfigAccess(ent, a)),
             Processing = ent.Comp.OutstandingJobs > 0,
             PendingFlatpacks = _container.TryGetContainer(ent, ent.Comp.FlatpackStorageId, out var fpStore) ? fpStore.ContainedEntities.Count : 0,
             DetailedInvoice = ent.Comp.DetailedInvoice,
+            FridgeItemPrices = new Dictionary<string, int>(ent.Comp.FridgeItemPrices),
+            LoadedOrderToken = ent.Comp.LoadedOrderToken,
+            LoadedOrder = new List<RequisitionCartItem>(ent.Comp.LoadedOrder),
+            LoadedOrderPrice = ent.Comp.LoadedOrderPrice,
+            InvoiceSlotted = HasSlottedInvoice(ent.Owner),
         };
 
-        if (state.HasConfigAccess)
-            state.Linkable = BuildLinkable(ent);
+        // Staff-only console, gated at open time — anyone viewing is authorised, so always provide the link list.
+        state.Linkable = BuildLinkable(ent);
 
         _ui.SetUiState(ent.Owner, RequisitionsConsoleUiKey.Key, state);
     }
 
+    // The full catalogue: the cached lathe half (rebuilt only when the recipe set changes) plus a fresh
+    // fridge half (cheap, and must reflect live stock).
     private List<RequisitionCatalogueEntry> BuildCatalogue(Entity<RequisitionsConsoleComponent> ent)
+    {
+        ent.Comp.LatheCatalogueCache ??= BuildLatheCatalogue(ent);
+
+        var result = new List<RequisitionCatalogueEntry>(ent.Comp.LatheCatalogueCache);
+        result.AddRange(BuildFridgeEntries(ent));
+        return result;
+    }
+
+    private List<RequisitionCatalogueEntry> BuildLatheCatalogue(Entity<RequisitionsConsoleComponent> ent)
     {
         // Squash by an identity of "same result + same materials" so genuinely identical items (e.g. four
         // aprons offered by different recipes/machines) collapse to one line, while variants that cost
@@ -735,7 +1049,8 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
                 {
                     entry = new RequisitionCatalogueEntry
                     {
-                        RecipeId = recipeId,
+                        Id = recipeId,
+                        Source = RequisitionItemSource.Lathe,
                         Name = Lathe.GetRecipeName(recipe),
                         Result = recipe.Result?.Id,
                         Materials = recipe.Materials.ToDictionary(kv => kv.Key.Id, kv => kv.Value),
@@ -754,6 +1069,55 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
                 }
 
                 entry.SourceCount++;
+            }
+        }
+
+        return merged.Values.OrderBy(e => e.Name).ToList();
+    }
+
+    // One catalogue line per distinct item name across the linked smart fridges. Fridge items carry no material
+    // cost (they're manually priced) and are capped at the number currently stocked (RequisitionCatalogueEntry.Available).
+    private List<RequisitionCatalogueEntry> BuildFridgeEntries(Entity<RequisitionsConsoleComponent> ent)
+    {
+        var merged = new Dictionary<string, RequisitionCatalogueEntry>();
+
+        foreach (var machine in ent.Comp.LinkedMachines)
+        {
+            if (!_fridgeQuery.TryComp(machine, out var fridge))
+                continue;
+
+            foreach (var (entry, nets) in fridge.ContainedEntries)
+            {
+                if (nets.Count == 0)
+                    continue;
+
+                var name = entry.Name;
+                if (!merged.TryGetValue(name, out var cat))
+                {
+                    // First stored entity supplies the sprite; fall back to no icon if its prototype won't resolve.
+                    string? result = null;
+                    foreach (var net in nets)
+                    {
+                        if (MetaData(GetEntity(net)).EntityPrototype is { } proto)
+                        {
+                            result = proto.ID;
+                            break;
+                        }
+                    }
+
+                    cat = new RequisitionCatalogueEntry
+                    {
+                        Id = name,
+                        Source = RequisitionItemSource.Fridge,
+                        Name = name,
+                        Result = result,
+                        Available = 0,
+                        FridgeUnitPrice = ent.Comp.FridgeItemPrices.GetValueOrDefault(name, ent.Comp.FridgeFallbackPrice),
+                    };
+                    merged[name] = cat;
+                }
+
+                cat.Available = (cat.Available ?? 0) + nets.Count;
             }
         }
 
@@ -786,18 +1150,6 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
         return stock;
     }
 
-    private Dictionary<string, string> BuildMaterialNames(Entity<RequisitionsConsoleComponent> ent)
-    {
-        var names = new Dictionary<string, string>();
-        foreach (var mat in ent.Comp.MaterialPrices.Keys)
-        {
-            if (Proto.TryIndex(mat, out var proto))
-                names[mat.Id] = Loc.GetString(proto.Name);
-        }
-
-        return names;
-    }
-
     private List<RequisitionLinkEntry> BuildLinkable(Entity<RequisitionsConsoleComponent> ent)
     {
         var result = new List<RequisitionLinkEntry>();
@@ -820,20 +1172,14 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
             });
         }
 
-        var nearbyLathes = new HashSet<Entity<LatheComponent>>();
-        _lookup.GetEntitiesInRange(coords, ent.Comp.Range, nearbyLathes);
-        foreach (var machine in nearbyLathes)
-            Add(machine);
-
-        var nearbyFlatpackers = new HashSet<Entity<FlatpackCreatorComponent>>();
-        _lookup.GetEntitiesInRange(coords, ent.Comp.Range, nearbyFlatpackers);
-        foreach (var machine in nearbyFlatpackers)
-            Add(machine);
-
-        var nearbySilos = new HashSet<Entity<OreSiloComponent>>();
-        _lookup.GetEntitiesInRange(coords, ent.Comp.Range, nearbySilos);
-        foreach (var machine in nearbySilos)
-            Add(machine);
+        // Every entity in range, then keep the linkable ones.
+        var nearby = new HashSet<EntityUid>();
+        _lookup.GetEntitiesInRange(coords, ent.Comp.Range, nearby);
+        foreach (var machine in nearby)
+        {
+            if (IsLinkable(machine))
+                Add(machine);
+        }
 
         // Include already-linked machines even if they've drifted out of range.
         foreach (var machine in ent.Comp.LinkedMachines)
@@ -844,17 +1190,21 @@ public sealed class RequisitionsConsoleSystem : SharedRequisitionsConsoleSystem
 
     #endregion
 
-    private IEnumerable<RequisitionFee> FeesFor(RequisitionsConsoleComponent comp, string recipeId, bool flatpack)
+    // The fees of a given source that apply to an item id (a lathe recipe id or a fridge item name).
+    private IEnumerable<RequisitionFee> FeesFor(RequisitionsConsoleComponent comp, string id, RequisitionItemSource source, bool flatpack)
     {
         foreach (var fee in comp.Fees)
         {
+            if (fee.Source != source)
+                continue;
+
             switch (fee.Scope)
             {
                 case RequisitionFeeScope.Flatpack when flatpack:
                 case RequisitionFeeScope.All:
                     yield return fee;
                     break;
-                case RequisitionFeeScope.Specific when fee.Recipes.Contains(recipeId):
+                case RequisitionFeeScope.Specific when fee.Targets.Contains(id):
                     yield return fee;
                     break;
             }

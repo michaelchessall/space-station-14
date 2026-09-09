@@ -20,10 +20,21 @@
         reagents:
         - ReagentId: Fiber
           Quantity: 10
+      stain: # Funky: Footprints & Stains
+        maxVol: 5
   - type: Tag
     tags:
     - ClothMade
     - WhitelistChameleon
+  - type: Appearance # Funky: Footprints & Stains
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      head:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: helmetblood
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: helmetbloodicon
 
 - type: entity
   abstract: true
@@ -146,6 +157,8 @@
     materialComposition:
       Steel: 100
       Glass: 100
+  - type: StainBlocker # Funky: Footprints & Stains
+    slots: [MASK]
 
 - type: entity
   abstract: true
@@ -195,6 +208,17 @@
     - HeadTop
     - HeadSide
     - FacialHair
+  - type: Appearance # Funky: Footprints & Stains
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      head:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: helmetblood
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: helmetbloodicon
+  - type: StainBlocker # Funky: Footprints & Stains
+    slots: [MASK]
 
 - type: entity
   abstract: true
@@ -282,3 +306,12 @@
     - Hair
     - HeadTop
     - HeadSide
+  - type: Appearance # Funky: Footprints & Stains
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      head:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: helmetblood
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: helmetbloodicon

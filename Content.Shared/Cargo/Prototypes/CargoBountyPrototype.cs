@@ -1,3 +1,4 @@
+using Content.Shared._Persistence14.Cargo;
 using Content.Shared.Atmos;
 using Content.Shared.Chemistry.Reagent;
 using Content.Shared.Whitelist;
@@ -6,16 +7,6 @@ using Robust.Shared.Serialization;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Cargo.Prototypes;
-
-[Serializable, NetSerializable]
-public enum BountyType : byte
-{
-    PayOnComplete,
-    PayPer,
-    PayPerReagent,
-    PayPerGas
-}
-
 
 /// <summary>
 /// This is a prototype for a cargo bounty, a set of items
@@ -30,41 +21,10 @@ public sealed partial class CargoBountyPrototype : IPrototype
     public string ID { get; private set; } = default!;
 
     /// <summary>
-    /// The monetary reward for completing the bounty
-    /// </summary>
-    [DataField(required: true)]
-    public float Reward;
-    [DataField]
-    public int SuccessXP = 25;
-
-    [DataField]
-    public int FailureXP = 15;
-
-    [DataField]
-    public BountyType BountyType = BountyType.PayOnComplete;
-    /// <summary>
     /// A description for flava purposes.
     /// </summary>
     [DataField]
     public LocId Description = string.Empty;
-
-    /// <summary>
-    /// The entries that must be satisfied for the cargo bounty to be complete.
-    /// </summary>
-    [DataField]
-    public List<CargoBountyItemEntry> Entries = new();
-
-    [DataField]
-    public ProtoId<ReagentPrototype>? ReagentId;
-
-    [DataField]
-    public Gas? GasId;
-
-    /// <summary>
-    /// A prefix appended to the beginning of a bounty's ID.
-    /// </summary>
-    [DataField]
-    public string IdPrefix = "NT";
 
     /// <summary>
     /// A group used for categorizing this bounty.
@@ -73,38 +33,38 @@ public sealed partial class CargoBountyPrototype : IPrototype
     public ProtoId<CargoBountyGroupPrototype> Group = "StationBounty";
 
     /// <summary>
+    /// The monetary reward for completing the bounty
+    /// </summary>
+    [DataField(required: true)]
+    public float Reward;
+
+    /// <summary>
+    /// The amount of station XP awarded when the bounty is completed.
+    /// </summary>
+    [DataField]
+    public int SuccessXP = 25;
+
+    /// <summary>
+    /// The amount of station XP lost if a bounty is not completed in time.
+    /// </summary>
+    [DataField]
+    public int FailureXP = 15;
+
+    /// <summary>
+    /// The condition which must be completed to consider the bounty complete. May use BountyConditionAll or BountyConditionAny to allow multiple conditions to be required.
+    /// </summary>
+    [DataField(required: true)]
+    public BountyCondition Condition = default!;
+
+    /// <summary>
+    /// A prefix appended to the beginning of a bounty's ID.
+    /// </summary>
+    [DataField]
+    public string IdPrefix = "NT";
+
+    /// <summary>
     /// Optional sprite representing this bounty.
     /// </summary>
     [DataField]
     public SpriteSpecifier? Sprite;
-}
-
-[DataDefinition, Serializable, NetSerializable]
-public readonly partial record struct CargoBountyItemEntry()
-{
-    /// <summary>
-    /// A whitelist for determining what items satisfy the entry.
-    /// </summary>
-    [DataField]
-    public EntityWhitelist? Whitelist { get; init; } = default!;
-
-    /// <summary>
-    /// A blacklist that can be used to exclude items in the whitelist.
-    /// </summary>
-    [DataField]
-    public EntityWhitelist? Blacklist { get; init; } = null;
-
-    // todo: implement some kind of simple generic condition system
-
-    /// <summary>
-    /// How much of the item must be present to satisfy the entry
-    /// </summary>
-    [DataField]
-    public int Amount { get; init; } = 1;
-
-    /// <summary>
-    /// A player-facing name for the item.
-    /// </summary>
-    [DataField]
-    public LocId Name { get; init; } = string.Empty;
 }

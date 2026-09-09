@@ -44,4 +44,23 @@
   They connect directly to [color=yellow]MV[/color] or [color=orange]HV[/color] [textlink="power cables" link="VoltageNetworks"] and are able to switch between them for flexibility.
 
   The S.U.P.E.R.P.A.C.M.A.N and P.A.C.M.A.N require uranium sheets and plasma sheets as fuel, respectively.
+
+  # The Weird Ones
+
+  <Box>
+    <GuideEntityEmbed Entity="PortableGeneratorOldman" Caption="O.L.D.M.A.N." />
+    <GuideEntityEmbed Entity="Coal1" />
+  </Box>
+
+  The O.L.D.M.A.N. generates up to [color=orange][protodata="PortableGeneratorOldman" comp="FuelGenerator" member="MaxTargetPower" format="N0"/] W[/color] with coal, and outputs carbon dioxide while running.
+
+  <Box>
+    <GuideEntityEmbed Entity="PortableGeneratorMegaman" Caption="M.E.G.A.M.A.N." />
+    <GuideEntityEmbed Entity="MaterialPhoron" />
+  </Box>
+
+  The M.E.G.A.M.A.N. generates up to [color=orange][protodata="PortableGeneratorMegaman" comp="FuelGenerator" member="MaxTargetPower" format="N0"/] W[/color] with phoron.
+  The fuel is extremely expensive and should only be used in emergencies.
+  It also creates plasma gas while running, so keep the area clear of sparks and flames.
+
 </Document>

@@ -24,6 +24,7 @@ namespace Content.Client._Persistence14.Requisitions.UI;
 public sealed partial class RequisitionsConsoleMenu : FancyWindow
 {
     public event Action<List<RequisitionCartItem>, bool, string, int?>? OnCheckout;
+    public event Action<List<RequisitionCartItem>, string, int?>? OnPreviewInvoice;
     public event Action? OnCancel;
     public event Action<NetEntity>? OnToggleLink;
     public event Action<string, int>? OnSetMaterialPrice;
@@ -31,6 +32,7 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
     public event Action<string>? OnRemoveFee;
     public event Action? OnEjectFlatpacks;
     public event Action<bool>? OnSetDetailedInvoice;
+    public event Action<string, int>? OnSetFridgePrice;
 
     private readonly IEntityManager _entMan;
     private readonly IPrototypeManager _proto;
@@ -46,6 +48,9 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
     // calculated total changes, discarding any manual edit. -1 forces the field to seed on the first build.
     private int _calculatedTotal = -1;
 
+    // The last invoice-load token applied from the server; -1 means none applied yet.
+    private int _lastOrderToken = -1;
+
     public RequisitionsConsoleMenu()
     {
         RobustXamlLoader.Load(this);
@@ -55,11 +60,14 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         _materialStorage = _entMan.System<SharedMaterialStorageSystem>();
         _sprite = _entMan.System<SpriteSystem>();
 
-        Tabs.SetTabTitle(0, Loc.GetString("requisitions-tab-checkout"));
-        Tabs.SetTabTitle(1, Loc.GetString("requisitions-tab-config"));
+        Tabs.SetTabTitle(0, Loc.GetString("requisitions-tab-shop"));
+        Tabs.SetTabTitle(1, Loc.GetString("requisitions-tab-lathe-prices"));
+        Tabs.SetTabTitle(2, Loc.GetString("requisitions-tab-fridge-prices"));
+        Tabs.SetTabTitle(3, Loc.GetString("requisitions-tab-configuration"));
 
         SearchBar.OnTextChanged += _ => RebuildCatalogue();
         CheckoutButton.OnPressed += _ => Checkout();
+        PreviewInvoiceButton.OnPressed += _ => Preview();
         CancelButton.OnPressed += _ =>
         {
             _cart.Clear();
@@ -68,41 +76,60 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
             OnCancel?.Invoke();
         };
         EjectButton.OnPressed += _ => OnEjectFlatpacks?.Invoke();
-        AddFeeButton.OnPressed += _ => AddFee();
+        AddFeeButton.OnPressed += _ => AddFee(RequisitionItemSource.Lathe);
+        AddFridgeFeeButton.OnPressed += _ => AddFee(RequisitionItemSource.Fridge);
         DetailedInvoiceCheck.OnToggled += a => OnSetDetailedInvoice?.Invoke(a.Pressed);
-    }
-
-    public void SetEntity(EntityUid owner)
-    {
     }
 
     public void Update(RequisitionsConsoleState state)
     {
         _state = state;
 
-        var valid = state.Catalogue.Select(e => e.RecipeId).ToHashSet();
-        _cart.RemoveAll(i => !valid.Contains(i.RecipeId));
+        // Load a slotted invoice's cart once per new token, and only into an empty cart.
+        int? loadedPrice = null;
+        if (state.LoadedOrderToken != _lastOrderToken)
+        {
+            _lastOrderToken = state.LoadedOrderToken;
+            if (_lastOrderToken > 0 && state.LoadedOrder.Count > 0 && _cart.Count == 0)
+            {
+                _cart.AddRange(state.LoadedOrder);
+                _expanded.Clear();
+                loadedPrice = state.LoadedOrderPrice; // applied as the final price after the rebuild below
+            }
+        }
+
+        var valid = state.Catalogue.Select(e => e.Id).ToHashSet();
+        var beforeCount = _cart.Count;
+        _cart.RemoveAll(i => !valid.Contains(i.Id));
+        if (_cart.Count != beforeCount)
+            _expanded.Clear(); // positions shifted — clear rather than show the wrong rows expanded
 
         HeaderLabel.Text = Loc.GetString("requisitions-linked-count",
                                ("count", state.Catalogue.Count == 0 ? 0 : state.Catalogue.Max(e => e.SourceCount)))
                            + "  ·  "
                            + Loc.GetString(state.FlatpackerLinked ? "requisitions-flatpacker-online" : "requisitions-flatpacker-offline");
 
-        Tabs.SetTabVisible(1, state.HasConfigAccess);
+        // Console is staff-only and access is enforced at the door, so anyone with the UI open is authorized —
+        // all tabs are simply visible.
 
-        // Lock the customer tab while a checkout is still printing.
+        // Lock the shop tab while a checkout is still printing.
         ProcessingBanner.Visible = state.Processing;
         SearchBar.Editable = !state.Processing;
 
         RebuildCatalogue();
         RebuildCart();
         RebuildConfig();
+        RebuildFridgeConfig();
+        RebuildConfiguration();
+
+        // Set the final price to the loaded invoice's total, after the rebuild has set the calculated amount.
+        if (loadedPrice is { } lp)
+            FinalPriceEdit.Text = lp.ToString();
     }
 
     #region Icon helper
 
-    // Flat textures rather than EntityPrototypeView: the latter spawns a live client entity per icon, which
-    // tanks FPS when the whole catalogue/cart/config rebuilds. Frame0 just grabs a static texture.
+    // Static texture icons (no live client entity per row).
     private Control MakeTextureRect(float size) => new TextureRect
     {
         MinSize = new Vector2(size, size),
@@ -136,71 +163,106 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         CatalogueContainer.RemoveAllChildren();
         var filter = SearchBar.Text.Trim();
 
-        foreach (var entry in _state.Catalogue)
+        bool Matches(RequisitionCatalogueEntry e) =>
+            filter.Length == 0 || e.Name.Contains(filter, StringComparison.OrdinalIgnoreCase);
+
+        // Two joined sections backed by one list: the printable lathe recipes, then the fridge stock.
+        var lathe = _state.Catalogue.Where(e => !e.FromFridge && Matches(e)).ToList();
+        var fridge = _state.Catalogue.Where(e => e.FromFridge && Matches(e)).ToList();
+
+        if (lathe.Count > 0)
         {
-            if (filter.Length > 0 && !entry.Name.Contains(filter, StringComparison.OrdinalIgnoreCase))
-                continue;
+            AddCatalogueHeader(Loc.GetString("requisitions-catalogue-section-fabricators"));
+            foreach (var entry in lathe)
+                CatalogueContainer.AddChild(BuildCatalogueRow(entry));
+        }
 
-            var recipeId = entry.RecipeId;
-            var flatpack = entry.Flatpackable && _catalogueFlatpack.GetValueOrDefault(recipeId);
-
-            var row = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true, Margin = new Thickness(0, 1) };
-
-            // Live research budget: the shown count drops as this recipe is carted, and adding is blocked at zero.
-            var inCart = _cart.Count(i => i.RecipeId == recipeId);
-            var soldOut = entry.PrintsRemaining is { } pr && inCart >= pr;
-
-            // Clickable [icon | name | prints] area.
-            var button = new ContainerButton { HorizontalExpand = true, Disabled = _state.Processing || soldOut };
-            var hb = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
-            hb.AddChild(MakeIcon(entry.Result));
-            hb.AddChild(new Label
-            {
-                Text = entry.Name,
-                HorizontalExpand = true,
-                Margin = new Thickness(6, 0, 0, 0),
-                ClipText = true,
-            });
-            if (entry.PrintsRemaining is { } prints)
-            {
-                var left = Math.Max(0, prints - inCart);
-                hb.AddChild(new Label
-                {
-                    Text = Loc.GetString("requisitions-prints-remaining", ("count", left)),
-                    Margin = new Thickness(6, 0, 0, 0),
-                    FontColorOverride = Color.FromHex(left == 0 ? "#d05555" : "#e0a24b"),
-                    StyleClasses = { "LabelSubText" },
-                });
-            }
-            button.AddChild(hb);
-            button.OnPressed += _ => AddToCart(recipeId, flatpack);
-            row.AddChild(button);
-
-            // Flatpack toggle, then price — kept outside the clickable area.
-            if (entry.Flatpackable)
-            {
-                var check = new CheckBox { Text = Loc.GetString("requisitions-flatpack"), Pressed = flatpack, Margin = new Thickness(8, 0, 0, 0) };
-                check.OnToggled += a =>
-                {
-                    _catalogueFlatpack[recipeId] = a.Pressed;
-                    RebuildCatalogue();
-                };
-                row.AddChild(check);
-            }
-
-            row.AddChild(new Label { Text = $"${ItemCost(entry, flatpack)}", StyleClasses = { "LabelKeyText" }, Margin = new Thickness(8, 0, 0, 0) });
-
-            CatalogueContainer.AddChild(row);
+        if (fridge.Count > 0)
+        {
+            AddCatalogueHeader(Loc.GetString("requisitions-catalogue-section-fridge"));
+            foreach (var entry in fridge)
+                CatalogueContainer.AddChild(BuildCatalogueRow(entry));
         }
     }
 
-    private void AddToCart(string recipeId, bool flatpack)
+    private void AddCatalogueHeader(string text)
     {
-        _cart.Add(new RequisitionCartItem { RecipeId = recipeId, Quantity = 1, Flatpack = flatpack });
+        CatalogueContainer.AddChild(new Label { Text = text, StyleClasses = { "LabelKeyText" }, Margin = new Thickness(0, 4, 0, 1) });
+        CatalogueContainer.AddChild(new PanelContainer { StyleClasses = { "LowDivider" }, Margin = new Thickness(0, 0, 0, 2) });
+    }
+
+    // Fridge item names are tinted so they read as "not printed, comes from the fridge".
+    private static readonly Color FridgeColor = Color.FromHex("#4bb8e0");
+
+    private Control BuildCatalogueRow(RequisitionCatalogueEntry entry)
+    {
+        var recipeId = entry.Id;
+        var source = entry.Source;
+        var flatpack = entry.Flatpackable && _catalogueFlatpack.GetValueOrDefault(recipeId);
+
+        var row = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true, Margin = new Thickness(0, 1) };
+
+        // Live budget: the shown "prints left" / "available" count drops as this line is carted, and adding is
+        // blocked once none remain. Count summed quantity (an invoice-reloaded line can have Quantity > 1), not
+        // the number of cart lines. Lathe recipes cap on PrintsRemaining, fridge items on Available.
+        var inCart = _cart.Where(i => i.Id == recipeId).Sum(i => Math.Max(1, i.Quantity));
+        var cap = entry.FromFridge ? entry.Available : entry.PrintsRemaining;
+        var soldOut = cap is { } c && inCart >= c;
+
+        // Clickable [icon | name | count] area. Fridge items get an icon too (from their stored entity).
+        var button = new ContainerButton { HorizontalExpand = true, Disabled = _state.Processing || soldOut };
+        var hb = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
+        hb.AddChild(MakeIcon(entry.Result));
+        hb.AddChild(new Label
+        {
+            Text = entry.Name,
+            HorizontalExpand = true,
+            Margin = new Thickness(6, 0, 0, 0),
+            ClipText = true,
+            FontColorOverride = entry.FromFridge ? FridgeColor : null,
+        });
+        if (cap is { } total)
+        {
+            var left = Math.Max(0, total - inCart);
+            var text = entry.FromFridge
+                ? Loc.GetString("requisitions-available", ("count", left))
+                : Loc.GetString("requisitions-prints-remaining", ("count", left));
+            hb.AddChild(new Label
+            {
+                Text = text,
+                Margin = new Thickness(6, 0, 0, 0),
+                FontColorOverride = Color.FromHex(left == 0 ? "#d05555" : "#e0a24b"),
+                StyleClasses = { "LabelSubText" },
+            });
+        }
+        button.AddChild(hb);
+        button.OnPressed += _ => AddToCart(recipeId, source, flatpack);
+        row.AddChild(button);
+
+        // Flatpack toggle, then price — kept outside the clickable area. Fridge items are never flatpackable.
+        if (entry.Flatpackable)
+        {
+            var check = new CheckBox { Text = Loc.GetString("requisitions-flatpack"), Pressed = flatpack, Margin = new Thickness(8, 0, 0, 0) };
+            check.OnToggled += a =>
+            {
+                _catalogueFlatpack[recipeId] = a.Pressed;
+                RebuildCatalogue();
+            };
+            row.AddChild(check);
+        }
+
+        row.AddChild(new Label { Text = $"${ItemCost(entry, flatpack)}", StyleClasses = { "LabelKeyText" }, Margin = new Thickness(8, 0, 0, 0) });
+
+        return row;
+    }
+
+    private void AddToCart(string id, RequisitionItemSource source, bool flatpack)
+    {
+        _cart.Add(new RequisitionCartItem { Id = id, Source = source, Quantity = 1, Flatpack = flatpack });
         CartChanged();
     }
 
-    /// <summary>The cart changed: refresh both the cart and the catalogue (whose live "prints left" depends on it).</summary>
+    // The cart changed: refresh both the cart and the catalogue (whose live "prints left" depends on it).
     private void CartChanged()
     {
         RebuildCatalogue();
@@ -231,7 +293,7 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         {
             var index = i;
             var item = _cart[i];
-            var entry = _state.Catalogue.FirstOrDefault(e => e.RecipeId == item.RecipeId);
+            var entry = _state.Catalogue.FirstOrDefault(e => e.Id == item.Id);
             if (entry == null)
                 continue;
 
@@ -292,6 +354,15 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         var detail = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Vertical, Margin = new Thickness(34, 2, 4, 6) };
         var mult = item.Flatpack ? _state.FlatpackMultiplier : 1f;
 
+        if (entry.FromFridge)
+        {
+            // No materials — just the manual unit price.
+            var line = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
+            line.AddChild(new Label { Text = Loc.GetString("requisitions-fridge-unit-price"), HorizontalExpand = true, Margin = new Thickness(4, 0, 0, 0), StyleClasses = { "LabelSubText" } });
+            line.AddChild(new Label { Text = $"${entry.FridgeUnitPrice}", StyleClasses = { "LabelSubText" } });
+            detail.AddChild(line);
+        }
+
         foreach (var (mat, baseAmount) in entry.Materials.OrderBy(kv => kv.Key))
         {
             var raw = (int) MathF.Ceiling(baseAmount * mult);
@@ -303,7 +374,7 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         }
 
         var worth = ItemWorth(entry, item.Flatpack);
-        foreach (var fee in FeesFor(entry.RecipeId, item.Flatpack))
+        foreach (var fee in FeesFor(entry.Id, entry.Source, item.Flatpack))
         {
             // For a percent fee show the rate and what it works out to on this item, e.g. "Research Fee (10%)".
             var label = fee.Type == RequisitionFeeType.Percent ? $"{fee.Name} ({fee.Price}%)" : fee.Name;
@@ -321,24 +392,39 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         BreakdownContainer.RemoveAllChildren();
 
         var need = new Dictionary<string, int>();
+        // Per-material cost, accumulated one line at a time (each line rounded once).
+        var matValue = new Dictionary<string, int>();
+        var fridgeLines = new Dictionary<string, (string Name, int Qty, int Total)>();
         var feeAgg = new Dictionary<string, (string Name, bool Percent, int Rate, int Count, int Total)>();
         foreach (var item in _cart)
         {
-            var entry = _state.Catalogue.FirstOrDefault(e => e.RecipeId == item.RecipeId);
+            var entry = _state.Catalogue.FirstOrDefault(e => e.Id == item.Id);
             if (entry == null)
                 continue;
 
             var qty = Math.Max(1, item.Quantity);
-            var mult = item.Flatpack ? _state.FlatpackMultiplier : 1f;
             var worth = 0;
-            foreach (var (mat, baseAmount) in entry.Materials)
+            if (entry.FromFridge)
             {
-                var raw = (int) MathF.Ceiling(baseAmount * mult) * qty;
-                need[mat] = need.GetValueOrDefault(mat) + raw;
-                worth += SheetCost(mat, raw);
+                // Fridge items have no materials; their worth is the manual unit price.
+                worth = entry.FridgeUnitPrice * qty;
+                var prevF = fridgeLines.GetValueOrDefault(item.Id);
+                fridgeLines[item.Id] = (entry.Name, prevF.Qty + qty, prevF.Total + worth);
+            }
+            else
+            {
+                var mult = item.Flatpack ? _state.FlatpackMultiplier : 1f;
+                foreach (var (mat, baseAmount) in entry.Materials)
+                {
+                    var raw = RequisitionCosting.PerUnitRaw(baseAmount, mult) * qty;
+                    need[mat] = need.GetValueOrDefault(mat) + raw;
+                    var lineCost = SheetCost(mat, raw);
+                    worth += lineCost;
+                    matValue[mat] = matValue.GetValueOrDefault(mat) + lineCost;
+                }
             }
 
-            foreach (var fee in FeesFor(item.RecipeId, item.Flatpack))
+            foreach (var fee in FeesFor(item.Id, item.Source, item.Flatpack))
             {
                 var prev = feeAgg.GetValueOrDefault(fee.Id);
                 feeAgg[fee.Id] = (fee.Name, fee.Type == RequisitionFeeType.Percent, fee.Price, prev.Count + qty, prev.Total + fee.AmountFor(worth, qty));
@@ -371,9 +457,10 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         var anyShort = false;
         foreach (var (mat, qty) in need.OrderBy(kv => kv.Key))
         {
-            // The customer's inserted sheets cover part of the need, lowering the billed amount.
+            // The customer's inserted sheets cover part of the need, lowering the billed amount. The base value is
+            // the per-line-rounded sum (matValue); the cover discount is applied at the material level.
             var cover = Math.Min(_state.Contributed.GetValueOrDefault(mat), qty);
-            var cost = SheetCost(mat, qty - cover);
+            var cost = Math.Max(0, matValue.GetValueOrDefault(mat) - SheetCost(mat, cover));
             materialTotal += cost;
 
             // Short when what the silo must still supply exceeds its stock. Add silo materials, or have the
@@ -400,6 +487,18 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
             BreakdownContainer.AddChild(line);
         }
 
+        // Fridge goods have no material breakdown — list them by name at their manual price.
+        var fridgeTotal = 0;
+        foreach (var (_, fl) in fridgeLines.OrderBy(kv => kv.Value.Name))
+        {
+            fridgeTotal += fl.Total;
+            var text = fl.Qty > 1 ? $"{fl.Name} ×{fl.Qty}" : fl.Name;
+            var line = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
+            line.AddChild(new Label { Text = text, HorizontalExpand = true, FontColorOverride = FridgeColor });
+            line.AddChild(new Label { Text = $"${fl.Total}" });
+            BreakdownContainer.AddChild(line);
+        }
+
         var feeTotal = 0;
         foreach (var (_, fee) in feeAgg)
         {
@@ -413,7 +512,9 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
             BreakdownContainer.AddChild(line);
         }
 
-        var total = materialTotal + feeTotal;
+        // "Material cost" summary covers all goods (raw materials + fridge items); fees are shown separately.
+        var goodsTotal = materialTotal + fridgeTotal;
+        var total = goodsTotal + feeTotal;
 
         // Sync the editable final-price field to the calculated total, but ONLY when that total actually changed.
         // RebuildTotals runs on every state refresh, including background ones that don't touch the price (ejecting
@@ -436,7 +537,7 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         var summary = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
         var matSummary = new Label
         {
-            Text = Loc.GetString("requisitions-summary-material") + $" ${materialTotal}",
+            Text = Loc.GetString("requisitions-summary-material") + $" ${goodsTotal}",
             StyleClasses = { "LabelSubText" },
         };
         if (anyShort)
@@ -456,6 +557,7 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         BreakdownContainer.AddChild(summary);
 
         CheckoutButton.Disabled = _state.Processing || _cart.Count == 0;
+        PreviewInvoiceButton.Disabled = _state.Processing || _cart.Count == 0;
         CancelButton.Disabled = _state.Processing;
     }
 
@@ -472,17 +574,22 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         CartChanged();
     }
 
+    private void Preview()
+    {
+        // Print the invoice this cart would generate without ordering anything, so the cart is left intact.
+        int? overridePrice = null;
+        if (int.TryParse(FinalPriceEdit.Text, out var p) && p >= 0 && p != _calculatedTotal)
+            overridePrice = p;
+
+        OnPreviewInvoice?.Invoke(new List<RequisitionCartItem>(_cart), InvoiceTitle.Text, overridePrice);
+    }
+
     #endregion
 
     #region Config
 
     private void RebuildConfig()
     {
-        DetailedInvoiceCheck.Pressed = _state.DetailedInvoice;
-
-        EjectButton.Visible = _state.PendingFlatpacks > 0;
-        EjectButton.Text = Loc.GetString("requisitions-config-eject", ("count", _state.PendingFlatpacks));
-
         // Raw materials
         MaterialContainer.RemoveAllChildren();
         foreach (var (mat, price) in _state.MaterialPrices.OrderBy(kv => MatName(kv.Key)))
@@ -501,67 +608,19 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
             MaterialContainer.AddChild(row);
         }
 
-        // Fees
+        // Fees (lathe side only)
         FeeContainer.RemoveAllChildren();
-        foreach (var fee in _state.Fees)
-        {
-            var isFlatpack = fee.Scope == RequisitionFeeScope.Flatpack;
-            var row = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
+        foreach (var fee in _state.Fees.Where(f => f.Source == RequisitionItemSource.Lathe))
+            FeeContainer.AddChild(BuildFeeRow(fee));
+    }
 
-            var nameEdit = new LineEdit { Text = fee.Name, HorizontalExpand = true, Editable = !isFlatpack };
-            var capturedName = fee;
-            nameEdit.OnTextEntered += a =>
-            {
-                var updated = Clone(capturedName);
-                updated.Name = a.Text;
-                OnSetFee?.Invoke(updated);
-            };
-            row.AddChild(nameEdit);
+    // The Configuration tab: machine linking, the detailed-invoice toggle, and eject-stored-boards.
+    private void RebuildConfiguration()
+    {
+        DetailedInvoiceCheck.Pressed = _state.DetailedInvoice;
 
-            row.AddChild(new Label { Text = AppliesText(fee), StyleClasses = { "LabelSubText" }, Margin = new Thickness(6, 0, 6, 0) });
-
-            var priceEdit = new LineEdit { Text = fee.Price.ToString(), MinWidth = 70 };
-            var capturedPrice = fee;
-            priceEdit.OnTextEntered += a =>
-            {
-                if (!int.TryParse(a.Text, out var p))
-                    return;
-                var updated = Clone(capturedPrice);
-                updated.Price = p;
-                OnSetFee?.Invoke(updated);
-            };
-            row.AddChild(priceEdit);
-
-            // Flat vs percent dropdown. A percent fee adds that % of the item's material value.
-            var typeDropdown = new OptionButton { MinWidth = 90, Margin = new Thickness(6, 0, 0, 0), ToolTip = Loc.GetString("requisitions-fee-type-tooltip") };
-            typeDropdown.AddItem(Loc.GetString("requisitions-fee-type-flat"), (int) RequisitionFeeType.Flat);
-            typeDropdown.AddItem(Loc.GetString("requisitions-fee-type-percent"), (int) RequisitionFeeType.Percent);
-            typeDropdown.SelectId((int) fee.Type);
-            var capturedType = fee;
-            typeDropdown.OnItemSelected += a =>
-            {
-                typeDropdown.SelectId(a.Id);
-                var updated = Clone(capturedType);
-                updated.Type = (RequisitionFeeType) a.Id;
-                OnSetFee?.Invoke(updated);
-            };
-            row.AddChild(typeDropdown);
-
-            if (!isFlatpack)
-            {
-                var assign = new Button { Text = Loc.GetString("requisitions-assign-button"), Margin = new Thickness(6, 0, 0, 0) };
-                var capturedAssign = fee;
-                assign.OnPressed += _ => OpenAssignDialog(capturedAssign);
-                row.AddChild(assign);
-
-                var remove = new Button { Text = "✕", Margin = new Thickness(6, 0, 0, 0), StyleClasses = { "ButtonColorRed" } };
-                var feeId = fee.Id;
-                remove.OnPressed += _ => OnRemoveFee?.Invoke(feeId);
-                row.AddChild(remove);
-            }
-
-            FeeContainer.AddChild(row);
-        }
+        EjectButton.Visible = _state.PendingFlatpacks > 0;
+        EjectButton.Text = Loc.GetString("requisitions-config-eject", ("count", _state.PendingFlatpacks));
 
         // Links — only show machines we can actually link (in range) or ones already linked (so you can unlink).
         LinkContainer.RemoveAllChildren();
@@ -579,14 +638,105 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         }
     }
 
-    private void AddFee()
+    // Builds one editable fee row. Each edit sends the fee composed from the row's current control values.
+    private Control BuildFeeRow(RequisitionFee fee)
     {
-        // Add a blank fee; the operator then renames it and assigns items via the row controls.
+        // The lathe tab carries one non-editable auto fee (the flatpack fee).
+        var isFlatpack = fee.Source == RequisitionItemSource.Lathe && fee.Scope == RequisitionFeeScope.Flatpack;
+
+        var row = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
+
+        var nameEdit = new LineEdit { Text = fee.Name, HorizontalExpand = true, Editable = !isFlatpack };
+        var priceEdit = new LineEdit { Text = fee.Price.ToString(), MinWidth = 70 };
+        var typeDropdown = new OptionButton { MinWidth = 90, Margin = new Thickness(6, 0, 0, 0), ToolTip = Loc.GetString("requisitions-fee-type-tooltip") };
+        typeDropdown.AddItem(Loc.GetString("requisitions-fee-type-flat"), (int) RequisitionFeeType.Flat);
+        typeDropdown.AddItem(Loc.GetString("requisitions-fee-type-percent"), (int) RequisitionFeeType.Percent);
+        typeDropdown.SelectId((int) fee.Type);
+
+        // Compose from the live controls (not a build-time snapshot), preserving scope/targets/source.
+        RequisitionFee Current()
+        {
+            var updated = Clone(fee);
+            updated.Name = nameEdit.Text;
+            if (int.TryParse(priceEdit.Text, out var p))
+                updated.Price = p;
+            updated.Type = (RequisitionFeeType) typeDropdown.SelectedId;
+            return updated;
+        }
+
+        nameEdit.OnTextEntered += _ => OnSetFee?.Invoke(Current());
+        row.AddChild(nameEdit);
+
+        row.AddChild(new Label { Text = AppliesText(fee), StyleClasses = { "LabelSubText" }, Margin = new Thickness(6, 0, 6, 0) });
+
+        // Current() only applies the price when it parses, so a garbage entry just keeps the previous price.
+        priceEdit.OnTextEntered += _ => OnSetFee?.Invoke(Current());
+        row.AddChild(priceEdit);
+
+        typeDropdown.OnItemSelected += a =>
+        {
+            typeDropdown.SelectId(a.Id);
+            OnSetFee?.Invoke(Current());
+        };
+        row.AddChild(typeDropdown);
+
+        if (!isFlatpack)
+        {
+            var assign = new Button { Text = Loc.GetString("requisitions-assign-button"), Margin = new Thickness(6, 0, 0, 0) };
+            var capturedAssign = fee;
+            assign.OnPressed += _ => OpenAssignDialog(capturedAssign);
+            row.AddChild(assign);
+
+            var remove = new Button { Text = "✕", Margin = new Thickness(6, 0, 0, 0), StyleClasses = { "ButtonColorRed" } };
+            var feeId = fee.Id;
+            remove.OnPressed += _ => OnRemoveFee?.Invoke(feeId);
+            row.AddChild(remove);
+        }
+
+        return row;
+    }
+
+    private void RebuildFridgeConfig()
+    {
+        // Manual prices — one row per distinct fridge item currently offered by the linked fridges.
+        FridgeMaterialContainer.RemoveAllChildren();
+        var fridgeItems = _state.Catalogue.Where(e => e.FromFridge).OrderBy(e => e.Name).ToList();
+        if (fridgeItems.Count == 0)
+            FridgeMaterialContainer.AddChild(new Label { Text = Loc.GetString("requisitions-fridge-none"), StyleClasses = { "LabelSubText" } });
+
+        foreach (var entry in fridgeItems)
+        {
+            var row = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
+            row.AddChild(MakeIcon(entry.Result, 20));
+            row.AddChild(new Label { Text = entry.Name, HorizontalExpand = true, Margin = new Thickness(4, 0, 0, 0), ClipText = true });
+            var price = _state.FridgeItemPrices.TryGetValue(entry.Name, out var p) ? p : entry.FridgeUnitPrice;
+            var edit = new LineEdit { Text = price.ToString(), MinWidth = 70 };
+            var name = entry.Name;
+            edit.OnTextEntered += a =>
+            {
+                if (int.TryParse(a.Text, out var np))
+                    OnSetFridgePrice?.Invoke(name, np);
+            };
+            row.AddChild(edit);
+            FridgeMaterialContainer.AddChild(row);
+        }
+
+        // Fees — same editor as the lathe tab, filtered to the fridge side of the single fee list.
+        FridgeFeeContainer.RemoveAllChildren();
+        foreach (var fee in _state.Fees.Where(f => f.Source == RequisitionItemSource.Fridge))
+            FridgeFeeContainer.AddChild(BuildFeeRow(fee));
+    }
+
+    private void AddFee(RequisitionItemSource source)
+    {
+        // Add a blank fee; the operator then renames it and assigns items via the row controls. The id is a fresh
+        // A fresh Guid id keeps every added fee unique (the server treats a matching id as an edit).
         OnSetFee?.Invoke(new RequisitionFee
         {
-            Id = "fee_" + _state.Fees.Count + "_" + (_state.Catalogue.Count + _cart.Count),
+            Id = Guid.NewGuid().ToString(),
             Name = Loc.GetString("requisitions-new-fee-name"),
             Price = 0,
+            Source = source,
             Scope = RequisitionFeeScope.All,
         });
     }
@@ -610,17 +760,17 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         var rows = new List<(BoxContainer Row, string Name)>();
         var scroll = new ScrollContainer { VerticalExpand = true, HScrollEnabled = false };
         var list = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Vertical };
-        foreach (var entry in _state.Catalogue)
+        foreach (var entry in _state.Catalogue.Where(e => e.Source == fee.Source))
         {
             var itemRow = new BoxContainer { Orientation = BoxContainer.LayoutOrientation.Horizontal, HorizontalExpand = true };
             itemRow.AddChild(MakeIcon(entry.Result, 24));
             var cb = new CheckBox
             {
                 Text = entry.Name,
-                Pressed = fee.Scope == RequisitionFeeScope.Specific && fee.Recipes.Contains(entry.RecipeId),
+                Pressed = fee.Scope == RequisitionFeeScope.Specific && fee.Targets.Contains(entry.Id),
                 Margin = new Thickness(4, 0, 0, 0),
             };
-            checks[entry.RecipeId] = cb;
+            checks[entry.Id] = cb;
             itemRow.AddChild(cb);
             list.AddChild(itemRow);
             rows.Add((itemRow, entry.Name));
@@ -643,14 +793,12 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
             if (all.Pressed)
             {
                 updated.Scope = RequisitionFeeScope.All;
-                updated.Recipes = new HashSet<ProtoId<LatheRecipePrototype>>();
+                updated.Targets = new HashSet<string>();
             }
             else
             {
                 updated.Scope = RequisitionFeeScope.Specific;
-                updated.Recipes = checks.Where(kv => kv.Value.Pressed)
-                    .Select(kv => (ProtoId<LatheRecipePrototype>) kv.Key)
-                    .ToHashSet();
+                updated.Targets = checks.Where(kv => kv.Value.Pressed).Select(kv => kv.Key).ToHashSet();
             }
             OnSetFee?.Invoke(updated);
             win.Close();
@@ -667,36 +815,35 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         Name = fee.Name,
         Price = fee.Price,
         Type = fee.Type,
+        Source = fee.Source,
         Scope = fee.Scope,
-        Recipes = new HashSet<ProtoId<LatheRecipePrototype>>(fee.Recipes),
+        Targets = new HashSet<string>(fee.Targets),
     };
 
     private string AppliesText(RequisitionFee fee) => fee.Scope switch
     {
         RequisitionFeeScope.All => Loc.GetString("requisitions-applies-all"),
         RequisitionFeeScope.Flatpack => Loc.GetString("requisitions-applies-flatpack"),
-        _ => fee.Recipes.Count == 0
+        _ => fee.Targets.Count == 0
             ? Loc.GetString("requisitions-applies-none")
-            : Loc.GetString("requisitions-applies-count", ("count", fee.Recipes.Count)),
+            : Loc.GetString("requisitions-applies-count", ("count", fee.Targets.Count)),
     };
 
     #endregion
 
     #region Pricing helpers
 
-    private int MaterialPrice(string mat) => _state.MaterialPrices.TryGetValue(mat, out var p) ? p : 0;
+    // Price of a material, or the fallback when it has no entry.
+    private int MaterialPrice(string mat) => RequisitionCosting.Price(_state.MaterialPrices, mat, _state.MaterialFallbackPrice);
 
+    // Localized display name for a material.
     private string MatName(string mat)
-    {
-        if (_state.MaterialNames.TryGetValue(mat, out var n))
-            return n;
-        return _proto.TryIndex<MaterialPrototype>(mat, out var m) ? Loc.GetString(m.Name) : mat;
-    }
+        => _proto.TryIndex<MaterialPrototype>(mat, out var m) ? Loc.GetString(m.Name) : mat;
 
     private float SheetVolume(string matId) =>
         _proto.TryIndex<MaterialPrototype>(matId, out var m) ? Math.Max(1, _materialStorage.GetSheetVolume(m)) : 1;
 
-    /// <summary>Just the amount and unit, e.g. "12.5 sheets" (or "12.5 ingots" for ingot materials).</summary>
+    // Just the amount and unit, e.g. "12.5 sheets" (or "12.5 ingots" for ingot materials).
     private string SheetOnly(string matId, int rawAmount)
     {
         var sheets = rawAmount / SheetVolume(matId);
@@ -704,7 +851,7 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         return Loc.GetString("requisitions-material-sheets", ("amount", MathF.Round(sheets, 2)), ("unit", unit));
     }
 
-    /// <summary>Named material line, amount first to match the invoice, e.g. "12.5 Steel sheets".</summary>
+    // Named material line, amount first to match the invoice, e.g. "12.5 Steel sheets".
     private string MatLine(string matId, int rawAmount)
     {
         var amount = MathF.Round(rawAmount / SheetVolume(matId), 2);
@@ -713,21 +860,21 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
     }
 
     private int SheetCost(string matId, int rawAmount)
-    {
-        if (rawAmount <= 0)
-            return 0;
-        return (int) MathF.Round(rawAmount / SheetVolume(matId) * MaterialPrice(matId));
-    }
+        => RequisitionCosting.SheetCost(rawAmount, SheetVolume(matId), MaterialPrice(matId));
 
-    private IEnumerable<RequisitionFee> FeesFor(string recipeId, bool flatpack)
+    private IEnumerable<RequisitionFee> FeesFor(string id, RequisitionItemSource source, bool flatpack)
     {
+        // One fee list; a fee only applies to cart lines of its own source.
         foreach (var fee in _state.Fees)
         {
+            if (fee.Source != source)
+                continue;
+
             var applies = fee.Scope switch
             {
                 RequisitionFeeScope.Flatpack => flatpack,
                 RequisitionFeeScope.All => true,
-                RequisitionFeeScope.Specific => fee.Recipes.Contains(recipeId),
+                RequisitionFeeScope.Specific => fee.Targets.Contains(id),
                 _ => false,
             };
             if (applies)
@@ -735,9 +882,13 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
         }
     }
 
-    /// <summary>Full material value of one unit (no contribution discount) — the base for percent fees.</summary>
+    // Full value of one unit (no contribution discount) — the base for percent fees. For a fridge item
+    // this is its manual unit price; for a lathe recipe it is the material value.
     private int ItemWorth(RequisitionCatalogueEntry entry, bool flatpack)
     {
+        if (entry.FromFridge)
+            return entry.FridgeUnitPrice;
+
         var mult = flatpack ? _state.FlatpackMultiplier : 1f;
         var worth = 0;
         foreach (var (mat, baseAmount) in entry.Materials)
@@ -749,7 +900,7 @@ public sealed partial class RequisitionsConsoleMenu : FancyWindow
     {
         var worth = ItemWorth(entry, flatpack);
         var cost = worth;
-        foreach (var fee in FeesFor(entry.RecipeId, flatpack))
+        foreach (var fee in FeesFor(entry.Id, entry.Source, flatpack))
             cost += fee.AmountFor(worth, 1);
         return cost;
     }

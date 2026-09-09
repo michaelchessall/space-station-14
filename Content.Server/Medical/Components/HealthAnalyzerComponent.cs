@@ -1,3 +1,4 @@
+using Content.Shared.Inventory;
 using Robust.Shared.Audio;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 
@@ -67,4 +68,7 @@ public sealed partial class HealthAnalyzerComponent : Component
     /// </summary>
     [DataField]
     public bool Silent;
+
+    [DataField]
+    public SlotFlags StableFlags = SlotFlags.POCKET;
 }

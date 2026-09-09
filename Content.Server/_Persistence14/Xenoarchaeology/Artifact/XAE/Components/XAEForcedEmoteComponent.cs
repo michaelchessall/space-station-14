@@ -30,5 +30,5 @@ public sealed partial class XAEForcedEmoteComponent : Component
     /// How long the fit lasts. AutoEmote has no lifetime of its own, so this system times it out.
     /// </summary>
     [DataField]
-    public TimeSpan Duration = TimeSpan.FromSeconds(20);
+    public TimeSpan Duration = TimeSpan.FromSeconds(10);
 }

@@ -1,0 +1,8 @@
+- type: tile
+  id: ReinforcedLattice
+  parent: Lattice
+  name: tiles-lattice-reinforced
+  sprite: /Textures/_Persistence14/Tiles/reinforced_lattice.png
+  footstepSounds:
+    collection: FootstepCatwalk
+  itemDrop: PartRodTitanium1

@@ -1,0 +1,7 @@
+- type: construction
+  id: TitaniumRod
+  graph: TitaniumRod
+  startNode: start
+  targetNode: titanium-rod
+  category: construction-category-materials
+  objectType: Item

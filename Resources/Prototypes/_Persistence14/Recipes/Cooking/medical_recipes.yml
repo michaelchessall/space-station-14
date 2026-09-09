@@ -1,0 +1,17 @@
+### Persistence 14 Healing Recipes ###
+
+# Necrospray
+- type: microwaveMealRecipe
+  id: RecipeNecrospray
+  name: necrospray_recipe
+  result: Necrospray
+  time: 10
+  group: Medicinal
+  solids:
+    FoodPoppy: 1
+    Brutepack: 1
+    FoodAloe: 1
+    Ointment: 1
+    IngotSilver1: 1
+  reagents:
+    Arcryox: 20

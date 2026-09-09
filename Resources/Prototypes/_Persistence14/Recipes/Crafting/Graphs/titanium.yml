@@ -1,0 +1,13 @@
+- type: constructionGraph
+  id: TitaniumRod
+  start: start
+  graph:
+  - node: start
+    edges:
+    - to: titanium-rod
+      steps:
+      - material: Titanium
+        amount: 1
+        doAfter: 2
+  - node: titanium-rod
+    entity: PartRodTitanium2

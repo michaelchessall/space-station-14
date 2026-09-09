@@ -13,7 +13,7 @@
             <!-- ============ CHECKOUT TAB ============ -->
             <BoxContainer Name="CheckoutTab" Orientation="Vertical" VerticalExpand="True">
               <BoxContainer Orientation="Horizontal" Margin="6 6 6 0">
-                <LineEdit Name="InvoiceTitle" PlaceHolder="&gt;INVOICE TITLE HERE&lt;" HorizontalExpand="True"/>
+                <LineEdit Name="InvoiceTitle" PlaceHolder="{Loc 'requisitions-invoice-title-placeholder'}" HorizontalExpand="True"/>
                 <CheckBox Name="PrintInvoiceCheck" Text="{Loc 'requisitions-print-invoice'}" Margin="8 0 0 0"/>
               </BoxContainer>
               <Control VerticalExpand="True" HorizontalExpand="True">
@@ -56,6 +56,7 @@
                     <BoxContainer Orientation="Horizontal" Margin="0 4 0 0">
                         <Button Name="CancelButton" Text="{Loc 'requisitions-cancel-button'}" StyleClasses="ButtonColorRed"/>
                         <Control HorizontalExpand="True"/>
+                        <Button Name="PreviewInvoiceButton" Text="{Loc 'requisitions-preview-invoice'}" ToolTip="{Loc 'requisitions-preview-invoice-tooltip'}" Margin="0 0 6 0" Disabled="True"/>
                         <Button Name="CheckoutButton" Text="{Loc 'requisitions-checkout-button'}" StyleClasses="ButtonColorGreen" Disabled="True"/>
                     </BoxContainer>
                 </BoxContainer>
@@ -71,13 +72,11 @@
               </Control>
             </BoxContainer>
 
-            <!-- ============ CONFIG TAB ============ -->
+            <!-- ============ LATHE PRICES TAB ============ -->
             <BoxContainer Name="ConfigTab" Orientation="Vertical" Margin="6" VerticalExpand="True">
                 <BoxContainer Orientation="Horizontal">
                     <Label Text="{Loc 'requisitions-config-header'}" StyleClasses="LabelKeyText" HorizontalExpand="True"/>
-                    <CheckBox Name="DetailedInvoiceCheck" Text="{Loc 'requisitions-config-detailed-invoice'}" ToolTip="{Loc 'requisitions-config-detailed-invoice-tooltip'}" Margin="0 0 8 0"/>
                     <Button Name="AddFeeButton" Text="{Loc 'requisitions-config-add'}"/>
-                    <Button Name="EjectButton" Text="Eject boards" Margin="6 0 0 0" Visible="False"/>
                 </BoxContainer>
                 <PanelContainer StyleClasses="LowDivider" Margin="0 4 0 4"/>
                 <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
@@ -86,7 +85,38 @@
                         <BoxContainer Name="MaterialContainer" Orientation="Vertical" HorizontalExpand="True"/>
                         <Label Text="{Loc 'requisitions-config-fees'}" StyleClasses="LabelKeyText" Margin="0 10 0 2"/>
                         <BoxContainer Name="FeeContainer" Orientation="Vertical" HorizontalExpand="True"/>
-                        <Label Text="{Loc 'requisitions-config-links'}" StyleClasses="LabelKeyText" Margin="0 10 0 2"/>
+                    </BoxContainer>
+                </ScrollContainer>
+            </BoxContainer>
+
+            <!-- ============ FRIDGE PRICES TAB ============ -->
+            <BoxContainer Name="FridgeTab" Orientation="Vertical" Margin="6" VerticalExpand="True">
+                <BoxContainer Orientation="Horizontal">
+                    <Label Text="{Loc 'requisitions-config-fridge-header'}" StyleClasses="LabelKeyText" HorizontalExpand="True"/>
+                    <Button Name="AddFridgeFeeButton" Text="{Loc 'requisitions-config-add'}"/>
+                </BoxContainer>
+                <PanelContainer StyleClasses="LowDivider" Margin="0 4 0 4"/>
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                        <Label Text="{Loc 'requisitions-config-fridge-prices'}" StyleClasses="LabelKeyText" Margin="0 0 0 2"/>
+                        <BoxContainer Name="FridgeMaterialContainer" Orientation="Vertical" HorizontalExpand="True"/>
+                        <Label Text="{Loc 'requisitions-config-fridge-fees'}" StyleClasses="LabelKeyText" Margin="0 10 0 2"/>
+                        <BoxContainer Name="FridgeFeeContainer" Orientation="Vertical" HorizontalExpand="True"/>
+                    </BoxContainer>
+                </ScrollContainer>
+            </BoxContainer>
+
+            <!-- ============ CONFIGURATION TAB ============ -->
+            <BoxContainer Name="ConfigurationTab" Orientation="Vertical" Margin="6" VerticalExpand="True">
+                <BoxContainer Orientation="Horizontal">
+                    <Label Text="{Loc 'requisitions-configuration-header'}" StyleClasses="LabelKeyText" HorizontalExpand="True"/>
+                    <CheckBox Name="DetailedInvoiceCheck" Text="{Loc 'requisitions-config-detailed-invoice'}" ToolTip="{Loc 'requisitions-config-detailed-invoice-tooltip'}" Margin="0 0 8 0"/>
+                    <Button Name="EjectButton" Text="{Loc 'requisitions-config-add'}" Visible="False"/>
+                </BoxContainer>
+                <PanelContainer StyleClasses="LowDivider" Margin="0 4 0 4"/>
+                <ScrollContainer VerticalExpand="True" HScrollEnabled="False">
+                    <BoxContainer Orientation="Vertical" HorizontalExpand="True">
+                        <Label Text="{Loc 'requisitions-config-links'}" StyleClasses="LabelKeyText" Margin="0 0 0 2"/>
                         <BoxContainer Name="LinkContainer" Orientation="Vertical" HorizontalExpand="True"/>
                     </BoxContainer>
                 </ScrollContainer>

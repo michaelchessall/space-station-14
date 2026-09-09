@@ -1,0 +1,6 @@
+- type: ssdIcon
+  id: SSDIconBlue
+  icon:
+    sprite: /Textures/Effects/ssd.rsi
+    state: default0-blue
+  locationPreference: Left

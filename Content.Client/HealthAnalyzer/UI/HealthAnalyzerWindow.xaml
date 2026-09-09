@@ -2,8 +2,8 @@
     xmlns="https://spacestation14.io"
     xmlns:controls="clr-namespace:Content.Client.UserInterface.Controls"
     xmlns:ui="clr-namespace:Content.Client.HealthAnalyzer.UI"
-    MaxHeight="525"
-    MinWidth="300">
+    MaxHeight="800"
+    MinWidth="300"> <!-- Persistence: MaxHeight 525 < 800 -->
     <ScrollContainer
         Margin="5 5 5 5"
         ReturnMeasure="True"

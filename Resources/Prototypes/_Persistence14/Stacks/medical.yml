@@ -1,0 +1,9 @@
+### Persistence 14 Stacks for Healing Items ###
+
+# Necrospray
+- type: stack
+  parent: BaseSmallStack
+  id: Necrospray
+  name: stack-necrospray
+  icon: {sprite: "_Persistence14/Objects/Specific/Medical/necrospray.rsi", state: necrospray}
+  spawn: Necrospray1

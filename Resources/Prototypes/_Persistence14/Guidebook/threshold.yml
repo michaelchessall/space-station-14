@@ -1,0 +1,86 @@
+# Only entries which are children of this first entry (or their children & so on) should be defined in this file.
+- type: guideEntry
+  id: Threshold
+  name: guide-entry-threshold
+  priority: 11 # After PersistRuleset
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/Threshold.xml"
+  children:
+    - MakingMoney
+    - ThresholdCargo
+    - ThresholdMiningHunting
+    - ThresholdGasMining
+    - ThresholdScience
+    - Death
+    - Achievements
+    - GridControl
+    - AccessControl
+    - ThresholdMedical
+
+- type: guideEntry
+  id: MakingMoney
+  name: guide-entry-making-money
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/MakingMoney.xml"
+
+- type: guideEntry
+  id: ThresholdCargo
+  name: guide-entry-threshold-cargo
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdCargo.xml"
+
+- type: guideEntry
+  id: ThresholdMiningHunting
+  name: guide-entry-threshold-mining-hunting
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdMiningHunting.xml"
+
+- type: guideEntry
+  id: ThresholdGasMining
+  name: guide-entry-threshold-gas-mining
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdGasMining.xml"
+
+- type: guideEntry
+  id: ThresholdScience
+  name: guide-entry-threshold-science
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdScience.xml"
+
+- type: guideEntry
+  id: Death
+  name: guide-entry-death
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/Death.xml"
+
+- type: guideEntry
+  id: Achievements
+  name: guide-entry-achievements
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/Achievements.xml"
+
+- type: guideEntry
+  id: GridControl
+  name: guide-entry-grid-control
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/GridControl.xml"
+
+- type: guideEntry
+  id: AccessControl
+  name: guide-entry-access-control
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/AccessControl.xml"
+
+- type: guideEntry
+  id: ThresholdMedical
+  name: guide-entry-threshold-medical
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdMedical.xml"
+  children:
+    - ThresholdMedicineMetabolism
+    - ThresholdTopicals
+    - ThresholdResuscitation
+
+- type: guideEntry
+  id: ThresholdMedicineMetabolism
+  name: guide-entry-threshold-medicine-metabolism
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdMedicineMetabolism.xml"
+
+- type: guideEntry
+  id: ThresholdTopicals
+  name: guide-entry-threshold-topicals
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdTopicals.xml"
+
+- type: guideEntry
+  id: ThresholdResuscitation
+  name: guide-entry-threshold-resuscitation
+  text: "/ServerInfo/_Persistence14/Guidebook/Threshold/ThresholdResuscitation.xml"

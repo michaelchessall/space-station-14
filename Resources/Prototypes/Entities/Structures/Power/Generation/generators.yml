@@ -295,8 +295,12 @@
   - type: PowerMonitoringDevice
     sprite: Structures/Power/Generation/rtg.rsi
     state: rtg_damaged
-  - type: RadiationSource # ideally only when opened.
-    intensity: 2
+  - type: RadiationSource
+    intensity: 4
+  - type: RadioactiveDecay
+  - type: RadiationActivation
+    maxIntensity: 12
+  - type: RadiationReceiver
   - type: Destructible
     thresholds:
     - trigger:

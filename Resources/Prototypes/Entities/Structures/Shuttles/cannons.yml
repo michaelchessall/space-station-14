@@ -92,6 +92,9 @@
           tags:
             - PowerCell
             - PowerCellSmall
+            - PowerCellMedium
+            - PowerCellHigh
+            - PowerCellHyper
   - type: BatteryAmmoProvider
     proto: RedLightLaser
     fireCost: 50
@@ -361,6 +364,9 @@
           tags:
             - PowerCell
             - PowerCellSmall
+            - PowerCellMedium
+            - PowerCellHigh
+            - PowerCellHyper
   - type: BatteryAmmoProvider
     proto: BulletKineticShuttle
     fireCost: 25

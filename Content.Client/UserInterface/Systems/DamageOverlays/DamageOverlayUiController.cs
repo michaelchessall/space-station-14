@@ -129,11 +129,13 @@ public sealed class DamageOverlayUiController : UIController
                     break;
                 }
             case MobState.Critical:
-                {
-                    if (!_mobThresholdSystem.TryGetDeadPercentage(entity,
-                            FixedPoint2.Max(0.0, _damageable.GetTotalDamage((entity, damageable))), out var critLevel))
-                        return;
-                    _overlay.CritLevel = critLevel.Value.Float();
+            case MobState.SoftCritical: // funky
+            case MobState.HardCritical: // funky
+            {
+                if (!_mobThresholdSystem.TryGetDeadPercentage(entity,
+                        FixedPoint2.Max(0.0, _damageable.GetTotalDamage((entity, damageable))), out var critLevel))
+                    return;
+                _overlay.CritLevel = critLevel.Value.Float();
 
                     _overlay.PainLevel = 0;
                     _overlay.DeadLevel = 0;

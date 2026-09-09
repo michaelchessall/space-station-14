@@ -1,0 +1,6 @@
+# Only entries which are children of Writing (or their children & so on) should be defined in this file.
+
+- type: guideEntry
+  id: TextColors
+  name: guide-entry-text-colors
+  text: "/ServerInfo/_Persistence14/Guidebook/Writing/TextColors.xml"

@@ -49,6 +49,8 @@
   - OffsetCane
   - OffsetCaneWood
   - JetInjector
+  - CMBloodPack
+  - CMIV
 
 - type: latheRecipePack
   id: RollerBedsStatic
@@ -87,6 +89,7 @@
   - ChemMasterMachineCircuitboard
   - CondenserMachineCircuitBoard
   - HotplateMachineCircuitboard
+  - ColdplateMachineCircuitboard # Persistence
   - CrewMonitoringComputerCircuitboard
   - MedicalRecordsComputerCircuitboard
   - BodyScannerComputerCircuitboard

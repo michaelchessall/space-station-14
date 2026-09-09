@@ -312,7 +312,8 @@
   - type: GuideHelp
     guides:
     - Salvage
-    - GasMining
+    - ThresholdMiningHunting # Persistence
+    - ThresholdGasMining # Persistence
 
 - type: entity
   id: BookGasMining
@@ -333,7 +334,7 @@
       color: "#fcdf74"
   - type: GuideHelp
     guides:
-    - GasMining
+    - ThresholdGasMining # Persistence
 
 - type: entity
   id: BookMedicalReferenceBook

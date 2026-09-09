@@ -95,7 +95,7 @@
   - type: Sprite
     sprite: _Persistence14/Clothing/Neck/mantles/cargoforeman.rsi
   - type: Clothing
-    sprite: _Persistence14/Clothing/Neck/mantles/cargoforeman.rsi 
+    sprite: _Persistence14/Clothing/Neck/mantles/cargoforeman.rsi
 
 - type: entity
   parent: ClothingNeckBase
@@ -117,7 +117,7 @@
   - type: Sprite
     sprite: _Persistence14/Clothing/Neck/mantles/engiforeman.rsi
   - type: Clothing
-    sprite: _Persistence14/Clothing/Neck/mantles/engiforeman.rsi 
+    sprite: _Persistence14/Clothing/Neck/mantles/engiforeman.rsi
 
 - type: entity
   parent: [ClothingNeckBase, BaseCommandContraband]
@@ -129,3 +129,14 @@
     sprite: _Persistence14/Clothing/Neck/mantles/cosmantle.rsi
   - type: Clothing
     sprite: _Persistence14/Clothing/Neck/mantles/cosmantle.rsi
+
+- type: entity
+  parent: ClothingNeckBase
+  id: ClothingNeckMantleThreshPriest
+  name: threshold's embrace hooded mantle
+  description: WIP
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Neck/mantles/threshpriest.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/Neck/mantles/threshpriest.rsi

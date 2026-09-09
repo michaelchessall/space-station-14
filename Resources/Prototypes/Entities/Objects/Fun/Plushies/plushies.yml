@@ -1741,9 +1741,10 @@
 
   - type: MeleeWeapon
     soundHit:
-      path: /Audio/Animals/fox11.ogg
+      path: /Audio/Voice/Reptilian/reptilian_scream.ogg
       params:
          volume: -5
+         pitch: 1.5
   - type: Clothing
     quickEquip: false
     sprite: _Persistence14/Objects/Fun/Plushies/Dies.rsi
@@ -1756,6 +1757,7 @@
   - type: FoodSequenceElement
     entries:
       CottonBurger: PlushieDies
+
 - type: entity
   parent: BasePlushie
   id: ToyIan
@@ -1829,3 +1831,40 @@
 #  - type: FoodSequenceElement - does not work with randomized sprites
 #    entries:
 #      CottonBurger: AmongPequeno
+
+
+#Persistence 14
+
+- type: entity
+  parent: BasePlushie
+  id: WawaPlushie
+  name: wawa plushie
+  description: Wa!
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Fun/Plushies/Wawa.rsi
+    layers:
+    - state: base
+      map: [ "enum.DamageStateVisualLayers.Base" ]
+    - state: stick
+
+  - type: RandomSprite
+    available:
+    - enum.DamageStateVisualLayers.Base:
+        base: ScurretColors
+
+  - type: EmitSoundOnUse
+    sound: /Audio/Animals/wawa_achoo.ogg
+  - type: EmitSoundOnLand
+    sound: /Audio/Animals/wawa_chillin.ogg
+  - type: EmitSoundOnActivate
+    sound: /Audio/Animals/wawa_statement.ogg
+  - type: EmitSoundOnTrigger
+    sound: /Audio/Animals/wawa_chatter.ogg
+  - type: EmitSoundOnCollide
+    sound: /Audio/Animals/wawa_exclaim.ogg
+  - type: MeleeWeapon
+    soundHit: /Audio/Animals/wawa_mock.ogg
+  - type: Edible
+    useSound: /Audio/Animals/wawa_protest.ogg
+

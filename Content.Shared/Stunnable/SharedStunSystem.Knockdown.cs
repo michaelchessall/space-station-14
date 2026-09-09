@@ -9,6 +9,8 @@ using Content.Shared.Gravity;
 using Content.Shared.Hands;
 using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Input;
+using Content.Shared.Mobs;
+using Content.Shared.Mobs.Components;
 using Content.Shared.Movement.Events;
 using Content.Shared.Movement.Systems;
 using Content.Shared.Popups;
@@ -335,6 +337,9 @@ public abstract partial class SharedStunSystem
     public bool TryStand(Entity<KnockedDownComponent> entity)
     {
         if (!KnockdownOver(entity))
+            return false;
+
+        if (TryComp<MobStateComponent>(entity, out var mobState) && mobState.CurrentState != MobState.Alive)
             return false;
 
         var ev = new StandUpAttemptEvent(entity.Comp.AutoStand);

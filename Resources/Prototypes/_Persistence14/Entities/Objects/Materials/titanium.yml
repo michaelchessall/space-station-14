@@ -1,0 +1,82 @@
+- type: entity
+  parent: PartBase
+  id: PartRodTitanium
+  name: titanium rod
+  description: A heavy duty construction material that also seconds as a very poor bludgen.
+  suffix: Full
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Materials/titanium_rod.rsi
+    state: t_rods_5
+    layers:
+    - state: t_rods_5
+      map: ["base"]
+  - type: Appearance
+  - type: Stack
+    stackType: TitaniumRod
+    baseLayer: base
+    layerStates:
+    - t_rods
+    - t_rods_2
+    - t_rods_3
+    - t_rods_4
+    - t_rods_5
+  - type: Item
+    size: Normal
+  - type: Construction
+    graph: TitaniumRod
+    node: titanium-rod
+  - type: StaticPrice
+    price: 0
+  - type: StackPrice
+    price: 15.0
+  - type: FloorTile
+    outputs:
+    - ReinforcedLattice
+  - type: Extractable
+    grindableSolutionName: rod
+  - type: SolutionContainerManager
+    solutions:
+      rod:
+        reagents:
+        - ReagentId: Titanium
+          Quantity: 5.0
+  - type: PhysicalComposition
+    materialComposition:
+      Titanium: 50 #Half of a regular titanium sheet to reflect the crafting recipe
+  - type: GuideHelp
+    guides: 
+    - ExpandingRepairingStation
+  - type: Tag
+    tags: 
+    - ConstructionMaterial
+
+- type: entity
+  parent: PartRodTitanium
+  id: PartRodTitanium1
+  suffix: 1
+  components:
+  - type: Sprite
+    state: t_rods
+  - type: Stack
+    count: 1
+
+- type: entity
+  parent: PartRodTitanium
+  id: PartRodTitanium10
+  suffix: 10
+  components:
+  - type: Sprite
+    state: t_rods
+  - type: Stack
+    count: 10
+
+- type: entity
+  parent: PartRodTitanium
+  categories: [ HideSpawnMenu ]
+  id: PartRodTitanium2
+  components:
+  - type: Sprite
+    state: t_rods
+  - type: Stack
+    count: 2

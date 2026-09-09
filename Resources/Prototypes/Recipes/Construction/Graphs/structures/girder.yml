@@ -343,7 +343,7 @@
               amount: 2
               doAfter: 1
 
-        - to: titaniumWall
+        - to: titaniumShuttleWall
           completed:
             - !type:SnapToGrid
               southRotation: true
@@ -351,8 +351,10 @@
             - !type:EntityAnchored { }
           steps:
             - material: Titanium
-              amount: 2
+              amount: 4
               doAfter: 1
+            - tool: Welding
+              doAfter: 5
 
         - to: shuttleWall
           completed:
@@ -448,6 +450,59 @@
               doAfter: 10
             - tool: Prying
               doAfter: 10
+
+    - node: titaniumShuttleWall
+      entity: WallShuttleTitanium
+      edges:
+      - to: reinforcedGirder
+        completed:
+        - !type:SpawnPrototype
+          prototype: SheetTitanium1
+          amount: 4
+        steps:
+        - tool: Cutting
+          doAfter: 1
+          completed:
+          - !type:VisualizerDataInt
+            key: "enum.ReinforcedWallVisuals.DeconstructionStage"
+            data: 5
+        - tool: Screwing
+          doAfter: 1
+        - tool: Welding
+          doAfter: 5
+          completed:
+          - !type:VisualizerDataInt
+            key: "enum.ReinforcedWallVisuals.DeconstructionStage"
+            data: 4
+        - tool: Prying
+          doAfter: 1
+        - tool: Anchoring
+          doAfter: 1
+          completed:
+          - !type:VisualizerDataInt
+            key: "enum.ReinforcedWallVisuals.DeconstructionStage"
+            data: 3
+        - tool: Welding
+          doAfter: 10
+          completed:
+          - !type:VisualizerDataInt
+              key: "enum.ReinforcedWallVisuals.DeconstructionStage"
+              data: 2
+        - tool: Prying
+          doAfter: 1
+          completed:
+          - !type:VisualizerDataInt
+              key: "enum.ReinforcedWallVisuals.DeconstructionStage"
+              data: 1
+        - tool: Screwing
+          doAfter: 1
+          completed:
+          - !type:VisualizerDataInt
+            key: "enum.ReinforcedWallVisuals.DeconstructionStage"
+            data: 0
+        - tool: Cutting
+          doAfter: 1
+        
 
     - node: bronzeGirder
       entity: BronzeGirder

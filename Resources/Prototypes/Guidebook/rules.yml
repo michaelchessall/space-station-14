@@ -377,10 +377,3 @@
   name: guide-entry-rules-ban-durations
   ruleEntry: true
   text: "/ServerInfo/Guidebook/ServerRules/BanDurations.xml"
-
-- type: guideEntry # Ruleset for Persistence
-  id: PersistRuleset
-  name: guide-entry-rules
-  ruleEntry: true
-  priority: 10
-  text: "/ServerInfo/Guidebook/ServerRules/PersistenceRules/Rules.xml"

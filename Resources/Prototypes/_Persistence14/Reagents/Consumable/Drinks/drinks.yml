@@ -1,0 +1,35 @@
+
+- type: reagent
+  id: CherryLimeade
+  parent: BaseJuice
+  name: reagent-name-cherry-limeade
+  group: Drinks
+  desc: reagent-desc-cherry-limeade
+  physicalDesc: reagent-physical-desc-cherry-limeade
+  flavor: cherrylimeade
+  color: "#cb2520"
+  metamorphicSprite:
+    sprite: _Persistence14/Objects/Consumable/Drinks/CherryLimeade.rsi
+    state: icon_empty
+  metamorphicMaxFillLevels: 5
+  metamorphicFillBaseName: fill-
+  metamorphicChangeColor: false
+  metabolisms:
+    Digestion:
+      effects:
+      - !type:PopupMessage
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [Goblin] # Doom approaches
+        type: Local
+        visualType: MediumCaution
+        messages: [ "generic-reagent-effect-sick" ]
+        probability: 0.5
+      - !type:Vomit
+        probability: 0.5
+        conditions:
+          - !type:MetabolizerTypeCondition
+            type: [Goblin]  # Goblins vomit when eating sugar
+      - !type:SatiateThirst
+        factor: 2
+

@@ -1,0 +1,32 @@
+<Document>
+  # Resuscitation
+  \n
+  Someone died on you or went into crit? Here's what you need!
+
+  ## CPR
+  If someone is in a critical state you can do [bold]CPR[/bold] to keep them alive for longer! Get them off their hardsuit and get to work!\n
+
+  <Box>
+    <GuideEntityEmbed Entity="EmergencyRollerBed" Caption=""/>
+  </Box>
+
+  \n
+  [color=burlywood]You can do [bold]CPR[/bold] on someone who is in critical state (or dead)[/color] and isn't wearing any outer clothing. This will slowly heal up [color=lightcoral]Asphyxiation[/color] damage, it is enough to fight off the effects of being in critical and potentially even enough to recover them. \n
+  [color=burlywood]After 10 compressions you will eventually break their ribs[/color], this will deal [color=lightcoral]20 Blunt[/color] damage [color=burlywood][bold]once[/bold][/color] and it won't happen again unless they are recovered and then go into a critical state again.\n
+  [bold]CPR[/bold] also has a very small chance to revive someone who is dead, but it won't heal [color=lightcoral]Asphyxiation[/color] on a dead body.\n
+
+
+  ## Defibrillators
+
+  You likely have seen these outside the Threshold, but there's some things you need to know around here...
+
+  <Box>
+    <GuideEntityEmbed Entity="Defibrillator" Caption="Defibrillator"/>
+    <GuideEntityEmbed Entity="DefibrillatorSyndicate" Caption="Defibrillator"/>
+  </Box>
+
+  Jumpsuits and outer clothing will get in the way of a [bold]defibrillator[/bold], you need to remove them.\n
+  And before you start zapping keep in mind: [color=burlywood]a [bold]defibrillator[/bold] needs [color=lightgoldenrodyellow]1 unit[/color] of [color=#d2fffa]Epinephrine[/color] to work[/color] and it will use up that amount of [color=#d2fffa]Epinephrine[/color] per [italic]zap[/italic].\n
+  In the Threshold, [bold]defibrillators[/bold] are not guaranteed to revive every time, they have around a 70% success rate. A [italic]zap[/italic] that doesn't result in a revive will still consume the [color=#d2fffa]Epinephrine[/color].
+
+</Document>

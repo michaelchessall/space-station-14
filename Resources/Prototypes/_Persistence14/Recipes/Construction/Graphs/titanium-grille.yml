@@ -1,0 +1,101 @@
+- type: constructionGraph
+  id: ReinforcedGrille
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DestroyEntity {}
+    edges:
+    - to: flimsy
+      steps:
+      - material: TitaniumRod
+        amount: 2
+        doAfter: 1
+  
+  - node: flimsy
+    entity: GrilleReinforcedFlimsy
+    edges:
+    - to: start
+      steps:
+      - tool: Cutting
+        doAfter: 1
+      completed:
+      - !type:GivePrototype
+        prototype: PartRodTitanium1
+        amount: 2
+    
+    - to: complete
+      steps:
+      - tool: Welding
+        doAfter: 4
+  
+  - node: complete
+    entity: GrilleReinforced
+    edges:
+    - to: flimsy
+      steps:
+      - tool: Welding
+        doAfter: 6
+
+  - node: broken
+    entity: GrilleReinforced
+    edges:
+    - to: start
+      steps:
+      - tool: Cutting
+        doAfter: 1
+      completed:
+      - !type:GivePrototype
+        prototype: PartRodTitanium1
+        amount: 1
+
+- type: constructionGraph
+  id: ReinforcedGrilleDiagonal
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DestroyEntity {}
+    edges:
+    - to: flimsy
+      steps:
+      - material: TitaniumRod
+        amount: 2
+        doAfter: 1
+  
+  - node: flimsy
+    entity: GrilleReinforcedDiagonalFlimsy
+    edges:
+    - to: start
+      steps:
+      - tool: Cutting
+        doAfter: 1
+      completed:
+      - !type:GivePrototype
+        prototype: PartRodTitanium1
+        amount: 2
+    
+    - to: complete
+      steps:
+      - tool: Welding
+        doAfter: 4
+  
+  - node: complete
+    entity: GrilleReinforcedDiagonal
+    edges:
+    - to: flimsy
+      steps:
+      - tool: Welding
+        doAfter: 6
+
+  - node: broken
+    entity: GrilleReinforced
+    edges:
+    - to: start
+      steps:
+      - tool: Cutting
+        doAfter: 1
+      completed:
+      - !type:GivePrototype
+        prototype: PartRodTitanium1
+        amount: 1

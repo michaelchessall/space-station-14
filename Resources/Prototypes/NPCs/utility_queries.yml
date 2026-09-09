@@ -168,13 +168,15 @@
 - type: utilityQuery
   id: NearbyOnFire
   query:
-    - !type:ComponentQuery
+    - !type:ComponentQueryAny # Persistence: Firebots can target reagent fires
       components:
         - type: Flammable
           # why does Flammable even have a required damage
           damage:
             types:
               Heat: 0
+        - type: ReagentPuddleFireEffect # Persistence: Firebots put out reagent fires
+        - type: WallStainFireVisuals # Persistence: Firebots put out reagent fires # Commented because they can't seem to reach wall stain fires
   considerations:
     - !type:TargetDistanceCon
       curve: !type:PresetCurve

@@ -1,0 +1,86 @@
+- type: foodSequenceElement
+  id: Eyes
+  name: food-sequence-content-eye
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: eyeball-l
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: eyeball-r
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Tongue
+  name: food-sequence-content-tongue
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: tongue
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Appendix
+  name: food-sequence-content-appendix
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: appendix
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Ears
+  name: food-sequence-content-ears
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: ears
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Lungs
+  name: food-sequence-content-lungs
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: lung-l
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: lung-r
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Heart
+  name: food-sequence-content-heart
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: heart-on
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Stomach
+  name: food-sequence-content-stomach
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: stomach
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Liver
+  name: food-sequence-content-liver
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: liver
+  tags:
+  - Raw
+
+- type: foodSequenceElement
+  id: Kidneys
+  name: food-sequence-content-kidneys
+  sprites:
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: kidney-l
+  - sprite: Mobs/Species/Human/organs.rsi
+    state: kidney-r
+  tags:
+  - Raw

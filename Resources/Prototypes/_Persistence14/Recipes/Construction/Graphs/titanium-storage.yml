@@ -1,0 +1,68 @@
+- type: constructionGraph
+  id: TitaniumLocker
+  start: start
+  graph:
+  - node: start
+    actions:
+    - !type:DestroyEntity {}
+    edges:
+    - to: complete
+      steps:
+      - material: Titanium
+        amount: 5
+        doAfter: 2
+      - material: Cable
+        amount: 2
+
+  - node: complete
+    entity: LockerSecureTitanium
+    edges:
+    - to: start
+      conditions: 
+      - !type:Locked
+        locked: false
+      steps:
+      - tool: Screwing
+        doAfter: 5
+      completed:
+      - !type:GivePrototype
+        prototype: SheetTitanium1
+        amount: 5
+      - !type:GivePrototype
+        prototype: CableApcStack1
+        amount: 2
+
+- type: constructionGraph
+  id: TitaniumCrate
+  start: start
+  graph:
+  - node: start
+    actions: 
+    - !type:DestroyEntity {}
+    edges:
+    - to: complete
+      steps:
+      - material: Titanium
+        amount: 5
+        doAfter: 2
+      - material: Cable
+        amount: 2
+  
+  - node: complete
+    entity: CrateSecureTitanium
+    edges:
+    - to: start
+      conditions:
+      - !type:Locked
+        locked: false
+      steps:
+      - tool: Screwing
+        doAfter: 5
+      completed:
+      - !type:GivePrototype
+        prototype: SheetTitanium1
+        amount: 5
+      - !type:GivePrototype
+        prototype: CableApcStack1
+        amount: 2
+  

@@ -1,5 +1,6 @@
 using Content.Shared.Damage;
 using Content.Shared.Damage.Prototypes;
+using Content.Shared.EntityConditions;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
@@ -62,4 +63,10 @@ public sealed partial class HealingComponent : Component
     /// </summary>
     [DataField]
     public SoundSpecifier? HealingEndSound = null;
+
+    /// <summary>
+    /// Conditions that must be met for the healing to be applied.
+    /// </summary>
+    [DataField]
+    public EntityCondition[]? Conditions;
 }

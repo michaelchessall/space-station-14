@@ -1,0 +1,21 @@
+- type: construction
+  id: GenericTankConstruction
+  name: construction-recipe-generictank
+  graph: GenericTankGraph
+  startNode: start
+  targetNode: generictank
+  category: construction-category-storage
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+
+- type: construction
+  id: GenericHighCapacityTankConstruction
+  name: construction-recipe-generictankhigh
+  graph: GenericHighCapacityTankGraph
+  startNode: start
+  targetNode: generictankhigh
+  category: construction-category-storage
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false

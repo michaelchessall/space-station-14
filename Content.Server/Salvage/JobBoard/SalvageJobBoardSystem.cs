@@ -233,7 +233,7 @@ public sealed class SalvageJobBoardSystem : EntitySystem
             return false;
 
 
-        if (!_cargo.IsBountyComplete(uid, job))
+        if (!_cargo.IsBountyComplete(uid, job.Value))
             return false;
 
         return true;
@@ -271,11 +271,9 @@ public sealed class SalvageJobBoardSystem : EntitySystem
         EnsureComp<JobBoardLabelComponent>(label).JobId = job.ID;
 
         var target = new List<string>();
-        foreach (var entry in job.Entries)
+        foreach (var entry in job.Condition.GetManifestEntry(EntityManager, _prototypeManager))
         {
-            target.Add(Loc.GetString("bounty-console-manifest-entry",
-                ("amount", entry.Amount),
-                ("item", Loc.GetString(entry.Name))));
+            target.Add(entry);
         }
         _paper.SetContent(label, Loc.GetString("job-board-label-text", ("target", string.Join(',', target)), ("reward", job.Reward)));
 

@@ -22,7 +22,7 @@ public sealed class PriceGunSystem : SharedPriceGunSystem
         if (!TryComp(entity.Owner, out UseDelayComponent? useDelay) || _useDelay.IsDelayed((entity.Owner, useDelay)))
             return false;
         // Check if we're scanning a bounty crate
-        if (_bountySystem.IsBountyComplete(target, out _))
+        if (_bountySystem.IsBountyComplete(target))
         {
             _popupSystem.PopupEntity(Loc.GetString("price-gun-bounty-complete"), user, user);
         }

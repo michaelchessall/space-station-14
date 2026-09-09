@@ -34,3 +34,11 @@
   name: stack-hv-cable
   icon: { sprite: "/Textures/Objects/Tools/cable-coils.rsi", state: coilhv-30 }
   spawn: CableHVStack1
+
+
+- type: stack
+  parent: BaseSmallStack
+  id: WarningCone
+  name: stack-warning-cone
+  icon: { sprite: "/Textures/Objects/Decoration/warningcone.rsi", state: cone-10 }
+  spawn: ClothingHeadHatCone

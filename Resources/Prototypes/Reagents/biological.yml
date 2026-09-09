@@ -182,17 +182,18 @@
   recognizable: true
   metabolisms:
     Bloodstream:
-      effects:
+     metabolismRate: 0.1
+     effects:
       - !type:SatiateThirst
         factor: 1.5
-    # Dragon doesn't require airloss healing, so omnizine is still best for humans.
+    # Dragon doesn't require airloss healing, so omnizine is still best for humans. #new for persistence 14 reduced ichor metab by 5.
       - !type:ModifyBloodLevel
         amount: 3
       - !type:EvenHealthChange
         damage:
-          Burn: -3
-          Brute: -3
-          Toxin: -2
+          Burn: -0.6
+          Brute: -0.6
+          Toxin: -0.4
       - !type:HealthChange
         damage:
           types:

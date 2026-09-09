@@ -1,0 +1,69 @@
+- type: construction
+  id: LockerSecureTitanium
+  graph: TitaniumLocker
+  startNode: start
+  targetNode: complete
+  category: construction-category-storage
+  objectType: Structure
+  placementMode: SnapgridCenter
+
+- type: construction
+  id: CrateSecureTitanium
+  graph: TitaniumCrate
+  startNode: start
+  targetNode: complete
+  category: construction-category-storage
+  objectType: Structure
+  placementMode: SnapgridCenter
+
+- type: construction
+  id: TitaniumShuttleWall
+  graph: Girder
+  startNode: start
+  targetNode: titaniumShuttleWall
+  category: construction-category-structures
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: false
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
+  id: TitaniumShuttleWallDiagonal
+  graph: GirderDiagonal
+  startNode: start
+  targetNode: titaniumShuttleWallDiagonal
+  category: construction-category-structures
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
+  id: ReinforcedGrille
+  graph: ReinforcedGrille
+  startNode: start
+  targetNode: complete
+  category: construction-category-structures
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: false
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
+  id: ReinforcedGrilleDiagonal
+  graph: ReinforcedGrilleDiagonal
+  startNode: start
+  targetNode: complete
+  category: construction-category-structures
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canRotate: true
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked

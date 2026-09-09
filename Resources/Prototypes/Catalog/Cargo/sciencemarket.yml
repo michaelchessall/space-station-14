@@ -227,3 +227,13 @@
   cost: 4000
   category: cargoproduct-category-name-food
   group: sciencemarket
+
+- type: cargoProduct
+  id: RNDKitSTS
+  icon:
+    sprite: Structures/Machines/server.rsi
+    state: server
+  product: CrateRNDKit
+  cost: 10000
+  category: cargoproduct-category-name-science
+  group: sciencemarket

@@ -1,112 +1,103 @@
 - type: cargoBounty
   id: BountyCarp
-  reward: 5000
+  reward: 10000
   description: bounty-description-carp
   idPrefix: CC
-  entries:
-  - name: bounty-item-carp
+  group: HunterBounty
+  condition:
+    name: bounty-item-carp
     amount: 2
     whitelist:
       tags:
       - Carp
-  group: HunterBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyCubanCarp
   reward: 10000
   description: bounty-description-cuban-carp
   idPrefix: CC
-  entries:
-  - name: bounty-item-cuban-carp
+  group: HunterBounty
+  condition:
+    name: bounty-item-cuban-carp
     amount: 1
     whitelist:
       tags:
       - CubanCarp
-  group: HunterBounty
 
 - type: cargoBounty
   id: BountyTeethSpaceCarp
-  reward: 600 # 600*15=9000
+  reward: 9000
   description: bounty-description-tooth-space-carp
   group: HunterBounty
   sprite:
     sprite: Mobs/Aliens/Carps/space.rsi
     state: icon
-  entries:
-  - name: bounty-item-tooth-space-carp
+  condition:
+    name: bounty-item-tooth-space-carp
     amount: 15
     whitelist:
       tags:
       - ToothSpaceCarp
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyTeethSharkminnow
-  reward: 3000 # 3000*3=9000
+  reward: 9000
   description: bounty-description-tooth-sharkminnow
   group: HunterBounty
   sprite:
     sprite: Mobs/Aliens/Carps/sharkminnow.rsi
     state: icon
-  entries:
-  - name: bounty-item-tooth-sharkminnow
+  condition:
+    name: bounty-item-tooth-sharkminnow
     amount: 3
     whitelist:
       tags:
       - ToothSharkminnow
-  bountyType: PayPer
-
 
 - type: cargoBounty
   id: BountyBear
-  reward: 750 # 750*13=9750
+  reward: 9750
   description: bounty-description-bear
-  entries:
-    - name: bounty-item-bearmeat
-      amount: 13
-      whitelist:
-        tags:
-        - BearMeat
   group: HunterBounty
-  bountyType: PayPer
+  condition:
+    name: bounty-item-bearmeat
+    amount: 13
+    whitelist:
+      tags:
+      - BearMeat
 
 - type: cargoBounty
   id: BountySpider
-  reward: 1000
+  reward: 10000
   description: bounty-description-spider
-  entries:
-    - name: bounty-item-spidermeat
-      amount: 10
-      whitelist:
-        tags:
-        - SpiderMeat
   group: HunterBounty
-  bountyType: PayPer
+  condition:
+    name: bounty-item-spidermeat
+    amount: 10
+    whitelist:
+      tags:
+      - SpiderMeat
 
 - type: cargoBounty
   id: BountySnake
-  reward: 1000
+  reward: 10000
   description: bounty-description-snake
-  entries:
-    - name: bounty-item-snakemeat
-      amount: 10
-      whitelist:
-        tags:
-        - SnakeMeat
   group: HunterBounty
-  bountyType: PayPer
+  condition:
+    name: bounty-item-snakemeat
+    amount: 10
+    whitelist:
+      tags:
+      - SnakeMeat
 
 - type: cargoBounty
   id: BountyXeno
-  reward: 1700 # 1700*5=8500
+  reward: 8500
   description: bounty-description-xeno
-  entries:
-    - name: bounty-item-xenomeat
-      amount: 5
-      whitelist:
-        tags:
-        - XenoMeat
   group: HunterBounty
-  bountyType: PayPer
-
+  condition:
+    name: bounty-item-xenomeat
+    amount: 5
+    whitelist:
+      tags:
+      - XenoMeat

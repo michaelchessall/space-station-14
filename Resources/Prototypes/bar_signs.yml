@@ -229,3 +229,12 @@
     sprite: Structures/Wallmounts/barsign.rsi
     state: default
   description: barsign-prototype-description-default
+
+
+- type: barSign
+  id: nosmoking
+  name: barsign-prototype-name-nosmoking
+  icon:
+    sprite: Structures/Wallmounts/barsign.rsi
+    state: nosmoking
+  description: barsign-prototype-description-nosmoking

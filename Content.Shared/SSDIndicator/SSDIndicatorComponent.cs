@@ -27,6 +27,20 @@ public sealed partial class SSDIndicatorComponent : Component
     public ProtoId<SsdIconPrototype> Icon = "SSDIcon";
 
     /// <summary>
+    /// Persistence: The icon displayed next to the associated entity when it has marked itself as SSD.
+    /// </summary>
+    [DataField]
+    public ProtoId<SsdIconPrototype> ManualIcon = "SSDIconBlue";
+
+
+    /// <summary>
+    /// Persistence: Whether the entity has marked itself as SSD (SSD Command)
+    /// </summary>
+    [AutoNetworkedField]
+    [DataField]
+    public bool ManualSSD = false;
+
+    /// <summary>
     /// The time at which the entity will fall asleep, if <see cref="CCVars.ICSSDSleep"/> is true.
     /// </summary>
     [AutoNetworkedField, AutoPausedField]

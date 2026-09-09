@@ -24,7 +24,7 @@ enabled_crit = true
 
 [ic]
 flavor_text = true
-punctuation = true
+punctuation = false
 
 [lore]
 year_offset = 200

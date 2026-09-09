@@ -24,10 +24,10 @@ public partial class CargoBountyData
     public ProtoId<CargoBountyPrototype> Bounty { get; set; } = string.Empty;
 
     /// <summary>
-    /// The amount that has been fufilled.
+    /// The percent that has been fulfilled.
     /// </summary>
     [DataField]
-    public int AmountCompleted = 0;
+    public float PercentCompleted = 0f;
 
     [DataField]
     public int TradeStationUID = 0;

@@ -11,6 +11,20 @@
   conditions:
     - !type:TileNotBlocked
 
+#Persistence 14 start
+- type: construction
+  id: cabinetMed
+  graph: medicineCabinet
+  startNode: start
+  targetNode: medCabinet
+  category: construction-category-storage
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+#Persistence 14 end
+
 - type: construction
   id: TallCabinet
   graph: FilingCabinet
@@ -202,14 +216,3 @@
   canBuildInImpassable: true
   conditions:
     - !type:WallmountCondition
-
-- type: construction
-  id: GenericTankConstruction
-  name: construction-recipe-generictank
-  graph: GenericTankGraph
-  startNode: start
-  targetNode: generictank
-  category: construction-category-storage
-  objectType: Structure
-  placementMode: SnapgridCenter
-  canBuildInImpassable: false

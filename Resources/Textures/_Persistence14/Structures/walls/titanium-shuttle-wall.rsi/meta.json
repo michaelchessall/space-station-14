@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "Created by HolyLunaLux (discord) for Persistence14.",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+        "name": "icon"
+    },
+    {
+        "name": "construct-0"
+    },
+    {
+        "name": "construct-1"
+    },
+    {
+        "name": "construct-2"
+    },
+    {
+        "name": "construct-3"
+    },
+    {
+        "name": "construct-4"
+    },
+    {
+        "name": "construct-5"
+    },
+    {
+        "name": "wall0",
+        "directions": 4
+    },
+    {
+        "name": "wall1",
+        "directions": 4
+    },
+    {
+        "name": "wall2",
+        "directions": 4
+    },
+    {
+        "name": "wall3",
+        "directions": 4
+    },
+    {
+        "name": "wall4",
+        "directions": 4
+    },
+    {
+        "name": "wall5",
+        "directions": 4
+    },
+    {
+        "name": "wall6",
+        "directions": 4
+    },
+    {
+        "name": "wall7",
+        "directions": 4
+    },
+    {
+        "name":"diagonal-0"
+    },
+    {
+        "name":"diagonal-1"
+    }
+  ]
+}

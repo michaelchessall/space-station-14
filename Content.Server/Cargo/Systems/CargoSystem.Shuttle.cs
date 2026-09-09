@@ -272,24 +272,15 @@ public sealed partial class CargoSystem
     private bool CanSell(EntityUid uid, TransformComponent xform)
     {
         if (_mobQuery.HasComponent(uid))
-        {
             return false;
-        }
 
-        var complete = IsBountyComplete(uid, out var bountyEntities);
+        if (IsBountyComplete(uid))
+            return true;
 
-        // Recursively check for mobs at any point.
-        var children = xform.ChildEnumerator;
-        while (children.MoveNext(out var child))
-        {
-            if (complete && bountyEntities.Contains(child))
-                continue;
+        if (_pricing.GetPrice(uid) > 0)
+            return true;
 
-            if (!CanSell(child, _xformQuery.GetComponent(child)))
-                return false;
-        }
-
-        return true;
+        return false;
     }
 
     private void OnStationSelect(EntityUid uid, CargoPalletConsoleComponent component, CargoPalletStationSelectMessage args)

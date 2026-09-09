@@ -161,14 +161,8 @@ public sealed partial class AnomalySystem
     private void OnGeneratingFinished(EntityUid uid, AnomalyGeneratorComponent component)
     {
         var xform = Transform(uid);
-
-        if (_station.GetStationInMap(xform.MapID) is not { } station ||
-            _station.GetLargestGrid(station) is not { } grid)
-        {
-            if (xform.GridUid == null)
-                return;
-            grid = xform.GridUid.Value;
-        }
+        if (xform.GridUid is not { } grid)
+            return;
 
         SpawnOnRandomGridLocation(grid, component.SpawnerPrototype);
         RemComp<GeneratingAnomalyGeneratorComponent>(uid);

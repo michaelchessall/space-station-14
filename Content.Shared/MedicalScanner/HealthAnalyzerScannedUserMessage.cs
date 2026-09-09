@@ -1,3 +1,4 @@
+using Content.Shared.Chemistry.Reagent; // Persistence: Display bloodstream contents in health analyzers
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.MedicalScanner;
@@ -28,10 +29,11 @@ public struct HealthAnalyzerUiState
     public bool? ScanMode;
     public bool? Bleeding;
     public bool? Unrevivable;
+    public List<ReagentQuantity>? BloodContents; // Persistence: Display bloodstream contents in health analyzers
 
     public HealthAnalyzerUiState() { }
 
-    public HealthAnalyzerUiState(NetEntity? targetEntity, float temperature, float bloodLevel, bool? scanMode, bool? bleeding, bool? unrevivable)
+    public HealthAnalyzerUiState(NetEntity? targetEntity, float temperature, float bloodLevel, bool? scanMode, bool? bleeding, bool? unrevivable, List<ReagentQuantity>? bloodContents) // Persistence: add List<ReagentQuantity>? bloodContents
     {
         TargetEntity = targetEntity;
         Temperature = temperature;
@@ -39,5 +41,6 @@ public struct HealthAnalyzerUiState
         ScanMode = scanMode;
         Bleeding = bleeding;
         Unrevivable = unrevivable;
+        BloodContents = bloodContents; // Persistence: Display bloodstream contents in health analyzers
     }
 }

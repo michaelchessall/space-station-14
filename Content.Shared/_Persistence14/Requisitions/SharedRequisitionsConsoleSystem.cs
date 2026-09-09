@@ -5,15 +5,14 @@ using Content.Shared.Lathe;
 using Content.Shared.Materials;
 using Content.Shared.Materials.OreSilo;
 using Content.Shared.Power.EntitySystems;
+using Content.Shared.SmartFridge;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared._Persistence14.Requisitions;
 
-/// <summary>
-/// Shared logic for the requisitions console: linking to nearby printing machines and operator configuration
-/// of prices/fees. Money handling, print dispatch and UI-state building are server-only and live in the
-/// server subclass, which overrides <see cref="UpdateUi"/>.
-/// </summary>
+// Shared logic for the requisitions console: linking to nearby printing machines and operator configuration
+// of prices/fees. Money handling, print dispatch and UI-state building are server-only and live in the
+// server subclass, which overrides UpdateUi.
 public abstract class SharedRequisitionsConsoleSystem : EntitySystem
 {
     [Dependency] private readonly AccessReaderSystem _access = default!;
@@ -33,6 +32,7 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
         SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionSetFeeMessage>(OnSetFee);
         SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionRemoveFeeMessage>(OnRemoveFee);
         SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionSetDetailedInvoiceMessage>(OnSetDetailedInvoice);
+        SubscribeLocalEvent<RequisitionsConsoleComponent, RequisitionSetFridgePriceMessage>(OnSetFridgePrice);
         SubscribeLocalEvent<RequisitionsConsoleComponent, ComponentShutdown>(OnShutdown);
 
         Subs.BuiEvents<RequisitionsConsoleComponent>(RequisitionsConsoleUiKey.Key, subs =>
@@ -68,9 +68,7 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
         // Nothing to clean up on the linked machines themselves; they are unaware of the console.
     }
 
-    /// <summary>
-    /// A machine is linkable if it can print (lathe) or flatpack, is powered, on the same grid and in range.
-    /// </summary>
+    // A machine is linkable if it can print (lathe) or flatpack, is powered, on the same grid and in range.
     public bool CanLink(EntityUid console, EntityUid machine)
     {
         if (!IsLinkable(machine))
@@ -90,16 +88,16 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
 
     public bool IsLinkable(EntityUid machine)
     {
-        // Lathes print, flatpackers pack, and an ore silo supplies the shared "department stock" readout.
+        // Lathes print, flatpackers pack, an ore silo supplies the shared "department stock" readout, and a
+        // smart fridge contributes its stored items to the catalogue.
         return _latheQuery.HasComp(machine)
                || HasComp<FlatpackCreatorComponent>(machine)
-               || HasComp<OreSiloComponent>(machine);
+               || HasComp<OreSiloComponent>(machine)
+               || HasComp<SmartFridgeComponent>(machine);
     }
 
-    /// <summary>
-    /// Prunes dead links, recomputes whether a flatpacker is present, seeds default prices for any newly
-    /// available material, and ensures the automatic flatpack fee exists while a flatpacker is linked.
-    /// </summary>
+    // Prunes dead links, recomputes whether a flatpacker is present, seeds default prices for any newly
+    // available material, and ensures the automatic flatpack fee exists while a flatpacker is linked.
     protected void RefreshLinkState(Entity<RequisitionsConsoleComponent> ent)
     {
         ent.Comp.LinkedMachines.RemoveWhere(m => TerminatingOrDeleted(m) || !IsLinkable(m));
@@ -113,14 +111,19 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
 
         SyncMaterialPrices(ent);
         EnsureFlatpackFee(ent);
+        OnCatalogueSourcesChanged(ent);
     }
 
-    /// <summary>
-    /// Keeps the priced-materials list exactly in step with what the linked machines can make: newly available
-    /// materials are seeded from <see cref="RequisitionsConsoleComponent.DefaultMaterialPrices"/> (falling back
-    /// to the flat default), and materials no longer used by any linked lathe are dropped — so unlinking a lathe
-    /// wipes any raw materials only it needed. This is the "scoped to linked recipes" behaviour.
-    /// </summary>
+    // Hook fired when the set of linked machines (hence the available recipes) changes. The server overrides this
+    // to drop its cached lathe catalogue. No-op on the client.
+    protected virtual void OnCatalogueSourcesChanged(Entity<RequisitionsConsoleComponent> ent)
+    {
+    }
+
+    // Keeps the priced-materials list exactly in step with what the linked machines can make: newly available
+    // materials are seeded from RequisitionsConsoleComponent.DefaultMaterialPrices (falling back
+    // to the flat default), and materials no longer used by any linked lathe are dropped — so unlinking a lathe
+    // wipes any raw materials only it needed. This is the "scoped to linked recipes" behaviour.
     private void SyncMaterialPrices(Entity<RequisitionsConsoleComponent> ent)
     {
         var priceable = GetPriceableMaterials(ent);
@@ -142,7 +145,7 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
         }
     }
 
-    /// <summary>Every material id that appears in any recipe of any linked lathe.</summary>
+    // Every material id that appears in any recipe of any linked lathe.
     public HashSet<ProtoId<MaterialPrototype>> GetPriceableMaterials(Entity<RequisitionsConsoleComponent> ent)
     {
         var result = new HashSet<ProtoId<MaterialPrototype>>();
@@ -175,6 +178,7 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
                 Id = ent.Comp.FlatpackFeeId,
                 Name = Loc.GetString("requisitions-fee-flatpack"),
                 Price = 0,
+                Source = RequisitionItemSource.Lathe,
                 Scope = RequisitionFeeScope.Flatpack,
             });
         }
@@ -204,7 +208,8 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
 
         var incoming = args.Fee;
 
-        // The flatpack fee's scope is fixed; operators may only set its price and flat/percent type.
+        // One fee list holds both lathe and fridge fees, discriminated by Source. The flatpack fee's scope/name
+        // are fixed; operators may only set its price and flat/percent type.
         var existing = ent.Comp.Fees.FirstOrDefault(f => f.Id == incoming.Id);
         if (existing != null && existing.Id == ent.Comp.FlatpackFeeId)
         {
@@ -217,7 +222,8 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
             existing.Price = incoming.Price;
             existing.Type = incoming.Type;
             existing.Scope = incoming.Scope;
-            existing.Recipes = incoming.Recipes;
+            existing.Targets = incoming.Targets;
+            // Source is immutable once created; keep the existing one.
         }
         else
         {
@@ -252,15 +258,26 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
         UpdateUi(ent, args.Actor);
     }
 
+    private void OnSetFridgePrice(Entity<RequisitionsConsoleComponent> ent, ref RequisitionSetFridgePriceMessage args)
+    {
+        if (!HasConfigAccess(ent, args.Actor))
+            return;
+
+        if (args.Price < 0)
+            ent.Comp.FridgeItemPrices.Remove(args.Item);
+        else
+            ent.Comp.FridgeItemPrices[args.Item] = args.Price;
+
+        UpdateUi(ent, args.Actor);
+    }
+
     #endregion
 
     #region Access
 
-    /// <summary>
-    /// Faction-aware config gate. Delegates to the fork's <see cref="AccessReaderSystem"/>, which resolves the
-    /// console's owning station (faction) and passes faction owners plus crew whose role holds a matching
-    /// access permission. A console with no <c>AccessReaderComponent</c> (freshly built) is open until configured.
-    /// </summary>
+    // Faction-aware config gate. Delegates to the fork's AccessReaderSystem, which resolves the
+    // console's owning station (faction) and passes faction owners plus crew whose role holds a matching
+    // access permission. A console with no AccessReaderComponent (freshly built) is open until configured.
     public bool HasConfigAccess(EntityUid console, EntityUid actor)
     {
         return _access.IsAllowed(actor, console);
@@ -274,10 +291,8 @@ public abstract class SharedRequisitionsConsoleSystem : EntitySystem
         UpdateUi(ent, args.Actor);
     }
 
-    /// <summary>
-    /// Server rebuilds and pushes the full UI state. No-op on the client. <paramref name="actor"/> is the player
-    /// whose action triggered the update, used to compute their per-viewer config access.
-    /// </summary>
+    // Server rebuilds and pushes the full UI state. No-op on the client. actor is the player whose action
+    // triggered the update, if any.
     protected virtual void UpdateUi(Entity<RequisitionsConsoleComponent> ent, EntityUid? actor = null)
     {
     }

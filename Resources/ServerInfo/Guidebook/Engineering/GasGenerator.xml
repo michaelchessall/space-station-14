@@ -1,0 +1,13 @@
+<Document>
+
+  # Gas generator
+
+  <Box>
+    <GuideEntityEmbed Entity="GasGenerator" Caption="gas generator" />
+    <GuideEntityEmbed Entity="MethaneCanister" Caption=""/>
+  </Box>
+
+  The gas generator consumes methane and oxygen in a 2:1 ratio to produce (up to) [color=orange][protodata="GasGenerator" comp="GasGenerator" member="MaxPowerOutput" format="N0"/] W[/color].
+  It produces water vapor and carbon dioxide as waste gases.
+
+</Document>

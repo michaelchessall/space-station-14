@@ -322,6 +322,7 @@
   - TEG
   - RTG
   - SolarPanels
+  - GasGenerator
 
 - type: guideEntry
   id: AME
@@ -365,3 +366,8 @@
   id: SolarPanels
   name: guide-entry-solarpanels
   text: "/ServerInfo/Guidebook/Engineering/SolarPanels.xml"
+
+- type: guideEntry
+  id: GasGenerator
+  name: guide-entry-gas-generator
+  text: "/ServerInfo/Guidebook/Engineering/GasGenerator.xml"

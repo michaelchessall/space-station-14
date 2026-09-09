@@ -6,6 +6,8 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Content.Shared.CCVar; // Persistence: Full replacement accent preserves punctuation
+using Robust.Shared.Configuration; // Persistence: Full replacement accent preserves punctuation
 
 namespace Content.Server.Speech.EntitySystems
 {
@@ -15,6 +17,7 @@ namespace Content.Server.Speech.EntitySystems
     /// </summary>
     public sealed class ReplacementAccentSystem : EntitySystem
     {
+        [Dependency] private readonly IConfigurationManager _configurationManager = default!; // Persistence: Full replacement accent preserves punctuation
         [Dependency] private readonly IPrototypeManager _proto = default!;
         [Dependency] private readonly IRobustRandom _random = default!;
         [Dependency] private readonly ILocalizationManager _loc = default!;
@@ -57,7 +60,23 @@ namespace Content.Server.Speech.EntitySystems
             // ideally both aren't used at the same time (but we don't have a way to enforce that in serialization yet)
             if (prototype.FullReplacements != null)
             {
-                return prototype.FullReplacements.Length != 0 ? Loc.GetString(_random.Pick(prototype.FullReplacements)) : "";
+                // Start Persistence: Preserve punctuation for full replacement
+                string punctuation;
+                if (message.Length >= 3 && message.Substring(message.Length - 3) == "...")
+                    punctuation = "...";
+                else if (message.Length >= 2 && message.Substring(message.Length - 2) == "!!")
+                    punctuation = "!!";
+                else if (message.Length >= 1 &&
+                         (message.Last().ToString() == "," ||
+                          message.Last().ToString() == "." ||
+                          message.Last().ToString() == "!" ||
+                          message.Last().ToString() == "?"))
+                    punctuation = message.Last().ToString();
+                else
+                    punctuation = _configurationManager.GetCVar(CCVars.ChatPunctuation) ? "." : "";
+                // End Persistence
+
+                return prototype.FullReplacements.Length != 0 ? Loc.GetString(_random.Pick(prototype.FullReplacements)) + punctuation : ""; // Persistence: Add + punctuation
             }
 
             // Prohibition of repeated word replacements.

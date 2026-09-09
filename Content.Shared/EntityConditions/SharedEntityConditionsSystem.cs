@@ -1,5 +1,6 @@
 using Robust.Shared.Prototypes;
-
+using Content.Shared.EntityConditions;
+using Content.Shared.EntityConditions.Conditions;
 namespace Content.Shared.EntityConditions;
 
 /// <summary>
@@ -15,6 +16,9 @@ public sealed partial class SharedEntityConditionsSystem : EntitySystem, IEntity
     /// <param name="target">Target entity we're checking conditions on</param>
     /// <param name="conditions">Conditions we're checking</param>
     /// <returns>Returns true if all conditions return true, false if any fail</returns>
+
+    [Dependency] private readonly SharedEntityConditionsSystem _conditions = default!;
+
     public bool TryConditions(EntityUid target, EntityCondition[]? conditions)
     {
         // If there's no conditions we can't fail any of them...
@@ -23,7 +27,7 @@ public sealed partial class SharedEntityConditionsSystem : EntitySystem, IEntity
 
         foreach (var condition in conditions)
         {
-            if (!TryCondition(target, condition))
+            if (!_conditions.TryCondition(target, condition))
                 return false;
         }
 

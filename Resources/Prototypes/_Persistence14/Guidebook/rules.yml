@@ -1,0 +1,6 @@
+- type: guideEntry
+  id: PersistRuleset
+  name: guide-entry-rules
+  ruleEntry: true
+  priority: 10 # After NewPlayer
+  text: "/ServerInfo/_Persistence14/Guidebook/ServerRules/Rules.xml"

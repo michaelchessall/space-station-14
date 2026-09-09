@@ -1,0 +1,31 @@
+# Only entries which are children of this first entry (or their children & so on) should be defined in this file.
+- type: guideEntry
+  id: Precursor
+  name: guide-entry-precursor
+  priority: 13 # After Factions
+  text: "/ServerInfo/_Persistence14/Guidebook/Precursor/Precursor.xml"
+  children:
+  - Dealer
+  - BountyHunter
+  - Purchases
+  - SectorChaos
+
+- type: guideEntry
+  id: Dealer
+  name: guide-entry-dealer
+  text: "/ServerInfo/_Persistence14/Guidebook/Precursor/Dealer.xml"
+
+- type: guideEntry
+  id: BountyHunter
+  name: guide-entry-bounty-hunter
+  text: "/ServerInfo/_Persistence14/Guidebook/Precursor/Hunter.xml"
+
+- type: guideEntry
+  id: Purchases
+  name: guide-entry-purchases
+  text: "/ServerInfo/_Persistence14/Guidebook/Precursor/Purchases.xml"
+
+- type: guideEntry
+  id: SectorChaos
+  name: guide-entry-sector-chaos
+  text: "/ServerInfo/_Persistence14/Guidebook/Precursor/SectorChaos.xml"

@@ -14,6 +14,10 @@ using Content.Shared.IdentityManagement;
 using Content.Shared.Maps;
 using Content.Shared.Popups;
 using Content.Shared.Slippery;
+using Content.Shared.Inventory; // Funky: Footprints & Stains
+using Content.Shared._Funkystation.Fluids; // Funky: Footprints & Stains
+using Content.Shared._Funkystation.Footprints; // Funky: Footprints & Stains
+using Content.Shared._Funkystation.WallStains; // Funky: Footprints & Stains
 using Robust.Shared.Collections;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
@@ -36,6 +40,7 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
     [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
     [Dependency] private readonly SharedTransformSystem _transform = default!;
     [Dependency] private readonly TurfSystem _turf = default!;
+    [Dependency] private readonly InventorySystem _inventory = default!; // Funky: Footprints & Stains
 
     private EntityQuery<PuddleComponent> _puddleQuery;
 
@@ -53,6 +58,42 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
 
         SubscribeLocalEvent<PuddleComponent, SpreadNeighborsEvent>(OnPuddleSpread);
         SubscribeLocalEvent<PuddleComponent, SlipEvent>(OnPuddleSlip);
+
+        SubscribeLocalEvent<InventoryComponent, MoveEvent>(OnStepInPuddle); // Funky: Footprints & Stains
+    }
+
+    // Start Funky: Footprints & Stains
+    private void OnStepInPuddle(Entity<InventoryComponent> ent, ref MoveEvent args)
+    {
+        var gridUid = args.NewPosition.GetGridUid(EntityManager);
+        if (!gridUid.HasValue || !TryComp<MapGridComponent>(gridUid, out var grid))
+            return;
+
+        if (args.OldPosition.GetGridUid(EntityManager) != gridUid ||
+            _map.CoordinatesToTile(gridUid.Value, grid, args.OldPosition) == _map.CoordinatesToTile(gridUid.Value, grid, args.NewPosition))
+            return;
+
+        var tile = _map.GetTileRef(gridUid.Value, grid, args.NewPosition);
+
+        if (!TryGetPuddle(tile, out var puddleUid) || !_puddleQuery.TryGetComponent(puddleUid, out var puddleComp))
+            return;
+
+        if (!_solutionContainerSystem.ResolveSolution(puddleUid, puddleComp.SolutionName, ref puddleComp.Solution, out var solution))
+            return;
+
+        if (solution.Volume <= FixedPoint2.Zero)
+            return;
+
+        var transferAmount = FixedPoint2.Min(FixedPoint2.New(1), solution.Volume);
+        var splitSol = _solutionContainerSystem.SplitSolution(puddleComp.Solution.Value, transferAmount);
+
+        if (_inventory.TryGetSlotEntity(ent.Owner, "shoes", out var shoes))
+        {
+            var spilledEvent = new SpilledOnEvent(puddleUid, splitSol);
+            var relayedEvent = new InventoryRelayedEvent<SpilledOnEvent>(spilledEvent);
+            RaiseLocalEvent(shoes.Value, relayedEvent);
+        }
+        // End Funky
     }
 
     // TODO: This can be predicted once https://github.com/space-wizards/RobustToolbox/pull/5849 is merged
@@ -265,6 +306,18 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
         // Take 15% of the puddle solution
         var splitSol = _solutionContainerSystem.SplitSolution(entity.Comp.Solution.Value, solution.Volume * 0.15f);
         Reactive.DoEntityReaction(args.Slipped, splitSol, ReactionMethod.Touch);
+
+        // Start Funky: Footprints & Stains
+        if (splitSol.Volume > 0)
+        {
+            var stainEv = new SpilledOnEvent(entity.Owner, splitSol.Clone());
+            RaiseLocalEvent(args.Slipped, stainEv);
+
+            // Funky Wall Stains
+            var splashEv = new SplashOnWallEvent(Transform(entity.Owner).Coordinates, splitSol.Clone());
+            RaiseLocalEvent(ref splashEv);
+        }
+        // End Funky
     }
 
     /// <summary>
@@ -437,6 +490,10 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
 
             targets.Add(owner);
             Reactive.DoEntityReaction(owner, splitSolution, ReactionMethod.Touch);
+
+            if (splitSolution.Volume > 0) // Funky: Footprints & Stains
+                RaiseLocalEvent(owner, new SpilledOnEvent(entity, splitSolution.Clone()));
+
             Popups.PopupEntity(Loc.GetString("spill-land-spilled-on-other",
                     ("spillable", entity),
                     ("target", Identity.Entity(owner, EntityManager))),
@@ -446,6 +503,10 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
 
         _color.RaiseEffect(spilled.GetColor(_prototypeManager), targets,
             Filter.Pvs(entity, entityManager: EntityManager));
+
+        // Funky Wall Stains
+        var splashEv = new SplashOnWallEvent(coordinates, spilled.Clone());
+        RaiseLocalEvent(ref splashEv);
 
         return TrySpillAt(coordinates, spilled, out puddleUid, sound);
     }
@@ -526,6 +587,7 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
         var anchored = _map.GetAnchoredEntitiesEnumerator(gridId, mapGrid, tileRef.GridIndices);
         var puddleQuery = GetEntityQuery<PuddleComponent>();
         var sparklesQuery = GetEntityQuery<EvaporationSparkleComponent>();
+        var footprintQuery = GetEntityQuery<FootprintComponent>(); // Funky: Footprints & Stains
 
         while (anchored.MoveNext(out var ent))
         {
@@ -537,6 +599,9 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
             }
 
             if (!puddleQuery.TryGetComponent(ent, out var puddle))
+                continue;
+
+            if (footprintQuery.HasComponent(ent.Value)) // Funky: Footprints & Stains
                 continue;
 
             if (TryAddSolution(ent.Value, solution, sound, puddleComponent: puddle))
@@ -573,10 +638,14 @@ public sealed partial class PuddleSystem : SharedPuddleSystem
 
         var anc = _map.GetAnchoredEntitiesEnumerator(tile.GridUid, grid, tile.GridIndices);
         var puddleQuery = GetEntityQuery<PuddleComponent>();
+        var footprintQuery = GetEntityQuery<FootprintComponent>(); // Funky: Footprints & Stains
 
         while (anc.MoveNext(out var ent))
         {
             if (!puddleQuery.HasComponent(ent.Value))
+                continue;
+
+            if (footprintQuery.HasComponent(ent.Value)) // Funky: Footprints & Stains
                 continue;
 
             puddleUid = ent.Value;

@@ -27,6 +27,7 @@
   - type: Tag
     tags:
     - BodyBag
+    - HighRiskItem # Able to delete people... not good.
   - type: Clickable
   - type: InteractionOutline
   - type: MovedByPressure

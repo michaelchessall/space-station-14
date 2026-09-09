@@ -57,7 +57,7 @@
   parent: [ClothingUniformBase, BaseCommandContraband]
   id: ClothingUniformJumpsuitExecSOL
   name: solar legion executive's jumpsuit
-  description: A durable and regal red jumpsuit. The added padding on the back acts as both comfort and a gentle reminder to stand up straight and hold your head up. 
+  description: A durable and regal red jumpsuit. The added padding on the back acts as both comfort and a gentle reminder to stand up straight and hold your head up.
   components:
   - type: Sprite
     sprite: _Persistence14/Clothing/Uniforms/Jumpsuit/exec.rsi
@@ -112,7 +112,7 @@
   parent: [ClothingUniformBase, BaseCommandContraband, ClothingUniformFoldableBase]
   id: ClothingUniformJumpsuitQMTurtleneckSOL
   name: solar legion quartermaster's turtleneck
-  description: 
+  description:
   components:
   - type: Sprite
     sprite: _Persistence14/Clothing/Uniforms/Jumpsuit/qmturtle.rsi
@@ -173,3 +173,14 @@
     sprite: _Persistence14/Clothing/Uniforms/Jumpsuit/newsenior_physician.rsi
   - type: Clothing
     sprite: _Persistence14/Clothing/Uniforms/Jumpsuit/newsenior_physician.rsi
+
+- type: entity
+  parent: ClothingUniformBase
+  id: ClothingUniformJumpsuitThreshPriest
+  name: threshold's embrace jumpsuit
+  description: WIP
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Uniforms/Jumpsuit/threshpriest.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/Uniforms/Jumpsuit/threshpriest.rsi

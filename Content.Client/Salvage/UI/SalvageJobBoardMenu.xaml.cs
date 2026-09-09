@@ -29,7 +29,7 @@ public sealed partial class SalvageJobBoardMenu : FancyWindow
         CurrentJobContainer.Children.Clear();
         foreach (var job in state.AvailableJobs)
         {
-            var entry = new JobEntry(_prototypeManager.Index(job), _entityManager);
+            var entry = new JobEntry(_prototypeManager.Index(job), _entityManager, _prototypeManager);
             entry.OnLabelButtonPressed += () => OnLabelButtonPressed?.Invoke(job);
 
             CurrentJobContainer.AddChild(entry);

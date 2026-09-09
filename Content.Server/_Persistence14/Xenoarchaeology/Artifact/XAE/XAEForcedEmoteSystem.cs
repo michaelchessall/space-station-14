@@ -5,6 +5,7 @@ using Content.Shared.Mobs.Systems;
 using Content.Shared.Xenoarchaeology.Artifact;
 using Content.Shared.Xenoarchaeology.Artifact.XAE;
 using Robust.Shared.Timing;
+using System.Linq;
 
 namespace Content.Server.Xenoarchaeology.Artifact.XAE;
 
@@ -44,10 +45,11 @@ public sealed class XAEForcedEmoteSystem : BaseXAESystem<XAEForcedEmoteComponent
             EnsureComp<AutoEmoteComponent>(mob);
             _autoEmote.AddEmote(mob, comp.AutoEmote);
 
-            // AutoEmote has no lifetime of its own, so we time the fit out ourselves.
+            // AutoEmote has no lifetime of its own, so we time the fit out ourselves. A mob can be
+            // under several different forced emotes at once, so each is tracked separately;
+            // re-triggering the same emote just refreshes its end time.
             var fit = EnsureComp<ForcedEmoteFitComponent>(mob);
-            fit.AutoEmote = comp.AutoEmote;
-            fit.EndTime = endTime; // re-triggering refreshes the fit
+            fit.EndTimes[comp.AutoEmote] = endTime;
         }
     }
 
@@ -59,13 +61,21 @@ public sealed class XAEForcedEmoteSystem : BaseXAESystem<XAEForcedEmoteComponent
         var query = EntityQueryEnumerator<ForcedEmoteFitComponent>();
         while (query.MoveNext(out var uid, out var fit))
         {
-            if (now < fit.EndTime)
-                continue;
+            // Snapshot the keys so we can mutate the dictionary while iterating.
+            foreach (var autoEmote in fit.EndTimes.Keys.ToArray())
+            {
+                if (now < fit.EndTimes[autoEmote])
+                    continue;
 
-            // removeEmpty (default true) also drops the AutoEmoteComponent, unless the mob has other
-            // auto-emotes of its own (e.g. a cluwne), which are left untouched.
-            _autoEmote.RemoveEmote(uid, fit.AutoEmote);
-            RemCompDeferred<ForcedEmoteFitComponent>(uid);
+                // removeEmpty (default true) also drops the AutoEmoteComponent once no auto-emotes
+                // remain, unless the mob has other auto-emotes of its own (e.g. a cluwne), which are
+                // left untouched.
+                _autoEmote.RemoveEmote(uid, autoEmote);
+                fit.EndTimes.Remove(autoEmote);
+            }
+
+            if (fit.EndTimes.Count == 0)
+                RemCompDeferred<ForcedEmoteFitComponent>(uid);
         }
     }
 }

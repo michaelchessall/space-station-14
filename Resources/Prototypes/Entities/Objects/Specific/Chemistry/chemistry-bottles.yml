@@ -44,6 +44,8 @@
     exactVolume: true
   - type: DrawableSolution
     solution: drink
+  - type: BountySolution
+    solution: drink
   - type: SolutionTransfer
     maxTransferAmount: 30
     canChangeTransferAmount: true

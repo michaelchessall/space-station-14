@@ -1,0 +1,87 @@
+- type: entity
+  id: LockerSecureTitanium
+  parent: LockerBaseSecure
+  name: secure titanium locker
+  description: Very expensive, but security never comes cheap.
+  components:
+  - type: Icon
+    sprite: _Persistence14/Structures/storage/TitaniumStorage/titanium-closet.rsi
+    state: icon
+  - type: Sprite
+    sprite: _Persistence14/Structures/storage/TitaniumStorage/titanium-closet.rsi
+    layers:
+    - state: base
+      map: ["enum.StorageVisualLayers.Base"]
+    - state: door_closed
+      map: ["enum.StorageVisualLayers.Door"]
+    - state: welded
+      sprite: Structures/Storage/closet.rsi
+      visible: false
+      map: ["enum.WeldableLayers.BaseWelded"]
+    - state: locked
+      sprite: Structures/Storage/closet.rsi
+      visible: false
+      map: ["enum.LockVisualLayers.Lock"]
+    - state: paper
+      visible: false
+      sprite: Structures/Storage/closet_labels.rsi
+      map: ["enum.PaperLabelVisuals.Layer"]
+  - type: EntityStorageVisuals
+    stateBaseClosed: base
+    stateDoorOpen: door_open
+    stateDoorClosed: door_closed
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 600
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+          params:
+            volume: -6
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetTitanium1:
+            min: 1
+            max: 2
+  - type: Construction
+    node: complete
+    graph: TitaniumLocker
+
+- type: entity
+  id: CrateSecureTitanium
+  parent: CrateBaseSecure
+  name: secure titanium crate
+  description: Very expensive, but security never comes cheap.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Structures/storage/TitaniumStorage/titanium-crate.rsi
+    state: icon
+  - type: Icon
+    sprite: _Persistence14/Structures/storage/TitaniumStorage/titanium-crate.rsi
+    state: icon
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 300
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+  - type: Construction
+    node: complete
+    graph: TitaniumCrate
+  

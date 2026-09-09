@@ -87,6 +87,7 @@
   - WeaponSprayNozzle
   - ClothingBackpackWaterTank
   - MegaSprayBottle
+  - WashingMachineCircuitboard # Funky: Footprints & Stains
 
 - type: latheRecipePack
   id: Instruments

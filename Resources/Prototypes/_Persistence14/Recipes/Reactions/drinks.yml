@@ -27,3 +27,19 @@
       amount: 5
   products:
     tartarusTwist: 30
+
+- type: reaction
+  id: CherryLimeade
+  requiredMixerCategories:
+  - Stir
+  reactants:
+    Grenadine:
+      amount: 1
+    Sugar:
+      amount: 1
+    JuiceLime:
+      amount: 2
+    Water:
+      amount: 2
+  products:
+    CherryLimeade: 6

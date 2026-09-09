@@ -1,0 +1,8 @@
+- type: latheRecipePack
+  id: PlasticBottlesPack
+  recipes:
+  - LRTinyPlasticBottle
+  - LRSmallPlasticBottle
+  - LRPlasticBottle
+  - LRLargePlasticBottle
+  - LRWaterJug

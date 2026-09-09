@@ -1,0 +1,12 @@
+
+# Cookies
+
+- type: entity
+  name: candle cookie
+  parent: FoodBakedBase
+  id: FoodBakedCookieCandle
+  description: Eating this cookie may ignite an ever-burning desire to persist.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Consumable/Food/Baked/misc.rsi
+    state: cookie-candle

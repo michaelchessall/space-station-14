@@ -1,0 +1,10 @@
+- type: entity
+  parent: ClothingOuterBase
+  id: ClothingOuterThreshPriest
+  name: threshold's embrace waistcloth
+  description: WIP
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/OuterClothing/Misc/threshpriest.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/OuterClothing/Misc/threshpriest.rsi

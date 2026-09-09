@@ -1,0 +1,10 @@
+- type: entity
+  parent: ClothingShoesBaseButcherable
+  id: ClothingShoesBootsThreshPriest
+  name: threshold's embrace priest boots
+  description: WIP
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Shoes/Boots/threshpriest.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/Shoes/Boots/threshpriest.rsi

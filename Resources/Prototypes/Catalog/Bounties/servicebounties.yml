@@ -1,33 +1,31 @@
 - type: cargoBounty
   id: BountyPancake
-  reward: 500
+  reward: 10000
   description: bounty-description-pancake
-  entries:
-  - name: bounty-item-pancake
+  group: ServiceBounty
+  condition:
+    name: bounty-item-pancake
     amount: 20
     whitelist:
       tags:
       - Pancake
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyFlour
-  reward: 5
+  reward: 10000
   description: bounty-description-artifact
-  reagentId: Flour
   group: ServiceBounty
-  bountyType: PayPerReagent
-  entries:
-  - name: bounty-item-flour
-    amount: 2000
+  condition:
+    reagent: Flour
+    quantity: 2000
 
 - type: cargoBounty
   id: BountyBread
-  reward: 330
+  reward: 9900
   description: bounty-description-bread
-  entries:
-  - name: bounty-item-bread
+  group: ServiceBounty
+  condition:
+    name: bounty-item-bread
     amount: 30
     whitelist:
       tags:
@@ -35,123 +33,114 @@
     blacklist:
       tags:
       - Slice
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountySteak
-  reward: 500
+  reward: 10000
   description: bounty-description-steak
-  entries:
-  - name: bounty-item-steak
+  group: ServiceBounty
+  condition:
+    name: bounty-item-steak
     amount: 20
     whitelist:
       tags:
       - Steak
-  bountyType: PayPer
-  group: ServiceBounty
 
 - type: cargoBounty
   id: BountyCottonBoll
-  reward: 300
+  reward: 9000
   description: bounty-description-cotton-boll
-  entries:
-  - name: bounty-item-cotton-boll
+  group: ServiceBounty
+  condition:
+    name: bounty-item-cotton-boll
     amount: 30
     whitelist:
       tags:
       - CottonBoll
-  bountyType: PayPer
-  group: ServiceBounty
 
 - type: cargoBounty
   id: BountyCarrot
-  reward: 300
+  reward: 9000
   description: bounty-description-carrot
   idPrefix: SS15-
-  entries:
-  - name: bounty-item-carrot
+  group: ServiceBounty
+  condition:
+    name: bounty-item-carrot
     amount: 30
     whitelist:
       tags:
       - Carrot
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyCarrotFries
-  reward: 500
+  reward: 10000
   description: bounty-description-carrot-fries
-  entries:
-  - name: bounty-item-carrot-fries
+  group: ServiceBounty
+  condition:
+    name: bounty-item-carrot-fries
     amount: 20
     whitelist:
       tags:
       - CarrotFries
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyCorn
-  reward: 200
+  reward: 10000
   description: bounty-description-corn
-  entries:
-  - name: bounty-item-corn
+  group: ServiceBounty
+  condition:
+    name: bounty-item-corn
     amount: 50
     whitelist:
       tags:
       - Corn
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyDonut
-  reward: 350
+  reward: 9800
   description: bounty-description-donut
   idPrefix: CC
-  entries:
-  - name: bounty-item-donut
+  group: ServiceBounty
+  condition:
+    name: bounty-item-donut
     amount: 28
     whitelist:
       tags:
       - Donut
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyGalaxyThistle
-  reward: 500
+  reward: 5000
   description: bounty-description-galaxythistle
-  entries:
-  - name: bounty-item-galaxythistle
+  group: ServiceBounty
+  condition:
+    name: bounty-item-galaxythistle
     amount: 10
     whitelist:
       tags:
       - Galaxythistle
-  bountyType: PayPer
-  group: ServiceBounty
 
 - type: cargoBounty
   id: BountyFlower
-  reward: 660
+  reward: 10560
   description: bounty-description-flower
   idPrefix: CC
-  entries:
-  - name: bounty-item-flower
+  group: ServiceBounty
+  condition:
+    name: bounty-item-flower
     amount: 16
     whitelist:
       tags:
       - Flower
-  bountyType: PayPer
-  group: ServiceBounty
 
 - type: cargoBounty
   id: BountyFood
-  reward: 100
+  reward: 3000
   description: bounty-description-food
   idPrefix: UNTH
-  entries:
-  - name: bounty-item-food
+  group: ServiceBounty
+  condition:
+    name: bounty-item-food
     amount: 30
     whitelist:
       tags:
@@ -159,15 +148,14 @@
     blacklist:
       components:
       - SliceableFood
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyFruit
-  reward: 120
+  reward: 2400
   description: bounty-description-fruit
-  entries:
-  - name: bounty-item-fruit
+  group: ServiceBounty
+  condition:
+    name: bounty-item-fruit
     amount: 20
     whitelist:
       tags:
@@ -180,15 +168,14 @@
       - Bread
       - Pistachios
       - Creamsicle
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyVegetable
-  reward: 150
+  reward: 3000
   description: bounty-description-vegetable
-  entries:
-  - name: bounty-item-vegetable
+  group: ServiceBounty
+  condition:
+    name: bounty-item-vegetable
     amount: 20
     whitelist:
       tags:
@@ -199,56 +186,51 @@
       - Cake
       - Pie
       - Bread
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyChili
-  reward: 400
+  reward: 10000
   description: bounty-description-chili
-  entries:
-  - name: bounty-item-chili
+  group: ServiceBounty
+  condition:
+    name: bounty-item-chili
     amount: 25
     whitelist:
       tags:
       - ChiliBowl
-  group: ServiceBounty
-  bountyType: PayPer
-
 
 - type: cargoBounty
   id: BountyLemon
-  reward: 250
+  reward: 10000
   description: bounty-description-lemon
-  entries:
-  - name: bounty-item-lemon
+  group: ServiceBounty
+  condition:
+    name: bounty-item-lemon
     amount: 40
     whitelist:
       tags:
       - Lemon
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyLime
-  reward: 250
+  reward: 10000
   description: bounty-description-lime
   idPrefix: CC
-  entries:
-  - name: bounty-item-lime
+  group: ServiceBounty
+  condition:
+    name: bounty-item-lime
     amount: 40
     whitelist:
       tags:
       - Lime
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyPie
   reward: 2500
   description: bounty-description-pie
-  entries:
-  - name: bounty-item-pie
+  group: ServiceBounty
+  condition:
+    name: bounty-item-pie
     amount: 4
     whitelist:
       tags:
@@ -256,58 +238,53 @@
     blacklist:
       tags:
       - Slice
-  group: ServiceBounty
 
 - type: cargoBounty
   id: BountySoup
-  reward: 400
+  reward: 10000
   description: bounty-description-soup
-  entries:
-  - name: bounty-item-soup
+  group: ServiceBounty
+  condition:
+    name: bounty-item-soup
     amount: 25
     whitelist:
       tags:
       - Soup
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyBanana
-  reward: 600
+  reward: 9000
   description: bounty-description-banana
-  entries:
-  - name: bounty-item-banana
+  group: ServiceBounty
+  condition:
+    name: bounty-item-banana
     amount: 15
     whitelist:
       tags:
       - Banana
-  group: ServiceBounty
-  bountyType: PayPer
 
-#Persistence 14
-
+# Persistence 14
 
 - type: cargoBounty
   id: BountyWehPlushie
-  reward: 900
+  reward: 12000
   description: bounty-description-banana
-  entries:
-  - name: bounty-item-weh-plushie
+  group: ServiceBounty
+  condition:
+    name: bounty-item-weh-plushie
     amount: 15
     whitelist:
       tags:
       - PlushieLizard
-  group: ServiceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyHandyFlag
-  reward: 500
+  reward: 12500
   description: bounty-description-banana
-  entries:
-  - name: bounty-item-handy-flag
+  group: ServiceBounty
+  condition:
+    name: bounty-item-handy-flag
     amount: 25
     whitelist:
       tags:
       - FlagHand
-  group: ServiceBounty
-  bountyType: PayPer

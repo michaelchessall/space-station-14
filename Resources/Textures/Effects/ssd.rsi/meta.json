@@ -9,6 +9,9 @@
   "states": [
     {
       "name": "default0"
+    },
+    {
+      "name": "default0-blue"
     }
   ]
 }

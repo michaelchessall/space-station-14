@@ -19,6 +19,8 @@
         reagents:
         - ReagentId: Fiber
           Quantity: 10
+      stain: # Funky: Footprints & Stains
+        maxVol: 5
   - type: Tag
     tags:
     - ClothMade
@@ -28,6 +30,15 @@
   - type: PhysicalComposition
     materialComposition:
       Cloth: 50
+  - type: Appearance # Funky: Footprints & Stains
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      shoes:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: shoeblood
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: shoebloodicon
 
 - type: entity
   abstract: true

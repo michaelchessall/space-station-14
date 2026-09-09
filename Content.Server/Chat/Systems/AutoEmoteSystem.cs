@@ -108,6 +108,10 @@ public sealed class AutoEmoteSystem : EntitySystem
 
         DebugTools.Assert(_prototypeManager.HasIndex<AutoEmotePrototype>(autoEmotePrototypeId), "Prototype not found. Did you make a typo?");
 
+        // Keep Emotes and EmoteTimers in sync. AddEmote early-returns when Emotes already contains the
+        // id, so leaving a stale entry here would silently prevent the emote from ever being re-added.
+        autoEmote.Emotes.Remove(autoEmotePrototypeId);
+
         if (!autoEmote.EmoteTimers.Remove(autoEmotePrototypeId))
             return false;
 

@@ -171,7 +171,8 @@ public sealed class DamageOverlay : Overlay
             _oldPainLevel = PainLevel;
         }
 
-        level = State != MobState.Critical ? _oldOxygenLevel : 1f;
+        // funky, hardcrit gets the dark vignette, softcrit gets a white pulse
+        level = State is MobState.Critical or MobState.HardCritical ? 1f : _oldOxygenLevel;
 
         if (level > 0f)
         {

@@ -1,141 +1,135 @@
 - type: cargoBounty
   id: BountyArtifactGlue
-  reward: 25
+  reward: 10000
   description: bounty-description-artifact
-  reagentId: ArtifactGlue
   group: ScienceBounty
-  bountyType: PayPerReagent
-  entries:
-  - name: bounty-item-artifactglue
-    amount: 400
+  condition:
+    reagent: ArtifactGlue
+    quantity: 400
 
 - type: cargoBounty
   id: BountyArtifactMany
-  reward: 2000
+  reward: 10000
   description: bounty-description-artifact
-  entries:
-  - name: bounty-item-artifact
+  group: ScienceBounty
+  condition:
+    name: bounty-item-artifact
     amount: 5
     whitelist:
       components:
       - XenoArtifact
-  group: ScienceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyAnomalyScience
   reward: 7500
   description: bounty-description-anomalyscience
-  entries:
-    - name: bounty-item-anomalyscanner
-      amount: 1
-      whitelist:
-        tags:
-        - AnomalyScanner
-    - name: bounty-item-anomalylocator
-      amount: 1
-      whitelist:
-        tags:
-        - AnomalyLocator
-    - name: bounty-item-apeboard
-      amount: 1
-      whitelist:
-        tags:
-        - ApeCircuitboard
   group: ScienceBounty
+  condition:
+  - name: bounty-item-anomalyscanner
+    amount: 1
+    whitelist:
+      tags:
+      - AnomalyScanner
+  - name: bounty-item-anomalylocator
+    amount: 1
+    whitelist:
+      tags:
+      - AnomalyLocator
+  - name: bounty-item-apeboard
+    amount: 1
+    whitelist:
+      tags:
+      - ApeCircuitboard
 
-- type: cargoBounty 
+- type: cargoBounty
   id: BountyRipley
   reward: 12500
   description: bounty-description-ripley
-  entries:
-    - name: bounty-item-ripleyleftleg
-      amount: 1
-      whitelist:
-        tags:
-        - RipleyLLeg
-    - name: bounty-item-ripleyleftarm
-      amount: 1
-      whitelist:
-        tags:
-        - RipleyLArm
-    - name: bounty-item-ripleyrightleg
-      amount: 1
-      whitelist:
-        tags:
-        - RipleyRLeg
-    - name: bounty-item-ripleyrightarm
-      amount: 1
-      whitelist:
-        tags:
-        - RipleyRArm
-    - name: bounty-item-ripleycentral
-      amount: 1
-      whitelist:
-        tags:
-        - RipleyCentralControlModule
-    - name: bounty-item-ripleyperipheral
-      amount: 1
-      whitelist:
-        tags:
-        - RipleyPeripheralsControlModule
-    - name: bounty-item-powercell
-      amount: 1
-      whitelist:
-        tags:
-        - PowerCell
-    - name: bounty-item-steel
-      amount: 5
-      whitelist:
-        tags:
-        - Steel
-    - name: bounty-item-rod
-      amount: 10
-      whitelist:
-        tags:
-        - PartRodMetal
-    - name: bounty-item-lvcable
-      amount: 1
-      whitelist:
-        tags:
-        - CableCoil
   group: ScienceBounty
-
+  condition:
+  - name: bounty-item-ripleyleftleg
+    amount: 1
+    whitelist:
+      tags:
+      - RipleyLLeg
+  - name: bounty-item-ripleyleftarm
+    amount: 1
+    whitelist:
+      tags:
+      - RipleyLArm
+  - name: bounty-item-ripleyrightleg
+    amount: 1
+    whitelist:
+      tags:
+      - RipleyRLeg
+  - name: bounty-item-ripleyrightarm
+    amount: 1
+    whitelist:
+      tags:
+      - RipleyRArm
+  - name: bounty-item-ripleycentral
+    amount: 1
+    whitelist:
+      tags:
+      - RipleyCentralControlModule
+  - name: bounty-item-ripleyperipheral
+    amount: 1
+    whitelist:
+      tags:
+      - RipleyPeripheralsControlModule
+  - name: bounty-item-powercell
+    amount: 1
+    whitelist:
+      tags:
+      - PowerCellMedium
+  - name: bounty-item-steel
+    amount: 5
+    whitelist:
+      tags:
+      - Steel
+  - name: bounty-item-rod
+    amount: 10
+    whitelist:
+      tags:
+      - PartRodMetal
+  - name: bounty-item-lvcable
+    amount: 1
+    whitelist:
+      tags:
+      - CableCoil
 
 - type: cargoBounty
   id: BountyAnomalyCore
   reward: 10000
   description: bounty-description-anomaly-core
-  entries:
-  - name: bounty-item-anomaly-core
+  group: ScienceBounty
+  condition:
+    name: bounty-item-anomaly-core
     amount: 1
     whitelist:
       components:
       - AnomalyCore
-  group: ScienceBounty
 
 - type: cargoBounty
   id: BountyBorgModule
-  reward: 500
+  reward: 4000
   description: bounty-description-borg-module
-  entries:
-  - name: bounty-item-borg-module
+  group: ScienceBounty
+  condition:
+    name: bounty-item-borg-module
     amount: 8
     whitelist:
       components:
       - BorgModule
-  group: ScienceBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyArtifactFragment
-  reward: 500
+  reward: 10000
   description: bounty-description-artifact-fragment
-  entries:
-  - name: bounty-item-artifact-fragment
+  group: ScienceBounty
+  condition:
+    name: bounty-item-artifact-fragment
     amount: 20
     whitelist:
       tags:
       - ArtifactFragment
-  group: ScienceBounty
-  bountyType: PayPer

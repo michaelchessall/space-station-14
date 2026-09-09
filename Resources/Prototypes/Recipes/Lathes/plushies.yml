@@ -364,6 +364,10 @@
   id: ToyAmongPequeno
   result: ToyAmongPequeno
 
+- type: latheRecipe
+  parent: BasePlushieRecipe
+  id: WawaPlushie
+  result: WawaPlushie
 
 #the Weh zone
 

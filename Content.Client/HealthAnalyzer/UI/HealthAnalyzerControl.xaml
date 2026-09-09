@@ -36,6 +36,19 @@
         </GridContainer>
     </BoxContainer>
 
+    <!-- Start Persistence: Display bloodstream contents in health analyzers -->
+    <PanelContainer StyleClasses="LowDivider" />
+
+    <Label Name="BloodstreamContentsHeaderText" Text="{Loc 'health-analyzer-window-entity-bloodstream-contents-header'}" Visible="False"/>
+    <Label Name="BloodstreamNotFoundText" Text="{Loc 'health-analyzer-window-entity-bloodstream-not-found'}" Visible="False"/>
+
+    <GridContainer
+        Name="BloodstreamContainer"
+        Margin="5 0 0 5"
+        Columns="2">
+    </GridContainer>
+    <!-- End Persistence -->
+
     <PanelContainer Name="AlertsDivider" Visible="False" StyleClasses="LowDivider" />
 
     <BoxContainer Name="AlertsContainer" Visible="False" Margin="0 5" Orientation="Vertical" HorizontalAlignment="Center">

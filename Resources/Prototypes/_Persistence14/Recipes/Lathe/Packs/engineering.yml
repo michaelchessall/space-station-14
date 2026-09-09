@@ -1,0 +1,7 @@
+## Static
+
+- type: latheRecipePack
+  id: GasMasksStatic
+  recipes:
+  - ClothingMaskGas
+  - ClothingMaskBreath

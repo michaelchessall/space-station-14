@@ -28,10 +28,13 @@ using Robust.Shared.Player;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
 using Robust.Shared.Replays;
+using Content.Shared.Mobs; // funky
+using Content.Shared.Mobs.Components; // funky
 using Robust.Shared.Utility;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Content.Shared._RMC14.Chat; // Persistence: Chat stacking from RMC14 - pull/7587
 
 namespace Content.Server.Chat.Systems;
 
@@ -177,6 +180,15 @@ public sealed partial class ChatSystem : SharedChatSystem
         // and i dont feel like vibe checking 50 code paths
         // so we set this here
         // todo free me from chat code
+
+        // funky start
+        if (!ignoreActionBlocker && TryComp<MobStateComponent>(source, out var mobState) && mobState.CurrentState == MobState.SoftCritical)
+        {
+            if (desiredType == InGameICChatType.Speak)
+                desiredType = InGameICChatType.Whisper;
+        }
+        // funky end
+
         if (player != null)
         {
             _chatManager.EnsurePlayer(player.UserId).AddEntity(GetNetEntity(source));
@@ -379,6 +391,9 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
             return;
 
+        if (TryComp<MobStateComponent>(source, out var mobState) && mobState.CurrentState == MobState.SoftCritical) // funky
+             return;
+
         var message = TransformSpeech(source, originalMessage);
 
         if (message.Length == 0)
@@ -452,6 +467,11 @@ public sealed partial class ChatSystem : SharedChatSystem
         if (!_actionBlocker.CanSpeak(source) && !ignoreActionBlocker)
             return;
 
+        // funky start
+        if (channel != null && TryComp<MobStateComponent>(source, out var mobState) && mobState.CurrentState == MobState.SoftCritical)
+            channel = null;
+        // funky end
+
         var message = TransformSpeech(source, FormattedMessage.RemoveMarkupOrThrow(originalMessage));
         if (message.Length == 0)
             return;
@@ -505,7 +525,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 _chatManager.ChatMessageToOne(ChatChannel.Whisper, obfuscatedMessage, wrappedUnknownMessage, source, false, session.Channel);
         }
 
-        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
+        _replay.RecordServerMessage(new ChatMessage(ChatChannel.Whisper, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range), repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(source))); // Persistence: Chat stacking from RMC14 - pull/7587
 
         var ev = new EntitySpokeEvent(source, message, channel, obfuscatedMessage);
         RaiseLocalEvent(source, ev, true);
@@ -703,7 +723,7 @@ public sealed partial class ChatSystem : SharedChatSystem
                 _chatManager.ChatMessageToOne(channel, message, wrappedMessage, source, entHideChat, session.Channel, author: author);
         }
 
-        _replay.RecordServerMessage(new ChatMessage(channel, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range)));
+        _replay.RecordServerMessage(new ChatMessage(channel, message, wrappedMessage, GetNetEntity(source), null, MessageRangeHideChatForReplay(range), repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(source))); // Persistence: Chat stacking from RMC14 - pull/7587
     }
 
     /// <summary>

@@ -1,7 +1,9 @@
 using Content.Server.Administration.Logs;
+using Content.Server.Chat.Managers; // Persistence: Chat stacking from RMC14 - pull/7587
 using Content.Server.Chat.Systems;
 using Content.Server.Power.Components;
 using Content.Server.Station.Systems;
+using Content.Shared._RMC14.Chat; // Persistence: Chat stacking from RMC14 - pull/7587
 using Content.Shared.CCVar;
 using Content.Shared.Chat;
 using Content.Shared.Database;
@@ -37,6 +39,7 @@ public sealed class RadioSystem : EntitySystem
     [Dependency] private readonly HeadsetSystem _headset = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly SharedTransformSystem _xform = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587
     // set used to prevent radio feedback loops.
     private readonly HashSet<string> _messages = new();
 
@@ -130,8 +133,9 @@ public sealed class RadioSystem : EntitySystem
             ChatChannel.Radio,
             message,
             wrappedMessage,
-            NetEntity.Invalid,
-            null);
+            GetNetEntity(messageSource), // Persistence: Chat stacking from RMC14 - pull/7587
+            _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key,  // Persistence: Chat stacking from RMC14 - pull/7587
+            repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(radioSource));  // Persistence: Chat stacking from RMC14 - pull/7587
         var chatMsg = new MsgChatMessage { Message = chat };
         var ev = new RadioReceiveEvent(message, messageSource, channel, radioSource, chatMsg);
 

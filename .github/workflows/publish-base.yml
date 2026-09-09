@@ -1,0 +1,83 @@
+name: Publish Base
+
+on:
+  workflow_call:
+    inputs:
+      source_ref:
+        description: Branch or ref to build
+        type: string
+        default: github.ref_name
+        required: true
+      
+      fork_id:
+        description: Robust.Cdn fork to publish to
+        required: true
+        type: string
+
+concurrency:
+  group: publish-${{ inputs.fork_id }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Fail if we are attempting to run on the master branch
+      if: ${{GITHUB.REF_NAME == 'master' && github.repository == 'space-wizards/space-station-14'}}
+      run: exit 1
+
+    - name: Install dependencies
+      run: sudo apt-get install -y python3-paramiko python3-lxml
+
+    - uses: actions/checkout@v4.2.2
+      with:
+        ref: ${{ inputs.source_ref }}
+        submodules: 'recursive'
+        fetch-depth: 0
+
+    - name: Get source version
+      id: version
+      run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v4.1.0
+      with:
+        dotnet-version: 10.0.x
+
+    - name: Get Engine Tag
+      run: |
+        cd RobustToolbox
+        git fetch --depth=1
+
+    - name: Install dependencies
+      run: dotnet restore
+
+    - name: Build Packaging
+      run: dotnet build Content.Packaging --configuration Release --no-restore /m
+
+    - name: Package server
+      run: dotnet run --project Content.Packaging server --platform linux-x64 --platform linux-arm64
+
+    - name: Package client
+      run: dotnet run --project Content.Packaging client --no-wipe-release
+
+    - name: Publish version
+      run: Tools/publish_multi_request.py --fork-id "${{ inputs.fork_id }}"
+      env:
+        PUBLISH_VERSION: ${{ steps.version.outputs.sha }}
+        PUBLISH_TOKEN: ${{ secrets.PUBLISH_TOKEN }}
+        GITHUB_REPOSITORY: ${{ vars.GITHUB_REPOSITORY }}
+
+    - name: Publish changelog (Discord)
+      continue-on-error: true
+      run: Tools/actions_changelogs_since_last_run.py
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        DISCORD_WEBHOOK_URL: ${{ secrets.CHANGELOG_DISCORD_WEBHOOK }}
+
+    - name: Publish changelog (RSS)
+      continue-on-error: true
+      run: Tools/actions_changelog_rss.py
+      env:
+        CHANGELOG_RSS_KEY: ${{ secrets.CHANGELOG_RSS_KEY }}

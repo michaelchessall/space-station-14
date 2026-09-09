@@ -457,6 +457,18 @@
     - !type:TileNotBlocked
 
 - type: construction
+  id: TableCounterPharma
+  graph: Table
+  startNode: start
+  targetNode: CounterPharma
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
   id: TableCounterWood
   graph: Table
   startNode: start
@@ -479,7 +491,7 @@
   canBuildInImpassable: false
   conditions:
     - !type:TileNotBlocked
-    
+
 #bathroom
 - type: construction
   id: ToiletEmpty

@@ -428,6 +428,18 @@
             - tool: Anchoring
               doAfter: 1
 
+    - node: CounterPharma
+      entity: TableCounterPharma
+      edges:
+        - to: CounterMetalFrame
+          completed:
+            - !type:SpawnPrototype
+              prototype: SheetSteel1
+              amount: 1
+          steps:
+            - tool: Anchoring
+              doAfter: 1
+
     - node: CounterWood
       entity: TableCounterWood
       edges:

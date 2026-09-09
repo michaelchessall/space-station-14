@@ -18,3 +18,14 @@ github     = "https://github.com/michaelchessall/SS14-Persistence"
 
 [server]
 id = "Persistence"
+
+[funkystation.reagent_fire]
+puddle_damage_multiplier = 0.1
+
+[funkystation.cpr]
+rib_crack_damage = 20
+rib_crack_pump = 10
+
+[funkystation.defib]
+revive_chance = 0.7
+adrenaline_cost = 1

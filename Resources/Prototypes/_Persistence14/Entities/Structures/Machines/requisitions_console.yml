@@ -51,6 +51,14 @@
       - Sheet
       - RawMaterial
       - Ingot
+  # Accepts a printed invoice to reload its cart; checkout/cancel eject it again.
+  - type: ItemSlots
+    slots:
+      requisitions-invoice-slot:
+        name: requisitions-invoice-slot-name
+        whitelist:
+          components:
+          - Invoice
   # Faction-aware gating for the whole console. Empty by default => open until configured with an Access Overrider.
   - type: AccessReader
   - type: ActivatableUI

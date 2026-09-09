@@ -1,0 +1,6 @@
+- type: stack
+  parent: BaseLargeStack
+  id: TitaniumRod
+  name: stack-rod-titanium
+  icon: { sprite: "/Textures/_Persistence14/Objects/Materials/titanium_rod.rsi", state: t_rods_5 }
+  spawn: PartRodTitanium1

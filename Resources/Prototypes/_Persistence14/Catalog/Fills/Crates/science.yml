@@ -1,0 +1,24 @@
+# really only for one thing prorbably.
+
+- type: entity
+  parent: CrateScienceSecure
+  id: CrateRNDKit
+  name: rnd starter kit crate
+  description: Contains the components necessary for to start a lab
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      entity_storage: !type:AllSelector
+        children:
+        - id: BoxRNDCircuitboards
+        - id: MicroManipulatorStockPart
+          amount: 1
+        - id: SheetSteel10
+          amount: 2
+        - id: CableApcStack10
+          amount: 2
+        - id: SheetGlass1
+          amount: 9
+        - id: SheetPlasma1
+          amount: 5
+

@@ -21,6 +21,14 @@
   parent: BaseItem
   components:
   - type: Organ
+  - type: Tag # Added this to put organs into trash bag, Modified for Persistence14
+    tags:
+    - Trash
+  - type: InedibleFoodSequenceElement # Persistence 14
+    volume: 5
+    reagents:
+    - ReagentId: UncookedAnimalProteins
+      Quantity: 5
 
 - type: entity
   parent: OrganBase
@@ -259,6 +267,11 @@
     entries:
       Burger: Brain
       Taco: Brain
+  - type: InedibleFoodSequenceElement # Persistence 14
+    volume: 5
+    reagents:
+    - ReagentId: GreyMatter
+      Quantity: 5
 
 - type: entity
   parent: OrganBase
@@ -282,6 +295,10 @@
     markingData:
       layers:
       - Eyes
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Eyes
+      Taco: Eyes
 
 - type: entity
   parent: OrganBase
@@ -295,6 +312,10 @@
   - type: Sprite
     layers:
     - state: tongue
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Tongue
+      Taco: Tongue
 
 - type: entity
   parent: OrganBase
@@ -308,6 +329,10 @@
   - type: Sprite
     layers:
     - state: appendix
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Appendix
+      Taco: Appendix
 
 - type: entity
   parent: OrganBase
@@ -321,6 +346,10 @@
   - type: Sprite
     layers:
     - state: ears
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Ears
+      Taco: Ears
 
 - type: entity
   parent: OrganBase
@@ -345,6 +374,10 @@
     - state: lung-r
   - type: Item
     heldPrefix: lungs
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Lungs
+      Taco: Lungs
 
 - type: entity
   parent: OrganBase
@@ -361,6 +394,10 @@
   - type: Metabolizer
     maxReagents: 2
     stages: [ Bloodstream ]
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Heart
+      Taco: Heart
 
 - type: entity
   parent: OrganBase
@@ -384,6 +421,10 @@
     - state: stomach
   - type: Item
     heldPrefix: stomach
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Stomach
+      Taco: Stomach
 
 - type: entity
   parent: OrganBase
@@ -402,6 +443,10 @@
   - type: Metabolizer
     maxReagents: 1
     stages: [ Metabolites ]
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Liver
+      Taco: Liver
 
 - type: entity
   parent: OrganBase
@@ -420,6 +465,10 @@
     heldPrefix: kidneys
   - type: Metabolizer
     maxReagents: 5
+  - type: FoodSequenceElement # Persistence 14
+    entries:
+      Burger: Kidneys
+      Taco: Kidneys
 
 - type: entity
   id: OrganSpriteHumanInternal

@@ -109,7 +109,7 @@ barsign-prototype-name-whiskeyechoes = Whiskey Echoes
 barsign-prototype-description-whiskeyechoes = An elite bar for elite oper-wait, this is a Nanotrasen station. Why's this sign in the database?
 
 ## EmpBarSign
-barsign-prototype-name-empbarsign = glitchy bar sign 
+barsign-prototype-name-empbarsign = glitchy bar sign
 barsign-prototype-description-empbarsign = Something has gone very wrong.
 
 ## Default
@@ -118,3 +118,7 @@ barsign-prototype-description-default = The default state of most bar signs. Req
 
 ## SignOff
 barsign-prototype-description-sign-off = This sign doesn't seem to be on.
+
+#No Smoking
+barsign-prototype-name-nosmoking = No Smoking
+barsign-prototype-description-nosmoking = You should quit smoking as well while you're at it.

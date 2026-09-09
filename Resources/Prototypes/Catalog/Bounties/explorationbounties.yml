@@ -1,107 +1,99 @@
 - type: cargoBounty
   id: BountyTechDisk
-  reward: 2500
+  reward: 10000
   description: bounty-description-tech-disk
   idPrefix: SS13-
-  entries:
-  - name: bounty-item-tech-disk
+  group: ExplorationBounty
+  condition:
+    name: bounty-item-tech-disk
     amount: 4
     whitelist:
       components:
       - TechnologyDisk
-  group: ExplorationBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyCoins
-  reward: 1000
+  reward: 10000
   description: bounty-description-coins
-  entries:
-  - name: bounty-item-coins
+  group: ExplorationBounty
+  condition:
+    name: bounty-item-coins
     amount: 10
     whitelist:
       components:
       - NFCoin # Coins have no tag but have a unique component
-  bountyType: PayPer
-  group: ExplorationBounty
 
 - type: cargoBounty
   id: BountyCPU
-  reward: 1500
+  reward: 10500
   description: bounty-description-cpu
-  entries:
-  - name: bounty-item-cpu
+  group: ExplorationBounty
+  condition:
+    name: bounty-item-cpu
     amount: 7
     whitelist:
       tags:
       - TreasureOldCPU # Supercharged CPU
-  group: ExplorationBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyOldComputer
-  reward: 1500
+  reward: 10500
   description: bounty-description-old-computer
-  entries:
-  - name: bounty-item-old-computer
+  group: ExplorationBounty
+  condition:
+    name: bounty-item-old-computer
     amount: 7
     whitelist:
       tags:
       - TreasureOldComputer # Hard drive, floppy drive, CD drive
-  group: ExplorationBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: TreasureDataDisk
-  reward: 1500
+  reward: 10500
   description: bounty-description-data-disk
-  entries:
-  - name: bounty-item-data-disk
+  group: ExplorationBounty
+  condition:
+    name: bounty-item-data-disk
     amount: 7
     whitelist:
       tags:
       - TreasureDataDisk # Salvage data disk
-  group: ExplorationBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: TreasureSampleTube
-  reward: 1500
+  reward: 10500
   description: bounty-description-sample-tube
-  entries:
-  - name: bounty-item-sample-tube
+  group: ExplorationBounty
+  condition:
+    name: bounty-item-sample-tube
     amount: 7
     whitelist:
       tags:
       - TreasureSampleTube # Salvage sample tube
-  group: ExplorationBounty
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyRing
-  reward: 3300
+  reward: 9900
   description: bounty-description-ring
-  entries:
-  - name: bounty-item-ring
+  group: ExplorationBounty
+  condition:
+    name: bounty-item-ring
     amount: 3
     whitelist:
       tags:
       - Ring
-  bountyType: PayPer
-  group: ExplorationBounty
 
 - type: cargoBounty
   id: BountySalvageScrap
-  reward: 500 # 500*20=10000
+  reward: 10000
   description: bounty-description-salvage-scrap
   group: ExplorationBounty
   sprite:
     sprite: Objects/Materials/Scrap/generic.rsi
     state: metal-1
-  entries:
-  - name: bounty-item-scrap
+  condition:
+    name: bounty-item-scrap
     amount: 20
     whitelist:
       tags:
       - SalvageScrap
-  bountyType: PayPer

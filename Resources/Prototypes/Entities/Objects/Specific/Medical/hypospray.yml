@@ -664,7 +664,7 @@
       pen:
         maxVol: 30
         reagents:
-        - ReagentId: Omnizine
+        - ReagentId: Ichor
           Quantity: 25
         - ReagentId: TranexamicAcid
           Quantity: 5

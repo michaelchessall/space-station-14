@@ -15,8 +15,3 @@
   id: Salvage
   name: guide-entry-salvage
   text: "/ServerInfo/Guidebook/Cargo/Salvage.xml"
-
-- type: guideEntry
-  id: GasMining
-  name: guide-entry-gas-mining
-  text: "/ServerInfo/Guidebook/Cargo/GasMining.xml"

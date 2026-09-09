@@ -13,3 +13,14 @@
     fiberMaterial: fibers-durathread
     fiberColor: fibers-regal-red
   - type: FingerprintMask
+
+- type: entity
+  parent: ClothingHandsButcherable
+  id: ClothingHandsGlovesThreshPriest
+  name: threshold's embrace long gloves
+  description: WIP
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Hands/Gloves/threshpriest.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/Hands/Gloves/threshpriest.rsi

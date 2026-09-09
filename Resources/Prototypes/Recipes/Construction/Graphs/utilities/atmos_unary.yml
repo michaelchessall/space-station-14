@@ -9,8 +9,32 @@
       - material: Steel
         amount: 2
         doAfter: 1
+    
+    - to: ventpumpalt1
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
+
+    - to: ventpumpalt2
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
 
     - to: passivevent
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
+
+    - to: passiveventalt1
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
+    
+    - to: passiveventalt2
       steps:
       - material: Steel
         amount: 2
@@ -21,8 +45,32 @@
       - material: Steel
         amount: 2
         doAfter: 1
+    
+    - to: ventscrubberalt1
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
+
+    - to: ventscrubberalt2
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
 
     - to: outletinjector
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
+    
+    - to: outletinjectoralt1
+      steps:
+      - material: Steel
+        amount: 2
+        doAfter: 1
+
+    - to: outletinjectoralt2
       steps:
       - material: Steel
         amount: 2
@@ -30,6 +78,42 @@
 
   - node: ventpump
     entity: GasVentPump
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Screwing
+        doAfter: 1
+      - tool: Welding
+        doAfter: 1
+
+  - node: ventpumpalt1
+    entity: GasVentPumpAlt1
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Screwing
+        doAfter: 1
+      - tool: Welding
+        doAfter: 1
+
+  - node: ventpumpalt2
+    entity: GasVentPumpAlt2
     edges:
     - to: start
       conditions:
@@ -63,6 +147,42 @@
         doAfter: 1
       - tool: Welding
         doAfter: 1
+  
+  - node: passiveventalt1
+    entity: GasPassiveVentAlt1
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Screwing
+        doAfter: 1
+      - tool: Welding
+        doAfter: 1
+  
+  - node: passiveventalt2
+    entity: GasPassiveVentAlt2
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Screwing
+        doAfter: 1
+      - tool: Welding
+        doAfter: 1
 
   - node: ventscrubber
     entity: GasVentScrubber
@@ -81,9 +201,77 @@
         doAfter: 1
       - tool: Welding
         doAfter: 1
+    
+  - node: ventscrubberalt1
+    entity: GasVentScrubberAlt1
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Screwing
+        doAfter: 1
+      - tool: Welding
+        doAfter: 1
+  
+  - node: ventscrubberalt2
+    entity: GasVentScrubberAlt2
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Screwing
+        doAfter: 1
+      - tool: Welding
+        doAfter: 1
 
   - node: outletinjector
     entity: GasOutletInjector
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Welding
+        doAfter: 1
+  
+  - node: outletinjectoralt1
+    entity: GasOutletInjectorAlt1
+    edges:
+    - to: start
+      conditions:
+      - !type:EntityAnchored
+        anchored: false
+      completed:
+      - !type:SpawnPrototype
+        prototype: SheetSteel1
+        amount: 2
+      - !type:DeleteEntity
+      steps:
+      - tool: Welding
+        doAfter: 1
+  
+  - node: outletinjectoralt2
+    entity: GasOutletInjectorAlt2
     edges:
     - to: start
       conditions:

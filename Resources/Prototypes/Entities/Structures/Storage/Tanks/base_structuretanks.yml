@@ -67,6 +67,8 @@
   - type: ReagentTank
   - type: DumpableSolution
     solution: tank
+  - type: BountySolution
+    solution: tank
   - type: Transform
     noRot: true
   - type: ContainerContainer

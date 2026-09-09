@@ -157,6 +157,33 @@
   - type: MobPrice
     price: 1500 # Kidnapping a living person and selling them for cred is a good move.
     deathPenalty: 0.01 # However they really ought to be living and intact, otherwise they're worth 100x less.
+  # funky start, soft/hard crit split
+  - type: MobThresholds
+    thresholds:
+      0: Alive
+      100: SoftCritical
+      150: HardCritical
+      200: Dead
+    stateAlertDict:
+      Alive: HumanHealth
+      SoftCritical: HumanCrit
+      HardCritical: HumanCrit
+      Dead: HumanDead
+  - type: MobState
+    allowedStates:
+    - Alive
+    - SoftCritical
+    - HardCritical
+    - Dead
+  - type: MobStateActions
+    actions:
+      HardCritical:
+      - ActionCritSuccumb
+      - ActionCritFakeDeath
+      - ActionCritLastWords
+      Dead:
+      - ActionAcceptDeath
+  # funky end
   - type: Tag
     tags:
     - CanPilot
@@ -181,7 +208,7 @@
         damage: 40
       behaviors:
       - !type:VomitBehavior
-
+#there are new to Perisitence 14 changes below.
 - type: entity
   save: true
   abstract: true
@@ -205,10 +232,10 @@
     - Alive
     damage:
       types:
-        Heat: -0.07
-        Blunt: -0.05
-        Piercing: -0.05
-        Slash: -0.05
+        Heat: -0.007 #so for posterity, all these values have been divided by 10 for the whole "slower metabolism" thing. The original values were 0.07 and 0.05, respectively.
+        Blunt: -0.005
+        Piercing: -0.005
+        Slash: -0.005
   - type: Fingerprint
   - type: Blindable
   - type: Temperature
@@ -252,3 +279,4 @@
   - type: FireVisuals
     alternateState: Standing
   - type: StunVisuals
+  - type: FootprintOwner # Funky: Footprints & Stains

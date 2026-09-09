@@ -1,0 +1,87 @@
+- type: entity
+  parent: [ BaseStructureDynamic, BaseBagOpenClose ]
+  id: MedicineCabinet
+  description: A cabinet for storing medicine.
+  abstract: true
+  components:
+  - type: Storage
+    whitelist:
+      tags:
+      - Ointment
+      - Brutepack
+      - Gauze
+      - PillCanister
+    grid:
+    - 0,0,9,7
+    maxItemSize: Normal
+  - type: Sprite
+    sprite: Structures/Storage/medicinecabinets.rsi
+    noRot: true
+  - type: Appearance
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+  - type: Transform
+    noRot: true
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.18,-0.48,0.18,0.48"
+        density: 200
+        mask:
+        - MachineMask
+        layer:
+        - MachineLayer
+  - type: InteractionOutline
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: Metallic
+  - type: Destructible
+    thresholds:
+    - trigger: # Excess damage, don't spawn entities
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+    - trigger:
+        !type:DamageTrigger
+        damage: 50
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 1
+            max: 2
+  - type: StaticPrice
+    price: 40
+  - type: Construction
+    graph: medicineCabinet
+
+- type: entity
+  name: medicine cabinet
+  parent: MedicineCabinet
+  id: cabinetMed
+  components:
+  - type: Sprite
+    state: medicinecabinet
+    layers:
+    - state: cabinet
+    - state: cabinet-open
+      map: ["openLayer"]
+  - type: Construction
+    node: medCabinet

@@ -1,139 +1,129 @@
 - type: cargoBounty
   id: BountyHandcuffs
-  reward: 500
+  reward: 10000
   description: bounty-description-handcuffs
   idPrefix: CC
-  entries:
-  - name: bounty-item-handcuffs
+  condition:
+    name: bounty-item-handcuffs
     amount: 20
     whitelist:
       components:
       - Handcuff
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyKnife
-  reward: 500
+  reward: 10000
   description: bounty-description-knife
-  entries:
-  - name: bounty-item-knife
+  condition:
+    name: bounty-item-knife
     amount: 20
     whitelist:
       components:
       - Sharp
       tags:
-      - UtilityKnife # required because retracted utility knives are not Sharp
-  bountyType: PayPer
+      - UtilityKnife
 
 
 - type: cargoBounty
   id: BountyMonkeyCube
-  reward: 500
+  reward: 10000
   description: bounty-description-monkey-cube
   idPrefix: CC
-  entries:
-  - name: bounty-item-monkey-cube
+  condition:
+    name: bounty-item-monkey-cube
     amount: 20
     whitelist:
       tags:
       - MonkeyCube
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyPrisonUniform
-  reward: 1330
+  reward: 9310
   description: bounty-description-prison-uniform
   idPrefix: TG
-  entries:
-  - name: bounty-item-prison-uniform
+  condition:
+    name: bounty-item-prison-uniform
     amount: 7
     whitelist:
       tags:
       - PrisonUniform
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyShiv
-  reward: 500
+  reward: 10000
   description: bounty-description-shiv
   idPrefix: SYN
-  entries:
-  - name: bounty-item-shiv
+  condition:
+    name: bounty-item-shiv
     amount: 20
     whitelist:
       tags:
       - Shiv
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountySpear
-  reward: 500
+  reward: 10000
   description: bounty-description-spear
-  entries:
-  - name: bounty-item-spear
+  condition:
+    name: bounty-item-spear
     amount: 20
     whitelist:
       tags:
       - Spear
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountySyringe
-  reward: 200
+  reward: 10000
   description: bounty-description-syringe
-  entries:
-  - name: bounty-item-syringe
+  condition:
+    name: bounty-item-syringe
     amount: 50
     whitelist:
       tags:
       - Syringe
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyToolbox
-  reward: 415
+  reward: 8300
   description: bounty-description-toolbox
   idPrefix: CC
-  entries:
-  - name: bounty-item-toolbox
+  condition:
+    name: bounty-item-toolbox
     amount: 20
     whitelist:
       tags:
       - Toolbox
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyOrgans
-  reward: 250
+  reward: 7500
   description: bounty-description-organs
   idPrefix: UNTH
-  entries:
-  - name: bounty-item-organs
+  condition:
+    name: bounty-item-organs
     amount: 30
     whitelist:
       components:
       - Organ
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyLabeler
-  reward: 200
+  reward: 7000
   description: bounty-description-labeler
-  entries:
-  - name: bounty-item-labeler
+  condition:
+    name: bounty-item-labeler
     amount: 35
     whitelist:
       components:
       - HandLabeler
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyWarmCloth
-  reward: 300
+  reward: 10500
   description: bounty-description-warm-cloth
   idPrefix: UNTH
-  entries:
-  - name: bounty-item-warm-cloth
+  condition:
+    name: bounty-item-warm-cloth
     amount: 35
     whitelist:
       components:
@@ -143,28 +133,26 @@
     blacklist:
       components:
       - ToggleableClothing
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyBattery
-  reward: 550
+  reward: 11000
   description: bounty-description-battery
   idPrefix: UNTH
-  entries:
-  - name: bounty-item-battery
+  condition:
+    name: bounty-item-battery
     amount: 20
     whitelist:
       components:
       - Battery
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyLaserGun
-  reward: 1900
+  reward: 9500
   description: bounty-description-lasergun
   idPrefix: IV
-  entries:
-  - name: bounty-item-lasergun
+  condition:
+    name: bounty-item-lasergun
     amount: 5
     whitelist:
       components:
@@ -172,76 +160,69 @@
     blacklist:
       components:
       - PowerCell
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyBedsheet
-  reward: 300
+  reward: 9000
   description: bounty-description-bedsheet
-  entries:
-  - name: bounty-item-bedsheet
+  condition:
+    name: bounty-item-bedsheet
     amount: 30
     whitelist:
       tags:
       - Bedsheet
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyBandana
-  reward: 300
+  reward: 9000
   description: bounty-description-bandana
-  entries:
-  - name: bounty-item-bandana
+  condition:
+    name: bounty-item-bandana
     amount: 30
     whitelist:
       tags:
       - Bandana
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyHiVizVest
-  reward: 450
+  reward: 9000
   description: bounty-description-hi-viz-vest
-  entries:
-  - name: bounty-item-hi-viz-vest
+  condition:
+    name: bounty-item-hi-viz-vest
     amount: 20
     whitelist:
       tags:
       - HiViz
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyTorch
-  reward: 375
+  reward: 1500
   description: bounty-description-torch
-  entries:
-  - name: bounty-item-torch
+  condition:
+    name: bounty-item-torch
     amount: 4
     whitelist:
       tags:
       - Torch
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyMedkitBox
-  reward: 500
+  reward: 10000
   description: bounty-description-medkit-box
-  entries:
-  - name: bounty-item-medkit-box
+  condition:
+    name: bounty-item-medkit-box
     amount: 20
     whitelist:
       tags:
       - Medkit
-  bountyType: PayPer
 
 - type: cargoBounty
   id: BountyFlashes
-  reward: 500
+  reward: 10000
   description: bounty-description-flashes
-  entries:
-  - name: bounty-item-flash
+  condition:
+    name: bounty-item-flash
     amount: 20
     whitelist:
       components:
       - Flash
-  bountyType: PayPer

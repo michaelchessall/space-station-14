@@ -18,6 +18,7 @@ using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using System.Linq;
 using System.Numerics;
+using Content.Shared.Chemistry.Reagent; // Persistence: Display bloodstream contents in health analyzers
 namespace Content.Client.HealthAnalyzer.UI;
 
 // Health analyzer UI is split from its window because it's used by both the
@@ -141,6 +142,8 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
         var damagePerType = _damageable.GetAllDamage(target.Value).DamageDict;
 
         DrawDiagnosticGroups(damageSortedGroups, damagePerType);
+
+        DrawBloodstreamContents(state.BloodContents); // Persistence: Display bloodstream contents in health analyzers
     }
 
     private static string GetStatus(MobState mobState)
@@ -149,6 +152,8 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
         {
             MobState.Alive => Loc.GetString("health-analyzer-window-entity-alive-text"),
             MobState.Critical => Loc.GetString("health-analyzer-window-entity-critical-text"),
+            MobState.SoftCritical => Loc.GetString("health-analyzer-window-entity-critical-text"), // Persistence: Make status label aware of soft-crit
+            MobState.HardCritical => Loc.GetString("health-analyzer-window-entity-critical-text"), // Persistence: Make status label aware of hard-crit
             MobState.Dead => Loc.GetString("health-analyzer-window-entity-dead-text"),
             _ => Loc.GetString("health-analyzer-window-entity-unknown-text"),
         };
@@ -199,6 +204,44 @@ public sealed partial class HealthAnalyzerControl : BoxContainer
             }
         }
     }
+
+    // Start Persistence: Display bloodstream contents in health analyzers
+    private void DrawBloodstreamContents(List<ReagentQuantity>? bloodContents)
+    {
+        BloodstreamContainer.RemoveAllChildren();
+
+        if (bloodContents is null)
+        {
+            BloodstreamNotFoundText.Visible = true;
+            return;
+        }
+
+        BloodstreamContentsHeaderText.Visible = true;
+
+        foreach (var (reagent, quantity) in bloodContents)
+        {
+            var reagentId = reagent;
+            _prototypes.TryIndex(reagentId.Prototype, out ReagentPrototype? proto);
+            var name = proto?.LocalizedName ?? Loc.GetString("chem-master-window-unknown-reagent-text");
+            var reagentColor = proto?.SubstanceColor ?? default(Color);
+            var reagentText = new Label();
+            reagentText.Text = name + ": " + quantity.ToString();
+            var reagentColorSwatch = new PanelContainer
+            {
+                Name = "colorPanel",
+                VerticalExpand = true,
+                MinWidth = 4,
+                PanelOverride = new StyleBoxFlat
+                {
+                    BackgroundColor = reagentColor
+                },
+                Margin = new Thickness(0, 1)
+            };
+            BloodstreamContainer.AddChild(reagentColorSwatch);
+            BloodstreamContainer.AddChild(reagentText);
+        }
+    }
+    // End Persistence
 
     private Texture GetTexture(string texture)
     {

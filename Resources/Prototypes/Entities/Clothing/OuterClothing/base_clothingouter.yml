@@ -8,6 +8,26 @@
     - outerClothing
   - type: Sprite
     state: icon
+  - type: Appearance # Funky: Footprints & Stains
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      outerClothing:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: outerclothing
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: outerclothing
+  - type: SolutionContainerManager # Funky: Footprints & Stains
+    solutions:
+      food:
+        maxVol: 30
+        reagents:
+        - ReagentId: Fiber
+          Quantity: 30
+      stain:
+        maxVol: 5
+  - type: StainBlocker # Funky: Footprints & Stains
+    slots: [INNERCLOTHING]
 
 - type: entity
   abstract: true
@@ -23,6 +43,16 @@
     walkModifier: 0.9
     sprintModifier: 0.9
   - type: HeldSpeedModifier
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      outerClothing:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: suitblood
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: suitbloodicon
+  - type: StainBlocker # Funky: Footprints & Stains
+    slots: [INNERCLOTHING, FEET, GLOVES]
 
 - type: entity
   abstract: true
@@ -47,6 +77,14 @@
         type: StorageBoundUserInterface
   - type: StaticPrice
     price: 10
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      outerClothing:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: coatblood
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: coatbloodicon
 
 - type: entity
   abstract: true
@@ -68,6 +106,14 @@
     - state: icon-open
       map: ["foldedLayer"]
       visible: false
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      outerClothing:
+      - sprite: _Funkystation/Effects/blood.rsi
+        state: outerclothing
+    iconVisuals:
+    - sprite: _Funkystation/Effects/blood.rsi
+      state: outerclothing
 
 - type: entity
   abstract: true
@@ -153,6 +199,8 @@
   - type: HideLayerClothing
     slots:
     - Tail
+  - type: StainBlocker # Funky: Footprints & Stains
+    slots: [INNERCLOTHING, FEET, GLOVES]
 
 - type: entity
   abstract: true
@@ -185,6 +233,8 @@
   - type: HideLayerClothing
     slots:
     - Tail
+  - type: StainBlocker # Funky: Footprints & Stains
+    slots: [INNERCLOTHING, FEET, GLOVES]
 
 - type: entity
   parent: ClothingOuterBase
