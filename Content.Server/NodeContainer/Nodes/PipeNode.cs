@@ -38,6 +38,7 @@ namespace Content.Server.NodeContainer.Nodes
         /// </summary>
         public PipeDirection CurrentPipeDirection { get; private set; }
 
+        [ViewVariables(VVAccess.ReadOnly)]
         public AtmosPipeLayer CurrentPipeLayer { get; set; }
 
         private HashSet<PipeNode>? _alwaysReachable;

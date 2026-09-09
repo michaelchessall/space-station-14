@@ -187,7 +187,7 @@ namespace Content.Shared.Atmos
             var degrees = diff.Degrees % 360;
             if (degrees < 0) degrees += 360;
 
-            var invert = MathHelper.CloseTo(degrees, 90f) || MathHelper.CloseTo(degrees, 180f);
+            var invert = MathHelper.CloseTo(degrees, 270f) || MathHelper.CloseTo(degrees, 180f);
             if (!invert)
                 return pipeLayer;
 
