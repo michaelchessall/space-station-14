@@ -3,9 +3,9 @@ using System.Numerics;
 
 namespace Content.Shared.Sprite;
 
-public abstract class SharedScaleVisualsSystem : EntitySystem
+public abstract partial class SharedScaleVisualsSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAppearanceSystem _appearance = default!;
+    [Dependency] private SharedAppearanceSystem _appearance = default!;
 
     public override void Initialize()
     {

@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: Clothing
+  parent: [SolutionFood, SolutionToolSmall, Clothing]
   id: ClothingHandsBase
   components:
   - type: Sprite
@@ -41,14 +41,12 @@
 
 - type: entity
   abstract: true
-  parent: ClothingHandsBase
+  parent: [ClothingHandsBase, BaseSlicingRefinable]
   id: ClothingHandsButcherable
   components:
-  - type: Butcherable
-    butcheringType: Knife
-    spawned:
+  - type: ToolRefinable
+    refineResult:
     - id: MaterialCloth1
-      amount: 1
   - type: PhysicalComposition # 50% of the amount of cloth you'd obtain upon butchering
     materialComposition:
       Cloth: 50

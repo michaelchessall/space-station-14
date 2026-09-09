@@ -12,6 +12,7 @@ using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Random;
+using Content.Server.Radiation.Systems;
 
 namespace Content.Server.Atmos.EntitySystems;
 
@@ -37,6 +38,7 @@ public sealed partial class AtmosphereSystem
 
     [Dependency] private readonly DecalSystem _decalSystem = default!;
     [Dependency] private readonly IRobustRandom _random = default!;
+    [Dependency] private readonly RadiationSystem _radiation = default!;
 
     /// <summary>
     /// Number of cycles the hotspot system must process before it can play another sound
@@ -337,7 +339,7 @@ public sealed partial class AtmosphereSystem
                 // Smooth lerp toward target intensity (fast rise, slower fall).
                 var lerpRate = targetDistortion > distortion.Intensity ? 0.4f : 0.15f;
                 distortion.Intensity = distortion.Intensity + (targetDistortion - distortion.Intensity) * lerpRate;
-                radSource.Intensity = radIntensity;
+                _radiation.SetIntensity((uid, radSource), radIntensity);
                 despawn.Lifetime = 6f;
                 Dirty(uid, distortion);
                 return;
@@ -349,7 +351,7 @@ public sealed partial class AtmosphereSystem
         var flash = Spawn("ClF3TritiumFlash", coords);
 
         if (TryComp<RadiationSourceComponent>(flash, out var newRadSource))
-            newRadSource.Intensity = radIntensity;
+            _radiation.SetIntensity((flash, newRadSource), radIntensity);
 
         if (TryComp<SingularityDistortionComponent>(flash, out var newDistortion))
         {

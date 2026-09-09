@@ -9,7 +9,7 @@ using Content.Server.Sectors.Systems;
 
 namespace Content.Server.Shuttles.Systems;
 
-public sealed class RadarConsoleSystem : SharedRadarConsoleSystem
+public sealed partial class RadarConsoleSystem : SharedRadarConsoleSystem
 {
     [Dependency] private readonly ShuttleConsoleSystem _console = default!;
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;

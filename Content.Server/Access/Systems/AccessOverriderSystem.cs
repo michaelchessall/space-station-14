@@ -22,7 +22,7 @@ using static Content.Shared.Access.Components.AccessOverriderComponent;
 namespace Content.Server.Access.Systems;
 
 [UsedImplicitly]
-public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
+public sealed partial class AccessOverriderSystem : SharedAccessOverriderSystem
 {
     [Dependency] private readonly UserInterfaceSystem _userInterface = default!;
     [Dependency] private readonly AccessReaderSystem _accessReader = default!;
@@ -32,6 +32,7 @@ public sealed class AccessOverriderSystem : SharedAccessOverriderSystem
     [Dependency] private readonly SharedAudioSystem _audioSystem = default!;
     [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
     [Dependency] private readonly SharedStationSystem _station = default!;
+
     public override void Initialize()
     {
         base.Initialize();

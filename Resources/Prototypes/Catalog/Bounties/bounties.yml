@@ -18,11 +18,9 @@
     name: bounty-item-knife
     amount: 20
     whitelist:
-      components:
-      - Sharp
       tags:
       - UtilityKnife
-
+      - Knife
 
 - type: cargoBounty
   id: BountyMonkeyCube
@@ -160,6 +158,7 @@
     blacklist:
       components:
       - PowerCell
+
 
 - type: cargoBounty
   id: BountyBedsheet

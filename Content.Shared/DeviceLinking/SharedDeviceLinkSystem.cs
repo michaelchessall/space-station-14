@@ -11,14 +11,15 @@ using System.Linq;
 
 namespace Content.Shared.DeviceLinking;
 
-public abstract class SharedDeviceLinkSystem : EntitySystem
+public abstract partial class SharedDeviceLinkSystem : EntitySystem
 {
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly SharedPopupSystem _popupSystem = default!;
-    [Dependency] private readonly ISharedAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly IGameTiming _gameTiming = default!;
+    [Dependency] private SharedPopupSystem _popupSystem = default!;
+    [Dependency] private ISharedAdminLogManager _adminLogger = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private IGameTiming _gameTiming = default!;
     [Dependency] protected readonly PersistentIdentifierSystem Pid = default!;
+
+    [Dependency] private EntityQuery<DeviceLinkSinkComponent> _deviceLinkSinkQuery = default!;
 
     public const string InvokedPort = "link_port";
 
@@ -87,12 +88,11 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
     /// </summary>
     private void OnSourceRemoved(Entity<DeviceLinkSourceComponent> source, ref ComponentRemove args)
     {
-        var query = GetEntityQuery<DeviceLinkSinkComponent>();
         foreach (var sinkId in source.Comp.LinkedPorts.Keys)
         {
             if (!Pid.TryResolveId(source, sinkId, out var sinkEnt))
                 continue;
-            if (query.TryGetComponent(sinkEnt, out var sink))
+            if (_deviceLinkSinkQuery.TryGetComponent(sinkEnt, out var sink))
                 RemoveSinkFromSourceInternal(source, sinkEnt, source, sink);
             else
                 Log.Error($"Device source {ToPrettyString(source)} links to invalid entity: {ToPrettyString(sinkEnt.Owner)}");
@@ -125,7 +125,7 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
         var comp = EnsureComp<DeviceLinkSourceComponent>(uid);
         foreach (var port in ports)
         {
-            if (!_prototypeManager.HasIndex(port))
+            if (!ProtoMan.HasIndex(port))
                 Log.Error($"Attempted to add invalid port {port} to {ToPrettyString(uid)}");
             else
                 comp.Ports.Add(port);
@@ -143,7 +143,7 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
         var comp = EnsureComp<DeviceLinkSinkComponent>(uid);
         foreach (var port in ports)
         {
-            if (!_prototypeManager.HasIndex(port))
+            if (!ProtoMan.HasIndex(port))
                 Log.Error($"Attempted to add invalid port {port} to {ToPrettyString(uid)}");
             else
                 comp.Ports.Add(port);
@@ -167,7 +167,7 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
         var sourcePorts = new List<SourcePortPrototype>();
         foreach (var port in sourceComponent.Ports)
         {
-            sourcePorts.Add(_prototypeManager.Index(port));
+            sourcePorts.Add(ProtoMan.Index(port));
         }
 
         return sourcePorts;
@@ -190,7 +190,7 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
         var sinkPorts = new List<SinkPortPrototype>();
         foreach (var port in sinkComponent.Ports)
         {
-            sinkPorts.Add(_prototypeManager.Index(port));
+            sinkPorts.Add(ProtoMan.Index(port));
         }
 
         return sinkPorts;
@@ -201,7 +201,7 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
     /// </summary>
     public string PortName<TPort>(string port) where TPort : DevicePortPrototype, IPrototype
     {
-        if (!_prototypeManager.TryIndex<TPort>(port, out var proto))
+        if (!ProtoMan.TryIndex<TPort>(port, out var proto))
             return port;
 
         return Loc.GetString(proto.Name);
@@ -323,8 +323,8 @@ public abstract class SharedDeviceLinkSystem : EntitySystem
         RemoveSinkFromSource(sourceUid, sinkUid, sourceComponent);
         foreach (var (source, sink) in links)
         {
-            DebugTools.Assert(_prototypeManager.HasIndex<SourcePortPrototype>(source));
-            DebugTools.Assert(_prototypeManager.HasIndex<SinkPortPrototype>(sink));
+            DebugTools.Assert(ProtoMan.HasIndex<SourcePortPrototype>(source));
+            DebugTools.Assert(ProtoMan.HasIndex<SinkPortPrototype>(sink));
 
             if (!sourceComponent.Ports.Contains(source) || !sinkComponent.Ports.Contains(sink))
                 continue;

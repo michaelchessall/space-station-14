@@ -1,8 +1,8 @@
+using System.Linq;
 using Content.Server.Worldgen.Components;
 using Content.Server.Worldgen.Prototypes;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
-using System.Linq;
 
 namespace Content.Server.Worldgen.Systems.Biomes;
 
@@ -22,53 +22,20 @@ public sealed class BiomeSelectionSystem : BaseWorldSystem
         SubscribeLocalEvent<BiomeSelectionComponent, WorldChunkAddedEvent>(OnWorldChunkAdded);
     }
 
-    /// <summary>
-    /// Gets the biome prototype from its ID while inheriting parent's noise ranges.
-    /// </summary>
-    /// <param name="biomeId"></param>
-    /// <returns></returns>
-    private BiomePrototype GetBiomePrototype(string biomeId)
-    {
-        var biome = _proto.Index<BiomePrototype>(biomeId);
-
-        if (biome.Parents != null)
-            foreach (var parentBiomeID in biome.Parents)
-            {
-                var parentBiome = GetBiomePrototype(parentBiomeID);
-                foreach (var noiseRange in parentBiome.NoiseRanges)
-                    biome.NoiseRanges[noiseRange.Key] = noiseRange.Value;
-            }
-        return biome;
-    }
-
     private void OnWorldChunkAdded(EntityUid uid, BiomeSelectionComponent component, ref WorldChunkAddedEvent args)
     {
-        if (!TryComp<WorldChunkComponent>(args.Chunk, out var chunkComponent))
-            return;
-
-        var biomeProto = GetBiomeForChunk(new Entity<WorldChunkComponent>(args.Chunk, chunkComponent));
-
-        if (biomeProto != null)
-            biomeProto.Apply(args.Chunk, _ser, EntityManager);
-        else
-            Log.Error($"Biome selection ran out of biomes to select? See biomes list: {component.Biomes}");
-    }
-
-    public BiomePrototype? GetBiomeForChunk(Entity<WorldChunkComponent> chunk)
-    {
-        if (!TryComp<BiomeSelectionComponent>(chunk.Comp.Map, out var selection))
-            return null;
-
-        foreach (var biomeId in selection.Biomes)
+        var coords = args.Coords;
+        foreach (var biomeId in component.Biomes)
         {
-            var biome = GetBiomePrototype(biomeId);
-
-            if (!CheckBiomeValidity(chunk.Comp.Map, biome, chunk.Comp.Coordinates))
+            var biome = _proto.Index<BiomePrototype>(biomeId);
+            if (!CheckBiomeValidity(args.Chunk, biome, coords))
                 continue;
 
-            return biome;
+            biome.Apply(args.Chunk, _ser, EntityManager);
+            return;
         }
-        return null;
+
+        Log.Error($"Biome selection ran out of biomes to select? See biomes list: {component.Biomes}");
     }
 
     private void OnBiomeSelectionStartup(EntityUid uid, BiomeSelectionComponent component, ComponentStartup args)
@@ -83,11 +50,11 @@ public sealed class BiomeSelectionSystem : BaseWorldSystem
         component.Biomes = sorted; // my hopes and dreams rely on this being pre-sorted by priority.
     }
 
-    private bool CheckBiomeValidity(EntityUid uid, BiomePrototype biome, Vector2i coords)
+    private bool CheckBiomeValidity(EntityUid chunk, BiomePrototype biome, Vector2i coords)
     {
         foreach (var (noise, ranges) in biome.NoiseRanges)
         {
-            var value = _noiseIdx.Evaluate(uid, noise, coords);
+            var value = _noiseIdx.Evaluate(chunk, noise, coords);
             var anyValid = false;
             foreach (var range in ranges)
             {

@@ -15,15 +15,12 @@ public abstract partial class SharedXenoArtifactSystem
 {
     [Dependency] private readonly EntityTableSystem _entityTable = default!;
 
-    private EntityQuery<XenoArtifactComponent> _xenoArtifactQuery;
-    private EntityQuery<XenoArtifactNodeComponent> _nodeQuery;
+    [Dependency] private EntityQuery<XenoArtifactComponent> _xenoArtifactQuery = default!;
+    [Dependency] private EntityQuery<XenoArtifactNodeComponent> _nodeQuery = default!;
 
     private void InitializeNode()
     {
         SubscribeLocalEvent<XenoArtifactNodeComponent, MapInitEvent>(OnNodeMapInit);
-
-        _xenoArtifactQuery = GetEntityQuery<XenoArtifactComponent>();
-        _nodeQuery = GetEntityQuery<XenoArtifactNodeComponent>();
     }
 
     /// <summary>
@@ -90,7 +87,7 @@ public abstract partial class SharedXenoArtifactSystem
     /// </summary>
     public Entity<XenoArtifactNodeComponent> CreateNode(Entity<XenoArtifactComponent> ent, ProtoId<XenoArchTriggerPrototype> trigger, int depth = 0)
     {
-        var triggerProto = PrototypeManager.Index(trigger);
+        var triggerProto = ProtoMan.Index(trigger);
         return CreateNode(ent, triggerProto, depth);
     }
 

@@ -14,7 +14,7 @@ namespace Content.Shared.Chemistry.EntitySystems;
 /// <summary>
 /// This handles <see cref="SolutionContainerMixerComponent"/>
 /// </summary>
-public abstract class SharedSolutionContainerMixerSystem : EntitySystem
+public abstract partial class SharedSolutionContainerMixerSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;

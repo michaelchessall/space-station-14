@@ -2,6 +2,7 @@ using Content.Shared.Atmos;
 using Content.Shared.Atmos.EntitySystems;
 using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.Components;
+using Content.Shared.Chemistry.Components.SolutionManager;
 using Content.Shared.Chemistry.EntitySystems;
 using Content.Shared.Inventory.Events;
 using BreathToolComponent = Content.Shared.Atmos.Components.BreathToolComponent;
@@ -9,16 +10,16 @@ using InternalsComponent = Content.Shared.Body.Components.InternalsComponent;
 
 namespace Content.Shared.Body.Systems;
 
-public sealed class LungSystem : EntitySystem
+public sealed partial class LungSystem : EntitySystem
 {
-    [Dependency] private readonly SharedAtmosphereSystem _atmos = default!;
-    [Dependency] private readonly SharedInternalsSystem _internals = default!;
-    [Dependency] private readonly SharedSolutionContainerSystem _solutionContainerSystem = default!;
+    [Dependency] private SharedAtmosphereSystem _atmos = default!;
+    [Dependency] private SharedInternalsSystem _internals = default!;
+    [Dependency] private SharedSolutionContainerSystem _solutionContainerSystem = default!;
 
     public override void Initialize()
     {
         base.Initialize();
-        SubscribeLocalEvent<LungComponent, ComponentInit>(OnComponentInit);
+        SubscribeLocalEvent<LungComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<BreathToolComponent, GotEquippedEvent>(OnGotEquipped);
         SubscribeLocalEvent<BreathToolComponent, GotUnequippedEvent>(OnGotUnequipped);
     }
@@ -35,20 +36,18 @@ public sealed class LungSystem : EntitySystem
             return;
         }
 
-        if (TryComp(args.Equipee, out InternalsComponent? internals))
+        if (TryComp(args.EquipTarget, out InternalsComponent? internals))
         {
-            ent.Comp.ConnectedInternalsEntity = args.Equipee;
-            _internals.ConnectBreathTool((args.Equipee, internals), ent);
+            ent.Comp.ConnectedInternalsEntity = args.EquipTarget;
+            _internals.ConnectBreathTool((args.EquipTarget, internals), ent);
         }
     }
 
-    private void OnComponentInit(Entity<LungComponent> entity, ref ComponentInit args)
+    private void OnMapInit(Entity<LungComponent> entity, ref MapInitEvent args)
     {
-        if (_solutionContainerSystem.EnsureSolution(entity.Owner, entity.Comp.SolutionName, out var solution))
-        {
-            solution.MaxVolume = 100.0f;
-            solution.CanReact = false; // No dexalin lungs
-        }
+        _solutionContainerSystem.EnsureSolution(entity.Owner, entity.Comp.SolutionName, out var solution);
+
+        _solutionContainerSystem.SetCanReact(solution, false);
     }
 
     // TODO: JUST METABOLIZE GASES DIRECTLY DON'T CONVERT TO REAGENTS!!! (Needs Metabolism refactor :B)

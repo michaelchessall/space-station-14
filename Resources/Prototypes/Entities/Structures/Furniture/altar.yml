@@ -10,6 +10,8 @@
   - type: Prayable
   - type: Damageable
     damageModifierSet: Wood
+  - type: Injurable
+    damageContainer: StructuralInorganic
   - type: Destructible
     thresholds:
     - trigger:
@@ -63,6 +65,25 @@
   - type: Icon
     sprite: Structures/Furniture/Altars/Gods/nanotrasen.rsi
     state: nanotrasen
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 1
+            max: 5
+          MaterialCloth1:
+            min: 1
+            max: 3
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
   - type: StealTarget
     stealGroup: AltarNanotrasen
   - type: Construction
@@ -197,6 +218,30 @@
   - type: Construction
     graph: AltarGraph
     node: altarFestival
+  - type: Damageable
+    damageModifierSet: Wood
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 15
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: WoodDestroyHeavy
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          MaterialWoodPlank:
+            min: 1
+            max: 5
+          MaterialCloth1:
+            min: 1
+            max: 3
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
+  - type: Tag
+    tags:
+    - Wooden
 
 - type: entity
   id: AltarConvertMaint
@@ -382,6 +427,22 @@
   - type: Icon
     sprite: Structures/Furniture/Altars/Cults/heaven.rsi
     state: full
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 25
+      behaviors:
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+      - !type:SpawnEntitiesBehavior
+        spawn:
+          SheetSteel1:
+            min: 1
+            max: 5
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
   - type: PointLight
     radius: 1.5
     energy: 1

@@ -43,9 +43,9 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     [Dependency] private readonly UserInterfaceSystem _ui = default!;
     [Dependency] private readonly SharedContentEyeSystem _eyeSystem = default!;
     [Dependency] private readonly SectorWeatherSystem _sectorWeather = default!;
-
-    private EntityQuery<MetaDataComponent> _metaQuery;
-    private EntityQuery<TransformComponent> _xformQuery;
+    
+    [Dependency] private EntityQuery<PilotComponent> _pilotQuery = default!;
+    [Dependency] private EntityQuery<TransformComponent> _xformQuery = default!;
 
     private readonly HashSet<Entity<ShuttleConsoleComponent>> _consoles = new();
     private float _navRefreshTimer;
@@ -57,9 +57,6 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
     public override void Initialize()
     {
         base.Initialize();
-
-        _metaQuery = GetEntityQuery<MetaDataComponent>();
-        _xformQuery = GetEntityQuery<TransformComponent>();
 
         SubscribeLocalEvent<ShuttleConsoleComponent, ComponentShutdown>(OnConsoleShutdown);
         SubscribeLocalEvent<ShuttleConsoleComponent, PowerChangedEvent>(OnConsolePowerChange);
@@ -254,7 +251,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
                 Angle = xform.LocalRotation,
                 Entity = GetNetEntity(uid),
                 GridDockedWith =
-                    _xformQuery.TryGetComponent(comp.DockedWith, out var otherDockXform) ?
+                    TryComp(comp.DockedWith, out TransformComponent? otherDockXform) ?
                     GetNetEntity(otherDockXform.GridUid) :
                     null,
                 Color = comp.RadarColor,
@@ -380,7 +377,7 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
         pilotComponent.Console = uid;
         ActionBlockerSystem.UpdateCanMove(entity);
-        pilotComponent.Position = Comp<TransformComponent>(entity).Coordinates;
+        pilotComponent.Position = Transform(entity).Coordinates;
         Dirty(entity, pilotComponent);
     }
 
@@ -416,10 +413,9 @@ public sealed partial class ShuttleConsoleSystem : SharedShuttleConsoleSystem
 
     public void ClearPilots(ShuttleConsoleComponent component)
     {
-        var query = GetEntityQuery<PilotComponent>();
         while (component.SubscribedPilots.TryGetValue(0, out var pilot))
         {
-            if (query.TryGetComponent(pilot, out var pilotComponent))
+            if (_pilotQuery.TryGetComponent(pilot, out var pilotComponent))
                 RemovePilot(pilot, pilotComponent);
         }
     }

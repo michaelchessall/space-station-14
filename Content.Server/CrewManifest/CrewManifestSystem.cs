@@ -14,18 +14,16 @@ using Content.Shared.StationRecords;
 using Robust.Shared.Configuration;
 using Robust.Shared.Console;
 using Robust.Shared.Player;
-using Robust.Shared.Prototypes;
 using System.Linq;
 
 namespace Content.Server.CrewManifest;
 
-public sealed class CrewManifestSystem : EntitySystem
+public sealed partial class CrewManifestSystem : EntitySystem
 {
-    private const string PassengerProtoID = "Passenger";
-    [Dependency] private readonly StationSystem _stationSystem = default!;
-    [Dependency] private readonly EuiManager _euiManager = default!;
-    [Dependency] private readonly IConfigurationManager _configManager = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private StationSystem _stationSystem = default!;
+    [Dependency] private StationRecordsSystem _recordsSystem = default!;
+    [Dependency] private EuiManager _euiManager = default!;
+    [Dependency] private IConfigurationManager _configManager = default!;
 
     /// <summary>
     ///     Cached crew manifest entries. The alternative is to outright
@@ -244,9 +242,11 @@ public sealed class CrewManifestSystem : EntitySystem
             if (!crewRecords.TryGetRecord(name, out var record) || record == null) continue;
             if (!crewAssignments.TryGetAssignment(record.AssignmentID, out var assignment) || assignment == null) continue;
 
-            var entry = new CrewManifestEntry(name, assignment.Name, "JobIconUnknown", "Passenger");
+            var passengerProtoId = "Passenger";
 
-            _prototypeManager.TryIndex(PassengerProtoID, out JobPrototype? job);
+            var entry = new CrewManifestEntry(name, assignment.Name, "JobIconUnknown", passengerProtoId);
+
+            ProtoMan.TryIndex(passengerProtoId, out JobPrototype? job);
             entriesSort.Add((job, entry));
         }
 
@@ -265,9 +265,9 @@ public sealed class CrewManifestSystem : EntitySystem
 }
 
 [AdminCommand(AdminFlags.Admin)]
-public sealed class CrewManifestCommand : LocalizedEntityCommands
+public sealed partial class CrewManifestCommand : LocalizedEntityCommands
 {
-    [Dependency] private readonly CrewManifestSystem _manifestSystem = default!;
+    [Dependency] private CrewManifestSystem _manifestSystem = default!;
 
     public override string Command => "crewmanifest";
 

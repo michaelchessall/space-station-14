@@ -1,8 +1,8 @@
-using Content.Shared.EntityTable;
+﻿using Content.Shared.EntityTable;
+using System.Numerics;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Serialization.Manager;
 using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom.Prototype.Array;
-using System.Numerics;
 
 namespace Content.Server.Worldgen.Prototypes;
 

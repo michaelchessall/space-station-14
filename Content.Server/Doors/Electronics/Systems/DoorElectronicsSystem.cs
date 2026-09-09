@@ -8,7 +8,7 @@ using Robust.Server.GameObjects;
 
 namespace Content.Server.Doors.Electronics;
 
-public sealed class DoorElectronicsSystem : EntitySystem
+public sealed partial class DoorElectronicsSystem : EntitySystem
 {
     [Dependency] private readonly UserInterfaceSystem _uiSystem = default!;
     [Dependency] private readonly AccessReaderSystem _accessReader = default!;

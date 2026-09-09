@@ -9,7 +9,7 @@ using Content.Shared.Tag; // Persistence 14: NoGibTag
 
 namespace Content.Shared.Gibbing;
 
-public sealed class GibbingSystem : EntitySystem
+public sealed partial class GibbingSystem : EntitySystem
 {
     [Dependency] private readonly INetManager _net = default!;
     [Dependency] private readonly IRobustRandom _random = default!;

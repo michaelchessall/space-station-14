@@ -1,25 +1,29 @@
+using System.Linq;
+using Content.IntegrationTests.Fixtures;
 using Content.Server.GameTicking;
 using Content.Shared.CCVar;
 using Robust.Shared.Configuration;
 using Robust.Shared.GameObjects;
-using System.Linq;
 
 namespace Content.IntegrationTests.Tests.GameRules;
 
 [TestFixture]
-public sealed class StartEndGameRulesTest
+public sealed class StartEndGameRulesTest : GameTest
 {
+    public override PoolSettings PoolSettings => new PoolSettings
+    {
+        Dirty = true,
+        DummyTicker = false,
+        Map = PoolManager.TestStation
+    };
+
     /// <summary>
     ///     Tests that all game rules can be added/started/ended at the same time without exceptions.
     /// </summary>
     [Test]
     public async Task TestAllConcurrent()
     {
-        await using var pair = await PoolManager.GetServerClient(new PoolSettings
-        {
-            Dirty = true,
-            DummyTicker = false
-        });
+        var pair = Pair;
         var server = pair.Server;
         await server.WaitIdleAsync();
         var gameTicker = server.ResolveDependency<IEntitySystemManager>().GetEntitySystem<GameTicker>();
@@ -47,7 +51,5 @@ public sealed class StartEndGameRulesTest
             gameTicker.ClearGameRules();
             Assert.That(!gameTicker.GetAddedGameRules().Any());
         });
-
-        await pair.CleanReturnAsync();
     }
 }

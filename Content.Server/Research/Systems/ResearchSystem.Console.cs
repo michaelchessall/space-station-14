@@ -11,7 +11,8 @@ namespace Content.Server.Research.Systems;
 
 public sealed partial class ResearchSystem
 {
-    [Dependency] private readonly EmagSystem _emag = default!;
+    [Dependency] private EmagSystem _emag = default!;
+    [Dependency] private IdentitySystem _identity = default!;
 
     private void InitializeConsole()
     {
@@ -31,7 +32,7 @@ public sealed partial class ResearchSystem
         if (!this.IsPowered(uid, EntityManager))
             return;
 
-        if (!PrototypeManager.TryIndex<TechnologyPrototype>(args.Id, out var technologyPrototype))
+        if (!ProtoMan.TryIndex<TechnologyPrototype>(args.Id, out var technologyPrototype))
             return;
 
         if (TryComp<AccessReaderComponent>(uid, out var access) && !_accessReader.IsAllowed(act, uid, access))
@@ -45,14 +46,12 @@ public sealed partial class ResearchSystem
 
         if (!_emag.CheckFlag(uid, EmagType.Interaction))
         {
-            var getIdentityEvent = new TryGetIdentityShortInfoEvent(uid, act);
-            RaiseLocalEvent(getIdentityEvent);
 
             var message = Loc.GetString(
                 "research-console-unlock-technology-radio-broadcast",
                 ("technology", Loc.GetString(technologyPrototype.Name)),
                 ("amount", technologyPrototype.Cost),
-                ("approver", getIdentityEvent.Title ?? string.Empty)
+                ("approver", _identity.GetIdentityShortInfo(act, uid) ?? string.Empty)
             );
             _radio.SendRadioMessage(uid, message, component.AnnouncementChannel, uid, escapeMarkup: false);
         }

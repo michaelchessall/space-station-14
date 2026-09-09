@@ -1,6 +1,7 @@
 using Content.Shared.Maps;
 using Content.Shared.Procedural;
 using Content.Shared.Procedural.PostGeneration;
+using Robust.Shared.Random;
 using Robust.Shared.Utility;
 using System.Numerics;
 using System.Threading.Tasks;
@@ -12,7 +13,7 @@ public sealed partial class DungeonJob
     /// <summary>
     /// <see cref="MiddleConnectionDunGen"/>
     /// </summary>
-    private async Task PostGen(MiddleConnectionDunGen gen, Dungeon dungeon, HashSet<Vector2i> reservedTiles, Random random)
+    private async Task PostGen(MiddleConnectionDunGen gen, Dungeon dungeon, HashSet<Vector2i> reservedTiles, IRobustRandom random)
     {
         // Grab all of the room bounds
         // Then, work out connections between them

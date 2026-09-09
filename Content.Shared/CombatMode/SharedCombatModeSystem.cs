@@ -8,7 +8,7 @@ using Robust.Shared.Timing;
 
 namespace Content.Shared.CombatMode;
 
-public abstract class SharedCombatModeSystem : EntitySystem
+public abstract partial class SharedCombatModeSystem : EntitySystem
 {
     [Dependency] protected readonly IGameTiming Timing = default!;
     [Dependency] private readonly SharedActionsSystem _actionsSystem = default!;

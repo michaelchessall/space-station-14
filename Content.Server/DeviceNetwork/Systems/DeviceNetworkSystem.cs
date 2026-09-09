@@ -16,13 +16,12 @@ namespace Content.Server.DeviceNetwork.Systems
     ///     Device networking allows machines and devices to communicate with each other while adhering to restrictions like range or being connected to the same powernet.
     /// </summary>
     [UsedImplicitly]
-    public sealed class DeviceNetworkSystem : SharedDeviceNetworkSystem
+    public sealed partial class DeviceNetworkSystem : SharedDeviceNetworkSystem
     {
-        [Dependency] private readonly IRobustRandom _random = default!;
-        [Dependency] private readonly IPrototypeManager _protoMan = default!;
-        [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
-        [Dependency] private readonly DeviceListSystem _deviceLists = default!;
-        [Dependency] private readonly NetworkConfiguratorSystem _configurator = default!;
+        [Dependency] private IRobustRandom _random = default!;
+        [Dependency] private SharedTransformSystem _transformSystem = default!;
+        [Dependency] private DeviceListSystem _deviceLists = default!;
+        [Dependency] private NetworkConfiguratorSystem _configurator = default!;
 
         private readonly Dictionary<int, DeviceNet> _networks = new(4);
         private readonly Queue<DeviceNetworkPacketEvent> _queueA = new();
@@ -108,14 +107,14 @@ namespace Content.Server.DeviceNetwork.Systems
         {
             if (device.ReceiveFrequency == null
                 && device.ReceiveFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
             {
                 device.ReceiveFrequency = receive.Frequency;
             }
 
             if (device.TransmitFrequency == null
                 && device.TransmitFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
             {
                 device.TransmitFrequency = xmit.Frequency;
             }
@@ -128,14 +127,14 @@ namespace Content.Server.DeviceNetwork.Systems
         {
             if (device.ReceiveFrequency == null
                 && device.ReceiveFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.ReceiveFrequencyId, out var receive))
             {
                 device.ReceiveFrequency = receive.Frequency;
             }
 
             if (device.TransmitFrequency == null
                 && device.TransmitFrequencyId != null
-                && _protoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
+                && ProtoMan.TryIndex<DeviceFrequencyPrototype>(device.TransmitFrequencyId, out var xmit))
             {
                 device.TransmitFrequency = xmit.Frequency;
             }

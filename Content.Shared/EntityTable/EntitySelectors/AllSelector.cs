@@ -1,4 +1,5 @@
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 
 namespace Content.Shared.EntityTable.EntitySelectors;
 
@@ -7,10 +8,13 @@ namespace Content.Shared.EntityTable.EntitySelectors;
 /// </summary>
 public sealed partial class AllSelector : EntityTableSelector
 {
+    /// <summary>
+    /// All children selectors to pick from.
+    /// </summary>
     [DataField(required: true)]
     public List<EntityTableSelector> Children;
 
-    protected override IEnumerable<EntProtoId> GetSpawnsImplementation(System.Random rand,
+    protected override IEnumerable<EntProtoId> GetSpawnsImplementation(IRobustRandom rand,
         IEntityManager entMan,
         IPrototypeManager proto,
         EntityTableContext ctx)

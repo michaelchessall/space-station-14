@@ -25,7 +25,7 @@ namespace Content.Shared.Sound;
 /// Will play a sound on various events if the affected entity has a component derived from BaseEmitSoundComponent
 /// </summary>
 [UsedImplicitly]
-public abstract class SharedEmitSoundSystem : EntitySystem
+public abstract partial class SharedEmitSoundSystem : EntitySystem
 {
     [Dependency] protected readonly IGameTiming Timing = default!;
     [Dependency] private readonly INetManager _netMan = default!;

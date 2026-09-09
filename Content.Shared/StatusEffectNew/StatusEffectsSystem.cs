@@ -17,15 +17,13 @@ namespace Content.Shared.StatusEffectNew;
 /// </summary>
 public sealed partial class StatusEffectsSystem : EntitySystem
 {
-    [Dependency] private readonly IComponentFactory _factory = default!;
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedContainerSystem _container = default!;
-    [Dependency] private readonly EntityWhitelistSystem _whitelist = default!;
-    [Dependency] private readonly IPrototypeManager _proto = default!;
-    [Dependency] private readonly SharedJobNetSystem _jobNetSystem = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private SharedContainerSystem _container = default!;
+    [Dependency] private EntityWhitelistSystem _whitelist = default!;
 
-    private EntityQuery<StatusEffectContainerComponent> _containerQuery;
-    private EntityQuery<StatusEffectComponent> _effectQuery;
+    [Dependency] private EntityQuery<StatusEffectContainerComponent> _containerQuery = default!;
+    [Dependency] private EntityQuery<StatusEffectComponent> _effectQuery = default!;
+    [Dependency] private SharedJobNetSystem _jobNetSystem = default!;
 
     public readonly HashSet<string> StatusEffectPrototypes = [];
 
@@ -43,9 +41,6 @@ public sealed partial class StatusEffectsSystem : EntitySystem
         SubscribeLocalEvent<RejuvenateRemovedStatusEffectComponent, StatusEffectRelayedEvent<RejuvenateEvent>>(OnRejuvenate);
 
         SubscribeLocalEvent<PrototypesReloadedEventArgs>(OnPrototypesReloaded);
-
-        _containerQuery = GetEntityQuery<StatusEffectContainerComponent>();
-        _effectQuery = GetEntityQuery<StatusEffectComponent>();
 
         ReloadStatusEffectsCache();
     }
@@ -84,9 +79,9 @@ public sealed partial class StatusEffectsSystem : EntitySystem
     {
         StatusEffectPrototypes.Clear();
 
-        foreach (var ent in _proto.EnumeratePrototypes<EntityPrototype>())
+        foreach (var ent in ProtoMan.EnumeratePrototypes<EntityPrototype>())
         {
-            if (ent.TryGetComponent<StatusEffectComponent>(out _, _factory))
+            if (ent.HasComp<StatusEffectComponent>(Factory))
                 StatusEffectPrototypes.Add(ent.ID);
         }
     }
@@ -172,10 +167,10 @@ public sealed partial class StatusEffectsSystem : EntitySystem
 
     public bool CanAddStatusEffect(EntityUid uid, EntProtoId effectProto)
     {
-        if (!_proto.Resolve(effectProto, out var effectProtoData))
+        if (!ProtoMan.Resolve(effectProto, out var effectProtoData))
             return false;
 
-        if (!effectProtoData.TryGetComponent<StatusEffectComponent>(out var effectProtoComp, Factory))
+        if (!effectProtoData.TryComp<StatusEffectComponent>(out var effectProtoComp, Factory))
             return false;
 
         if (!_whitelist.CheckBoth(uid, effectProtoComp.Blacklist, effectProtoComp.Whitelist))

@@ -14,8 +14,9 @@
     base: wall
   - type: Appearance
   - type: WallReplacementMarker
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: StructuralMetallicStrong
   - type: Destructible
     thresholds:
@@ -131,8 +132,9 @@
     graph: ReinforcedGrille
     defaultTarget: complete
     deconstructionTarget: start
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: PerforatedMetallic
   - type: Electrified
     requirePower: true

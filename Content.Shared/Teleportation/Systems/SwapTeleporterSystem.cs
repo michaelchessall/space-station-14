@@ -19,7 +19,7 @@ namespace Content.Shared.Teleportation.Systems;
 /// <summary>
 /// This handles <see cref="SwapTeleporterComponent"/>
 /// </summary>
-public sealed class SwapTeleporterSystem : EntitySystem
+public sealed partial class SwapTeleporterSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly INetManager _net = default!;
@@ -245,7 +245,7 @@ public sealed class SwapTeleporterSystem : EntitySystem
         if (HasComp<MapGridComponent>(parent) || HasComp<MapComponent>(parent))
             return ent;
 
-        if (!_xformQuery.TryGetComponent(parent, out var parentXform) || parentXform.Anchored)
+        if (!TryComp(parent, out TransformComponent? parentXform) || parentXform.Anchored)
             return ent;
 
         if (!TryComp<PhysicsComponent>(parent, out var body) || body.BodyType == BodyType.Static)

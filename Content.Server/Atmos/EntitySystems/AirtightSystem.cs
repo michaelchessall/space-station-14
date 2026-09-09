@@ -9,7 +9,7 @@ using Robust.Shared.Map.Components;
 namespace Content.Server.Atmos.EntitySystems
 {
     [UsedImplicitly]
-    public sealed class AirtightSystem : EntitySystem
+    public sealed partial class AirtightSystem : EntitySystem
     {
         [Dependency] private readonly SharedTransformSystem _transform = default!;
         [Dependency] private readonly AtmosphereSystem _atmosphereSystem = default!;
@@ -147,7 +147,6 @@ namespace Content.Server.Atmos.EntitySystems
 
         public void InvalidatePosition(Entity<MapGridComponent?> grid, Vector2i pos)
         {
-            var query = GetEntityQuery<AirtightComponent>();
             _explosionSystem.UpdateAirtightMap(grid, pos, grid);
             _atmosphereSystem.InvalidateTile(grid.Owner, pos);
         }

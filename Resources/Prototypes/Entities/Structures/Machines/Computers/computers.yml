@@ -52,6 +52,7 @@
     guides:
     - AtmosphericAlertsComputer
     - DeviceMonitoringAndControl
+  - type: AmbientMusicMarkerEngineering
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -123,8 +124,6 @@
   - type: ShuttleConsole
   - type: ActivatableUI
     key: enum.ShuttleConsoleUiKey.Key
-  - type: ActivatableUIRequiresAccess
-  - type: AccessReader
   - type: UserInterface
     interfaces:
         enum.ShuttleConsoleUiKey.Key:
@@ -132,6 +131,8 @@
         enum.WiresUiKey.Key:
           type: WiresBoundUserInterface
   - type: RadarConsole
+  - type: ActivatableUIRequiresAccess
+  - type: AccessReader
   - type: WorldLoader
     radius: 512
   - type: PointLight
@@ -338,6 +339,7 @@
         type: PowerMonitoringConsoleBoundUserInterface
       enum.WiresUiKey.Key:
         type: WiresBoundUserInterface
+  - type: AmbientMusicMarkerEngineering
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -363,6 +365,7 @@
     color: "#1f8c28"
   - type: Computer
     board: MedicalRecordsComputerCircuitboard
+  - type: AmbientMusicMarkerMedical
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -466,6 +469,7 @@
     receiveFrequencyId: CrewMonitor
   - type: WirelessNetworkConnection
     range: 1200
+  - type: AmbientMusicMarkerMedical
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -647,6 +651,7 @@
     radius: 1.5
     energy: 4.0
     color: "#1f8c28"
+  - type: AmbientMusicMarkerMedical
 
 - type: entity
   parent: BaseComputerAiAccess
@@ -688,8 +693,9 @@
     energy: 4.0
     color: "#3c5eb5"
   - type: Damageable
-    damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong
+  - type: Injurable
+    damageContainer: StructuralInorganic
 
 - type: entity
   parent: ComputerComms
@@ -865,192 +871,6 @@
     color: "#e6e227"
 
 - type: entity
-  id: ComputerGridControl
-  parent: BaseComputerAiAccess
-  name: grid control computer
-  description: Used to prevent a grid from being unclaimed.
-  components:
-  - type: Sprite
-    layers:
-    - map: ["computerLayerBody"]
-      state: computer
-    - map: ["computerLayerKeyboard"]
-      state: generic_keyboard
-    - map: ["computerLayerScreen"]
-      state: comm_syndie
-    - map: ["computerLayerKeys"]
-      state: syndie_key
-    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
-      state: generic_panel_open
-  - type: Computer
-    board: GridControlComputerCircuitboard
-  - type: PointLight
-    radius: 1.5
-    energy: 4.0
-    color: "#f71713"
-  - type: AccessReader
-    access: []
-  - type: GridControlConsole
-  - type: ActivatableUI
-    key: enum.GridControlConsoleUiKey.Key
-  - type: UserInterface
-    interfaces:
-      enum.GridControlConsoleUiKey.Key:
-        type: GridControlConsoleBoundUserInterface
-      enum.WiresUiKey.Key:
-        type: WiresBoundUserInterface
-
-- type: entity
-  id: ComputerMessageBoard
-  parent: BaseComputerAiAccess
-  name: Message Board Console
-  description: Used to communicate across the Sector.
-  components:
-  - type: Sprite
-    layers:
-    - map: ["computerLayerBody"]
-      state: computer
-    - map: ["computerLayerKeyboard"]
-      state: generic_keyboard
-    - map: ["computerLayerScreen"]
-      state: explosive
-    - map: ["computerLayerKeys"]
-      state: generic_keys
-    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
-      state: generic_panel_open
-  - type: MessageBoard
-  - type: ActivatableUI
-    key: enum.MessageBoardUiKey.Main
-  - type: UserInterface
-    interfaces:
-      enum.MessageBoardUiKey.Main:
-        type: MessageBoardBoundUserInterface
-      enum.WiresUiKey.Key:
-        type: WiresBoundUserInterface
-  - type: Computer
-    board: StationModComputerCircuitboard
-  - type: PointLight
-    radius: 1.5
-    energy: 1.6
-    color: "#00FF00"
-
-- type: entity
-  id: ComputerStationModification
-  parent: BaseComputerAiAccess
-  name: faction modification computer
-  description: Used to structure assignments and access.
-  components:
-  - type: Sprite
-    layers:
-    - map: ["computerLayerBody"]
-      state: computer
-    - map: ["computerLayerKeyboard"]
-      state: generic_keyboard
-    - map: ["computerLayerScreen"]
-      state: explosive
-    - map: ["computerLayerKeys"]
-      state: generic_keys
-    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
-      state: generic_panel_open
-  - type: StationModificationConsole
-  - type: ActivatableUI
-    key: enum.StationModUiKey.StationMod
-  - type: UserInterface
-    interfaces:
-      enum.StationModUiKey.StationMod:
-        type: StationModificationConsoleBoundUserInterface
-      enum.WiresUiKey.Key:
-        type: WiresBoundUserInterface
-  - type: Computer
-    board: StationModComputerCircuitboard
-  - type: PointLight
-    radius: 1.5
-    energy: 1.6
-    color: "#00FF00"
-  - type: AccessReader
-    access: []
-
-- type: entity
-  id: ComputerIdPrinter
-  parent: BaseComputerAiAccess
-  name: ID printer computer
-  description: Prints out replacement IDs.
-  components:
-  - type: Sprite
-    layers:
-    - map: ["computerLayerBody"]
-      state: computer
-    - map: ["computerLayerKeyboard"]
-      state: generic_keyboard
-    - map: ["computerLayerScreen"]
-      state: comm_logs
-    - map: ["computerLayerKeys"]
-      state: generic_keys
-    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
-      state: generic_panel_open
-  - type: IdPrinterConsole
-  - type: ActivatableUI
-    key: enum.IdPrinterConsoleUiKey.Key
-  - type: UserInterface
-    interfaces:
-      enum.IdPrinterConsoleUiKey.Key:
-        type: IdPrinterConsoleBoundUserInterface
-      enum.WiresUiKey.Key:
-        type: WiresBoundUserInterface
-  - type: Computer
-    board: IdPrinterCircuitboard
-  - type: PointLight
-    radius: 1.5
-    energy: 1.6
-    color: "#00FF00"
-
-
-- type: entity
-  id: ComputerInvoicePrinter
-  parent: BaseComputerAiAccess
-  name: Invoice printer computer
-  description: Prints out payable invoices.
-  components:
-  - type: Sprite
-    layers:
-    - map: ["computerLayerBody"]
-      state: computer
-    - map: ["computerLayerKeyboard"]
-      state: generic_keyboard
-    - map: ["computerLayerScreen"]
-      state: comm_logs
-    - map: ["computerLayerKeys"]
-      state: generic_keys
-    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
-      state: generic_panel_open
-  - type: InvoicePrinterConsole
-    privilegedIdSlot:
-      name: id-card-console-privileged-id
-      ejectSound: /Audio/Machines/id_swipe.ogg
-      insertSound: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
-      ejectOnBreak: true
-      swap: false
-      whitelist:
-        components:
-        - IdCard
-  - type: ActivatableUI
-    key: enum.InvoicePrinterConsoleUiKey.Key
-  - type: UserInterface
-    interfaces:
-      enum.InvoicePrinterConsoleUiKey.Key:
-        type: InvoicePrinterConsoleBoundUserInterface
-      enum.WiresUiKey.Key:
-        type: WiresBoundUserInterface
-  - type: Computer
-    board: InvoicePrinterCircuitboard
-  - type: PointLight
-    radius: 1.5
-    energy: 1.6
-    color: "#00FF00"
-
-
-
-- type: entity
   id: ComputerCargoOrders
   parent: BaseComputerAiAccess
   name: cargo request computer
@@ -1134,6 +954,7 @@
     color: "#c9c042"
   - type: AccessReader
     access: [["Engineering"]]
+  - type: AmbientMusicMarkerEngineering
 
 - type: entity
   id: ComputerCargoOrdersMedical
@@ -1167,6 +988,7 @@
     color: "#41e0fc"
   - type: AccessReader
     access: [["Medical"]]
+  - type: AmbientMusicMarkerMedical
 
 - type: entity
   id: ComputerCargoOrdersScience
@@ -1389,8 +1211,9 @@
     speechVerb: Robotic
     speechSounds: Pai
   - type: Damageable
-    damageContainer: StructuralInorganic
     damageModifierSet: StructuralMetallicStrong
+  - type: Injurable
+    damageContainer: StructuralInorganic
   - type: GuideHelp
     guides:
     - Cloning

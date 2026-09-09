@@ -170,6 +170,8 @@ food-sequence-cotton-burger-content-plushie-madeline = madeline
 food-sequence-cotton-burger-content-plushie-kamryn = kamryn
 food-sequence-cotton-burger-content-plushie-ian = corgi
 food-sequence-cotton-burger-content-among-pequeno = sus
+food-sequence-cotton-burger-content-plushie-sheep = wooly
+food-sequence-cotton-burger-content-plushie-sheepspace = cosmicwooly
 
 # TACO
 

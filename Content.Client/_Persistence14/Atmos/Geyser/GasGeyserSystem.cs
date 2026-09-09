@@ -62,7 +62,7 @@ public sealed partial class GasGeyserSystem : EntitySystem
 
             if (!_protoMan.TryIndex<GasPrototype>(gas.ToString(), out var gasProto))
                 continue;
-            var color = ParseGasColor(gasProto.Color);
+            var color = gasProto.Color;
             r += color.R * gasMoles;
             g += color.G * gasMoles;
             b += color.B * gasMoles;

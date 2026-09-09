@@ -21,6 +21,9 @@ namespace Content.Client.Access.UI
     public sealed partial class IdCardConsoleWindow : DefaultWindow
     {
         [Dependency] private readonly IConfigurationManager _cfgManager = default!;
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly ILogManager _logManager = default!;
+        private readonly ISawmill _logMill = default!;
 
         private readonly IdCardConsoleBoundUserInterface _owner;
 

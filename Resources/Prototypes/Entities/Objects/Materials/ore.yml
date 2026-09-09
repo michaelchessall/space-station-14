@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: BaseItem
+  parent: MaterialBase
   id: OreBase
   description: A piece of unrefined ore.
   components:
@@ -8,7 +8,6 @@
     sprite: Objects/Materials/ore.rsi
   - type: Item
     sprite: Objects/Materials/ore.rsi
-    size: Normal
   - type: Tag
     tags:
     - Ore
@@ -24,6 +23,8 @@
         restitution: 0.3
         friction: 0.2
 
+# Ores have twice the reagents compared to their smelted forms
+
 - type: entity
   parent: OreBase
   id: GoldOre
@@ -34,18 +35,16 @@
     stackType: GoldOre
   - type: Sprite
     state: gold
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawGold: 100
   - type: Extractable
     grindableSolutionName: goldore
-  - type: SolutionContainerManager
-    solutions:
-      goldore:
-        reagents:
-        - ReagentId: Gold
-          Quantity: 6.5
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Gold
+        Quantity: 6.5
   - type: Item
     heldPrefix: gold
   - type: Tag
@@ -71,18 +70,16 @@
     stackType: DiamondOre
   - type: Sprite
     state: diamond
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawDiamond: 100
   - type: Extractable
     grindableSolutionName: diamondore
-  - type: SolutionContainerManager
-    solutions:
-      diamondore:
-        reagents:
-        - ReagentId: Carbon
-          Quantity: 13
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Carbon
+        Quantity: 13
   - type: Item
     heldPrefix: diamond
 
@@ -104,18 +101,16 @@
     stackType: SteelOre
   - type: Sprite
     state: iron
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawIron: 100
   - type: Extractable
     grindableSolutionName: ironore
-  - type: SolutionContainerManager
-    solutions:
-      ironore:
-        reagents:
-        - ReagentId: Iron
-          Quantity: 6.5
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Iron
+        Quantity: 6.5
   - type: Item
     heldPrefix: iron
 
@@ -137,7 +132,6 @@
     stackType: PlasmaOre
   - type: Sprite
     state: plasma
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawPlasma: 100
@@ -148,12 +142,11 @@
     color: "#e592e7"
   - type: Extractable
     grindableSolutionName: plasmaore
-  - type: SolutionContainerManager
-    solutions:
-      plasmaore:
-        reagents:
-        - ReagentId: Plasma
-          Quantity: 6.5
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Plasma
+        Quantity: 6.5
   - type: Item
     heldPrefix: plasma
   - type: Tag
@@ -179,18 +172,14 @@
     stackType: SilverOre
   - type: Sprite
     state: silver
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawSilver: 100
-  - type: Extractable
-    grindableSolutionName: silverore
-  - type: SolutionContainerManager
-    solutions:
-      silverore:
-        reagents:
-        - ReagentId: Silver
-          Quantity: 6.5
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Silver
+        Quantity: 6.5
   - type: Item
     heldPrefix: silver
   - type: Tag
@@ -216,18 +205,17 @@
     stackType: SpaceQuartz
   - type: Sprite
     state: spacequartz
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawQuartz: 100
   - type: Extractable
-    grindableSolutionName: quartzore
-  - type: SolutionContainerManager
-    solutions:
-      quartzaore:
-        reagents:
-        - ReagentId: Silicon
-          Quantity: 6.5
+    grindableSolutionName: quartz
+  - type: Solution
+    id: quartz
+    solution:
+      reagents:
+      - ReagentId: Silicon
+        Quantity: 10
   - type: Item
     heldPrefix: spacequartz
 
@@ -249,7 +237,6 @@
     stackType: UraniumOre
   - type: Sprite
     state: uranium
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawUranium: 100
@@ -259,16 +246,16 @@
     castShadows: false
     color: "#9be792"
   - type: Extractable
-    grindableSolutionName: uraniumore
-  - type: SolutionContainerManager
-    solutions:
-      uraniumore:
-        reagents:
-        - ReagentId: Uranium
-          Quantity: 5.2
-        - ReagentId: Radium
-          Quantity: 1.3
-        canReact: false
+    grindableSolutionName: uranium
+  - type: Solution
+    id: uranium
+    solution:
+      reagents:
+      - ReagentId: Uranium
+        Quantity: 8
+      - ReagentId: Radium
+        Quantity: 2
+      canReact: false
   - type: Item
     heldPrefix: uranium
   - type: Tag
@@ -294,7 +281,6 @@
     stackType: BananiumOre
   - type: Sprite
     state: bananium
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawBananium: 100
@@ -304,13 +290,17 @@
     castShadows: false
     color: "#eef066"
   - type: Extractable
-    grindableSolutionName: bananiumore
-  - type: SolutionContainerManager
-    solutions:
-      bananiumore:
-        reagents:
-        - ReagentId: Bananium
-          Quantity: 6.5
+    grindableSolutionName: bananium
+  - type: Solution
+    id: bananium
+    solution:
+      reagents:
+      - ReagentId: Nutriment
+        Quantity: 4
+      - ReagentId: Vitamin
+        Quantity: 2
+      - ReagentId: Honk
+        Quantity: 5
   - type: Item
     heldPrefix: bananium
   - type: Tag
@@ -336,23 +326,19 @@
     stackType: Coal
   - type: Sprite
     state: coal
-  - type: Material
-  - type: Extractable
-    grindableSolutionName: coal
-  - type: SolutionContainerManager
-    solutions:
-      coal:
-        reagents:
-        - ReagentId: Carbon
-          Quantity: 8.4
-        - ReagentId: Ammonia
-          Quantity: 0.8
-        - ReagentId: Hydrogen
-          Quantity: 0.5
-        - ReagentId: Sulfur
-          Quantity: 0.2
-        - ReagentId: Mercury
-          Quantity: 0.1
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Carbon
+        Quantity: 8.4
+      - ReagentId: Ammonia
+        Quantity: 0.8
+      - ReagentId: Hydrogen
+        Quantity: 0.5
+      - ReagentId: Sulfur
+        Quantity: 0.2
+      - ReagentId: Mercury
+        Quantity: 0.1
   - type: PhysicalComposition
     materialComposition:
       Coal: 100
@@ -410,13 +396,13 @@
     materialComposition:
       RawAluminum: 100
   - type: Extractable
-    grindableSolutionName: aluminumore
-  - type: SolutionContainerManager
-    solutions:
-      aluminumore:
-        reagents:
-        - ReagentId: Aluminium
-          Quantity: 6.5
+    grindableSolutionName: aluminum
+  - type: Solution
+    id: aluminum
+    solution:
+      reagents:
+      - ReagentId: Aluminium
+        Quantity: 6.5
   - type: Item
     heldPrefix: aluminum
   - type: Tag
@@ -446,13 +432,13 @@
     materialComposition:
       RawCopper: 100
   - type: Extractable
-    grindableSolutionName: copperore
-  - type: SolutionContainerManager
-    solutions:
-      copperore:
-        reagents:
-        - ReagentId: Copper
-          Quantity: 6.5
+    grindableSolutionName: copper
+  - type: Solution
+    id: copper
+    solution:
+      reagents:
+      - ReagentId: Copper
+        Quantity: 6.5
   - type: Item
     heldPrefix: copper
   - type: Tag
@@ -482,13 +468,13 @@
     materialComposition:
       RawTin: 100
   - type: Extractable
-    grindableSolutionName: tinore
-  - type: SolutionContainerManager
-    solutions:
-      tinore:
-        reagents:
-        - ReagentId: Tin
-          Quantity: 10
+    grindableSolutionName: tin
+  - type: Solution
+    id: tin
+    solution:
+      reagents:
+      - ReagentId: Tin
+        Quantity: 10
   - type: Item
     heldPrefix: tin
   - type: Tag
@@ -518,13 +504,13 @@
     materialComposition:
       RawTitanium: 100
   - type: Extractable
-    grindableSolutionName: titaniumore
-  - type: SolutionContainerManager
-    solutions:
-      titaniumore:
-        reagents:
-        - ReagentId: Titanium
-          Quantity: 6.5
+    grindableSolutionName: titanium
+  - type: Solution
+    id: titanium
+    solution:
+      reagents:
+      - ReagentId: Titanium
+        Quantity: 6.5
   - type: Item
     heldPrefix: titanium
   - type: Tag
@@ -550,20 +536,16 @@
     stackType: SaltOre
   - type: Sprite
     state: salt
-  - type: Material
   - type: PhysicalComposition
     materialComposition:
       RawSalt: 100
-  - type: Extractable
-    grindableSolutionName: saltore
-  - type: SolutionContainerManager
-    solutions:
-      saltore:
-        reagents:
-        - ReagentId: TableSalt
-          Quantity: 10
-        - ReagentId: Iodine
-          Quantity: 5
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: TableSalt
+        Quantity: 9.99
+      - ReagentId: Iodine
+        Quantity: 0.01
   - type: Item
     heldPrefix: salt
 
@@ -574,4 +556,3 @@
   components:
   - type: Stack
     count: 1
-

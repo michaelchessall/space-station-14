@@ -17,6 +17,7 @@
     lifetime: 90
   - type: Clickable
   - type: Damageable
+  - type: Injurable
     damageContainer: Inorganic
   - type: Destructible
     thresholds:
@@ -187,7 +188,7 @@
       enabled: true
       radius: 1
       color: blue
-    - type: Damageable
+    - type: Injurable
       damageContainer: Inorganic
     - type: Destructible
       thresholds:
@@ -229,7 +230,7 @@
       enabled: true
       radius: 1
       color: red
-    - type: Damageable
+    - type: Injurable
       damageContainer: Inorganic
     - type: Destructible
       thresholds:
@@ -271,7 +272,7 @@
       enabled: true
       radius: 1
       color: blue
-    - type: Damageable
+    - type: Injurable
       damageContainer: Inorganic
     - type: Destructible
       thresholds:
@@ -313,7 +314,7 @@
       enabled: true
       radius: 1
       color: blue
-    - type: Damageable
+    - type: Injurable
       damageContainer: Inorganic
     - type: Destructible
       thresholds:
@@ -355,7 +356,7 @@
       enabled: true
       radius: 1
       color: blue
-    - type: Damageable
+    - type: Injurable
       damageContainer: Inorganic
     - type: Destructible
       thresholds:

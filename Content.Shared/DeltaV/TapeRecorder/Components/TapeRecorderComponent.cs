@@ -21,7 +21,7 @@ public sealed partial class TapeRecorderComponent : Component
     /// Paper that will spawn when printing transcript
     /// </summary>
     [DataField]
-    public EntProtoId PaperPrototype = "TapeRecorderTranscript";
+    public EntProtoId PaperPrototype = "Paper";
 
     /// <summary>
     /// How fast can this tape recorder rewind

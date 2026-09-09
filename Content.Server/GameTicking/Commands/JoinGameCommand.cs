@@ -11,8 +11,13 @@ using Robust.Shared.Prototypes;
 namespace Content.Server.GameTicking.Commands
 {
     [AnyCommand]
-    sealed class JoinGameCommand : IConsoleCommand
+    sealed partial class JoinGameCommand : IConsoleCommand
     {
+        [Dependency] private IEntityManager _entManager = default!;
+        [Dependency] private IPrototypeManager _prototypeManager = default!;
+        [Dependency] private IAdminManager _adminManager = default!;
+        [Dependency] private IConfigurationManager _cfg = default!;
+        [Dependency] private ILogManager _logManager = default!;
 
 
         public string Command => "joingame";

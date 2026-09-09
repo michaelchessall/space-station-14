@@ -7,6 +7,7 @@
   <ItemGroup>
     <PackageReference Include="JetBrains.Annotations" PrivateAssets="All" />
     <PackageReference Include="YamlDotNet" />
+    <PackageReference Include="System.Numerics.Tensors" />
   </ItemGroup>
 
   <Import Project="..\RobustToolbox\Imports\Lidgren.props" />
@@ -18,4 +19,5 @@
 
   <Import Project="..\RobustToolbox\MSBuild\Robust.Properties.targets" />
   <Import Project="..\RobustToolbox\MSBuild\Robust.CompNetworkGenerator.targets" />
+  <Import Project="..\RobustToolbox\MSBuild\Robust.EntitySystemSubscriptionsGenerator.targets" />
 </Project>

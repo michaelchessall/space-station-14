@@ -1,0 +1,249 @@
+- type: entity
+  id: ComputerGridControl
+  parent: BaseComputerAiAccess
+  name: grid control computer
+  description: Used to prevent a grid from being unclaimed.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_syndie
+    - map: ["computerLayerKeys"]
+      state: syndie_key
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: Computer
+    board: GridControlComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 4.0
+    color: "#f71713"
+  - type: AccessReader
+    access: []
+  - type: GridControlConsole
+  - type: ActivatableUI
+    key: enum.GridControlConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.GridControlConsoleUiKey.Key:
+        type: GridControlConsoleBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+
+- type: entity
+  id: ComputerMessageBoard
+  parent: BaseComputerAiAccess
+  name: Message Board Console
+  description: Used to communicate across the Sector.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: explosive
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: MessageBoard
+  - type: ActivatableUI
+    key: enum.MessageBoardUiKey.Main
+  - type: UserInterface
+    interfaces:
+      enum.MessageBoardUiKey.Main:
+        type: MessageBoardBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: Computer
+    board: StationModComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#00FF00"
+
+- type: entity
+  id: ComputerStationModification
+  parent: BaseComputerAiAccess
+  name: faction modification computer
+  description: Used to structure assignments and access.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: explosive
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: StationModificationConsole
+  - type: ActivatableUI
+    key: enum.StationModUiKey.StationMod
+  - type: UserInterface
+    interfaces:
+      enum.StationModUiKey.StationMod:
+        type: StationModificationConsoleBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: Computer
+    board: StationModComputerCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#00FF00"
+  - type: AccessReader
+    access: []
+
+- type: entity
+  id: ComputerIdPrinter
+  parent: BaseComputerAiAccess
+  name: ID printer computer
+  description: Prints out replacement IDs.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_logs
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: IdPrinterConsole
+  - type: ActivatableUI
+    key: enum.IdPrinterConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.IdPrinterConsoleUiKey.Key:
+        type: IdPrinterConsoleBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: Computer
+    board: IdPrinterCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#00FF00"
+
+
+- type: entity
+  id: ComputerInvoicePrinter
+  parent: BaseComputerAiAccess
+  name: Invoice printer computer
+  description: Prints out payable invoices.
+  components:
+  - type: Sprite
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: comm_logs
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: InvoicePrinterConsole
+    privilegedIdSlot:
+      name: id-card-console-privileged-id
+      ejectSound: /Audio/Machines/id_swipe.ogg
+      insertSound: /Audio/Weapons/Guns/MagIn/batrifle_magin.ogg
+      ejectOnBreak: true
+      swap: false
+      whitelist:
+        components:
+        - IdCard
+  - type: ActivatableUI
+    key: enum.InvoicePrinterConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.InvoicePrinterConsoleUiKey.Key:
+        type: InvoicePrinterConsoleBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: Computer
+    board: InvoicePrinterCircuitboard
+  - type: PointLight
+    radius: 1.5
+    energy: 1.6
+    color: "#00FF00"
+
+# Requisitions Console — a staff-run ordering terminal that links to nearby printing machines
+# (lathes / flatpackers) and prints a whole cart in one go. A second, access-gated tab lets an operator set
+# raw-material prices and fees. It's a computer: built from a printed computer board (see
+# _Persistence14/Entities/Objects/Devices/Circuitboards/requisitions_console_board.yml), unlocked by the
+# Tier 2 "Requisitions Logistics" research. Being a computer, it rotates while unanchored for free.
+- type: entity
+  id: MachineRequisitionsConsole
+  parent: BaseComputer
+  name: requisitions console
+  description: A staff-run ordering terminal. Links to nearby fabricators and prints a whole cart of items at once, for a price.
+  components:
+  # Built from a printed computer board via the shared Computer construction graph.
+  - type: Computer
+    board: RequisitionsConsoleCircuitboard
+  # Standard computer sprite; the "request" screen suits an ordering terminal.
+  - type: Sprite
+    sprite: Structures/Machines/computers.rsi
+    layers:
+    - map: ["computerLayerBody"]
+      state: computer
+    - map: ["computerLayerKeyboard"]
+      state: generic_keyboard
+    - map: ["computerLayerScreen"]
+      state: request
+    - map: ["computerLayerKeys"]
+      state: generic_keys
+    - map: [ "enum.WiresVisualLayers.MaintenancePanel" ]
+      state: generic_panel_open
+  - type: RequisitionsConsole
+    range: 10
+    # Fallback price used for any linked material not listed below.
+    fallbackMaterialPrice: 700
+    # Default per-sheet prices, applied automatically the first time a material becomes priceable.
+    # Derived from cargo crate costs; rounded to whole spesos since the price is a per-sheet integer.
+    defaultMaterialPrices:
+      Paper: 1        # ~1.23/sheet
+      Cardboard: 4    # ~3.67/piece
+      Steel: 15
+      Glass: 15
+      Cloth: 17       # ~16.67/piece
+      Plastic: 20
+      Brass: 30
+      Plasteel: 38
+      Silver: 86      # per bar
+      Plasma: 100
+      Gold: 108       # ~107.5/bar
+  # Lets customers hand over their own sheets to lower the bill at checkout.
+  - type: MaterialStorage
+    whitelist:
+      tags:
+      - Sheet
+      - RawMaterial
+      - Ingot
+  # Faction-aware gating for the whole console. Empty by default => open until configured with an Access Overrider.
+  - type: AccessReader
+  - type: ActivatableUI
+    key: enum.RequisitionsConsoleUiKey.Key
+  - type: UserInterface
+    interfaces:
+      enum.RequisitionsConsoleUiKey.Key:
+        type: RequisitionsConsoleBoundUserInterface
+      enum.WiresUiKey.Key:
+        type: WiresBoundUserInterface
+  - type: StaticPrice
+    price: 400

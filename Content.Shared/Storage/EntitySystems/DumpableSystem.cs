@@ -1,33 +1,33 @@
 using Content.Shared.DoAfter;
 using Content.Shared.Interaction;
 using Content.Shared.Item;
+using Content.Shared.Random.Helpers;
 using Content.Shared.Storage.Components;
 using Content.Shared.Verbs;
 using Content.Shared.Whitelist;
 using Robust.Shared.Audio.Systems;
-using Robust.Shared.Prototypes;
+using Robust.Shared.Timing;
 using Robust.Shared.Random;
 using Robust.Shared.Utility;
 using System.Linq;
 
 namespace Content.Shared.Storage.EntitySystems;
 
-public sealed class DumpableSystem : EntitySystem
+public sealed partial class DumpableSystem : EntitySystem
 {
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly IRobustRandom _random = default!;
-    [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] private SharedTransformSystem _transformSystem = default!;
 
-    private EntityQuery<ItemComponent> _itemQuery;
+    [Dependency] private EntityQuery<ItemComponent> _itemQuery = default!;
 
     public override void Initialize()
     {
         base.Initialize();
-        _itemQuery = GetEntityQuery<ItemComponent>();
-        SubscribeLocalEvent<DumpableComponent, AfterInteractEvent>(OnAfterInteract, before: new[] { typeof(SharedStorageSystem) }, after: new[] { typeof(SharedEntityStorageSystem) });
+
+        SubscribeLocalEvent<DumpableComponent, AfterInteractEvent>(OnAfterInteract, after: new[]{ typeof(SharedEntityStorageSystem) });
         SubscribeLocalEvent<DumpableComponent, GetVerbsEvent<AlternativeVerb>>(AddDumpVerb);
         SubscribeLocalEvent<DumpableComponent, GetVerbsEvent<UtilityVerb>>(AddUtilityVerbs);
         SubscribeLocalEvent<DumpableComponent, DumpableDoAfterEvent>(OnDoAfter);
@@ -117,7 +117,7 @@ public sealed class DumpableSystem : EntitySystem
         foreach (var entity in storage.Container.ContainedEntities)
         {
             if (!_itemQuery.TryGetComponent(entity, out var itemComp) ||
-                !_prototypeManager.Resolve(itemComp.Size, out var itemSize))
+                !ProtoMan.Resolve(itemComp.Size, out var itemSize))
             {
                 continue;
             }
@@ -139,7 +139,8 @@ public sealed class DumpableSystem : EntitySystem
         if (args.Handled || args.Cancelled || !TryComp<StorageComponent>(uid, out var storage) || storage.Container.ContainedEntities.Count == 0 || args.Args.Target is not { } target)
             return;
 
-        var dumpQueue = new Queue<EntityUid>(storage.Container.ContainedEntities);
+        // TODO: Remove OrderBy when this issue is fixed in RT https://github.com/space-wizards/RobustToolbox/issues/6241
+        var dumpQueue = new Queue<EntityUid>(storage.Container.ContainedEntities.OrderBy(e => GetNetEntity(e)));
 
         var evt = new DumpEvent(dumpQueue, args.Args.User, false, false);
         RaiseLocalEvent(target, ref evt);
@@ -151,7 +152,8 @@ public sealed class DumpableSystem : EntitySystem
             foreach (var entity in dumpQueue)
             {
                 var transform = Transform(entity);
-                _transformSystem.SetWorldPositionRotation(entity, targetPos + _random.NextVector2Box() / 4, _random.NextAngle(), transform);
+                var rand = SharedRandomExtensions.PredictedRandom(_timing, GetNetEntity(entity));
+                _transformSystem.SetWorldPositionRotation(entity, targetPos + rand.NextVector2Box() / 4, rand.NextAngle(), transform);
             }
 
             return;

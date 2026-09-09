@@ -1,5 +1,6 @@
 using Content.Server.Administration.Logs;
 using Content.Server.Chat.Systems;
+using Content.Server.Mapping;
 using Content.Server.Persistence.Systems;
 using Content.Server.Popups;
 using Content.Server.Shuttles.Systems;
@@ -27,16 +28,16 @@ namespace Content.Server.GridControl.Systems;
 
 public sealed partial class BluespaceParkingSystem : SharedBluespaceParkingSystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-    [Dependency] private readonly PersistenceSystem _persistence = default!;
-    [Dependency] private readonly IResourceManager _resMan = default!;
-    [Dependency] private readonly IMapManager _mapManager = default!;
-    [Dependency] private readonly MetaDataSystem _meta = default!;
-    [Dependency] private readonly PopupSystem _popup = default!;
-    [Dependency] private readonly ChatSystem _chat = default!;
-    [Dependency] private readonly DockingSystem _dock = default!;
-    [Dependency] private readonly IAdminLogManager _adminLog = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private SharedAudioSystem _audio = default!;
+    [Dependency] private PersistenceSystem _persistence = default!;
+    [Dependency] private IResourceManager _resMan = default!;
+    [Dependency] private MetaDataSystem _meta = default!;
+    [Dependency] private PopupSystem _popup = default!;
+    [Dependency] private ChatSystem _chat = default!;
+    [Dependency] private DockingSystem _dock = default!;
+    [Dependency] private IAdminLogManager _adminLog = default!;
+    [Dependency] private SharedMapSystem _mapping = default!;
 
     [GeneratedRegex("[^a-zA-Z0-9 -]")]
     private static partial Regex SafeGridNameRgx();
@@ -371,7 +372,7 @@ public sealed partial class BluespaceParkingSystem : SharedBluespaceParkingSyste
 
             // Try Docking
             var mapCoordinates = new MapCoordinates(unparkingState.Origin, mapId);
-            if (_mapManager.TryFindGridAt(mapCoordinates, out var otherGridUid, out var otherGrid))
+            if (_mapping.TryFindGridAt(mapCoordinates, out var otherGridUid, out var otherGrid))
             {
                 Timer.Spawn(20, () =>
                 {
@@ -443,7 +444,9 @@ public sealed partial class BluespaceParkingSystem : SharedBluespaceParkingSyste
             var box2Rot = new Box2Rotated(box2, angle, finalCoords.Position).Enlarged(-0.5f);
 
             // This doesn't stop it from spawning on top of random things in space
-            if (_mapManager.FindGridsIntersecting(finalCoords.MapId, box2Rot).Any())
+            var grids = new List<Entity<MapGridComponent>>();
+            _mapping.FindGridsIntersecting(finalCoords.MapId, box2Rot, ref grids);
+            if (grids.Any())
             {
                 // Bump it further and further just in case.
                 var fraction = (float)(i + 1) / maxIterations;

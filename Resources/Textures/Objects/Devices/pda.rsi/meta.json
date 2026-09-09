@@ -14,10 +14,6 @@
             "name": "id_overlay_wide"
         },
         {
-            "name": "equipped-BELT",
-            "directions": 4
-        },
-        {
             "name": "inhand-left",
             "directions": 4
         },
@@ -255,11 +251,7 @@
                 ]
             ]
         },
-        {
-            "name": "equipped-IDCARD",
-            "directions": 4
-        },
-	{
+	    {
             "name": "pda-exec-SOL"
         },
         {

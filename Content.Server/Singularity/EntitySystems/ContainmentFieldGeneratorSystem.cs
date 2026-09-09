@@ -17,15 +17,16 @@ using Robust.Shared.Physics.Events;
 
 namespace Content.Server.Singularity.EntitySystems;
 
-public sealed class ContainmentFieldGeneratorSystem : EntitySystem
+public sealed partial class ContainmentFieldGeneratorSystem : EntitySystem
 {
-    [Dependency] private readonly IAdminLogManager _adminLogger = default!;
-    [Dependency] private readonly AppearanceSystem _visualizer = default!;
-    [Dependency] private readonly PhysicsSystem _physics = default!;
-    [Dependency] private readonly PopupSystem _popupSystem = default!;
-    [Dependency] private readonly SharedPointLightSystem _light = default!;
-    [Dependency] private readonly SharedTransformSystem _transformSystem = default!;
-    [Dependency] private readonly TagSystem _tags = default!;
+    [Dependency] private IAdminLogManager _adminLogger = default!;
+    [Dependency] private AppearanceSystem _visualizer = default!;
+    [Dependency] private PhysicsSystem _physics = default!;
+    [Dependency] private PopupSystem _popupSystem = default!;
+    [Dependency] private SharedPointLightSystem _light = default!;
+    [Dependency] private SharedTransformSystem _transformSystem = default!;
+    [Dependency] private TagSystem _tags = default!;
+    [Dependency] private EntityQuery<ContainmentFieldGeneratorComponent> _genQuery = default!;
 
     private bool _pendingConnectionRebuild;
 
@@ -138,7 +139,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
             var generatorEnt = new Entity<ContainmentFieldGeneratorComponent>(genUid, gen);
             for (var i = 0; i < directions - 1; i += 2)
             {
-                var dir = (Direction) i;
+                var dir = (Direction)i;
 
                 if (gen.Connections.ContainsKey(dir))
                     continue;
@@ -235,7 +236,7 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
         var directions = Enum.GetValues<Direction>().Length;
         for (var i = 0; i < directions - 1; i += 2)
         {
-            var dir = (Direction) i;
+            var dir = (Direction)i;
 
             if (component.Connections.ContainsKey(dir))
                 continue;
@@ -389,13 +390,12 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
 
         var ray = new CollisionRay(worldPosition, dirRad.ToVec(), component.CollisionMask);
         var rayCastResults = _physics.IntersectRay(gen1XForm.MapID, ray, component.MaxLength, generator, false);
-        var genQuery = GetEntityQuery<ContainmentFieldGeneratorComponent>();
 
         RayCastResults? closestResult = null;
 
         foreach (var result in rayCastResults)
         {
-            if (genQuery.HasComponent(result.HitEntity))
+            if (_genQuery.HasComponent(result.HitEntity))
             {
                 closestResult = result;
                 break;
@@ -524,12 +524,10 @@ public sealed class ContainmentFieldGeneratorSystem : EntitySystem
     /// </summary>
     public void GridCheck(Entity<ContainmentFieldGeneratorComponent> generator)
     {
-        var xFormQuery = GetEntityQuery<TransformComponent>();
-
         foreach (var (_, generators) in generator.Comp.Connections)
         {
-            var gen1ParentGrid = xFormQuery.GetComponent(generator).ParentUid;
-            var gent2ParentGrid = xFormQuery.GetComponent(generators.Item1).ParentUid;
+            var gen1ParentGrid = Transform(generator).ParentUid;
+            var gent2ParentGrid = Transform(generators.Item1).ParentUid;
 
             if (gen1ParentGrid != gent2ParentGrid)
                 RemoveConnections(generator);

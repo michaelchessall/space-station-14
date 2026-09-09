@@ -12,7 +12,7 @@ namespace Content.Server.Solar.EntitySystems
     ///     Responsible for maintaining the solar-panel sun angle and updating <see cref='SolarPanelComponent'/> coverage.
     /// </summary>
     [UsedImplicitly]
-    internal sealed class PowerSolarSystem : EntitySystem
+    internal sealed partial class PowerSolarSystem : EntitySystem
     {
         [Dependency] private readonly SharedPhysicsSystem _physicsSystem = default!;
         [Dependency] private readonly SharedTransformSystem _transformSystem = default!;

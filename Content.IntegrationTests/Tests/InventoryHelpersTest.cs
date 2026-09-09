@@ -1,3 +1,4 @@
+using Content.IntegrationTests.Fixtures;
 using Content.Server.Stunnable;
 using Content.Shared.Inventory;
 using Robust.Shared.GameObjects;
@@ -6,7 +7,7 @@ using Robust.Shared.Map;
 namespace Content.IntegrationTests.Tests
 {
     [TestFixture]
-    public sealed class InventoryHelpersTest
+    public sealed class InventoryHelpersTest : GameTest
     {
         [TestPrototypes]
         private const string Prototypes = @"
@@ -38,7 +39,7 @@ namespace Content.IntegrationTests.Tests
         [Test]
         public async Task SpawnItemInSlotTest()
         {
-            await using var pair = await PoolManager.GetServerClient();
+            var pair = Pair;
             var server = pair.Server;
 
             var sEntities = server.ResolveDependency<IEntityManager>();
@@ -86,8 +87,6 @@ namespace Content.IntegrationTests.Tests
 #pragma warning restore NUnit2045
                 sEntities.DeleteEntity(human);
             });
-
-            await pair.CleanReturnAsync();
         }
     }
 }

@@ -1,9 +1,9 @@
+using System.Linq;
 using Content.Server.Worldgen.Components.Debris;
 using Content.Shared.Maps;
 using Robust.Shared.Map;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Random;
-using System.Linq;
 
 namespace Content.Server.Worldgen.Systems.Debris;
 
@@ -27,7 +27,6 @@ public sealed class BlobFloorPlanBuilderSystem : BaseWorldSystem
         ComponentStartup args)
     {
         PlaceFloorplanTiles(uid, component, Comp<MapGridComponent>(uid));
-        RemCompDeferred<BlobFloorPlanBuilderComponent>(uid);
     }
 
     private void PlaceFloorplanTiles(EntityUid gridUid, BlobFloorPlanBuilderComponent comp, MapGridComponent grid)
@@ -61,7 +60,7 @@ public sealed class BlobFloorPlanBuilderSystem : BaseWorldSystem
                 spawnPoints.Add(west);
 
             var tileDef = _tileDefinition[_random.Pick(comp.FloorTileset)];
-            taken.Add(point, new Tile(tileDef.TileId, 0, _tiles.PickVariant((ContentTileDefinition)tileDef)));
+            taken.Add(point, new Tile(tileDef.TileId, 0, _tiles.PickVariant((ContentTileDefinition) tileDef)));
         }
 
         PlaceTile(Vector2i.Zero);

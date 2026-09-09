@@ -131,8 +131,9 @@
     solution: pack
   - type: RefillableSolution
     solution: pack
-  - type: Damageable
+  - type: Injurable
     damageContainer: Inorganic
+  - type: Damageable
     damageModifierSet: Glass
   - type: DamageOnHighSpeedImpact
     minimumSpeed: 2

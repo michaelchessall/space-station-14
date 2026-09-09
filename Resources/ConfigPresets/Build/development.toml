@@ -7,6 +7,7 @@ role_timers = false
 admin_job_tracking = true
 role_loadout_timers = false
 autosaveenabled = false # only save when asked
+new_character_jobs = "Passenger, Captain"
 
 [events]
 enabled = false
@@ -38,7 +39,11 @@ emergency = false
 arrivals = false
 preload_grids = false
 
+[afk]
+time = 0
+
 [admin]
+afk_time = 0
 see_own_notes = true
 new_player_threshold = 120
 
@@ -55,3 +60,7 @@ pg_port = 5432
 pg_database = "ss14"
 pg_username = "postgres"
 pg_password = "postgres"
+
+[net]
+max_rapid_connections = 413
+max_ip_connections = 413

@@ -10,7 +10,7 @@ namespace Content.Shared.Jittering
     /// <summary>
     ///     A system for applying a jitter animation to any entity.
     /// </summary>
-    public abstract class SharedJitteringSystem : EntitySystem
+    public abstract partial class SharedJitteringSystem : EntitySystem
     {
         [Dependency] protected readonly IGameTiming GameTiming = default!;
         [Dependency] protected readonly StatusEffectsSystem StatusEffects = default!;

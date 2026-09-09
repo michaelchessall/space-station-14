@@ -5,6 +5,7 @@
   description: A place that has fire. Cozy!
   components:
   - type: Sprite
+    noRot: true
     sprite: Structures/Decoration/fireplace.rsi
     layers:
       - state: fireplace
@@ -15,9 +16,6 @@
         shader: unshaded
       - state: fireplace_glow
         shader: unshaded
-  - type: Icon
-    sprite: Structures/Decoration/fireplace.rsi
-    state: "icon"
   - type: Appearance
   - type: HolidayVisuals
     holidays:
@@ -38,16 +36,17 @@
     energy: 3
     color: "#FF6F00"
   - type: Damageable
-    damageContainer: StructuralInorganic
     damageModifierSet: Metallic
+  - type: Injurable
+    damageContainer: StructuralInorganic
   - type: Destructible
     thresholds:
-      - trigger:
-          !type:DamageTrigger
-          damage: 200
-        behaviors:
-          - !type:DoActsBehavior
-            acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+      - !type:DoActsBehavior
+        acts: [ "Destruction" ]
   - type: AlwaysHot
   - type: Construction
     graph: Fireplace
@@ -65,9 +64,6 @@
   - type: Sprite
     sprite: Structures/Decoration/fireplace.rsi
     state: fireplace
-  - type: Icon
-    sprite: Structures/Decoration/fireplace.rsi
-    state: "icon"
   - type: Appearance
   - type: HolidayVisuals
     holidays:
@@ -78,8 +74,9 @@
       enum.HolidayVisuals.Holiday:
         christmas:
           festive: { visible: true }
-  - type: Damageable
+  - type: Injurable
     damageContainer: StructuralInorganic
+  - type: Damageable
     damageModifierSet: Metallic
   - type: Destructible
     thresholds:

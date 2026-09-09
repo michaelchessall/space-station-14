@@ -114,7 +114,7 @@ public sealed partial class ReloadGunOperator : HTNOperator
                 TryRevolverReload(gun.Owner, owner, gunSystem, inventory, whitelistSystem);
 
             if (_entManager.TryGetComponent<WieldableComponent>(gun.Owner, out var rewieldable))
-                wieldSystem.TryWield(gun.Owner, rewieldable, owner);
+                wieldSystem.TryWield(gun.Owner, owner);
 
             return HTNOperatorStatus.Finished;
         }
@@ -138,7 +138,7 @@ public sealed partial class ReloadGunOperator : HTNOperator
             return HTNOperatorStatus.Finished;
         }
 
-        wieldSystem.TryUnwield(gun.Owner, wieldable!, owner);
+        wieldSystem.TryUnwield(gun.Owner, owner);
         blackboard.SetValue(PendingRewieldKey, true);
         return HTNOperatorStatus.Continuing;
     }
