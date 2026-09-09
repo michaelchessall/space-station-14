@@ -229,7 +229,7 @@
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
-        time: 15
+        time: 15 #reduced from 16 new for persistence 14
         type: Add
 
 - type: reagent
@@ -289,7 +289,7 @@
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
         type: Add
-        time: 20
+        time: 20 #increased from 5 to 20 for persistence 14, this is lsd analog after all
 
 - type: reagent
   id: Bananadine
