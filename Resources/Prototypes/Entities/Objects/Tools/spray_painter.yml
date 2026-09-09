@@ -99,3 +99,6 @@
       Plastic: 20
   - type: StaticPrice
     price: 30
+  - type: Tag # Persistence: add construction bag
+    tags:
+    - ConstructionMaterial

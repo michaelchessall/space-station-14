@@ -2601,6 +2601,11 @@
   id: OreBag
   result: OreBag
 
+- type: latheRecipe #Persistence: add construction bag
+  parent: BaseBeltsClothingRecipe
+  id: ConstructionBag
+  result: ConstructionBag
+
 - type: latheRecipe
   parent: BaseBeltsClothingRecipe
   id: PlantBag

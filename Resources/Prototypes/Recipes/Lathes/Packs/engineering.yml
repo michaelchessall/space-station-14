@@ -29,6 +29,7 @@
   - VoiceSensorCopper
   - SignallerCopper
   - OreBag
+  - ConstructionBag # Persistence: add construction bag
   - PlantBag
   - ClothingShoesSkates
   - Floodlight

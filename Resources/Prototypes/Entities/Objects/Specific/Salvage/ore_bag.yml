@@ -30,6 +30,16 @@
       tags:
       - OreBox
       - OreProcessor
+# Start Persistence: add construction bag
+  - type: ItemToggle
+    soundActivate: &soundActivate
+      collection: sparks
+      params:
+        variation: 0.25
+    soundDeactivate: *soundActivate
+    onActivate: true
+    onUse: false
+# End Persistence
 
 - type: entity
   parent: OreBag
