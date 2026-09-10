@@ -215,7 +215,7 @@
   group: Narcotics
   desc: reagent-desc-thc
   flavor: bitter
-  flavorMinimum: 0.05
+  flavorMinimum: 0.25
   color: "#808080"
   physicalDesc: reagent-physical-desc-crystalline
   plantMetabolism:
@@ -228,7 +228,7 @@
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
-        time: 16
+        time: 15 #reduced from 16 new for persistence 14
         type: Add
 
 - type: reagent
@@ -255,6 +255,7 @@
   color: "#215263"
   metabolisms:
     Bloodstream:
+      metabolismRate: 0.5
       effects:
       - !type:MovementSpeedModifier
         walkSpeedModifier: 0.65
@@ -282,11 +283,12 @@
   color: "#63806e"
   metabolisms:
     Bloodstream:
+      metabolismRate: 0.5
       effects:
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
         type: Add
-        time: 5
+        time: 20 #increased from 5 to 20 for persistence 14, this is lsd analog after all
 
 - type: reagent
   id: Bananadine
@@ -302,7 +304,7 @@
       - !type:ModifyStatusEffect
         effectProto: StatusEffectSeeingRainbow
         type: Add
-        time: 5
+        time: 7.5 #upped from 5 to 7.5 for persistence 14
 
 # Probably replace this one with sleeping chem when putting someone in a comatose state is easier
 - type: reagent
