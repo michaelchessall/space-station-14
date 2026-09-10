@@ -51,6 +51,7 @@
   - JetInjector
   - CMBloodPack
   - CMIV
+  - StirringRod
 
 - type: latheRecipePack
   id: RollerBedsStatic

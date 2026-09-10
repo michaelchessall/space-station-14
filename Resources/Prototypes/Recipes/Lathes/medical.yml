@@ -304,3 +304,11 @@
     Plastic: 5
     Steel: 10
     Glass: 2
+
+#Persistence 14
+- type: latheRecipe
+  id: StirringRod
+  result: StirringRod
+  completetime: 1
+  materials:
+    Glass: 50

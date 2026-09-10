@@ -1,0 +1,18 @@
+### Persistence 14 Utensils ###
+
+# Stirring Rod
+- type: entity
+  parent: UtensilBase
+  id: StirringRod
+  name: stirring rod
+  description: A glass rod used for stirring liquids.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Misc/utensils.rsi
+    state: stirringrod
+    scale: 0.5, 0.5
+  - type: ReactionMixer
+    mixMessage: "spoon-mixing-success"
+    timeToMix: 0.5
+    reactionTypes: 
+     - Stir
