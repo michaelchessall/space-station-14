@@ -49,13 +49,15 @@ public abstract partial class SharedGridConfigSystem : EntitySystem
     private void OnComponentInit(EntityUid uid, GridConfigComponent component, ComponentInit args)
     {
         _itemSlotsSystem.AddItemSlot(uid, GridConfigComponent.PrivilegedIdCardSlotId, component.PrivilegedIdSlot);
-        UpdateIDAppearance(uid, component);
+        var hasId = component.PrivilegedIdSlot.Item != null;
+        if (hasId)
+            UpdateIDAppearance(uid, true);
     }
 
     private void OnComponentRemove(EntityUid uid, GridConfigComponent component, ComponentRemove args)
     {
         _itemSlotsSystem.RemoveItemSlot(uid, component.PrivilegedIdSlot);
-        UpdateIDAppearance(uid, component);
+        UpdateIDAppearance(uid, false);
     }
     [Serializable, NetSerializable]
     public sealed partial class GridConfigDoAfterEvent : DoAfterEvent
@@ -77,20 +79,15 @@ public abstract partial class SharedGridConfigSystem : EntitySystem
         public override DoAfterEvent Clone() => this;
     }
 
-    protected void UpdateIDAppearance(EntityUid uid, GridConfigComponent component)
+    protected void UpdateIDAppearance(EntityUid uid, bool hasId)
     {
         if (!TryComp<AppearanceComponent>(uid, out var appearance))
             return;
 
-        var hasId = component.PrivilegedIdSlot.Item != null;
-
-        GridConfigVisualState state = GridConfigVisualState.NoId;
-
-        if (hasId)
-            state = GridConfigVisualState.Id;
+        var state = hasId ? GridConfigVisualState.Id : GridConfigVisualState.NoId;
         _appearance.SetData(uid, GridConfigVisuals.HasId, state, appearance);
     }
-    // I separated this from UpdateIDAppeareance because the screen sprite listens to the UI Open/close event
+
     protected void UpdateScreenAppearance(EntityUid uid, bool isOpen)
     {
         if (!TryComp<AppearanceComponent>(uid, out var appearance))

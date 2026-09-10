@@ -17,12 +17,12 @@ namespace Content.Client.GridControl
 
         private void OnIdInserted(EntityUid uid, GridConfigComponent component, EntInsertedIntoContainerMessage args)
         {
-            UpdateIDAppearance(uid, component);
+            UpdateIDAppearance(uid, true);
         }
 
         private void OnIdRemoved(EntityUid uid, GridConfigComponent component, EntRemovedFromContainerMessage args)
         {
-            UpdateIDAppearance(uid, component);
+            UpdateIDAppearance(uid, false);
         }
 
     }
