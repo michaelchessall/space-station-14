@@ -65,7 +65,8 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
 
         Subs.BuiEvents<GridConfigComponent>(GridConfigUiKey.Key, subs =>
         {
-            subs.Event<BoundUIOpenedEvent>(UpdateUserInterface);
+            subs.Event<BoundUIOpenedEvent>(OnUiOpened);
+            subs.Event<BoundUIClosedEvent>(OnUiClosed);
             subs.Event<GridConfigChangeName>(OnChangeName);
             subs.Event<GridConfigTargetSelect>(OnTargetSelect);
             subs.Event<GridConfigChangeMode>(OnChangeMode);
@@ -94,6 +95,23 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
             subs.Event<GridControlOff>(OnGridControlOff);
         });
 
+    }
+
+    /// <summary>
+    /// makes the screen animation visible when the user opens the UI
+    /// </summary>
+    private void OnUiOpened(EntityUid uid, GridConfigComponent component, BoundUIOpenedEvent args)
+    {
+        UpdateScreenAppearance(uid, true);
+        UpdateUserInterface(uid, component, args);
+    }
+
+    /// <summary>
+    /// makes the screen animation invisible when the user closes the UI
+    /// </summary>
+    private void OnUiClosed(EntityUid uid, GridConfigComponent component, BoundUIClosedEvent args)
+    {
+        UpdateScreenAppearance(uid, false);
     }
 
     private void OnUnlink(EntityUid uid, StationTaggerComponent component, EntityEventArgs args)

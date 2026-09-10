@@ -122,3 +122,27 @@ public sealed partial class GridConfigComponent : Component
         }
     }
 }
+
+[Serializable, NetSerializable]
+public enum GridConfigVisualState : byte
+{
+
+    NoId,
+
+    Id,
+    Off,
+    On,
+}
+[Serializable, NetSerializable]
+public enum GridConfigVisuals : byte
+{
+    HasId,
+    Screen
+}
+
+[Serializable, NetSerializable]
+public enum GridConfigVisualLayers : byte
+{
+    ID,
+    Screen,
+}
