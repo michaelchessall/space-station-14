@@ -14,7 +14,7 @@
           map: ["power"]
     - type: Appearance
     - type: Item
-      size: Large
+      size: Medium
       shape:
       - 0,0,2,2 # 3x3
     - type: Clothing
@@ -32,7 +32,7 @@
       soundActivate: /Audio/Items/flashlight_on.ogg
       soundDeactivate: /Audio/Items/flashlight_on.ogg
     - type: CoolingUnit
-      maxCooling: 5 # Make it so they don't survive extreme heat with it on. This allows Avali to survive a flash-temp increase to 400K. - Nullnominal (Persistance14)
+      maxCooling: 5 # Make it so they don't survive extreme heat with it on. This allows Avali to survive a flash-temp increase to 400K. - Nullnominal ()
     - type: ToggleableVisuals
       spriteLayer: power
     - type: PowerCellSlot

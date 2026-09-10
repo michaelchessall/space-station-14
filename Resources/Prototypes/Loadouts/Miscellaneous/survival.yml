@@ -19,7 +19,7 @@
     - Moth
     - Reptilian
     - Vulpkanin
-    - Avali # Persisistance14 Edit
+    - Avali
 
 - type: loadoutEffectGroup # Persistance14 Edit
   id: EffectSpeciesAvali
@@ -196,6 +196,15 @@
     back:
     - BoxSurvivalSyndicateNitrogen
 
+- type: loadout
+  id: EmergencyOxygenCooler
+  effects:
+    - !type:GroupLoadoutEffect
+      proto: EffectSpeciesAvali
+  storage:
+    back:
+    - EmergencyCoolingUnit
+
 # Military / Double Extended
 - type: loadout
   id: EmergencyOxygenMilitaryDouble
@@ -282,7 +291,7 @@
   - !type:GroupLoadoutEffect
     proto: EffectSpeciesAvali
   equipment:
-    outerClothing: ClothingOuterWinterColorYellow
+    outerClothing: ClothingOuterVestTank
     suitstorage: CoolingUnit
 
 # Breath Tool On Face

@@ -17,6 +17,8 @@
   - type: PhysicalComposition
     materialComposition:
       Cloth: 100
+  - type: whitelist
+
 
 - type: entity
   abstract: true
@@ -39,6 +41,7 @@
     whitelist:
       components:
       - GasTank
+      - CoolingUnit # Persistance14
 
 # for clothing that has a single item slot to insert and alt click out.
 # inheritors add a whitelisted slot named item
