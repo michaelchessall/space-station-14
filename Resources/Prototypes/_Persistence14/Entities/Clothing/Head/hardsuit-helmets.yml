@@ -124,6 +124,27 @@
     tags:
     - WhitelistChameleon
 
+#donk pocket suit
+- type: entity
+  parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]
+  id: ClothingHeadHelmetHardsuitDonk
+  name: Donk suit hardsuit helmet
+  description: Lightweight hardsuit helmet that doesn't restrict your head movements. You feel hungry looking at it.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Head/Helmets/Hardsuits/donksuit.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/Head/Helmets/Hardsuits/donksuit.rsi
+  - type: PointLight
+    radius: 6
+    color: "#ffc065"
+  - type: PressureProtection
+    highPressureMultiplier: 0.72
+    lowPressureMultiplier: 1000
+  - type: Tag
+    tags:
+    - WhitelistChameleon
+
 #Head of Security's hardsuit
 - type: entity
   parent: [ ClothingHeadHardsuitBase, ClothingHeadSuitWithLightBase ]

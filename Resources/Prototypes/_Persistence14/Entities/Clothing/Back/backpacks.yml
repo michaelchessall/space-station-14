@@ -24,3 +24,12 @@
   components:
   - type: Sprite
     sprite: _Persistence14/Clothing/Back/Satchels/exec.rsi
+
+- type: entity
+  parent: [ClothingBackpackSatchel, BaseSyndicateContraband]
+  id: ClothingBackpackSatchelSyndicate
+  name: syndicate satchel
+  description: A well made satchel with a large S on the front.
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/Back/Satchels/syndicate.rsi

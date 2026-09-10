@@ -66,14 +66,14 @@
 # CC Bags
 - type: latheRecipePack
   id: CentralCommandBags
-  recipes: 
+  recipes:
   - BackpackERTLeader
   - BackpackERTSecurity
   - BackpackERTMedical
   - BackpackERTEngineer
   - BackpackERTJanitor
   - BackpackERTClown
-  - BackpackERTChaplain 
+  - BackpackERTChaplain
   - BackpackDeathSquad
   - DuffelCBURN
 
@@ -86,6 +86,7 @@
   - BackpackCluwne
 
   - SatchelNinja
+  - SatchelSyndicate
 
   - DuffelSyndicate
   - DuffelSyndicateAmmo

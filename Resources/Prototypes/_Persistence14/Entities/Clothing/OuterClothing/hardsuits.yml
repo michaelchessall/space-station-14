@@ -149,6 +149,61 @@
   - type: StaticPrice
     price: 750
 
+#donk pocket suit
+
+- type: entity
+  parent: ClothingOuterHardsuitBase
+  id: ClothingOuterHardsuitDonk
+  name: Donk suit hardsuit
+  description: the new Donk co space suit now with space to store your donk pockets (note Donk co is not held responsible for your donk pockets getting cold in the vacumes of space).
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Clothing/OuterClothing/Hardsuits/donksuit.rsi
+  - type: Clothing
+    sprite: _Persistence14/Clothing/OuterClothing/Hardsuits/donksuit.rsi
+  - type: PressureProtection
+    highPressureMultiplier: 0.7
+    lowPressureMultiplier: 1000
+  - type: Armor
+    modifiers:
+      coefficients:
+        Blunt: 0.9
+        Slash: 0.9
+        Piercing: 0.9
+        Radiation: 0.3
+        Caustic: 0.8
+  - type: ClothingSpeedModifier
+    walkModifier: 0.8
+    sprintModifier: 0.8
+  - type: HeldSpeedModifier
+  - type: Tag
+    tags:
+    - Hardsuit
+    - WhitelistChameleon
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,1,2
+  - type: Storage
+    grid:
+    - 0,0,2,1
+    maxItemSize: Small
+    whitelist:
+      tags:
+      - DonkPocket
+  - type: ContainerContainer
+    containers:
+      storagebase: !type:Container
+        ents: []
+  - type: UserInterface
+    interfaces:
+      enum.StorageUiKey.Key:
+        type: StorageBoundUserInterface
+  - type: ToggleableClothing
+    clothingPrototype: ClothingHeadHelmetHardsuitDonk
+  - type: StaticPrice
+    price: 750
+
 #SOL Chief of Police's Hardsuit
 - type: entity
   parent: [ClothingOuterHardsuitBase, BaseCommandContraband]

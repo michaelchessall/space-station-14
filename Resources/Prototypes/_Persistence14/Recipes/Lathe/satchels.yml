@@ -92,6 +92,11 @@
   parent: BaseSatchel
   result: ClothingBackpackSatchelNinja
 
+- type: latheRecipe
+  id: SatchelSyndicate
+  parent: BaseSatchel
+  result: ClothingBackpackSatchelSyndicate
+
 # Debug Satchels
 - type: latheRecipe
   id: SatchelAdmin
