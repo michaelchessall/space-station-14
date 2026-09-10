@@ -2,7 +2,6 @@ using Content.Shared.Containers.ItemSlots;
 using Content.Shared.DoAfter;
 using Content.Shared.GridControl.Components;
 using JetBrains.Annotations;
-using Robust.Shared.Containers;
 using Robust.Shared.Serialization;
 
 namespace Content.Shared.GridControl.Systems;
@@ -91,13 +90,13 @@ public abstract partial class SharedGridConfigSystem : EntitySystem
             state = GridConfigVisualState.Id;
         _appearance.SetData(uid, GridConfigVisuals.HasId, state, appearance);
     }
-
+    // I separated this from UpdateIDAppeareance because the screen sprite listens to the UI Open/close event
     protected void UpdateScreenAppearance(EntityUid uid, bool isOpen)
     {
         if (!TryComp<AppearanceComponent>(uid, out var appearance))
             return;
 
-        var state = isOpen ? GridConfigScreenVisualState.On : GridConfigScreenVisualState.Off;
+        var state = isOpen ? GridConfigVisualState.On : GridConfigVisualState.Off;
         _appearance.SetData(uid, GridConfigVisuals.Screen, state, appearance);
     }
 }

@@ -129,14 +129,15 @@ public enum GridConfigVisualState : byte
 
     NoId,
 
-    Id
+    Id,
+    Off,
+    On,
 }
 [Serializable, NetSerializable]
 public enum GridConfigVisuals : byte
 {
     HasId,
-    Screen,
-    State
+    Screen
 }
 
 [Serializable, NetSerializable]
@@ -144,11 +145,4 @@ public enum GridConfigVisualLayers : byte
 {
     ID,
     Screen,
-}
-
-[Serializable, NetSerializable]
-public enum GridConfigScreenVisualState : byte
-{
-    Off,
-    On,
 }

@@ -96,13 +96,19 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
         });
 
     }
-    // the screen ONLY turns on when the UI is opened! 
+
+    /// <summary>
+    /// makes the screen animation visible when the user opens the UI
+    /// </summary>
     private void OnUiOpened(EntityUid uid, GridConfigComponent component, BoundUIOpenedEvent args)
     {
         UpdateScreenAppearance(uid, true);
         UpdateUserInterface(uid, component, args);
     }
-    // the screen sprite updates when the UI is closed 
+
+    /// <summary>
+    /// makes the screen animation invisible when the user closes the UI
+    /// </summary>
     private void OnUiClosed(EntityUid uid, GridConfigComponent component, BoundUIClosedEvent args)
     {
         UpdateScreenAppearance(uid, false);
@@ -146,7 +152,6 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
     private void OnRemoved(EntityUid uid, GridConfigComponent component, EntityEventArgs args)
     {
         component.ConnectedStation = null;
-        //Persi >=]
         UpdateIDAppearance(uid, component);
         UpdateUserInterface(uid, component, args);
     }
@@ -523,7 +528,6 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
 
     private void UpdateUserInterface(EntityUid uid, GridConfigComponent component, EntityEventArgs args)
     {
-        //Persistence >=]
         UpdateIDAppearance(uid, component);
         if (!component.Initialized)
             return;
