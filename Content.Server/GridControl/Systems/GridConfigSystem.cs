@@ -103,6 +103,7 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
     private void OnUiOpened(EntityUid uid, GridConfigComponent component, BoundUIOpenedEvent args)
     {
         UpdateScreenAppearance(uid, true);
+        UpdateUserInterface(uid, component, args);
     }
 
     /// <summary>
