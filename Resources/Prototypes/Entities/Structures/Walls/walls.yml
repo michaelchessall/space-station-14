@@ -62,6 +62,26 @@
   id: BaseWall
   components:
   - type: Occluder # Breaks on diagonal walls
+  - type: Appearance # Damage visuals for normal walls
+
+# made it a separate entity, asteroids use BaseWall as parent
+- type: entity
+  abstract: true
+  parent: BaseWall
+  id: DamageWall
+  components:
+  - type: ExaminableDamage
+    messages: WindowMessages
+  - type: Repairable
+    qualityNeeded: Anchoring
+    doAfterDelay: 2
+    damageValue: -10
+  - type: DamageVisuals # Diagonal walls need a diff texture for the damagevisuals
+    thresholds: [5, 10, 20, 30, 40, 50, 60]
+    damageDivisor: 3
+    trackAllDamage: true
+    damageOverlay:
+      sprite: _Persistence14/Structures/walls/wall_damage.rsi
 
 - type: entity
   abstract: true
@@ -97,7 +117,7 @@
         - WallLayer
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallBrick
   name: brick wall
   components:
@@ -127,7 +147,7 @@
     base: brick
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallBronze
   name: bronze wall
   components:
@@ -169,7 +189,7 @@
     base: solidbronze
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallClock
   name: clock wall
   components:
@@ -198,7 +218,7 @@
     base: clock
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallClown
   name: bananium wall
   components:
@@ -242,7 +262,7 @@
         density: 8000 # really good ramming wall, bananium is rare so it's probably fine
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallMeat
   name: meat wall
   description: Sticky.
@@ -276,7 +296,7 @@
     base: meat
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallCult
   name: cult wall
   components:
@@ -302,7 +322,7 @@
     base: cult
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallDebug
   name: debug wall
   suffix: DEBUG
@@ -332,7 +352,7 @@
     base: debug
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallDiamond
   name: diamond wall
   components:
@@ -362,7 +382,7 @@
     base: diamond
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallGold
   name: gold wall
   components:
@@ -415,7 +435,7 @@
     base: gold
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallIce
   name: ice wall
   components:
@@ -441,7 +461,7 @@
     base: ice
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallPlasma
   name: plasma wall
   components:
@@ -485,7 +505,7 @@
     resistance: 5
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallPlastic
   name: plastic wall
   components:
@@ -527,7 +547,7 @@
     base: plastic
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallPlastitaniumIndestructible
   name: plastitanium wall
   suffix: indestructible
@@ -626,7 +646,7 @@
             collection: MetalSlam
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallReinforced
   name: reinforced wall
   components:
@@ -849,7 +869,7 @@
 
 # Riveting
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallRiveted
   name: riveted wall
   components:
@@ -880,7 +900,7 @@
     price: 150
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallSandstone
   name: sandstone wall
   components:
@@ -910,7 +930,7 @@
     base: sandstone
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallSilver
   name: silver wall
   components:
@@ -1020,7 +1040,7 @@
     price: 200
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallShuttle
   name: shuttle wall
   components:
@@ -1046,7 +1066,7 @@
         sound:
           collection: MetalSlam
       - !type:ChangeConstructionNodeBehavior
-        node: girder
+        node: reinforcedGirder # to make the shuttle wall you need to make the girder reinforced
       - !type:DoActsBehavior
         acts: ["Destruction"]
   - type: StaticPrice
@@ -1089,9 +1109,17 @@
         layer:
         - WallLayer
         density: 2000
+  - type: ExaminableDamage
+    messages: WindowMessages
+  - type: DamageVisuals
+    thresholds: [5, 10, 20, 30]
+    damageDivisor: 10
+    trackAllDamage: true
+    damageOverlay:
+      sprite: _Persistence14/Structures/walls/shuttle_damage.rsi
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallSolid
   name: solid wall
   components:
@@ -1132,6 +1160,7 @@
   - type: IconSmooth
     key: walls
     base: solid
+  - type: Appearance
 
 - type: entity
   parent: WallDiagonalBase
@@ -1211,7 +1240,7 @@
         acts: ["Destruction"]
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallSolidChitin
   name: solid chitin
   components:
@@ -1256,7 +1285,7 @@
     fx: EffectRCDDeconstruct8
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallReinforcedChitin
   name: reinforced chitin
   components:
@@ -1341,7 +1370,7 @@
     state: state0
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallUranium
   name: uranium wall
   components:
@@ -1392,7 +1421,7 @@
     resistance: 6
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallWood
   name: wood wall
   description: The traditional greytide defense.
@@ -1431,7 +1460,7 @@
     base: wood
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallWeb
   name: web wall
   description: Keeps the spiders in and the greytide out.
@@ -1483,7 +1512,7 @@
 # Lavalend Walls
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallNecropolis
   name: stone wall
   components:
@@ -1504,7 +1533,7 @@
     base: necropolis
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallMining
   name: mining wall
   components:
@@ -1540,10 +1569,11 @@
   - type: IconSmooth
     key: walls
     base: mining
-  - type: RandomIconSmooth
-    randomStates:
-    - mining
-    - miningB
+# Disabled for PERSISTENCE, RandomIconSmooth breaks when used with damagevisuals
+#  - type: RandomIconSmooth
+#    randomStates:
+#    - mining
+#    - miningB
   - type: Appearance
 
 - type: entity
@@ -1594,7 +1624,7 @@
 # Vault Walls
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallVaultAlien
   name: alien vault wall
   description: A mysterious ornate looking wall. There may be ancient dangers inside.
@@ -1693,7 +1723,7 @@
     state: forcewall
 
 - type: entity
-  parent: BaseWall
+  parent: DamageWall
   id: WallCobblebrick
   name: cobblestone brick wall
   description: Stone by stone, perfectly fitted together to form a wall.
