@@ -16,6 +16,17 @@
   materials:
     Biomass: 70
 
+#Persistence 14 start - bnnuy
+- type: latheRecipe
+  id: BioGenUristekCube
+  result: UristekCube
+  categories:
+  - Food
+  completetime: 3
+  materials:
+    Biomass: 35
+#Persistence 14 end - bnnuy
+
 - type: latheRecipe
   id: BioGenMaterialCloth1
   result: MaterialCloth1

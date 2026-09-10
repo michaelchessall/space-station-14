@@ -90,6 +90,17 @@
     possibleSpawns:
     - MobKobold
 
+#Persistence 14 start
+- type: entity
+  parent: RehydratableAnimalCube
+  id: UristekCube
+  name: UrisTek Dummy Cube
+  components:
+  - type: Rehydratable
+    possibleSpawns:
+    - MobHuman1
+#Persistence 14 end
+
 - type: entity
   parent: RehydratableAnimalCube
   id: CowCube

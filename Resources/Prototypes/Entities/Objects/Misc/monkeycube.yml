@@ -13,6 +13,23 @@
     sprite: Objects/Misc/monkeycube.rsi
     state: box
 
+#Persistence 14 start - bnnuy
+- type: entity
+  parent: BoxCardboard
+  name: UrisTek Dummy Cube Box
+  id: UristekCubeBox
+  description: State of the art models for synthetic medicine training. A drop of water away.
+  components:
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: UristekCubeWrapped
+        amount: 2
+  - type: Sprite
+    sprite: _Persistence14/Objects/Misc/uristekbox.rsi
+    state: box
+#Persistence 14 end - bnnuy
+
 - type: entity
   parent: BaseItem
   abstract: true
@@ -41,6 +58,23 @@
   - type: Tag
     tags:
     - MonkeyCube
+
+#Persistence 14 start - bnnuy
+- type: entity
+  parent: BaseWrappedCube
+  name: UrisTek Dummy Cube
+  id: UristekCubeWrapped
+  description: Unwrap this to get an Uristek dummy cube.
+  components:
+  - type: SpawnItemsOnUse
+    items:
+    - id: UristekCube
+  - type: Sprite
+    state: wrapper
+  - type: Tag
+    tags:
+    - UristekCube
+#Persistence 14 end - bnnuy
 
 - type: entity
   parent: MonkeyCubeBox

@@ -1659,7 +1659,30 @@
   name: kobold
   id: MobKobold
   parent: MobBaseKobold
-  description: Cousins to the sentient race of lizard people, kobolds blend in with their natural habitat and are as nasty as monkeys; ready to pull out your hair and stab you to death.
+  description: Cousins to the sentient race of lizard people, kobolds blend in with their natural habitat and are as nasty as monkeys; ready to pull out your hair and stab you to death. # Thank you Dizzy for this incredible description
+
+#Persistence 14 start - bnnuy
+- type: entity
+  name: CB-1 'Michael'
+  description: Meet the CB-1 'Michael', first in the Uristek PseudoSynth™ line of medical practice dummies. Don't ask why the blood is so realistic, that's proprietary.
+  id: MobHuman1
+  parent: BaseSpeciesDummyMobOrganic
+  components:
+  - type: Sprite
+    drawdepth: Mobs
+    layers:
+    - map: ["enum.DamageStateVisualLayers.Base"]
+      state: TestDummy
+      sprite: _Persistence14/Mobs/uristekdummy.rsi
+  - type: MovementSpeedModifier
+    baseWalkSpeed : 0
+    baseSprintSpeed : 0
+  - type: Bloodstream
+    bloodReferenceSolution:
+      reagents:
+      - ReagentId: SynthBlood
+        Quantity: 300
+#Persistence 14 end - bnnuy
 
 
 - type: entity
