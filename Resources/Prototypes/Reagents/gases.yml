@@ -16,7 +16,7 @@
       - !type:Oxygenate
         conditions:
         - !type:MetabolizerTypeCondition
-          type: [ Human, Animal, Rat, Plant, Goblin ]
+          type: [ Human, Animal, Rat, Plant, Goblin, Avali ]
       # Convert Oxygen into CO2.
       - !type:ModifyLungGas
         conditions:
@@ -47,7 +47,7 @@
       - !type:Oxygenate
         conditions:
         - !type:MetabolizerTypeCondition
-          type: [ Human, Animal, Rat, Plant, Arachnid, Moth, Goblin ]
+          type: [ Human, Animal, Rat, Plant, Arachnid, Moth, Goblin, Avali] # Persistance14 - Add Avali
       # Convert Oxygen into CO2.
       - !type:ModifyLungGas
         conditions:

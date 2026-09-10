@@ -282,6 +282,18 @@
           types:
             Asphyxiation: -1
             Bloodloss: -0.5
+        conditions: # Persistance14 Start
+           - !type:MetabolizerTypeCondition
+             type: [Avali]
+             inverted: true
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 1
+        conditions:
+          - !type:MetabolizerTypeCondition
+            type: [Avali]
+      # Persistance14 End
       - !type:HealthChange
         conditions:
           - !type:ReagentCondition
@@ -308,6 +320,19 @@
           types:
             Asphyxiation: -3.5
             Bloodloss: -3
+          conditions: # Persistance14 Start
+           - !type:MetabolizerTypeCondition
+             type: [Avali]
+             inverted: true
+      - !type:HealthChange
+        damage:
+          types:
+            Poison: 3
+        conditions:
+          - !type:MetabolizerTypeCondition
+            type: [Avali]
+      # Persistance14 End
+
       - !type:AdjustReagent
         conditions:
         - !type:ReagentCondition
@@ -770,8 +795,25 @@
       effects:
         - !type:SatiateThirst
           factor: 6
+          conditions: # Persistance14 Start
+           - !type:MetabolizerTypeCondition
+             type: [Avali]
+             inverted: true
+
         - !type:ModifyBloodLevel
           amount: 6
+          conditions: # Persistance14 Start
+           - !type:MetabolizerTypeCondition
+             type: [Avali]
+             inverted: true
+        - !type:HealthChange
+          damage:
+            types:
+              Poison: 1
+          conditions:
+            - !type:MetabolizerTypeCondition
+              type: [Avali]
+      # Persistance14 End
 
 - type: reagent
   id: Siderlac
@@ -1280,6 +1322,7 @@
         damage:
           types:
             Heat: -0.1667
+
       # od causes massive bleeding
       - !type:HealthChange
         conditions:

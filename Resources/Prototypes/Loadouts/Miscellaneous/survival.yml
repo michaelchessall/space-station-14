@@ -19,6 +19,14 @@
     - Moth
     - Reptilian
     - Vulpkanin
+    - Avali
+
+- type: loadoutEffectGroup # Persistance14 Edit
+  id: EffectSpeciesAvali
+  effects:
+    - !type:SpeciesLoadoutEffect
+      species:
+      - Avali
 
 - type: loadoutEffectGroup
   id: EffectSpeciesVox
@@ -188,6 +196,15 @@
     back:
     - BoxSurvivalSyndicateNitrogen
 
+- type: loadout
+  id: EmergencyOxygenCooler
+  effects:
+    - !type:GroupLoadoutEffect
+      proto: EffectSpeciesAvali
+  storage:
+    back:
+    - EmergencyCoolingUnit
+
 # Military / Double Extended
 - type: loadout
   id: EmergencyOxygenMilitaryDouble
@@ -212,6 +229,7 @@
     - BoxSurvivalMilitaryDoubleNitrogen
 
 # Pre-equipped species gear
+
 
 # Full tank for vox as part of any Survival loadout
 - type: loadout
@@ -264,6 +282,17 @@
     proto: EffectSpeciesVox
   equipment:
     outerClothing: ClothingOuterVestTank
+
+# Avali evaporate extremely quickly if they don't have a suit on - Persistance14
+
+- type: loadout
+  id: LoadoutAvaliHeatProtection
+  effects:
+  - !type:GroupLoadoutEffect
+    proto: EffectSpeciesAvali
+  equipment:
+    outerClothing: ClothingOuterVestTank
+    suitstorage: CoolingUnit
 
 # Breath Tool On Face
 - type: loadout

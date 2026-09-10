@@ -1,0 +1,11 @@
+- type: species
+  id: Avali
+  name: species-name-avali
+  roundStart: true
+  prototype: MobAvali
+  defaultSkinTone: "#5a3f2d"
+  dollPrototype: AppearanceAvali
+  skinColoration: AvaliColors
+  maleFirstNames: names_avali_first
+  femaleFirstNames: names_avali_first
+  lastNames: names_avali_packs

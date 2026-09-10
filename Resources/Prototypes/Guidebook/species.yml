@@ -4,6 +4,7 @@
   text: "/ServerInfo/Guidebook/Mobs/Species.xml"
   children:
   - Arachnid
+  - Avali
   - Diona
   - Dwarf
   - Human
@@ -18,6 +19,11 @@
   id: Arachnid
   name: species-name-arachnid
   text: "/ServerInfo/Guidebook/Mobs/Arachnid.xml"
+
+- type: guideEntry
+  id: Avali
+  name: species-name-avali
+  text: "/ServerInfo/Guidebook/Mobs/Avali.xml"
 
 - type: guideEntry
   id: Diona

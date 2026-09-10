@@ -48,3 +48,7 @@
 - type: metabolizerType
   id: Goblin
   name: metabolizer-type-goblin
+
+- type: metabolizerType
+  id: Avali
+  name: metabolizer-type-avali

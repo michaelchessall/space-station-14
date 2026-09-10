@@ -1,0 +1,111 @@
+- type: emote
+  id: Chirp
+  name: chat-emote-name-chirp
+  category: Vocal
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-chirp"]
+  chatTriggers:
+  - chirp
+  - chirps
+  - chirped
+
+- type: emote
+  id: Hisses
+  name: chat-emote-name-hisses
+  category: Vocal
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-hisses"]
+  chatTriggers:
+  - hiss
+  - hisses
+  - hissed
+
+- type: emote
+  id: Purr
+  name: chat-emote-name-purr
+  category: Vocal
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-purr"]
+  chatTriggers:
+  - purr
+  - purrs
+  - purred
+
+- type: emote
+  id: Scree
+  name: chat-emote-name-scree
+  category: Vocal
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-scree"]
+  chatTriggers:
+  - scree
+  - screes
+
+- type: emote
+  id: Call
+  name: chat-emote-name-call
+  category: Vocal
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-call"]
+  chatTriggers:
+  - call
+  - calls
+  - called
+
+- type: emote
+  id: Squawk
+  name: chat-emote-name-squawk
+  category: Vocal
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-squawk"]
+  chatTriggers:
+  - squawk
+  - squawks
+  - squawked
+
+- type: emote
+  id: Trill
+  name: chat-emote-name-trill
+  category: Vocal
+  whitelist:
+    components:
+    - Vocal
+  blacklist:
+    tags:
+    - SiliconEmotes
+  chatMessages: ["chat-emote-msg-trill"]
+  chatTriggers:
+  - trill
+  - trills
+  - trilled
+

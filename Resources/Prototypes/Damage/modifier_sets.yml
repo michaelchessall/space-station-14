@@ -10,6 +10,13 @@
     Blunt: 5
     Heat: 5
 
+# Persistance14 Port From Starlight
+- type: damageModifierSet
+  id: Avali
+  coefficients:
+    Cold: 0.6
+    Heat: 1.4
+
 - type: damageModifierSet
   id: StructuralMetallicStrong
   coefficients:

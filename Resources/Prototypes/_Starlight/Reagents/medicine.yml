@@ -1,0 +1,57 @@
+- type: reagent
+  id: Amoxla
+  name: reagent-name-amoxla
+  group: Medicine
+  desc: reagent-desc-amoxla
+  physicalDesc: reagent-physical-desc-opaque
+  # Starlight Edits
+  contrabandSeverity: Minor
+  allowedDepartments:
+  - Medical
+  # Starlight End
+  flavor: medicine
+  color: "#51c38c"
+  metabolisms:
+    Bloodstream:
+      effects:
+      - !type:HealthChange
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Avali, Vox ] # Persistance Edit -- Resimi Metabolism doesn't exist
+        damage:
+          types:
+            Asphyxiation: -3.5
+            Bloodloss: -3
+      - !type:AdjustReagent
+        conditions:
+        - !type:ReagentCondition
+          reagent: HeartbreakerToxin
+          min: 1
+        reagent: HeartbreakerToxin
+        amount: -3
+      - !type:HealthChange
+        conditions:
+          - !type:ReagentCondition
+            reagent: Amoxla
+            min: 25
+        damage:
+          types:
+            Asphyxiation: 5
+            Cold: 3
+      - !type:HealthChange
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Avali, Vox ]
+          inverted: true
+        damage:
+          types:
+            Poison: 1.5 #Ammonia is toxic injected directly into bloodstream
+            Asphyxiation: 1
+            Bloodloss: 0.5
+      - !type:ModifyBloodLevel
+        conditions:
+        - !type:MetabolizerTypeCondition
+          type: [ Avali, Vox ]
+        amount: 3
+
+
