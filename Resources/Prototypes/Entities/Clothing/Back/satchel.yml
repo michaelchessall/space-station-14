@@ -14,6 +14,11 @@
   - type: PhysicalComposition
     materialComposition:
       Cloth: 300
+  # Persistence14: scurrets can wear satchels
+  - type: Tag
+    tags:
+    - ScurretWearable
+  # End Persistence14
 
 - type: entity
   parent: ClothingBackpackSatchel

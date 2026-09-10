@@ -15,6 +15,18 @@
     - map: ["enum.DamageStateVisualLayers.Base"]
       sprite: Mobs/Animals/scurret/scurret.rsi
       state: scurret
+    # Persistence14: fix when scurrets speak clothing items become incorrectly ordered
+    - map: [ "jumpsuit" ]
+    - map: [ "gloves" ]
+    - map: [ "ears" ]
+    - map: [ "id" ]
+    - map: [ "outerClothing" ]
+    - map: [ "back" ]
+    - map: [ "neck" ]
+    - map: [ "suitstorage" ]
+    - map: [ "mask" ]
+    - map: [ "head" ]
+    # End Persistence14
     - map: [ "enum.HumanoidVisualLayers.Handcuffs" ]
       color: "#ffffff"
       sprite: Objects/Misc/handcuffs.rsi
