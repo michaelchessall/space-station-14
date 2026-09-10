@@ -366,8 +366,10 @@ public sealed class DamageVisualsSystem : VisualizerSystem<DamageVisualsComponen
 
         if (damageVisComp.TargetLayers != null && damageVisComp.DamageOverlayGroups != null)
             UpdateDisabledLayers(uid, spriteComponent, component, damageVisComp);
-        // fix for Persistence =] now walls can use damagevisuals!!!
-        if (damageVisComp.Overlay && damageVisComp.TargetLayers == null) 
+
+        // I commented this out because it only let's entities with a damage group (e.g species) do the check
+        // and for now the damage visuals for walls only have one type of sprites 
+        if (damageVisComp.Overlay /*&& damageVisComp.DamageOverlayGroups != null*/ && damageVisComp.TargetLayers == null)
             CheckOverlayOrdering((uid, spriteComponent), damageVisComp);
 
         if (AppearanceSystem.TryGetData<bool>(uid, DamageVisualizerKeys.ForceUpdate, out var update, component)
@@ -475,7 +477,9 @@ public sealed class DamageVisualsSystem : VisualizerSystem<DamageVisualsComponen
                 new(sprite.Sprite),
                 $"{statePrefix}_{threshold}"
             ),
-            // Fix for persi! now walls can have the damage visuals component.
+            // Fix for persi! 
+            // This used to add the sprite on the first layer index, then Iconsmooth would append OVER it
+            // now it appends it to the last index every time the prototype updates
             spriteEnt.Comp.AllLayers.Count());
         SpriteSystem.LayerMapSet(spriteEnt.AsNullable(), key, spriteLayer);
         SpriteSystem.LayerSetVisible(spriteEnt.AsNullable(), spriteLayer, visibility);
