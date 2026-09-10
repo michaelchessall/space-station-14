@@ -8,7 +8,13 @@
   },
   "states": [
     {
-      "name": "pill_canister"
+      "name": "pill_canister_base"
+    },
+    {
+      "name": "pill_canister_nocolor"
+    },
+    {
+      "name": "pill_canister_yescolor"
     },
     {
       "name": "inhand-left",

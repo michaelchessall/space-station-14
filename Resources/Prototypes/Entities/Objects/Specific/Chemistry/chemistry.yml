@@ -686,9 +686,18 @@
   - type: Item
     size: Tiny
     sprite: Objects/Specific/Chemistry/pills_canister.rsi
+  - type: Appearance
   - type: Sprite
+  # Persistence begin: add color to pill canisters
     sprite: Objects/Specific/Chemistry/pills_canister.rsi
-    state: pill_canister
+    layers:
+      - state: pill_canister_base
+      - state: pill_canister_nocolor
+        map: ["enum.ColorLabelLayers.TargetLayer"]
+  - type: ColorLabel
+    noColorSprite: pill_canister_nocolor
+    yesColorSprite: pill_canister_yescolor
+  # Persistence end
   - type: Tag
     tags:
       - PillCanister

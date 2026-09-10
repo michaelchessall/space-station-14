@@ -439,6 +439,10 @@
       storagebase:
         id: PillDexalin
         amount: 7
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#0041a8"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -473,6 +477,10 @@
       storagebase:
         id: PillDylovene
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#3a1d8a"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -507,6 +515,10 @@
       storagebase:
         id: PillHyronalin
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#4cb580"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -541,6 +553,10 @@
       storagebase:
         id: PillPotassiumIodide
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#baa15d"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -561,6 +577,24 @@
         reagents:
         - ReagentId: Iron
           Quantity: 10
+
+- type: entity
+  name: pill canister
+  parent: PillCanister
+  id: PillCanisterIron
+  suffix: Iron 10u, 5
+  components:
+  - type: Label
+    currentLabel: iron_10u
+  - type: EntityTableContainerFill
+    containers:
+      storagebase:
+        id: PillIron
+        amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#434b4d"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -585,20 +619,6 @@
 - type: entity
   name: pill canister
   parent: PillCanister
-  id: PillCanisterIron
-  suffix: Iron 10u, 5
-  components:
-  - type: Label
-    currentLabel: iron_10u
-  - type: EntityTableContainerFill
-    containers:
-      storagebase:
-        id: PillIron
-        amount: 5
-
-- type: entity
-  name: pill canister
-  parent: PillCanister
   id: PillCanisterCopper
   suffix: Copper 10u, 5
   components:
@@ -609,6 +629,10 @@
       storagebase:
         id: PillCopper
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#b05b3c"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -643,6 +667,10 @@
       storagebase:
         id: PillKelotane
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#bf3d19"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -677,6 +705,10 @@
       storagebase:
         id: PillDermaline
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#215263"
+  # Persistence end
 
 - type: entity
   name: space mirage
@@ -724,6 +756,10 @@
       storagebase:
         id: PillTricordrazine
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#00e5ff"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -758,6 +794,10 @@
       storagebase:
         id: PillBicaridine
         amount: 5
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#ffaa00"
+  # Persistence end
 
 - type: entity
   name: pill
@@ -792,6 +832,10 @@
       storagebase:
         id: PillCharcoal
         amount: 3
+  # Persistence begin: add color to pill canisters
+  - type: ColorLabel
+    assignedColor: "#22282b"
+  # Persistence end
 
 - type: entity
   name: romerol pill
